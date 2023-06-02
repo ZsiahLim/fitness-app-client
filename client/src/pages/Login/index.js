@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 import { auth, provider } from '../../firebase'
 import { signInWithPopup } from 'firebase/auth'
+import { message } from 'antd'
 
 export default function Login() {
     const [focusedname, setFocusedname] = useState(false)
@@ -47,9 +48,11 @@ export default function Login() {
             .then((res) => {
                 dispatch(loginSuccess(res.data))
                 navigate('/dashboard')
+                message.success('Register Successfully! Have a nice trip!!!')
             })
             .catch(() => {
                 dispatch(loginFailure())
+                message.error('Registration Failure! Try again please')
             })
     }
 
@@ -58,9 +61,11 @@ export default function Login() {
             .then((res) => {
                 dispatch(loginSuccess(res.data))
                 navigate('/dashboard')
+                message.success('Login Successfully! Welcome Back!!!')
             })
             .catch(() => {
                 dispatch(loginFailure())
+                message.error('Login Failure! Try again please')
             })
     }
     const SignInWithGoogle = async () => {
@@ -75,10 +80,12 @@ export default function Login() {
                     console.log(res);
                     dispatch(loginSuccess(res.data))
                     navigate('/dashboard')
+                    message.success('Login Successfully! Welcome Back!!!')
                 })
             })
             .catch(() => {
                 dispatch(loginFailure())
+                message.error('Login with Google failure! Try again please')
             })
     }
     return (
