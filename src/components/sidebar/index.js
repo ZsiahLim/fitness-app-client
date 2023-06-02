@@ -8,18 +8,36 @@ import {
     AntDesignOutlined,
     SoundTwoTone
 } from '@ant-design/icons';
-import { Avatar, Popover, Switch } from 'antd';
+import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
 import WORDS from '../../constant/words'
 import Emoji from 'react-emojis';
 import './index.less'
+import { useSelector } from 'react-redux'
+import { logout } from '../../redux/userSlice';
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import noGenderPath from '../../Pic/noGender.jpg'
+import maleAvatorPath from '../../Pic/maleAvator.jpg'
+import femaleAvatorPath from '../../Pic/femaleAvator.jpg'
 export default function Index(props) {
+    const { currentUser } = useSelector((state) => state.user)
+    const avator = () => {
+        if (currentUser.avator) {
+            return currentUser.avator
+        } else if (currentUser.gender) {
+            return currentUser.gender === 'man' ? maleAvatorPath : femaleAvatorPath
+        } else {
+            return noGenderPath
+        }
+    }
+    const dispatch = useDispatch()
     const { theme, setPage, setCurrenttheme } = props
     const [clicked, setClicked] = useState(false);
     const [selectPage, setSelectPage] = useState('home');
     const navRef = useRef(null);
     const [navShrink, setNavShrink] = useState()
+    const navigate = useNavigate()
     useEffect(() => {
-        console.log("props", props);
         handleResize()
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -29,16 +47,17 @@ export default function Index(props) {
     }, [selectPage])
     const handleResize = () => {
         if (navRef.current) {
-            console.log(window.innerWidth);
             setNavShrink(navRef.current.offsetWidth < 90);
         }
     }
     const handleClickChange = (open) => {
         setClicked(open);
     };
-    const hide = () => {
-        setClicked(false);
-    };
+    const Logout = () => {
+        dispatch(logout())
+        message.success('Logout successfully!');
+        navigate('/')
+    }
     const lightsidebar = theme === 'light' ? 'sidebar-light' : ''
     const lightnavigation = theme === 'light' ? 'navigation-light' : ''
     return (
@@ -80,8 +99,21 @@ export default function Index(props) {
                     <Popover
                         content={
                             <div>
-                                Light mode <Switch onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>
-                                <br /><a onClick={hide}>Close</a>
+                                Light mode &nbsp;
+                                {theme === 'light' ? <Switch defaultChecked onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>
+                                    : <Switch onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>}
+                                <br />
+                                <Popconfirm
+                                    title="Attention"
+                                    description="Are you sure to logout?"
+                                    onConfirm={Logout}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <Button style={{ marginTop: 5 }} size='small' type="primary" danger>
+                                        Logout
+                                    </Button>
+                                </Popconfirm>
                             </div>
                         }
                         placement="rightBottom"
@@ -92,6 +124,7 @@ export default function Index(props) {
                         style={{}}
                     >
                         <Avatar
+                            src={currentUser.avator}
                             size={{
                                 xs: 28,
                                 sm: 28,
@@ -100,7 +133,7 @@ export default function Index(props) {
                                 xl: 54,
                                 xxl: 70,
                             }}
-                            icon={<AntDesignOutlined />}
+                            icon={<img src={avator()}></img>}
                         />
                     </Popover>
                 </div>

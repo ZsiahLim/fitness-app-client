@@ -1,0 +1,189 @@
+@darkBlockBackgroundColor: #1d1d1d;
+@lightBlockBackgroundColor: #ffffff;
+
+@darkTextColor: #e7e7e7;
+@darkTextColorforcomment: #747474;
+@lightTextColor: #313131;
+@darkHtmlBackgroundColor: #171717;
+@lightHtmlBackgroundColor: #ffffff;
+@lightDashboardBackgroundColor: #f3f3f3;
+@darkBackgroundColor: #0c0f0e;
+@lightBackgroundColor: #ffffff;
+
+.App {
+    height: 100%;
+    width: 100%;
+    background-color: @darkHtmlBackgroundColor;
+
+    .dashboard {
+        min-width: 1000px;
+        min-height: 500px;
+        color: @darkTextColor;
+        overflow: hidden;
+        height: 98%;
+        background-color: @darkBackgroundColor;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 1%;
+        right: 1%;
+        border-radius: 20px;
+
+        .sidebar {
+            width: 6%;
+            height: 98%;
+            background-color: @darkBlockBackgroundColor;
+            position: absolute;
+            // max-width: 100px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 1%;
+            border-radius: 16px;
+        }
+
+        .sidebar-light {
+            background-color: @lightBlockBackgroundColor;
+        }
+
+        .contentBox {
+            width: 91%;
+            height: 98%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1%;
+            border-radius: 16px;
+
+            .contendBox-left {
+                width: 65%;
+                height: 100%;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0%;
+                border-radius: 16px;
+
+                .sayHello {
+                    width: 100%;
+                    height: 12%;
+                    position: absolute;
+                    top: 0%;
+                    right: 0%;
+                    border-radius: 16px;
+
+                    .welcome {
+                        color: @darkTextColorforcomment
+                    }
+
+                    .welcome-light {
+                        color: #b4b3b4
+                    }
+                }
+
+
+                .contendBox-left-subTop {
+                    width: 100%;
+                    height: 43%;
+                    position: absolute;
+                    bottom: 44%;
+                    right: 0%;
+                    border-radius: 16px;
+
+                    .contacts {
+                        width: 33%;
+                        height: 100%;
+                        // background-color: @darkBlockBackgroundColor;
+                        position: absolute;
+                        left: 0%;
+                        border-radius: 16px;
+                    }
+
+                    .contacts-light {
+
+                        // background-color: @lightBlockBackgroundColor;
+                        .ant-card-body {
+                            background-color: #fff;
+                        }
+                    }
+
+                    .statistic {
+                        width: 66%;
+                        height: 100%;
+                        position: absolute;
+                        right: 0%;
+                        border-radius: 16px;
+                    }
+                }
+
+                .contendBox-left-subBottom {
+                    width: 100%;
+                    height: 43%;
+                    // background-color: @darkTextColor;
+                    position: absolute;
+                    bottom: 0%;
+                    right: 0%;
+                    border-radius: 16px;
+
+                    .competition {
+                        width: 33%;
+                        height: 100%;
+                        // background-color: @darkBlockBackgroundColor;
+                        position: absolute;
+                        left: 0%;
+                        border-radius: 16px;
+
+                        .ant-list-item {
+                            background-color: @darkBlockBackgroundColor;
+                        }
+                    }
+
+                    .competition-light {
+
+                        // background-color: @lightBlockBackgroundColor;
+                        .ant-list-item {
+                            background-color: #fff;
+                        }
+                    }
+
+                    .trend {
+                        width: 66%;
+                        height: 100%;
+                        background-color: @darkBlockBackgroundColor;
+                        position: absolute;
+                        right: 0%;
+                        border-radius: 16px;
+                    }
+
+                    .trend-light {
+                        background-color: @lightBlockBackgroundColor;
+                    }
+                }
+            }
+
+            .contendBox-right {
+                width: 34%;
+                height: 100%;
+                background-color: @darkBlockBackgroundColor;
+                position: absolute;
+                // max-width: 100px;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0%;
+                border-radius: 16px;
+            }
+
+            .contendBox-right-light {
+                background-color: @lightBlockBackgroundColor;
+            }
+        }
+    }
+
+    .dashboard-light {
+        background-color: @lightDashboardBackgroundColor;
+        color: @lightTextColor
+    }
+}
+
+.App-light {
+    background-color: @lightHtmlBackgroundColor;
+}

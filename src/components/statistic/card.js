@@ -13,7 +13,6 @@ export default function Card(props) {
 
     const handleResize = () => {
         if (cardRef.current) {
-            console.log("cardRef.current.offsetWidth", cardRef.current.offsetWidth);
             setDiagramBigger(cardRef.current.offsetWidth > 145);
         }
     }
