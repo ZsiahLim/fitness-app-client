@@ -14,7 +14,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Trend from '../../components/trend'
 import { useSelector } from 'react-redux'
-
+import Main from './dashboard'
 function Dashboard() {
     const { currentUser } = useSelector((state) => state.user)
     const [currenttheme, setCurrenttheme] = useState(currentUser.preferedTheme)
@@ -43,22 +43,13 @@ function Dashboard() {
                     <div className={`App ${lightAppClassname}`}>
                         <div className={`dashboard ${lightDashboardClassname}`}>
                             <Sidebar theme={currenttheme} setPage={setPage} setCurrenttheme={setCurrenttheme} />
-                            {page === 'home' && <div className='contentBox'>
-                                <div className='contendBox-left'>
-                                    <SayHello theme={currenttheme} userName={currentUser.name} />
-                                    <div className='contendBox-left-subTop'>
-                                        <Contacts theme={currenttheme} />
-                                        <Statistic theme={currenttheme} />
-                                    </div>
-                                    <div className='contendBox-left-subBottom'>
-                                        <CompetitionCard theme={currenttheme} />
-                                        <Trend theme={currenttheme} />
-                                    </div>
-                                </div>
-                                <div className={`contendBox-right ${contendBoxRightDashboardClassname}`}>
-                                    <DateCalendar value={today} onChange={(newValue) => setToday(newValue)} />
-                                </div>
-                            </div>}
+                            {page === 'home' && <Main theme={currenttheme} name={currentUser.name} />}
+                            {page === 'chat' && <div>hello word</div>}
+                            {page === 'calender' && <div>hello word</div>}
+                            {page === 'tutorial' && <div>hello word</div>}
+                            {page === 'blog' && <div>hello word</div>}
+                            {page === 'competition' && <div>hello word</div>}
+                            {page === 'setting' && <div>hello word</div>}
                         </div>
                     </div>
                 </ThemeProvider>

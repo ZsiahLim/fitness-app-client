@@ -5,7 +5,7 @@ import {
     MessageTwoTone,
     CalendarTwoTone,
     SettingTwoTone,
-    AntDesignOutlined,
+    FlagTwoTone,
     SoundTwoTone
 } from '@ant-design/icons';
 import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
@@ -89,6 +89,10 @@ export default function Index(props) {
                     <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('blog')}>
                         <SoundTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'blog' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
                         {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'blog' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Blog</span>}
+                    </div >
+                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('competition')}>
+                        <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
+                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'competition' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Competition</span>}
                     </div >
                     <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('setting')}>
                         <SettingTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'setting' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
