@@ -1,0 +1,13 @@
+.contacts {
+
+    .contactlist {
+        position: relative;
+
+        .contactor {
+            margin-top: 10px;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+        }
+    }
+}
