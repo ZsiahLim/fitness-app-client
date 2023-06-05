@@ -1,0 +1,230 @@
+@darkBlockBackgroundColor: #1d1d1d;
+@lightBlockBackgroundColor: #ffffff;
+
+@darkTextColor: #e7e7e7;
+@darkTextColorforcomment: #747474;
+@lightTextColor: #313131;
+@darkHtmlBackgroundColor: #171717;
+@lightHtmlBackgroundColor: #ffffff;
+@lightDashboardBackgroundColor: #f3f3f3;
+@darkBackgroundColor: #0c0f0e;
+@lightBackgroundColor: #ffffff;
+@darkTextColor: #949494;
+@lightTextColor: #9b999b;
+@darkNavHoverColor: #383838;
+@lightNavHoverColor: #f0f0f0;
+
+.chat-contentBox {
+    width: 91%;
+    height: 98%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1%;
+    border-radius: 16px;
+    display: flex;
+    overflow: hidden;
+
+    .chat-sidebar {
+        flex-basis: 340px;
+        display: flex;
+
+        .chat-edit-bar {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            overflow: hidden;
+            flex-basis: 60px;
+            background-color: @darkBlockBackgroundColor;
+
+            .navigationBar {
+                padding-top: 50px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .navigation {
+                    margin-bottom: 10px;
+                    height: 36px;
+                    cursor: pointer;
+                }
+
+            }
+        }
+
+        .chat-contact {
+            flex-grow: 1;
+
+            .chat-contact-header {
+                background-color: @darkBlockBackgroundColor;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+            .chat-MessageBox {
+                display: flex;
+                padding: 10px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 16px;
+
+                &:hover {
+                    background-color: @darkNavHoverColor;
+                }
+
+                .userInfo {
+
+                    .userName {
+                        font-size: 18px;
+                        font-weight: 500;
+                    }
+
+                    .message {
+                        font-size: 14px;
+                        color: @darkTextColorforcomment;
+                    }
+                }
+            }
+        }
+    }
+
+    .chat-chatBox {
+        flex: 2;
+
+        .chatInfo {
+            height: 50px;
+            background-color: @darkBlockBackgroundColor;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+
+            .ChatUserName {}
+
+            .chat-icons {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                border-radius: 5px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    background-color: @darkNavHoverColor;
+                }
+            }
+        }
+
+        .chat-messages {
+            // background-color: #fff;
+            height: calc(100% - 100px);
+            overflow-y: auto;
+            padding: 10px;
+
+            &::-webkit-scrollbar {
+                /*滚动条整体样式*/
+                width: 6px;
+                /*高宽分别对应横竖滚动条的尺寸*/
+                height: 1px;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                /*滚动条里面小方块*/
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+                background: rgba(157, 165, 183, 0.7);
+            }
+
+            &::-webkit-scrollbar-track {
+                /*滚动条里面轨道*/
+                -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                // background: #EDEDED;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #888888;
+                /*鼠标移上滚动条样式*/
+            }
+
+            .chat-message {
+                display: flex;
+                margin-bottom: 20px;
+                gap: 16px;
+
+                .chat-messagerInfo {}
+
+                .chat-messagerContent {
+                    display: flex;
+                    max-width: 70%;
+                    flex-direction: column;
+                    gap: 10px;
+
+                    .messageItself {
+                        width: fit-content;
+                        background-color: @darkBlockBackgroundColor;
+                        padding: 10px 20px;
+                        border-radius: 8px;
+                    }
+
+                    .messagePhoto {
+                        width: 50%;
+                    }
+                }
+
+                &.owner {
+                    flex-direction: row-reverse;
+
+                    .chat-messagerInfo {}
+
+                    .chat-messagerContent {
+                        align-items: end;
+
+                        .messageItself {
+                            width: fit-content;
+                            background-color: @darkBlockBackgroundColor;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                        }
+
+                        .messagePhoto {
+                            width: 50%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .noScroll::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            width: 0px !important;
+            /*高宽分别对应横竖滚动条的尺寸*/
+            height: 0px !important;
+        }
+
+        .chat-sendInput {
+            height: 50px;
+            // background-color: #ca9191;
+            display: flex;
+            align-items: center;
+
+            input {
+                border: none;
+                outline: none;
+                padding-left: 10px;
+                background-color: #0c0f0e;
+                color: @darkTextColor;
+
+                &::placeholder {
+                    color: @darkTextColorforcomment;
+                }
+            }
+        }
+    }
+
+}

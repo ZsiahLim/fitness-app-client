@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import noGenderPath from '../../Pic/noGender.jpg'
 import maleAvatorPath from '../../Pic/maleAvator.jpg'
 import femaleAvatorPath from '../../Pic/femaleAvator.jpg'
+import UpdateAvator from '../updateAvator';
 export default function Index(props) {
     const { currentUser } = useSelector((state) => state.user)
     const avator = () => {
@@ -107,6 +108,7 @@ export default function Index(props) {
                                 {theme === 'light' ? <Switch defaultChecked onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>
                                     : <Switch onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>}
                                 <br />
+                                <UpdateAvator style={{ marginTop: 10 }} /><br />
                                 <Popconfirm
                                     title="Attention"
                                     description="Are you sure to logout?"
@@ -128,7 +130,7 @@ export default function Index(props) {
                         style={{}}
                     >
                         <Avatar
-                            src={currentUser.avator}
+                            src={avator()}
                             size={{
                                 xs: 28,
                                 sm: 28,
