@@ -30,6 +30,7 @@ export default function Login() {
     const activepasswordSup = focusedpasswordSup ? 'active' : ''
     const activeemail = focusedemail ? 'active' : ''
 
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect(() => {
@@ -44,7 +45,11 @@ export default function Login() {
     }, []);
     const registerUser = async () => {
         dispatch(loginStart())
-        await axios.post('http://localhost:3001/api/auth/signup', sigUpInfo)
+        await axios.post('http://localhost:3001/api/auth/signup', sigUpInfo, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
             .then((res) => {
                 dispatch(loginSuccess(res.data))
                 navigate('/dashboard')
@@ -57,7 +62,11 @@ export default function Login() {
     }
 
     const UserSignIn = async () => {
-        await axios.post('http://localhost:3001/api/auth/signin', sigInInfo)
+        await axios.post('http://localhost:3001/api/auth/signin', sigInInfo, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
             .then((res) => {
                 dispatch(loginSuccess(res.data))
                 navigate('/dashboard')
@@ -76,8 +85,11 @@ export default function Login() {
                     name: res.user.displayName,
                     email: res.user.email,
                     avator: res.user.photoURL,
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 }).then((res) => {
-                    console.log(res);
                     dispatch(loginSuccess(res.data))
                     navigate('/dashboard')
                     message.success('Login Successfully! Welcome Back!!!')
