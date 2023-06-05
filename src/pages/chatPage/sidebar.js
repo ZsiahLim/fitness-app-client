@@ -7,8 +7,17 @@ import {
     PlusOutlined,
     UserOutlined
 } from '@ant-design/icons';
-import { Input, Button, Avatar } from 'antd';
+import { Input, Button, Popover } from 'antd';
 import ContactMessage from './contactMessage';
+
+
+const content = (
+    <div>
+        username or <br />
+        user's Email
+    </div>
+);
+
 
 export default function Sidebar(props) {
     const { theme } = props
@@ -32,7 +41,9 @@ export default function Sidebar(props) {
             <div className='chat-contact'>
                 <div className='chat-contact-header'>
                     <Input placeholder="Search" style={{ width: '200px' }} prefix={<SearchOutlined />} allowClear />
-                    <Button icon={<PlusOutlined />} />
+                    <Popover placement="bottomLeft" title={<h3>Add a new user</h3>} content={content} arrow={false}>
+                        <Button icon={<PlusOutlined />} />
+                    </Popover>
                 </div>
                 <div>
                     <ContactMessage />

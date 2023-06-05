@@ -13,7 +13,6 @@ import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 import { auth, provider } from '../../firebase'
 import { signInWithPopup } from 'firebase/auth'
 import { message } from 'antd'
-
 export default function Login() {
     const [focusedname, setFocusedname] = useState(false)
     const [focusedpassword, setFocusedpassword] = useState(false)

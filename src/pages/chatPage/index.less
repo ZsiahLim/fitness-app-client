@@ -30,11 +30,11 @@
         display: flex;
 
         .chat-edit-bar {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
+            // border-top-left-radius: 10px;
+            // border-bottom-left-radius: 10px;
             overflow: hidden;
             flex-basis: 60px;
-            background-color: @darkBlockBackgroundColor;
+
 
             .navigationBar {
                 padding-top: 50px;
@@ -47,6 +47,15 @@
                     margin-bottom: 10px;
                     height: 36px;
                     cursor: pointer;
+                    width: 36px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+
+                    &:hover {
+                        background-color: @darkNavHoverColor;
+                    }
                 }
 
             }
@@ -54,6 +63,10 @@
 
         .chat-contact {
             flex-grow: 1;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            background-color: @darkBlockBackgroundColor;
+            overflow: hidden;
 
             .chat-contact-header {
                 background-color: @darkBlockBackgroundColor;
@@ -65,7 +78,9 @@
 
             .chat-MessageBox {
                 display: flex;
-                padding: 10px;
+                width: 90%;
+                margin: 0 auto;
+                margin-bottom: 10px;
                 align-items: center;
                 gap: 10px;
                 border-radius: 16px;
@@ -209,15 +224,17 @@
 
         .chat-sendInput {
             height: 50px;
-            // background-color: #ca9191;
+            background-color: @darkBlockBackgroundColor;
             display: flex;
             align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
 
             input {
                 border: none;
                 outline: none;
                 padding-left: 10px;
-                background-color: #0c0f0e;
+                background-color: @darkBlockBackgroundColor;
                 color: @darkTextColor;
 
                 &::placeholder {
