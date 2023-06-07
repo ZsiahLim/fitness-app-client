@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { UserOutlined, HeartTwoTone } from '@ant-design/icons';
+import { UserOutlined, HeartTwoTone, MessageFilled, HeartFilled } from '@ant-design/icons';
 import { Avatar, Button } from 'antd';
 import './index.less'
 import { useSelector } from 'react-redux'
@@ -8,28 +8,32 @@ export default function Index(props) {
     const { currentUser } = useSelector((state) => state.user)
 
     const { theme } = props
+    const [liked, setLiked] = useState(true)
     const contactsDashboardClassname = theme === 'light' ? 'contacts-light' : ''
+    const contactorClassname = theme === 'light' ? 'contactor-light' : ''
+    // const contactsDashboardClassname = theme === 'light' ? 'contacts-light' : ''
+
     return (
         <div className={`contacts ${contactsDashboardClassname}`}>
-            <div className='header' style={{ fontWeight: 500, fontsize: 24, fontWeight: 700 }}>
+            <div className='header' style={{ marginLeft: 20, fontWeight: 500, fontsize: 30, fontWeight: 700 }}>
                 Contacts
             </div>
             <div className='contactlist' style={{ hight: '90%', width: "100%" }}>
-                <div className='contactor'>
+                <div className={`contactor ${contactorClassname}`}>
                     <div className='avator'>
-                        <Avatar size={70} icon={<UserOutlined />} src={currentUser?.avator ? currentUser.avator : ''} />
+                        <Avatar size={88} icon={<UserOutlined />} src={currentUser?.avator ? currentUser.avator : ''} />
                     </div>
                     <div className='contactname'>
                         <h2>Leon666</h2>
                     </div>
                     <div className='contactstatus'>
                         <p>Have a nice day!</p>
-                        <div className='likeStatusBtn'>
-                            <HeartTwoTone />
+                        <div className='likeStatusBtn' onClick={() => setLiked(!liked)}>
+                            {liked ? <HeartTwoTone /> : <HeartFilled />}
                         </div>
                     </div>
                     <div className='contactOperationBtn'>
-                        <Button>Message</Button>
+                        <Button>Message<MessageFilled /></Button>
                     </div>
                 </div>
             </div>
