@@ -7,7 +7,7 @@ import {
     PlusOutlined,
     UserOutlined
 } from '@ant-design/icons';
-import { Input, Button, Popover } from 'antd';
+import { Input, Button, Popover, Badge } from 'antd';
 import ContactMessage from './contactMessage';
 
 
@@ -27,14 +27,46 @@ export default function Sidebar(props) {
         <>
             <div className='chat-edit-bar'>
                 <div className='navigationBar'>
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('chat')}>
-                        <MessageTwoTone className='navigationCenteredItem' twoToneColor={selectPage === 'chat' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
+                    <div className={`navigation ${lightnavigation}`}
+                        style={{
+                            borderBottom: selectPage === 'chat' ? '2px solid #4e8df5' : '',
+                            backgroundColor: selectPage === 'chat' ? '#383838' : ''
+                        }}
+                        onClick={() => setSelectPage('chat')}
+                    >
+                        <Badge size="small" count={5}>
+                            <MessageTwoTone
+                                className='navigationCenteredItem'
+                                twoToneColor={selectPage === 'chat' ? '#4e8df5' : "#3d3d3d"}
+                                style={{ fontSize: 18 }}
+                            />
+                        </Badge>
                     </div>
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('contact')}>
-                        <ContactsTwoTone className='navigationCenteredItem' twoToneColor={selectPage === 'contact' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
+                    <div className={`navigation ${lightnavigation}`}
+                        style={{
+                            borderBottom: selectPage === 'contact' ? '2px solid #4e8df5' : '',
+                            backgroundColor: selectPage === 'contact' ? '#383838' : ''
+                        }}
+                        onClick={() => setSelectPage('contact')}
+                    >
+                        <ContactsTwoTone
+                            className='navigationCenteredItem'
+                            twoToneColor={selectPage === 'contact' ? '#4e8df5' : "#3d3d3d"}
+                            style={{ fontSize: 18 }}
+                        />
                     </div>
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('favorites')}>
-                        <StarTwoTone className='navigationCenteredItem' twoToneColor={selectPage === 'favorites' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
+                    <div className={`navigation ${lightnavigation}`}
+                        style={{
+                            borderBottom: selectPage === 'favorites' ? '2px solid #4e8df5' : '',
+                            backgroundColor: selectPage === 'favorites' ? '#383838' : ''
+                        }}
+                        onClick={() => setSelectPage('favorites')}
+                    >
+                        <StarTwoTone
+                            className='navigationCenteredItem'
+                            twoToneColor={selectPage === 'favorites' ? '#4e8df5' : "#3d3d3d"}
+                            style={{ fontSize: 18 }}
+                        />
                     </div>
                 </div >
             </div>

@@ -1,0 +1,63 @@
+@darkBlockBackgroundColor: #1d1d1d;
+@lightBlockBackgroundColor: #ffffff;
+
+@darkTextColor: #e7e7e7;
+@darkTextColorforcomment: #747474;
+@lightTextColor: #313131;
+@darkHtmlBackgroundColor: #171717;
+@lightHtmlBackgroundColor: #ffffff;
+@lightDashboardBackgroundColor: #f3f3f3;
+@darkBackgroundColor: #0c0f0e;
+@lightBackgroundColor: #ffffff;
+@darkTextColor: #949494;
+@lightTextColor: #9b999b;
+@darkNavHoverColor: #383838;
+@lightNavHoverColor: #f0f0f0;
+
+.contacts {
+    height: 100%;
+
+    .contactlist {
+        position: relative;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .contactor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            height: 86%;
+            width: 90%;
+            border-radius: 10px;
+            background-color: @darkBlockBackgroundColor;
+
+            .contactstatus {
+                color: @darkTextColorforcomment;
+                font-size: 16px;
+                width: 80%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                user-select: text;
+
+                &::selection {
+                    background-color: @lightNavHoverColor;
+                }
+
+                .likeStatusBtn {
+                    height: 30px;
+                    width: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    background-color: #fff;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
