@@ -5,57 +5,15 @@ import { auth, storage } from '../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
 import axios from 'axios';
-
-const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
-
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-};
+import { useDispatch } from 'react-redux'
+import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 
 export default function UpdateAvator() {
     const { currentUser } = useSelector((state) => state.user)
     const [openChangeAvatorModal, setOpenChangeAvatorModal] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
+
     const [currentFile, setCurrentFile] = useState()
-    const handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            console.log('no');
-            setLoading(true);
-            return;
-        }
-        if (info.file.status === 'done') {
-            console.log('yes');
-            getBase64(info.file.originFileObj, (url) => {
-                setLoading(false);
-                setImageUrl(url);
-            });
-        }
-    };
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div
-                style={{
-                    marginTop: 8,
-                }}
-            >
-                Upload
-            </div>
-        </div>
-    );
+    const dispatch = useDispatch()
     const showAvatorChangeModal = () => {
         setOpenChangeAvatorModal(true);
     };
@@ -94,8 +52,12 @@ export default function UpdateAvator() {
                     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
                         console.log('File available at', downloadURL);
+                        dispatch(loginStart())
                         await axios.put(`http://localhost:3001/api/users/${currentUser._id}`, {
                             avator: downloadURL,
+                        }, { withCredentials: true }).then((res) => {
+                            dispatch(loginSuccess(res.data))
+                            handleOk()
                         })
                     });
                 }
@@ -116,7 +78,7 @@ export default function UpdateAvator() {
                 footer={null}
             >
                 <>
-                    <input onChange={(e) => { setCurrentFile(e.target.files[0]) }} type="file" accept="image/gif,image/jpeg,image/jpg,image/png" multiple />
+                    <input onChange={(e) => { console.log(e.target.files[0]); setCurrentFile(e.target.files[0]) }} type="file" accept="image/gif,image/jpeg,image/jpg,image/png" multiple />
                     <Button onClick={() => { submitToFireBase() }}>OK</Button>
                 </>
             </Modal>

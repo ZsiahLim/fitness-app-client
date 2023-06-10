@@ -5,6 +5,7 @@ import {
     MessageTwoTone,
     CalendarTwoTone,
     SettingTwoTone,
+    IdcardTwoTone,
     FlagTwoTone,
     SoundTwoTone
 } from '@ant-design/icons';
@@ -96,7 +97,7 @@ export default function Index(props) {
                         {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'competition' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Competition</span>}
                     </div >
                     <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('setting')}>
-                        <SettingTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'setting' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
+                        <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'setting' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
                         {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'setting' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Setting</span>}
                     </div >
                 </div >
@@ -108,7 +109,6 @@ export default function Index(props) {
                                 {theme === 'light' ? <Switch defaultChecked onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>
                                     : <Switch onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>}
                                 <br />
-                                <UpdateAvator style={{ marginTop: 10 }} /><br />
                                 <Popconfirm
                                     title="Attention"
                                     description="Are you sure to logout?"
@@ -132,8 +132,8 @@ export default function Index(props) {
                         <Avatar
                             src={avator()}
                             size={{
-                                xs: 28,
-                                sm: 28,
+                                xs: 36,
+                                sm: 36,
                                 md: 36,
                                 lg: 50,
                                 xl: 54,

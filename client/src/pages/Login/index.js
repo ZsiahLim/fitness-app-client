@@ -44,11 +44,7 @@ export default function Login() {
     }, []);
     const registerUser = async () => {
         dispatch(loginStart())
-        await axios.post('http://localhost:3001/api/auth/signup', sigUpInfo, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+        await axios.post('http://localhost:3001/api/auth/signup', sigUpInfo, { withCredentials: true })
             .then((res) => {
                 dispatch(loginSuccess(res.data))
                 navigate('/dashboard')
@@ -61,11 +57,7 @@ export default function Login() {
     }
 
     const UserSignIn = async () => {
-        await axios.post('http://localhost:3001/api/auth/signin', sigInInfo, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        await axios.post('http://localhost:3001/api/auth/signin', sigInInfo, { withCredentials: true })
             .then((res) => {
                 dispatch(loginSuccess(res.data))
                 navigate('/dashboard')
@@ -84,11 +76,7 @@ export default function Login() {
                     name: res.user.displayName,
                     email: res.user.email,
                     avator: res.user.photoURL,
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }).then((res) => {
+                }, { withCredentials: true }).then((res) => {
                     dispatch(loginSuccess(res.data))
                     navigate('/dashboard')
                     message.success('Login Successfully! Welcome Back!!!')

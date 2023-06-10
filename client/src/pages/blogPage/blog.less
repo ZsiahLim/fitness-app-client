@@ -14,29 +14,32 @@
 @darkNavHoverColor: #383838;
 @lightNavHoverColor: #f0f0f0;
 
-.settingPage {
-    background-color: @darkBlockBackgroundColor;
-    width: 91%;
-    height: 98%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1%;
-    border-radius: 16px;
-    overflow: hidden;
+.oneBlog {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
 
-    .tabs {
-        margin-top: 30px;
-        display: flex;
-        justify-content: center;
+    .blogImg {
+        background-color: black;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
     }
 
-    .divider {
+    .blogMainPart {
         width: 90%;
         margin: 0 auto;
-    }
-}
 
-.settingPage-light {
-    background-color: @lightBlockBackgroundColor;
+        .blogTitle {
+            margin-bottom: 10px;
+        }
+
+        .blogOperation {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            color: @darkTextColor;
+        }
+    }
+
 }
