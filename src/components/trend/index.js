@@ -2,6 +2,7 @@ import React from 'react'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from 'echarts'
 import './index.less'
+import { Segmented } from 'antd';
 
 export default function Index(props) {
     const { theme } = props
@@ -42,6 +43,9 @@ export default function Index(props) {
     return (
         <div className={`trend ${trendDashboardClassname}`}>
             <div className={`cardTitle ${trendTitleClassname}`}>Work trend</div>
+            <div className='Trend-Options'>
+                <Segmented options={['Weekly', 'Monthly', 'Yearly']} />
+            </div>
             <ReactEcharts option={getOptionLine()} theme={theme} />
         </div>
     )

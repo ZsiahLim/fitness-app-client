@@ -58,6 +58,12 @@
                     }
                 }
 
+                .navigation-light {
+                    &:hover {
+                        background-color: @lightBackgroundColor;
+                    }
+                }
+
             }
         }
 
@@ -100,6 +106,46 @@
                     .message {
                         font-size: 14px;
                         color: @darkTextColorforcomment;
+                    }
+                }
+            }
+        }
+
+        .chat-contact-light {
+            background-color: @lightBlockBackgroundColor;
+
+            .chat-contact-header {
+                background-color: @lightBlockBackgroundColor;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+            .chat-MessageBox {
+                display: flex;
+                width: 100%;
+                padding: 10px 20px;
+                margin: 0 auto;
+                margin-bottom: 10px;
+                align-items: center;
+                gap: 10px;
+                border-radius: 4px;
+
+                &:hover {
+                    background-color: @lightNavHoverColor;
+                }
+
+                .userInfo {
+
+                    .userName {
+                        font-size: 18px;
+                        font-weight: 500;
+                    }
+
+                    .message {
+                        font-size: 14px;
+                        color: @lightTextColor;
                     }
                 }
             }
@@ -240,6 +286,61 @@
 
                 &::placeholder {
                     color: @darkTextColorforcomment;
+                }
+            }
+        }
+    }
+
+    .chat-chatBox-light {
+
+        .chatInfo {
+            background-color: @lightBlockBackgroundColor;
+
+            .ChatUserName {}
+
+            .chat-icons {
+                &:hover {
+                    background-color: @lightNavHoverColor;
+                }
+            }
+        }
+
+        .chat-messages {
+
+            .chat-message {
+                .chat-messagerContent {
+                    .messageItself {
+                        background-color: @lightBlockBackgroundColor;
+                    }
+
+                    .messagePhoto {}
+                }
+
+                &.owner {
+
+                    .chat-messagerInfo {}
+
+                    .chat-messagerContent {
+
+                        .messageItself {
+                            background-color: @lightBlockBackgroundColor;
+                        }
+
+                        .messagePhoto {}
+                    }
+                }
+            }
+        }
+
+        .chat-sendInput {
+            background-color: @lightBlockBackgroundColor;
+
+            input {
+                background-color: @lightBlockBackgroundColor;
+                color: @lightTextColor;
+
+                &::placeholder {
+                    color: @lightTextColor;
                 }
             }
         }

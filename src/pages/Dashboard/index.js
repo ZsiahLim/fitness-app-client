@@ -2,24 +2,34 @@ import './index.less';
 import { useEffect, useState } from 'react';
 
 import Sidebar from '../../components/sidebar'
-import SayHello from '../../components/sayHello'
-import Contacts from '../../components/contacts'
-import Statistic from '../../components/statistic'
-import CompetitionCard from '../../components/competitionCard'
 import { ConfigProvider, theme } from 'antd';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Trend from '../../components/trend'
 import { useSelector } from 'react-redux'
 import Main from './dashboard'
 import ChatPage from '../chatPage';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import SettingPage from '../settingPage';
+import PlanPage from '../planPage';
+import CompetitionPage from '../competitionPage';
+import BlogPage from '../blogPage';
+import TutorialPage from '../tutorialPage'
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 function Dashboard() {
+    const router = createBrowserRouter([
+        {
+            path: '/dashboard',
+            element: <Main />
+        },
+        {
+            path: '/dashboard/chat',
+            element: <ChatPage />
+        }
+    ])
+
     const { currentUser } = useSelector((state) => state.user)
     const navigate = useNavigate()
     const [currenttheme, setCurrenttheme] = useState()
@@ -56,12 +66,12 @@ function Dashboard() {
                         <div className={`dashboard ${lightDashboardClassname}`}>
                             <Sidebar theme={currenttheme} setPage={setPage} setCurrenttheme={setCurrenttheme} />
                             {page === 'home' && <Main theme={currenttheme} name={currentUserName} />}
-                            {page === 'chat' && <ChatPage></ChatPage>}
-                            {page === 'calender' && <div>hello word</div>}
-                            {page === 'tutorial' && <div>hello word</div>}
-                            {page === 'blog' && <div>hello word</div>}
-                            {page === 'competition' && <div>hello word</div>}
-                            {page === 'setting' && <div>hello word</div>}
+                            {page === 'chat' && <ChatPage theme={currenttheme}></ChatPage>}
+                            {page === 'calender' && <PlanPage theme={currenttheme} />}
+                            {page === 'tutorial' && <TutorialPage theme={currenttheme} />}
+                            {page === 'blog' && <BlogPage theme={currenttheme} />}
+                            {page === 'competition' && <CompetitionPage theme={currenttheme} />}
+                            {page === 'setting' && <SettingPage theme={currenttheme} />}
                         </div>
                     </div>
                 </ThemeProvider>
