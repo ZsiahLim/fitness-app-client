@@ -72,6 +72,7 @@ export default function Login() {
         dispatch(loginStart())
         signInWithPopup(auth, provider)
             .then((res) => {
+                console.log(res);
                 axios.post('http://localhost:3001/api/auth/google', {
                     name: res.user.displayName,
                     email: res.user.email,

@@ -9,17 +9,17 @@ export default function Index(props) {
 
     const cardsInfo = {
         steps: {
-            title: `Today's Steps`,
+            title: `Steps`,
             number: '26888',
             percentage: '1'
         },
         colorie: {
-            title: `Today's Colorie`,
+            title: `Colorie`,
             number: '158',
             percentage: '100'
         },
         distance: {
-            title: `Today's Distance`,
+            title: `Distance`,
             number: '26888',
             percentage: '10'
         },

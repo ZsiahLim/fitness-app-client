@@ -96,9 +96,9 @@ export default function Index(props) {
                         <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
                         {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'competition' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Competition</span>}
                     </div >
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('setting')}>
+                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('profile')}>
                         <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'setting' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'setting' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Setting</span>}
+                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'profile' ? { fontWeight: 500, color: "#4e8df5" } : {}}>profile</span>}
                     </div >
                 </div >
                 <div className='avator'>
