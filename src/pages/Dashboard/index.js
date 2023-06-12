@@ -16,30 +16,13 @@ import PlanPage from '../planPage';
 import CompetitionPage from '../competitionPage';
 import BlogPage from '../blogPage';
 import TutorialPage from '../tutorialPage'
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { Navigate, RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom'
 
 function Dashboard() {
-    const router = createBrowserRouter([
-        {
-            path: '/dashboard',
-            element: <Main />
-        },
-        {
-            path: '/dashboard/chat',
-            element: <ChatPage />
-        }
-    ])
-
     const { currentUser } = useSelector((state) => state.user)
     const navigate = useNavigate()
     const [currenttheme, setCurrenttheme] = useState()
     const [currentUserName, setCurrentUserName] = useState()
-    useEffect(() => {
-        !currentUser && navigate('/')
-        console.log(currentUser);
-        currentUser && setCurrenttheme(currentUser.preferedTheme)
-        currentUser && setCurrentUserName(currentUser.name)
-    }, [])
     const [page, setPage] = useState('home')
     const [today, setToday] = useState(dayjs('2023-05-21'));
     const darkTheme = createTheme({
@@ -50,6 +33,21 @@ function Dashboard() {
     const lightAppClassname = currenttheme === 'light' ? 'App-light' : ''
     const lightDashboardClassname = currenttheme === 'light' ? 'dashboard-light' : ''
     const contendBoxRightDashboardClassname = currenttheme === 'light' ? 'contendBox-right-light' : ''
+    useEffect(() => {
+        !currentUser && navigate('/')
+        currentUser && navigate(`/dashboard/home/${currentUser.preferedTheme}/${currentUser.name}`)
+        currentUser && setCurrenttheme(currentUser.preferedTheme)
+        currentUser && setCurrentUserName(currentUser.name)
+    }, [])
+    useEffect(() => {
+        if (currenttheme) {
+            page === 'home' ? navigate(`/dashboard/${page}/${currenttheme}/${currentUser.name}`)
+                : navigate(`/dashboard/${page}/${currenttheme}`)
+        } else {
+            page === 'home' ? navigate(`/dashboard/${page}/${currentUser.preferedTheme}/${currentUser.name}`)
+                : navigate(`/dashboard/${page}/${currentUser.preferedTheme}`)
+        }
+    }, [page, currenttheme])
 
 
     return (
@@ -65,13 +63,14 @@ function Dashboard() {
                     <div className={`App ${lightAppClassname}`}>
                         <div className={`dashboard ${lightDashboardClassname}`}>
                             <Sidebar theme={currenttheme} setPage={setPage} setCurrenttheme={setCurrenttheme} />
-                            {page === 'home' && <Main theme={currenttheme} name={currentUserName} />}
+                            {/* {page === 'home' && <Main theme={currenttheme} name={currentUserName} />}
                             {page === 'chat' && <ChatPage theme={currenttheme}></ChatPage>}
                             {page === 'calender' && <PlanPage theme={currenttheme} />}
                             {page === 'tutorial' && <TutorialPage theme={currenttheme} />}
                             {page === 'blog' && <BlogPage theme={currenttheme} />}
                             {page === 'competition' && <CompetitionPage theme={currenttheme} />}
-                            {page === 'setting' && <SettingPage theme={currenttheme} />}
+                            {page === 'setting' && <SettingPage theme={currenttheme} />} */}
+                            <Outlet />
                         </div>
                     </div>
                 </ThemeProvider>

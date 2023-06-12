@@ -1,6 +1,7 @@
 @darkBlockBackgroundColor: #1d1d1d;
 @lightBlockBackgroundColor: #ffffff;
-
+@darkUsernameColor: #4d90f9;
+@lightUsernameColor: #4790ff;
 @darkTextColor: #e7e7e7;
 @darkTextColorforcomment: #747474;
 @lightTextColor: #313131;
@@ -24,6 +25,225 @@
     right: 1%;
     border-radius: 16px;
     overflow: hidden;
+    display: flex;
+
+    .rightSidebar-date {
+        width: 360px;
+        margin-top: 100px;
+        padding-left: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+
+        .rightSidebar-today {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .rightSidebar-calendar {
+            margin-left: 30px;
+        }
+    }
+
+    .planpage-schedule {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 360px);
+        padding: 20px;
+
+        .rightSidebar-Schedule {
+
+            .NoSchedueBox {
+
+                .NoSchedule {
+                    font-size: 18px;
+                    font-weight: 500;
+                    width: 100%;
+                    display: flex;
+
+                    .border {
+                        width: 10px;
+                        height: 10;
+                        border-radius: 4px;
+                        background-color: @darkUsernameColor;
+                        margin-right: 6px;
+                    }
+
+                    .border-light {
+                        background-color: @lightUsernameColor;
+                    }
+
+                    .programName {
+                        &:hover {
+                            color: #4790ff;
+                            cursor: pointer;
+                        }
+                    }
+
+                }
+
+                .schedule-promotion {
+                    margin-top: 10px;
+                    font-size: 14px;
+                    max-width: 400px;
+                    color: @darkTextColorforcomment;
+                }
+
+                .promotionPlan {
+                    margin-top: 10px;
+                    display: flex;
+                    justify-content: space-around;
+
+                    .promotionDay {
+                        padding: 6px;
+                        width: 24%;
+                        background: linear-gradient(to bottom, @darkNavHoverColor, @darkBlockBackgroundColor);
+                        color: #fff;
+                        opacity: 0.6;
+                        border-radius: 4px;
+                        overflow: hidden;
+
+                        .promotionDay-Title {
+                            font-weight: 500;
+                            font-size: 16px;
+                        }
+
+                        .promotionDay-content {
+                            font-size: 14px;
+                        }
+
+                    }
+
+                    .promotionDay-light {
+                        background: linear-gradient(to bottom, @lightDashboardBackgroundColor, @lightBlockBackgroundColor);
+                        color: @lightTextColor;
+                    }
+                }
+
+                .Evaluate {
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    border-radius: 10px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: @darkNavHoverColor;
+                    }
+
+                    .personalizedWords {
+                        padding-right: 10px;
+                    }
+
+                    .personalizedBtn {
+                        width: 23px;
+                        height: 23px;
+                        border-radius: 6px;
+                        background-color: @darkNavHoverColor;
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+
+                .Evaluate-light {
+                    &:hover {
+                        background-color: @lightNavHoverColor;
+                    }
+
+                    .personalizedBtn {
+                        background-color: @lightNavHoverColor;
+                    }
+                }
+            }
+
+            .AddScheduleBtn {
+                cursor: pointer;
+                background-color: #4d90f9;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                border-radius: 10px;
+                justify-content: center;
+                color: #fff;
+
+                &:hover {
+                    background-color: @lightUsernameColor;
+                }
+            }
+        }
+
+        .AddScheduleBtn {
+            cursor: pointer;
+            background-color: #4d90f9;
+            height: 80px;
+            width: 60%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            justify-content: center;
+            color: #fff;
+
+            &:hover {
+                background-color: @lightUsernameColor;
+            }
+        }
+
+        .RecommandForUser {
+            height: 100%;
+            overflow: hidden;
+
+            .RecommandForUser-title {
+                font-weight: 500;
+                margin-bottom: 10px;
+            }
+
+            .RecommandForUser-content {
+                display: flex;
+                flex-direction: column;
+
+                .RecommandForUser-Item {
+                    width: 60%;
+                    margin: 0 auto;
+                    border-radius: 20px;
+                    background-color: @darkNavHoverColor;
+                    display: flex;
+                    margin-bottom: 6px;
+
+                    .RecommandForUser-Item-img {
+                        border-radius: 10px;
+                        overflow: hidden;
+                        flex-basis: 200px;
+
+                        img {
+                            vertical-align: middle;
+                        }
+                    }
+
+                    .RecommandForUser-Item-desc {
+                        padding-left: 10px;
+                        padding-top: 10px;
+
+                        .RecommandForUser-Item-title {}
+
+                        .RecommandForUser-Item-content {
+                            margin-top: 6px;
+                            padding: 4px;
+                            font-size: 12px;
+                            color: @darkTextColorforcomment;
+                        }
+                    }
+                }
+
+                .RecommandForUser-Item-light {
+                    background-color: @lightNavHoverColor;
+                }
+            }
+        }
+    }
+
 }
 
 .planPage-light {

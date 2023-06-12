@@ -16,9 +16,9 @@ export default function Blog({ blogInfo }) {
     const [liked, setLiked] = useState(true)
     return (
         <div className='oneBlog' style={{ width: "100%" }}>
-            <div className='blogImg'>
+            {imgUrl && <div className='blogImg'>
                 <img src={imgUrl} style={{ width: "100%" }} />
-            </div>
+            </div>}
             <div className='blogMainPart'>
                 <div className='blogTitle'>{title}</div>
                 <div className='blogOperation'>

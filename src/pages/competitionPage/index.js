@@ -1,10 +1,20 @@
 import React from 'react'
 import './index.less'
-export default function CompetitionPage({ theme }) {
+import { useParams } from 'react-router-dom'
+import CompetitionCard from './competitionCard'
+export default function CompetitionPage() {
+    let { theme } = useParams()
     const lightCompetitionPageClassname = theme === 'light' ? 'competitionPage-light' : ''
     return (
         <div className={`competitionPage ${lightCompetitionPageClassname}`}>
-            competitionPage
+            <div className='title'><h1>June competitions</h1></div>
+            <div className='competitionList'>
+                <CompetitionCard />
+                <CompetitionCard />
+                <CompetitionCard />
+                <CompetitionCard />
+                <CompetitionCard />
+            </div>
         </div>
     )
 }
