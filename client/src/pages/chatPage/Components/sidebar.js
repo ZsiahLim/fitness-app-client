@@ -1,32 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     StarTwoTone,
     MessageTwoTone,
     ContactsTwoTone,
-    SearchOutlined,
-    PlusOutlined,
-    UserOutlined
 } from '@ant-design/icons';
-import { Input, Button, Popover, Badge } from 'antd';
-import ContactMessage from './contactMessage';
+import { Badge } from 'antd';
 
-
-const content = (
-    <div>
-        username or <br />
-        user's Email
-    </div>
-);
 
 
 export default function Sidebar(props) {
-    const { theme } = props
+    const { theme, changeSelectPage } = props
     useEffect(() => {
         console.log(theme);
     }, [theme])
     const [selectPage, setSelectPage] = useState('chat');
     const lightnavigation = theme === 'light' ? 'navigation-light' : ''
-    const lightchatContact = theme === 'light' ? 'chat-contact-light' : ''
+    useEffect(() => {
+        changeSelectPage(selectPage)
+    }, [selectPage])
     return (
         <>
             <div className='chat-edit-bar'>
@@ -38,7 +29,7 @@ export default function Sidebar(props) {
                         }}
                         onClick={() => setSelectPage('chat')}
                     >
-                        <Badge size="small" count={5}>
+                        <Badge size="small" count={1}>
                             <MessageTwoTone
                                 className='navigationCenteredItem'
                                 twoToneColor={selectPage === 'chat' ? '#4e8df5' : "#3d3d3d"}
@@ -73,31 +64,6 @@ export default function Sidebar(props) {
                         />
                     </div>
                 </div >
-            </div>
-            <div className={`chat-contact ${lightchatContact}`}>
-                <div className='chat-contact-header'>
-                    <Input placeholder="Search" style={{ width: '200px' }} prefix={<SearchOutlined />} allowClear />
-                    <Popover placement="bottomLeft" title={<h3>Add a new user</h3>} content={content} arrow={false}>
-                        <Button icon={<PlusOutlined />} />
-                    </Popover>
-                </div>
-                <div>
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                    <ContactMessage />
-                </div>
             </div>
         </>
     )

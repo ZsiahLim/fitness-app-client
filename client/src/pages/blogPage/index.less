@@ -73,13 +73,56 @@
     }
 
     .blog-box {
-        padding: 10px;
+        padding: 0 10px;
         width: 100%;
         height: 100%;
 
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+
+            .searchBox {
+                background-color: @darkNavHoverColor;
+                // background-color: black;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                width: 500px;
+                padding: 0 20px;
+                margin-right: 20px;
+                border-radius: 20px;
+            }
+
+            .refresh {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                background-color: @darkNavHoverColor;
+            }
+        }
+
+        .header-light {
+
+            .searchBox {
+                background-color: @lightNavHoverColor;
+            }
+
+            .refresh {
+                background-color: @lightNavHoverColor;
+            }
+        }
+
+
         .blog-content {
             overflow: scroll;
-            height: 100%;
+            height: calc(100% - 50px);
+            position: relative;
 
             &::-webkit-scrollbar {
                 /*滚动条整体样式*/
@@ -106,6 +149,15 @@
             &::-webkit-scrollbar-thumb:hover {
                 background: #888888;
                 /*鼠标移上滚动条样式*/
+            }
+
+
+
+            .empty {
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
 
             .row {

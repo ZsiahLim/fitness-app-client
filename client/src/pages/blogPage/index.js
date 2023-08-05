@@ -12,9 +12,8 @@ import MyBlog from './myBlog';
 
 export default function BlogPage() {
     let { theme } = useParams()
-    const [currentTheme, setTheme] = useState(theme)
-    const lightBlogPageClassname = currentTheme === 'light' ? 'blogPage-light' : ''
-    const lightnavigation = currentTheme === 'light' ? 'navigation-light' : ''
+    const lightBlogPageClassname = theme === 'light' ? 'blogPage-light' : ''
+    const lightnavigation = theme === 'light' ? 'navigation-light' : ''
     const [selectedBar, setSelectedBar] = useState('find')
     return (
         <div className={`blogPage ${lightBlogPageClassname}`}>
@@ -22,7 +21,7 @@ export default function BlogPage() {
                 <div
                     className={`navigation ${lightnavigation}`}
                     onClick={() => setSelectedBar('find')}
-                    style={selectedBar === 'find' ? { backgroundColor: currentTheme === 'dark' ? '#383838' : "#f0f0f0" } : {}}
+                    style={selectedBar === 'find' ? { backgroundColor: theme === 'dark' ? '#383838' : "#f0f0f0" } : {}}
                 >
                     <HomeTwoTone
                         className='navigationItem'
@@ -38,7 +37,7 @@ export default function BlogPage() {
                 <div
                     className={`navigation ${lightnavigation}`}
                     onClick={() => setSelectedBar('post')}
-                    style={selectedBar === 'post' ? { backgroundColor: currentTheme === 'dark' ? '#383838' : "#f0f0f0" } : {}}
+                    style={selectedBar === 'post' ? { backgroundColor: theme === 'dark' ? '#383838' : "#f0f0f0" } : {}}
                 >
                     <MessageTwoTone
                         className='navigationItem'
@@ -55,7 +54,7 @@ export default function BlogPage() {
                 <div
                     className={`navigation ${lightnavigation}`}
                     onClick={() => setSelectedBar('myBlog')}
-                    style={selectedBar === 'myBlog' ? { backgroundColor: currentTheme === 'dark' ? '#383838' : "#f0f0f0" } : {}}
+                    style={selectedBar === 'myBlog' ? { backgroundColor: theme === 'dark' ? '#383838' : "#f0f0f0" } : {}}
                 >
                     <BookTwoTone
                         className='navigationItem'

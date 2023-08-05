@@ -23,103 +23,240 @@
     transform: translateY(-50%);
     right: 1%;
     border-radius: 16px;
+    display: flex;
     overflow: hidden;
 
-    .title {
-        padding-left: 50px;
-        padding-top: 20px;
-    }
-
-    .competitionList {
-        width: 80%;
-        margin: 0 auto;
+    .myCompetition {
+        width: 30%;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
         height: 100%;
-        overflow: auto;
+        border-right: 1px solid @darkNavHoverColor;
 
-        // background-color: #fff;
-        &::-webkit-scrollbar {
-            /*滚动条整体样式*/
-            width: 6px;
-            /*高宽分别对应横竖滚动条的尺寸*/
-            height: 1px;
-            background-color: transparent;
+        .myParticipatedCompetition {
+            height: 40%;
         }
 
-        &::-webkit-scrollbar-thumb {
-            /*滚动条里面小方块*/
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-            background: rgba(157, 165, 183, 0.7);
-        }
+        .myMedal {
+            height: 60%;
 
-        &::-webkit-scrollbar-track {
-            /*滚动条里面轨道*/
-            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            // background: #EDEDED;
-        }
-
-        &::-webkit-scrollbar-thumb:hover {
-            background: #888888;
-            /*鼠标移上滚动条样式*/
-        }
-
-
-        .oneCompetition {
-            display: flex;
-            flex-direction: column;
-            border-radius: 20px;
-            background-color: @darkNavHoverColor;
-            overflow: hidden;
-            height: 36%;
-            margin-bottom: 20px;
-
-            .competitionImg {
-                height: 60%;
-                overflow: hidden;
+            .medals {
+                width: 80%;
+                margin: 10px auto;
+                height: 100%;
                 position: relative;
 
-                .compImg {
-                    vertical-align: middle;
-                    width: 100%;
+                .carousel {
                     position: absolute;
-                    top: 50%;
+                    height: 60%;
+                    width: 100%;
+                    top: 40%;
                     transform: translateY(-50%);
-                }
-            }
+                    background-color: @darkNavHoverColor;
+                    border-radius: 2rem;
+                    transition: 0.8s ease-in-out;
+                    display: grid;
+                    grid-template-rows: auto 1fr;
+                    padding-bottom: 3.5rem;
+                    overflow: hidden;
 
-            .competitionInfo {
-                display: flex;
-                padding: 10px;
 
-                .compWords {
-                    width: 70%;
+                    .images-wrapper {
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        grid-template-rows: 1fr;
 
-                    .competitionDate {
-                        font-weight: 500;
-                        color: @darkTextColorforcomment;
+                        .image {
+                            width: 100%;
+                            height: 100%;
+                            grid-column: 1/2;
+                            grid-row: 1/2;
+                            opacity: 0;
+                            transition: opacity 0.3s, transform 0.5s;
+                        }
+
+                        .img-1 {
+                            transform: translate(0, -50px);
+                        }
+
+                        .img-2 {
+                            transform: scale(0.4, 0.5);
+                        }
+
+                        .img-3 {
+                            transform: scale(0.3) rotate(-20deg);
+                        }
+
+                        .img-4 {
+                            transform: scale(0.3) rotate(20deg);
+                        }
+
+                        .image.show {
+                            opacity: 1;
+                            transform: none;
+                        }
                     }
-
-                    .competitorNum {
-                        color: @darkTextColorforcomment;
-                        font-size: 14px;
-                    }
                 }
 
-                .competitionSignupBtn {
-                    width: 30%;
+                .text-slider {
                     display: flex;
                     align-items: center;
-                    justify-content: end;
+                    justify-content: center;
+                    flex-direction: column;
+
+                    .text-wrap {
+                        max-height: 2.2rem;
+                        overflow: hidden;
+                        margin-bottom: 0.5rem;
+                        margin-top: 0.5rem;
+
+                        .text-group {
+                            display: flex;
+                            flex-direction: column;
+                            text-align: center;
+                            transform: translateY(0);
+                            transition: 0.5s;
+
+                            h2 {
+                                line-height: 2.2rem;
+                                font-weight: 600;
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+
+                    .bullets {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+
+                        span {
+                            display: block;
+                            width: 0.5rem;
+                            height: 0.5rem;
+                            background-color: #aaa;
+                            margin: 0 0.25rem;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            transition: 0.3s;
+
+                            &.active {
+                                width: 1.1rem;
+                                background-color: #151111;
+                                border-radius: 1rem;
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
 
-        .oneCompetition-light {
-            background-color: @lightNavHoverColor;
+    .competitionEvents {
+        width: 70%;
+        height: 100%;
+
+        .title {
+            width: 90%;
+            margin: 0 auto;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .competitionList {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            height: calc(100% - 78px);
+            overflow: auto;
+
+            // background-color: #fff;
+            &::-webkit-scrollbar {
+                /*滚动条整体样式*/
+                width: 6px;
+                /*高宽分别对应横竖滚动条的尺寸*/
+                height: 1px;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                /*滚动条里面小方块*/
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+                background: rgba(157, 165, 183, 0.7);
+            }
+
+            &::-webkit-scrollbar-track {
+                /*滚动条里面轨道*/
+                -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                // background: #EDEDED;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #888888;
+                /*鼠标移上滚动条样式*/
+            }
+
+
+            .oneCompetition {
+                display: flex;
+                flex-direction: column;
+                border-radius: 20px;
+                background-color: @darkNavHoverColor;
+                overflow: hidden;
+                height: 36%;
+                margin-bottom: 20px;
+
+                .competitionImg {
+                    height: 60%;
+                    overflow: hidden;
+                    position: relative;
+
+                    .compImg {
+                        vertical-align: middle;
+                        width: 100%;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+                }
+
+                .competitionInfo {
+                    display: flex;
+                    padding: 10px;
+
+                    .compWords {
+                        width: 70%;
+
+                        .competitionDate {
+                            font-weight: 500;
+                            color: @darkTextColorforcomment;
+                        }
+
+                        .competitorNum {
+                            color: @darkTextColorforcomment;
+                            font-size: 14px;
+                        }
+                    }
+
+                    .competitionSignupBtn {
+                        width: 30%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: end;
+                    }
+                }
+            }
+
+            .oneCompetition-light {
+                background-color: @lightNavHoverColor;
+            }
         }
     }
+
 }
 
 .competitionPage-light {

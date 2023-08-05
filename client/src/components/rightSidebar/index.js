@@ -10,10 +10,12 @@ import muscle from '../../Pic/muscle.jpeg'
 import pushup from '../../Pic/pushup.jpeg'
 import { useNavigate } from "react-router-dom";
 
+const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
 export default function RightSidebar() {
     let { theme } = useParams()
     const navigate = useNavigate();
-    const [today, setToday] = useState(dayjs('2023-05-21'));
+    const [today, setToday] = useState(dayjs(new Date()));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
@@ -33,7 +35,7 @@ export default function RightSidebar() {
         <div className='RightSidebarBox'>
             <div className='rightSidebar-date'>
                 <div className='rightSidebar-today'>
-                    <span>12 July 2023</span> <CalendarFilled onClick={showModal} style={{ fontSize: 20 }} />
+                    <span>{new Date(today).toLocaleDateString('en', options)}</span> <CalendarFilled onClick={showModal} style={{ fontSize: 20 }} />
                 </div>
             </div>
             <Divider />
@@ -77,7 +79,7 @@ export default function RightSidebar() {
                     </div>
                 </div>
                 <Divider />
-                <div className='AddScheduleBtn'><PlusOutlined />&nbsp;&nbsp;Add schedule</div>
+                <div className='AddScheduleBtn'>Go to schedule plan page</div>
                 <Divider />
                 <div className='RecommandForUser'>
                     <div className='RecommandForUser-title'>Recommand for you</div>
