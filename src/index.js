@@ -5,7 +5,8 @@ import App from './App';
 import { persistor, store } from './redux/store';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-
+import axios from 'axios'
+axios.defaults.withCredentials = true
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

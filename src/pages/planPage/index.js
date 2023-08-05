@@ -8,14 +8,15 @@ import dayjs from 'dayjs';
 import './index.less'
 import muscle from '../../Pic/muscle.jpeg'
 import pushup from '../../Pic/pushup.jpeg'
+const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function PlanPage() {
     let { theme } = useParams()
     const lightPlanPageClassname = theme === 'light' ? 'planPage-light' : ''
-    const [today, setToday] = useState(dayjs('2023-05-21'));
+    const [today, setToday] = useState();
     useEffect(() => {
-        console.log(today);
-    }, [today])
+        setToday(new Date())
+    }, [])
     const lightEvaluateClassname = theme === 'light' ? 'Evaluate-light' : ''
     const lightPromotionPlanClassname = theme === 'light' ? 'promotionDay-light' : ""
     const lightRecommandForUserItemClassname = theme === 'light' ? 'RecommandForUser-Item-light' : ""
@@ -23,7 +24,7 @@ export default function PlanPage() {
         <div className={`planPage ${lightPlanPageClassname}`}>
             <div className='rightSidebar-date'>
                 <div className='rightSidebar-today'>
-                    <span><h2>12 July 2023</h2></span>
+                    <span><h2>{today && new Date(today).toLocaleDateString('en', options)}</h2></span>
                 </div>
                 <div className='planpage-calendar'>
                     <DateCalendar value={today} onChange={(newValue) => setToday(newValue)} />
@@ -87,11 +88,11 @@ export default function PlanPage() {
                         </div>
                         <div className={`RecommandForUser-Item ${lightRecommandForUserItemClassname}`}>
                             <div className='RecommandForUser-Item-img'>
-                                <img src={pushup} style={{ width: "100%" }} />
+                                <img src={pushup} className='img' />
                             </div>
                             <div className='RecommandForUser-Item-desc'>
                                 <div className='RecommandForUser-Item-title'><h3>Push-up training</h3></div>
-                                <div className='RecommandForUser-Item-content'>Enhance precise force perception <br></br> unlock movement patterns</div>
+                                <div className='RecommandForUser-Item-content'>Enhance precise force perception & unlock movement patterns</div>
                             </div>
                         </div>
                     </div>

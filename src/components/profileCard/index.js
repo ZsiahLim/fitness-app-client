@@ -10,10 +10,10 @@ import './index.less'
 import { auth, storage } from '../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
+import { useDispatch } from 'react-redux'
 import axios from 'axios';
 
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;

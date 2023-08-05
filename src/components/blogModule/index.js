@@ -2,28 +2,29 @@ import React, { useEffect, useState } from 'react'
 import Blog from './components/blog';
 import axios from 'axios';
 import { Button, Empty } from 'antd';
-export default function MyBlog() {
-    const [myBlogs, setMyBlogs] = useState([])
+export default function Blog(props) {
+    
     const [column1, setColumn1] = useState([])
     const [column2, setColumn2] = useState([])
     const [column3, setColumn3] = useState([])
     const [column4, setColumn4] = useState([])
-    const getData = async () => {
-        await axios.get('http://localhost:3001/api/blogs/getmyblog', { withCredentials: true }).then((res) => {
-            setMyBlogs(res.data)
-        })
-    }
     useEffect(() => {
+        const getData = async () => {
+            await axios.get('http://localhost:3001/api/blogs/getmyblog', { withCredentials: true }).then((res) => {
+                setMyBlogs(res.data)
+            })
+        }
         getData()
     }, [])
     useEffect(() => {
+        let forColumn1 = []
+        let forColumn2 = []
+        let forColumn3 = []
+        let forColumn4 = []
         if (myBlogs) {
-            let forColumn1 = []
-            let forColumn2 = []
-            let forColumn3 = []
-            let forColumn4 = []
             myBlogs.map((blog, i) => {
                 let index = i % 4
+                console.log(index);
                 switch (index) {
                     case 0:
                         forColumn1.push(blog)
@@ -67,16 +68,18 @@ export default function MyBlog() {
             }
             <div class="row">
                 <div class="column">
-                    {column1.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
+                    {column1.map((blog) => <Blog blogInfo={blog} />)}
+                </div>
+
+                <div class="column">
+                    {column2.map((blog) => <Blog blogInfo={blog} />)}
+                </div>
+
+                <div class="column">
+                    {column3.map((blog) => <Blog blogInfo={blog} />)}
                 </div>
                 <div class="column">
-                    {column2.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
-                </div>
-                <div class="column">
-                    {column3.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
-                </div>
-                <div class="column">
-                    {column4.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
+                    {column4.map((blog) => <Blog blogInfo={blog} />)}
                 </div>
             </div>
         </div>

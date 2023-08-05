@@ -1,23 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { RightOutlined, ProfileOutlined } from '@ant-design/icons';
 import OneTutorialVideo from './oneTutorialVideo';
 import { useParams } from 'react-router-dom';
-
-export default function TutorialIntro() {
+import { Empty, message } from 'antd';
+import axios from 'axios'
+export default function TutorialIntro({ tutorialVideo }) {
     let { theme } = useParams()
     const lightTutorialIntroClassname = theme === 'light' ? 'TutorialIntro-light' : ''
+    const [tutorialVideos, setTutorialVideos] = useState([])
+    const getData = async () => {
+        await axios.get(`http://localhost:3001/api/tutorialLibraryVideo/${tutorialVideo._id}`).then(res => {
+            setTutorialVideos(res.data)
+        }).catch(err => {
+            console.log(err);
+            message.error('failed to get tutorial, try again please')
+        })
+    }
+    useEffect(() => {
+        getData()
+    }, [])
     return (
         <div className={`TutorialIntro ${lightTutorialIntroClassname}`}>
-            <div className='TutorialIntro-title'><h3>10 mins Intense sweating for abdominal fat loss &nbsp;&nbsp;<RightOutlined /></h3></div>
+            <div className='TutorialIntro-title'><h3>{tutorialVideo.Name} &nbsp;&nbsp;<RightOutlined /></h3></div>
             <div className='TutorialIntro-intro'>
-                <ProfileOutlined /> series | Low-impact, non-jumping, core-focused exercises to shed belly fat without much movement
+                <ProfileOutlined /> {tutorialVideo?.tags} | {tutorialVideo?.brief}
             </div>
             <div className='TutorialVideoContent'>
-                <OneTutorialVideo />
-                <OneTutorialVideo />
-                <OneTutorialVideo />
-                <OneTutorialVideo />
-                <OneTutorialVideo />
+                {tutorialVideos.length !== 0 ? tutorialVideos?.map((video) => <OneTutorialVideo video={video} />) : <Empty />}
             </div>
         </div>
     )
