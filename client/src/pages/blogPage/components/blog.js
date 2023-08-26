@@ -3,11 +3,12 @@ import './blog.less'
 import { Avatar, message, Modal, Tag, Skeleton, List, Input, Form, Tooltip, Popconfirm, Popover } from 'antd'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-
 import { UserOutlined, HeartTwoTone, HeartFilled, StarFilled, StarTwoTone, MessageFilled, LikeFilled, LikeTwoTone, DislikeTwoTone, DislikeFilled, EllipsisOutlined, SettingFilled, WarningFilled, DeleteFilled, ShareAltOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom'
 import { FormattedTime } from '../../../utils/formatTime'
 import noGender from '../../../Pic/noGender.jpg'
+import MyCarousel from './myCarousel'
+
 
 const { TextArea } = Input;
 
@@ -33,6 +34,9 @@ export default function Blog({ blogInfo, getData }) {
         }
     }
     useEffect(() => {
+        console.log("imgurls: ", imgUrl);
+    }, [imgUrl])
+    useEffect(() => {
         getUserData()
     }, [])
     const getBlogComments = async () => {
@@ -51,10 +55,8 @@ export default function Blog({ blogInfo, getData }) {
         })
     }
     const getWholeBlogInfo = async (userReq, comments) => {
-        console.log("userReq", userReq);
         await Promise.all(userReq).then(res => {
             const usersInfo = res.map(oneData => oneData.data)
-            console.log("comments222", comments);
             let newComments = comments.map((comment, i) => {
                 return { ...comment, commentUserInfo: usersInfo[i] }
             })
@@ -64,9 +66,6 @@ export default function Blog({ blogInfo, getData }) {
     useEffect(() => {
         getBlogComments()
     }, [])
-    useEffect(() => {
-        console.log("comments", comments);
-    }, [comments])
     const handleLikeBlog = async (blogID) => {
         if (liked) {
             await axios.put(`http://localhost:3001/api/users/cancerlike/${blogID}`, {}, { withCredentials: true }).then((res) => {
@@ -213,8 +212,21 @@ export default function Blog({ blogInfo, getData }) {
             </div>
             <Modal bodyStyle={{ height: '80vh' }} width={imgUrl.length !== 0 ? "80%" : '50%'} maskStyle={{ 'opacity': 0.9, backgroundColor: '#000' }} footer={null} open={isBlogOpen} onOk={handleOk} onCancel={handleCancel}>
                 <div className={`BlogModal ${lightBlogModalClassname}`} >
+
                     {imgUrl.length !== 0 && <div className='blogImg'>
-                        <img src={imgUrl} style={{ width: "100%", maxWidth: "100%", maxHeight: '100%' }} />
+                        {/* <Carousel fade>
+                            <Carousel.Item>
+                                <img src={imgUrl} style={{ width: "100%", maxWidth: "100%", maxHeight: '100%' }} />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={imgUrl} style={{ width: "100%", maxWidth: "100%", maxHeight: '100%' }} />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={imgUrl} style={{ width: "100%", maxWidth: "100%", maxHeight: '100%' }} />
+                            </Carousel.Item>
+                        </Carousel> */}
+                        <MyCarousel imgArr={imgUrl} />
+                        {/* <img src={imgUrl} style={{ width: "100%", maxWidth: "100%", maxHeight: '100%' }} /> */}
                     </div>}
                     <div className={`blogMainPart ${withoutImgBlogMainPart}`} >
                         <div className='blogInfo'>

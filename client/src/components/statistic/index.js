@@ -30,13 +30,13 @@ export default function Index(props) {
         },
     }
     const { steps, colorie, distance, days } = cardsInfo
-    const cardslight = theme === 'light' ? 'cards-light' : ''
+    const cardslight = theme === 'light' ? 'myCards-light' : ''
     return (
         <div className={`statistic ${statisticDashboardClassname}`}>
-            <div className={`cards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={steps} /></div>
-            <div className={`cards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={colorie} /></div>
-            <div className={`cards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={distance} /></div>
-            <div className={`cards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={days} /></div>
+            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={steps} /></div>
+            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={colorie} /></div>
+            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={distance} /></div>
+            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={days} /></div>
         </div>
     )
 }
