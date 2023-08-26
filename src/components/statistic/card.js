@@ -18,15 +18,15 @@ export default function Card(props) {
     }
     const { title, number, percentage } = cardInfo
     return (
-        <div className='card'>
-            <div className='cardLeft'>
-                <div className='title'>{title}</div>
-                <div className='number'>{number}</div>
-                <div className='percentage'>{percentage} inc</div>
+        <div className='myCard'>
+            <div className='myCardLeft'>
+                <div className='myCardLeft-title'>{title}</div>
+                <div className='myCardLeft-number'>{number}</div>
+                <div className='myCardLeft-percentage'>{percentage} inc</div>
             </div>
-            <div ref={cardRef} className='cardRight'>
+            <div ref={cardRef} className='myCardRight'>
                 <Progress
-                    className='diagram'
+                    className='myCardRight-diagram'
                     type="circle"
                     percent={percentage}
                     strokeWidth={10}

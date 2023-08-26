@@ -1,4 +1,4 @@
-import './index.less';
+
 import { useEffect, useState } from 'react';
 
 import Sidebar from '../../components/sidebar'
@@ -17,6 +17,8 @@ import CompetitionPage from '../competitionPage';
 import BlogPage from '../blogPage';
 import TutorialPage from '../tutorialPage'
 import { Navigate, RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom'
+import './index.less';
+
 
 function Dashboard() {
     const { currentUser } = useSelector((state) => state.user)
@@ -31,7 +33,7 @@ function Dashboard() {
         },
     });
     const lightAppClassname = currenttheme === 'light' ? 'App-light' : ''
-    const lightDashboardClassname = currenttheme === 'light' ? 'dashboard-light' : ''
+    const lightDashboardClassname = currenttheme === 'light' ? 'myDashboard-light' : ''
     const contendBoxRightDashboardClassname = currenttheme === 'light' ? 'contendBox-right-light' : ''
     useEffect(() => {
         !currentUser && navigate('/')
@@ -61,7 +63,7 @@ function Dashboard() {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ThemeProvider theme={currenttheme === 'dark' && darkTheme}>
                     <div className={`App ${lightAppClassname}`}>
-                        <div className={`dashboard ${lightDashboardClassname}`}>
+                        <div className={`myDashboard ${lightDashboardClassname}`}>
                             <Sidebar theme={currenttheme} setPage={setPage} setCurrenttheme={setCurrenttheme} />
                             {/* {page === 'home' && <Main theme={currenttheme} name={currentUserName} />}
                             {page === 'chat' && <ChatPage theme={currenttheme}></ChatPage>}
