@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import './index.less'
 import ProfileCard from '../../components/profileCard'
 import { Segmented, Divider } from 'antd';
-import { useParams } from 'react-router-dom';
 import MyBlog from '../blogPage/myBlog';
+import { useSelector } from 'react-redux';
 
 export default function SettingPage() {
-    let { theme } = useParams();
+    const { currentTheme } = useSelector(state => state.user)
     const [module, setModule] = useState('My medal')
     const getDataByOption = (e) => {
         setModule(e)
     }
-    const lightsettingPageClassname = theme === 'light' ? 'settingPage-light' : ''
+    const lightsettingPageClassname = currentTheme === 'light' ? 'settingPage-light' : ''
     return (
         <div className={`settingPage ${lightsettingPageClassname}`}>
             <ProfileCard />

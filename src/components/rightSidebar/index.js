@@ -4,17 +4,16 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Button, Divider, Modal } from 'antd';
 import dayjs from 'dayjs';
 import './index.less'
-import { useParams } from 'react-router-dom';
-import imgPath from '../../Pic/workoutPlan.jpg'
 import muscle from '../../Pic/muscle.jpeg'
 import pushup from '../../Pic/pushup.jpeg'
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function RightSidebar() {
-    let { theme } = useParams()
-    const navigate = useNavigate();
+    const { currentTheme } = useSelector(state => state.user)
+    const navigateTo = useNavigate();
     const [today, setToday] = useState(dayjs(new Date()));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -29,8 +28,8 @@ export default function RightSidebar() {
     useEffect(() => {
         console.log(today);
     }, [today])
-    const lightEvaluateClassname = theme === 'light' ? 'Evaluate-light' : ''
-    const lightPromotionPlanClassname = theme === 'light' ? 'promotionDay-light' : ""
+    const lightEvaluateClassname = currentTheme === 'light' ? 'Evaluate-light' : ''
+    const lightPromotionPlanClassname = currentTheme === 'light' ? 'promotionDay-light' : ""
     return (
         <div className='RightSidebarBox'>
             <div className='rightSidebar-date'>
@@ -79,7 +78,7 @@ export default function RightSidebar() {
                     </div>
                 </div>
                 <Divider />
-                <div className='AddScheduleBtn'>Go to schedule plan page</div>
+                <div className='AddScheduleBtn' onClick={() => navigateTo('/calender')}>Go to schedule plan page</div>
                 <Divider />
                 <div className='RecommandForUser'>
                     <div className='RecommandForUser-title'>Recommand for you</div>

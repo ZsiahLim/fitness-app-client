@@ -11,7 +11,6 @@ export default function Index(props) {
     const [liked, setLiked] = useState(true)
     const contactsDashboardClassname = theme === 'light' ? 'contacts-light' : ''
     const contactorClassname = theme === 'light' ? 'contactor-light' : ''
-    // const contactsDashboardClassname = theme === 'light' ? 'contacts-light' : ''
 
     return (
         <div className={`contacts ${contactsDashboardClassname}`}>

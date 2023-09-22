@@ -5,7 +5,6 @@ import pngurl2 from '../../Pic/contact.webp'
 import pngurl3 from '../../Pic/tutorial.webp'
 import pngurl4 from '../../Pic/game.webp'
 import pngurl5 from '../../Pic/workoutPlan.jpg'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
@@ -13,6 +12,8 @@ import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 import { auth, provider } from '../../firebase'
 import { signInWithPopup } from 'firebase/auth'
 import { message } from 'antd'
+import { getuser, signin, signinWithGoogle } from '../../api/user.api'
+import { setContacts } from '../../redux/ContactsSlice'
 export default function Login() {
     const [focusedname, setFocusedname] = useState(false)
     const [focusedpassword, setFocusedpassword] = useState(false)
@@ -29,9 +30,10 @@ export default function Login() {
     const activepasswordSup = focusedpasswordSup ? 'active' : ''
     const activeemail = focusedemail ? 'active' : ''
 
-
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const navigateTo = useNavigate()
+
+    // 轮播图效果
     useEffect(() => {
         const timer = window.setInterval(() => {
             setSelectedPic((prev) => {
@@ -42,12 +44,24 @@ export default function Login() {
             clearInterval(timer);
         };
     }, []);
+    const prepareContactsInfo = async (contacts) => {
+        const contactsPromise = contacts.map(contactID => getuser(contactID));
+        let contactUsers = await Promise.all(contactsPromise)
+        let handledContacts = {}
+        contactUsers.map(user => {
+            handledContacts[user._id] = user
+        })
+        dispatch(setContacts(handledContacts))
+    }
     const registerUser = async () => {
         dispatch(loginStart())
-        await axios.post('http://localhost:3001/api/auth/signup', sigUpInfo, { withCredentials: true })
+        await signup(sigUpInfo)
             .then((res) => {
-                dispatch(loginSuccess(res.data))
-                navigate('/dashboard')
+                localStorage.setItem('token', res.token)
+                dispatch(loginSuccess(res.user))
+                const contacts = res.user.contactsUsers
+                prepareContactsInfo(contacts)
+                navigateTo('/')
                 message.success('Register Successfully! Have a nice trip!!!')
             })
             .catch(() => {
@@ -57,10 +71,13 @@ export default function Login() {
     }
 
     const UserSignIn = async () => {
-        await axios.post('http://localhost:3001/api/auth/signin', sigInInfo, { withCredentials: true })
+        await signin(sigInInfo)
             .then((res) => {
-                dispatch(loginSuccess(res.data))
-                navigate('/dashboard')
+                localStorage.setItem('token', res.token)
+                dispatch(loginSuccess(res.user))
+                const contacts = res.user.contactsUsers
+                prepareContactsInfo(contacts)
+                navigateTo('/')
                 message.success('Login Successfully! Welcome Back!!!')
             })
             .catch(() => {
@@ -71,17 +88,16 @@ export default function Login() {
     const SignInWithGoogle = async () => {
         dispatch(loginStart())
         signInWithPopup(auth, provider)
-            .then((res) => {
-                console.log(res);
-                axios.post('http://localhost:3001/api/auth/google', {
-                    name: res.user.displayName,
-                    email: res.user.email,
-                    avator: res.user.photoURL,
-                }, { withCredentials: true }).then((res) => {
-                    dispatch(loginSuccess(res.data))
-                    navigate('/dashboard')
-                    message.success('Login Successfully! Welcome Back!!!')
-                })
+            .then(async (res) => {
+                await signinWithGoogle({ name: res.user.displayName, email: res.user.email, avator: res.user.photoURL })
+                    .then((res) => {
+                        localStorage.setItem('token', res.token)
+                        dispatch(loginSuccess(res.user))
+                        const contacts = res.user.contactsUsers
+                        prepareContactsInfo(contacts)
+                        navigateTo('/')
+                        message.success('Login Successfully! Welcome Back!!!')
+                    })
             })
             .catch(() => {
                 dispatch(loginFailure())

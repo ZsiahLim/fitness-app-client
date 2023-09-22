@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import Blog from './components/blog';
-import axios from 'axios';
-import { Button, Empty } from 'antd';
+import BlogBrief from './components/blogBrief';
+import { Button, Empty, Modal } from 'antd';
+import { getmyblog } from '../../api/user.api';
+import { useLoaderData } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { LeftOutlined, UploadOutlined } from '@ant-design/icons';
+import PostBlog from './components/postBlog';
 export default function MyBlog() {
-    const [myBlogs, setMyBlogs] = useState([])
+    const { currentTheme } = useSelector(state => state.user)
+    const [myBlogs, setMyBlogs] = useState(useLoaderData())
     const [column1, setColumn1] = useState([])
     const [column2, setColumn2] = useState([])
     const [column3, setColumn3] = useState([])
     const [column4, setColumn4] = useState([])
     const getData = async () => {
-        await axios.get('http://localhost:3001/api/blogs/getmyblog', { withCredentials: true }).then((res) => {
-            setMyBlogs(res.data)
+        await getmyblog().then((myblogs) => {
+            setMyBlogs(myblogs)
         })
     }
-    useEffect(() => {
-        getData()
-    }, [])
     useEffect(() => {
         if (myBlogs) {
             let forColumn1 = []
@@ -47,38 +49,35 @@ export default function MyBlog() {
             })
         }
     }, [myBlogs])
+    const myblogHeaderClassname = currentTheme === 'light' ? 'myblog-header-light' : ''
+    const [uploadBlogOpen, setUploadBlogOpen] = useState(false)
     return (
-        <div className='blog-content'>
-            {
-                (column1.length === 0 && column2.length === 0 && column3.length === 0 && column4.length === 0) &&
-                <div className='empty'>
-                    <Empty
-                        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                        imageStyle={{ height: 120 }}
-                        description={
-                            <span>
-                                No blogs right now
-                            </span>
-                        }
-                    >
-                        <Button type="primary">Create Now</Button>
-                    </Empty>
-                </div>
-            }
-            <div class="row">
-                <div class="column">
-                    {column1.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
-                </div>
-                <div class="column">
-                    {column2.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
-                </div>
-                <div class="column">
-                    {column3.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
-                </div>
-                <div class="column">
-                    {column4.map((blog) => <Blog getData={getData} key={blog._id} blogInfo={blog} />)}
+        <>
+            <div className={`myblog-header ${myblogHeaderClassname}`}>
+                <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> Back</div>
+                <div className='postBlogBtn' onClick={() => setUploadBlogOpen(true)}><UploadOutlined style={{ marginRight: 10 }} />Post blog</div>
+            </div>
+            <div className='blog-content'>
+                {(column1.length === 0 && column2.length === 0 && column3.length === 0 && column4.length === 0) &&
+                    <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>No blogs right now</span>}><Button type="primary">Create Now</Button></Empty></div>}
+                <div class="row">
+                    <div class="column">
+                        {column1.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                    </div>
+                    <div class="column">
+                        {column2.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                    </div>
+                    <div class="column">
+                        {column3.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                    </div>
+                    <div class="column">
+                        {column4.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                    </div>
                 </div>
             </div>
-        </div>
+            <Modal open={uploadBlogOpen} footer={null} onCancel={() => setUploadBlogOpen(false)}>
+                <PostBlog updateData={getData} setUploadBlogOpen={setUploadBlogOpen} />
+            </Modal>
+        </>
     )
 }

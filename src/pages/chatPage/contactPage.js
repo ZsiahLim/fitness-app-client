@@ -1,32 +1,23 @@
 import React from 'react'
 import { Avatar, Button, List, Skeleton, message, Modal, Select, Input, Popconfirm, Drawer, Segmented, Divider, Form } from 'antd';
-import { UserOutlined, HeartTwoTone, MessageFilled, HeartFilled } from '@ant-design/icons';
+import { UserOutlined, MessageFilled } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 import axios from 'axios';
 import { UserAddOutlined } from '@ant-design/icons'
-import { useParams } from 'react-router-dom';
-import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
+import { loginStart, loginSuccess } from '../../redux/userSlice'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from "react-router-dom";
-
+import { addcontact, createconversation, createreport, getuser, removecontact } from '../../api/user.api';
+import { useLoaderData } from 'react-router-dom';
 const { TextArea } = Input;
-axios.defaults.withCredentials = true
 
-const DescriptionItem = ({ title, content }) => (
-    <div className="site-description-item-profile-wrapper">
-        <p className="site-description-item-profile-p-label">{title}:</p>
-        {content}
-    </div>
-);
-const DataUrl = `http://localhost:3001/api/users/`;
 export default function ContactPage({ setSelectPage }) {
-    const { currentUser } = useSelector((state) => state.user)
-    const { theme } = useParams()
+    const { currentUser, currentTheme } = useSelector((state) => state.user)
+    // const contacts = useLoaderData()
     const dispatch = useDispatch()
     const contactsId = currentUser.contactsUsers
-    const [contacts, setContacts] = useState([])
-    const lightcontactsPageClassname = theme === 'light' ? "contactsPage-light" : ''
+    const [contacts, setContacts] = useState(useLoaderData())
+    const lightcontactsPageClassname = currentTheme === 'light' ? "contactsPage-light" : ''
     const [isaddContactModalOpen, setIsaddContactOpen] = useState(false);
     const [addMethod, setAddMethod] = useState('email');
     const [addInfo, setAddInfo] = useState('');
@@ -35,14 +26,10 @@ export default function ContactPage({ setSelectPage }) {
     };
     const confirmDelete = async (user) => {
         dispatch(loginStart())
-        const res = await axios.put(`http://localhost:3001/api/users/remove/${user._id}`)
-        if (res.status === 200) {
-            message.success('this contact has been already deleted')
-            dispatch(loginSuccess(res.data))
-            setContacts(contacts.filter((e) => e._id !== user._id))
-        } else {
-            message.error('error')
-        }
+        const updatedUser = await removecontact(user._id)
+        message.success('this contact has been already deleted')
+        dispatch(loginSuccess(updatedUser))
+        setContacts(contacts.filter((e) => e._id !== user._id))
     };
     const handleOk = async () => {
         let reqBody
@@ -59,17 +46,12 @@ export default function ContactPage({ setSelectPage }) {
             default:
                 break;
         }
-        console.log('shizhe');
         try {
             dispatch(loginStart())
-            const res = await axios.put(`http://localhost:3001/api/users/add/${currentUser._id}`, { ...reqBody }, { withCredentials: true })
-            if (res.status === 200) {
-                message.success('Add contact successfully!')
-                setIsaddContactOpen(false)
-                dispatch(loginSuccess(res.data))
-            } else {
-                message.error(res.statusText)
-            }
+            const updatedUser = await addcontact(currentUser._id, reqBody)
+            message.success('Add contact successfully!')
+            setIsaddContactOpen(false)
+            dispatch(loginSuccess(updatedUser))
         } catch (error) {
             message.error('can not add the contact')
             console.log(error);
@@ -78,41 +60,14 @@ export default function ContactPage({ setSelectPage }) {
     const handleCancel = () => {
         setIsaddContactOpen(false);
     };
-    useEffect(() => {
-        const getContactByID = async (userID) => {
-            return await axios.get(`http://localhost:3001/api/users/find/${userID}`, { withCredentials: true }).then(res => {
-                console.log('daozhelileA', res.data);
-                return res.data
-            }).catch(err => {
-                console.log(err);
-                message.error('failed to get your contact')
-            })
-        }
-        const requests = contactsId.map(userId => getContactByID(userId));
-        const getWholeContacts = async () => {
-            return await Promise.all(requests)
-                .then(userData => {
-                    // userData是一个包含每个用户对象的数组
-                    // 在这里可以对userData进行处理或使用
-                    setContacts(userData)
-                })
-                .catch(error => {
-                    console.error('Error fetching user data:', error);
-                });
-        }
-        getWholeContacts()
-    }, [])
     const handleMessage = async (contactID) => {
-        await axios.post('http://localhost:3001/api/conversations', {
-            receiverId: contactID
-        }, { withCredentials: true }).then(res => {
-            if (res.status === 200) {
-                setSelectPage('chat')
-                message.success('create conversation successfully')
-            } else {
-                message.error('failed to create conversation')
-            }
-        })
+        try {
+            const res = await createconversation({ receiverId: contactID })
+            setSelectPage('chat')
+            message.success('create conversation successfully')
+        } catch (error) {
+            message.error('failed to create conversation')
+        }
     }
     const handleOptionsChange = (value) => {
         setAddMethod(value)
@@ -133,7 +88,7 @@ export default function ContactPage({ setSelectPage }) {
         setIsReportModalOpen(false)
     }
     const handleSubmitReport = async () => {
-        reportReason ? await axios.post('http://localhost:3001/api/users/report', { type: 'user', targetID: reportUserID, reason: reportReason }, { withCredentials: true }).then((res) => {
+        reportReason ? await createreport({ type: 'user', targetID: reportUserID, content: reportReason }).then(() => {
             message.success('We received your report, we will inform you the results later')
             setIsReportModalOpen(false)
         }).catch(err => {

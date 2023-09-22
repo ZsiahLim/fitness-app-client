@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { RightOutlined, ProfileOutlined } from '@ant-design/icons';
 import OneTutorialVideo from './oneTutorialVideo';
-import { useParams } from 'react-router-dom';
 import { Empty, message } from 'antd';
 import axios from 'axios'
+import { useSelector } from 'react-redux';
+import { getalltutorial } from '../../api/user.api';
 export default function TutorialIntro({ tutorialVideo }) {
-    let { theme } = useParams()
-    const lightTutorialIntroClassname = theme === 'light' ? 'TutorialIntro-light' : ''
+    const { currentTheme } = useSelector(state => state.user)
+    const lightTutorialIntroClassname = currentTheme === 'light' ? 'TutorialIntro-light' : ''
     const [tutorialVideos, setTutorialVideos] = useState([])
     const getData = async () => {
-        await axios.get(`http://localhost:3001/api/tutorialLibraryVideo/${tutorialVideo._id}`).then(res => {
-            setTutorialVideos(res.data)
+        await getalltutorial().then(res => {
+            setTutorialVideos(res)
         }).catch(err => {
-            console.log(err);
+            // console.log(err);
             message.error('failed to get tutorial, try again please')
         })
     }

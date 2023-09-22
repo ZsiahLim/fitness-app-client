@@ -1,5 +1,4 @@
 import './index.less'
-import { useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { CalendarFilled, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -8,18 +7,19 @@ import dayjs from 'dayjs';
 import './index.less'
 import muscle from '../../Pic/muscle.jpeg'
 import pushup from '../../Pic/pushup.jpeg'
+import { useSelector } from 'react-redux';
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function PlanPage() {
-    let { theme } = useParams()
-    const lightPlanPageClassname = theme === 'light' ? 'planPage-light' : ''
+    const { currentTheme } = useSelector(state => state.user)
+    const lightPlanPageClassname = currentTheme === 'light' ? 'planPage-light' : ''
     const [today, setToday] = useState();
     useEffect(() => {
         setToday(new Date())
     }, [])
-    const lightEvaluateClassname = theme === 'light' ? 'Evaluate-light' : ''
-    const lightPromotionPlanClassname = theme === 'light' ? 'promotionDay-light' : ""
-    const lightRecommandForUserItemClassname = theme === 'light' ? 'RecommandForUser-Item-light' : ""
+    const lightEvaluateClassname = currentTheme === 'light' ? 'Evaluate-light' : ''
+    const lightPromotionPlanClassname = currentTheme === 'light' ? 'promotionDay-light' : ""
+    const lightRecommandForUserItemClassname = currentTheme === 'light' ? 'RecommandForUser-Item-light' : ""
     return (
         <div className={`planPage ${lightPlanPageClassname}`}>
             <div className='rightSidebar-date'>

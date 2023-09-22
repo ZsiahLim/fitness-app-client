@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
-import { useParams } from 'react-router-dom'
 import TutorialItem from './tutorialItem'
 import { Divider, message } from 'antd'
 import TutorialIntro from './tutorialIntro'
-import axios from 'axios'
 import { Empty, Button } from 'antd'
 import yoga from '../../Pic/tutorialIcon/yoga.svg'
 import cycling from '../../Pic/tutorialIcon/cycling.svg'
@@ -14,14 +12,15 @@ import strength from '../../Pic/tutorialIcon/strength.svg'
 import health from '../../Pic/tutorialIcon/health.svg'
 import fat from '../../Pic/tutorialIcon/fat-burning.svg'
 import aerobics from '../../Pic/tutorialIcon/aerobics.svg'
+import { getalltutorial } from '../../api/user.api'
+import { useSelector } from 'react-redux'
 export default function TutorialPage() {
-    let { theme } = useParams()
+    const { currentTheme } = useSelector(state => state.user)
     const [selectedPage, setSelectedPage] = useState()
-    const [tutorialLib, setTutorialLibs] = useState([])
+    const [tutorials, setTutorials] = useState([])
     const getLibs = async (type) => {
-        await axios.get(`http://localhost:3001/api/tutorialLibraries/${type}`).then(res => {
-            console.log(res.data);
-            setTutorialLibs(res.data)
+        await getalltutorial().then(res => {
+            setTutorials(res)
         }).catch(err => {
             console.log(err);
             message.error('failed to get tutorial library, try again please')
@@ -31,7 +30,7 @@ export default function TutorialPage() {
         getLibs('yoga')
     }, [])
 
-    const lightTutorialPageClassname = theme === 'light' ? 'tutorialPage-light' : ''
+    const lightTutorialPageClassname = currentTheme === 'light' ? 'tutorialPage-light' : ''
     return (
         <div className={`tutorialPage ${lightTutorialPageClassname}`}>
             <div className='tutorialItems'>
@@ -74,8 +73,8 @@ export default function TutorialPage() {
                     <h2>{selectedPage ? selectedPage : "Recommand For You"}</h2>
                 </div>
                 <div className='tutorialSeries'>
-                    {tutorialLib.length !== 0 ?
-                        tutorialLib.map((tutorialVideo) => <TutorialIntro key={tutorialVideo._id} tutorialVideo={tutorialVideo} />)
+                    {tutorials.length !== 0 ?
+                        tutorials.map((tutorialVideo) => <TutorialIntro key={tutorialVideo._id} tutorialVideo={tutorialVideo} />)
                         : <Empty
                             image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                             imageStyle={{ height: 60 }}

@@ -4,8 +4,8 @@ import {
 } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from 'react-redux'
-import axios from 'axios';
 import { FormatTimestamp } from '../../../utils/chatMessageFormat';
+import { getuser } from '../../../api/user.api';
 
 
 
@@ -13,14 +13,16 @@ export default function Message(props) {
     const { owner, text, sender, createdAt } = props
     const ownerClassname = owner === true ? 'owner' : ''
     const { currentUser } = useSelector((state) => state.user)
+    const contactRepo = useSelector(state => state.contact)
     const [contactImg, setContactImg] = useState()
     useEffect(() => {
-        const getContactImg = async () => {
-            const res = await axios.get(`http://localhost:3001/api/users/find/${sender}`, { withCredentials: true })
-            setContactImg(res.data.avator)
+        console.log('contacts', contactRepo.contacts);
+        const user = contactRepo.contacts[sender]
+        console.log('user', user);
+        console.log(sender);
+        if (!owner) {
+            setContactImg(user?.avatar)
         }
-        !owner && getContactImg()
-        console.log();
     }, [])
     return (
         <>

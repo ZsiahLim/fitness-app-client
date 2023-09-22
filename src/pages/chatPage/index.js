@@ -1,26 +1,29 @@
 import './index.less';
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import Sidebar from './Components/sidebar';
-import ChatBox from './chatBox';
-import { useParams } from 'react-router-dom';
-import ContactPage from './contactPage';
-import FavoritesPage from './favoritesPage';
+import { useSelector } from 'react-redux';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 function ChatPage() {
-    let { theme } = useParams()
+    const { currentTheme } = useSelector((state) => state.user)
     const [selectPage, setSelectPage] = useState('chat');
-    const [today, setToday] = useState(dayjs('2023-05-21'));
-    const chatChatBoxClassname = theme === 'light' ? 'chat-chatBox-light' : ''
+    const chatChatBoxClassname = currentTheme === 'light' ? 'chat-chatBox-light' : ''
+    // const { pathname } = useLocation()
+    // const navigateTo = useNavigate()
+    // useEffect(() => {
+    //     console.log("pathname", pathname);
+    //     pathname === '/chat' && navigateTo('conversations')
+    // }, [pathname])
     return (
         <div className='chat-contentBox'>
             <div className='chat-sidebar'>
-                <Sidebar theme={theme} changeSelectPage={setSelectPage} />
+                <Sidebar changeSelectPage={setSelectPage} />
             </div>
             <div className={`chat-chatBox ${chatChatBoxClassname}`}>
-                {selectPage === 'chat' && <ChatBox />}
+                <Outlet />
+                {/* {selectPage === 'chat' && <ChatBox />}
                 {selectPage === 'contact' && <ContactPage setSelectPage={setSelectPage} />}
-                {selectPage === 'favorites' && <FavoritesPage />}
+                {selectPage === 'favorites' && <FavoritesPage />} */}
             </div>
         </div>
     );

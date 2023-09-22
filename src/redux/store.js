@@ -1,17 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import UserReducer from './userSlice'
-import BlogReducer from './BlogSlice'
+import ContactReducer from './ContactsSlice'
 import ConversationReducer from './ConversationSlice'
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist'
+import BlogReducer from './BlogSlice'
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 
@@ -23,8 +15,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     user: UserReducer,
-    blog: BlogReducer,
-    conversation: ConversationReducer
+    contact: ContactReducer,
+    conversation: ConversationReducer,
+    blog: BlogReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({

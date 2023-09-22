@@ -1,67 +1,60 @@
 import React, { useState, useRef, useEffect } from 'react'
-import {
-    VideoCameraTwoTone,
-    HomeTwoTone,
-    MessageTwoTone,
-    CalendarTwoTone,
-    SettingTwoTone,
-    IdcardTwoTone,
-    FlagTwoTone,
-    SoundTwoTone
-} from '@ant-design/icons';
+import { VideoCameraTwoTone, HomeTwoTone, MessageTwoTone, CalendarTwoTone, IdcardTwoTone, FlagTwoTone, SoundTwoTone, UserOutlined } from '@ant-design/icons';
 import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
-import WORDS from '../../constant/words'
 import Emoji from 'react-emojis';
 import './index.less'
 import { useSelector } from 'react-redux'
-import { logout } from '../../redux/userSlice';
+import { logout, setTheme } from '../../redux/userSlice';
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import noGenderPath from '../../Pic/noGender.jpg'
-import maleAvatorPath from '../../Pic/maleAvator.jpg'
-import femaleAvatorPath from '../../Pic/femaleAvator.jpg'
-import UpdateAvator from '../updateAvator';
-export default function Index(props) {
-    const { currentUser } = useSelector((state) => state.user)
-    const avator = () => {
-        if (currentUser.avator) {
-            return currentUser.avator
-        } else if (currentUser.gender) {
-            return currentUser.gender === 'man' ? maleAvatorPath : femaleAvatorPath
-        } else {
-            return noGenderPath
-        }
-    }
+export default function Index() {
+    const { currentUser, currentTheme } = useSelector((state) => state.user)
     const dispatch = useDispatch()
-    const { theme, setPage, setCurrenttheme } = props
+    const avator = () => currentUser.avator ? currentUser.avator : noGenderPath
     const [clicked, setClicked] = useState(false);
     const [selectPage, setSelectPage] = useState('home');
-    const navRef = useRef(null);
     const [navShrink, setNavShrink] = useState()
-    const navigate = useNavigate()
+    const navigateTo = useNavigate()
     useEffect(() => {
         handleResize()
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [])
-    useEffect(() => {
-        setPage(selectPage)
-    }, [selectPage])
-    const handleResize = () => {
-        if (navRef.current) {
-            setNavShrink(navRef.current.offsetWidth < 90);
-        }
-    }
+    const navRef = useRef(null);
+    const handleResize = () => { navRef.current && setNavShrink(navRef.current.offsetWidth < 90) }
     const handleClickChange = (open) => {
         setClicked(open);
     };
     const Logout = () => {
         dispatch(logout())
         message.success('Logout successfully!');
-        navigate('/')
+        navigateTo('/login')
     }
-    const lightsidebar = theme === 'light' ? 'sidebar-light' : ''
-    const lightnavigation = theme === 'light' ? 'navigation-light' : ''
+    const lightsidebar = currentTheme === 'light' ? 'sidebar-light' : ''
+    const lightnavigation = currentTheme === 'light' ? 'navigation-light' : ''
+    const location = useLocation()
+    const [selecetedNavItem, setSelectedNavItem] = useState(location.pathname.split('/')[1])
+    useEffect(() => {
+        console.log(location.pathname.split('/')[1]);
+        setSelectedNavItem(location.pathname.split('/')[1])
+    }, [location])
+    const navObjs = [
+        { value: 'home', icon: () => <HomeTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'home' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'chat', icon: () => <MessageTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'chat' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'calender', icon: () => <CalendarTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'calender' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'tutorial', icon: () => <VideoCameraTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'tutorial' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'blog', icon: () => <SoundTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'blog' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'competition', icon: () => <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'profile', icon: () => <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'profile' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+    ]
+    const navigationItem = (value, Icon) => {
+        console.log(value);
+        return <div className={`navigation ${lightnavigation}`} ref={navRef} onClick={() => navigateTo(`/${value}`)}>
+            <Icon />
+            {!navShrink && <span className='navigationName navigationItem' style={selectPage === value ? { fontWeight: 500, color: "#4e8df5" } : {}}>{value.charAt(0).toUpperCase() + value.slice(1)}</span>}
+        </div>
+    }
     return (
         <div className={`sidebar ${lightsidebar}`}>
             <div className='content'>
@@ -69,45 +62,18 @@ export default function Index(props) {
                     <div className='logoPic' style={{ marginBottom: 10 }}>
                         <Emoji emoji="sports-medal" size={30}></Emoji>
                     </div>
-                    {WORDS.logoName}
+                    Medal
                 </div>
                 <div className='navigationBar'>
-                    <div className={`navigation ${lightnavigation}`} ref={navRef} onClick={() => setSelectPage('home')}>
-                        <HomeTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'home' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'home' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Home</span>}
-                    </div>
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('chat')}>
-                        <MessageTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'chat' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'chat' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Chat</span>}
-                    </div>
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('calender')}>
-                        <CalendarTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'calender' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'calender' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Plan</span>}
-                    </div>
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('tutorial')}>
-                        <VideoCameraTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'tutorial' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'tutorial' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Tutorial</span>}
-                    </div >
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('blog')}>
-                        <SoundTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'blog' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'blog' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Blog</span>}
-                    </div >
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('competition')}>
-                        <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'competition' ? { fontWeight: 500, color: "#4e8df5" } : {}}>Competition</span>}
-                    </div >
-                    <div className={`navigation ${lightnavigation}`} onClick={() => setSelectPage('profile')}>
-                        <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selectPage === 'profile' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} />
-                        {!navShrink && <span className='navigationName navigationItem' style={selectPage === 'profile' ? { fontWeight: 500, color: "#4e8df5" } : {}}>profile</span>}
-                    </div >
+                    {navObjs.map(nav => navigationItem(nav.value, nav.icon))}
                 </div >
                 <div className='avator'>
                     <Popover
                         content={
                             <div>
                                 Light mode &nbsp;
-                                {theme === 'light' ? <Switch defaultChecked onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>
-                                    : <Switch onChange={(checked) => setCurrenttheme(checked ? 'light' : 'dark')}></Switch>}
+                                {currentTheme === 'light' ? <Switch defaultChecked onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>
+                                    : <Switch onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>}
                                 <br />
                                 <Popconfirm
                                     title="Attention"
@@ -127,7 +93,6 @@ export default function Index(props) {
                         trigger="click"
                         open={clicked}
                         onOpenChange={handleClickChange}
-                        style={{}}
                     >
                         <Avatar
                             src={avator()}
@@ -139,7 +104,7 @@ export default function Index(props) {
                                 xl: 54,
                                 xxl: 70,
                             }}
-                            icon={<img src={avator()}></img>}
+                            icon={<UserOutlined />}
                         />
                     </Popover>
                 </div>

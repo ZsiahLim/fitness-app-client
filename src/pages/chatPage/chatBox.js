@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Message from './Components/message';
-import axios from 'axios';
 import {
     EllipsisOutlined,
 } from '@ant-design/icons';
 import { Button, message, Popover } from 'antd';
 import Conversation from './Components/conversation';
-import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import Header from './Components/header';
 import { io } from 'socket.io-client'
+import { deleteconversation, getconversation, getcurrentconversationmessages, sendmessage } from '../../api/user.api';
 export default function ChatBox() {
     const searchInput = useRef(null)
-    const { currentUser } = useSelector((state) => state.user)
-    const { theme } = useParams()
+    const { currentUser, currentTheme } = useSelector((state) => state.user)
     const scrollerRef = useRef(null)
-    const lightchatContact = theme === 'light' ? 'chat-contact-light' : ''
+    const lightchatContact = currentTheme === 'light' ? 'chat-contact-light' : ''
     const [conversation, setConversation] = useState([])
     const [currentConversation, setCurrentConversation] = useState()
     const [currentConversationMessages, setCurrentConversationMessages] = useState([])
@@ -30,7 +28,6 @@ export default function ChatBox() {
             createdAt: Date.now()
         }
         setArrivalMessage(newMessage)
-        console.log('message reiceived', newMessage);
     }
     useEffect(() => {
         socket.current = io("ws://localhost:3001")
@@ -48,7 +45,7 @@ export default function ChatBox() {
 
     const handleDeleteConversation = async (con) => {
         try {
-            await axios.delete(`http://localhost:3001/api/conversations/${con._id}`)
+            await deleteconversation(con._id)
             message.success('conversation has been deleted')
             setConversation(conversation.filter(e => e._id !== con._id))
         } catch (error) {
@@ -63,17 +60,13 @@ export default function ChatBox() {
                 const receiverId = currentConversation.members.find(member => member !== currentUser._id)
                 console.log('receiverId', receiverId);
                 socket.current.emit('sendMessage', { senderId: currentUser._id, receiverId, text: textSend })
-                await axios.post(`http://localhost:3001/api/messages`, {
-                    conversationId: currentConversation._id,
-                    text: textSend
-                }, { withCredentials: true })
+                await sendmessage({ conversationId: currentConversation._id, text: textSend })
                 if (searchInput.current) searchInput.current.value = ''
                 message.success('send successfully')
                 setTextSend('')
             } else {
                 message.error('cannot send empty message')
             }
-
         } catch (error) {
             message.error('Failed to send your messages')
         }
@@ -84,9 +77,8 @@ export default function ChatBox() {
     useEffect(() => {
         const getConversations = async () => {
             try {
-                const res = await axios.get('http://localhost:3001/api/conversations', { withCredentials: true })
-                setConversation(res.data)
-                console.log('conversations', res.data);
+                const conversations = await getconversation()
+                setConversation(conversations)
             } catch (error) {
                 message.error('Failed to get your conversation')
             }
@@ -97,8 +89,8 @@ export default function ChatBox() {
         if (currentConversation) {
             const getMessages = async () => {
                 try {
-                    const res = await axios.get(`http://localhost:3001/api/messages/${currentConversation._id}`, { withCredentials: true })
-                    setCurrentConversationMessages(res.data)
+                    const res = await getcurrentconversationmessages(currentConversation._id)
+                    setCurrentConversationMessages(res)
                 } catch (error) {
                     message.error('Failed to get your messages')
                 }
@@ -153,7 +145,6 @@ export default function ChatBox() {
                 <div className='chat-sendInput'>
                     {currentConversation && <><input ref={searchInput} type='text' placeholder='Type something...' onKeyDown={(e) => handleEnter(e)} onChange={({ target: { value } }) => setTextSend(value)} />
                         <div className='chat-sendPart'>
-                            {/* <input type="file"></input> */}
                             <Button onClick={sendMessage}>Send</Button>
                         </div></>}
                 </div >

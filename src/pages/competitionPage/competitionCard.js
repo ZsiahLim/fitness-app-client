@@ -1,19 +1,12 @@
 import React, { useState } from 'react'
-import imgPath from '../../Pic/workoutPlan.jpg'
-import imgPath1 from '../../Pic/tutorial.webp'
 import imgPath2 from '../../Pic/game.webp'
 import { Avatar, Button } from 'antd'
 import { useSelector } from 'react-redux'
 
-import { UserOutlined, HeartTwoTone, MessageFilled, HeartFilled } from '@ant-design/icons';
-import { useParams } from 'react-router-dom'
-
 
 export default function CompetitionCard({ competitionInfo }) {
-    let { theme } = useParams()
-    const { currentUser } = useSelector((state) => state.user)
-    const { _id, name, personalStatus, age, preferedTheme, preferedLanguage, gender } = currentUser
-    const lightOneCompetitionClassname = theme === 'light' ? 'oneCompetition-light' : ''
+    const { currentTheme } = useSelector((state) => state.user)
+    const lightOneCompetitionClassname = currentTheme === 'light' ? 'oneCompetition-light' : ''
     return (
         <div className={`oneCompetition  ${lightOneCompetitionClassname}`}>
             <div className='competitionImg'>

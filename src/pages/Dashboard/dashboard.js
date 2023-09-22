@@ -1,34 +1,30 @@
 import './index.less';
-import { useEffect, useState } from 'react';
-
 import SayHello from '../../components/sayHello'
 import Contacts from '../../components/contacts'
 import Statistic from '../../components/statistic'
 import CompetitionCard from '../../components/competitionCard'
-
 import Trend from '../../components/trend'
-import { useParams } from 'react-router-dom';
 import RightSidebar from '../../components/rightSidebar';
+import { useSelector } from 'react-redux';
 
 function Main() {
-    let { theme, name } = useParams()
-    const contendBoxRightDashboardClassname = theme === 'light' ? 'contendBox-right-light' : ''
+    const { currentUser, currentTheme } = useSelector(state => state.user)
+    const contendBoxRightDashboardClassname = currentTheme === 'light' ? 'contendBox-right-light' : ''
     return (
         <div className='contentBox'>
             <div className='contendBox-left'>
-                <SayHello theme={theme} userName={name} />
+                <SayHello theme={currentTheme} userName={currentUser.name} />
                 <div className='contendBox-left-subTop'>
-                    <Contacts theme={theme} />
-                    <Statistic theme={theme} />
+                    <Contacts theme={currentTheme} />
+                    <Statistic theme={currentTheme} />
                 </div>
                 <div className='contendBox-left-subBottom'>
-                    <CompetitionCard theme={theme} />
-                    <Trend theme={theme} />
+                    <CompetitionCard theme={currentTheme} />
+                    <Trend theme={currentTheme} />
                 </div>
             </div>
             <div className={`contendBox-right ${contendBoxRightDashboardClassname}`}>
-                <RightSidebar theme={theme} />
-
+                <RightSidebar theme={currentTheme} />
             </div>
         </div>
     );

@@ -1,34 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    currentUser: null,
-    loading: false,
-    error: false,
+    storedMyBlogs: [],
+    shouldUpdateMine: false,
+    randomBlogs: [],
+    shouldUpdateRandom: false,
 }
 
 export const BlogSlice = createSlice({
     name: 'blog',
     initialState,
     reducers: {
-        loginStart: (state) => {
-            state.loading = true
+        storeMyBlogs: (state, action) => {
+            state.storedMyBlogs = action.payload
+            state.shouldUpdateMine = false
         },
-        loginSuccess: (state, action) => {
-            state.loading = false
-            state.currentUser = action.payload
+        setShouldUpdateMine: (state, action) => {
+            state.shouldUpdateMine = true
         },
-        loginFailure: (state) => {
-            state.loading = false
-            state.error = true
+        storeRandomBlogs: (state, action) => {
+            state.randomBlogs = action.payload
+            state.shouldUpdateRandom = false
         },
-        logout: (state) => {
-            state.loading = false
-            state.currentUser = null
-            state.error = false
-        }
+        setShouldUpdateRandom: (state, action) => {
+            state.shouldUpdateMine = true
+        },
     }
 })
 
-export const { loginStart, loginFailure, loginSuccess, logout } = BlogSlice.actions
+export const { storeMyBlogs, setShouldUpdateMine, storeRandomBlogs, setShouldUpdateRandom } = BlogSlice.actions
 
 export default BlogSlice.reducer

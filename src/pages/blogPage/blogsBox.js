@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Blog from './components/blog';
-import axios from 'axios';
-import { Input, Tooltip, message, Empty } from 'antd'
-import { SearchOutlined, ReloadOutlined } from '@ant-design/icons'
-import { useParams } from 'react-router-dom';
+import Blog from './components/blogBrief';
+import { message } from 'antd'
+import { getrandomblog, searchblog } from '../../api/user.api';
+import { useSelector } from 'react-redux';
+import BlogPageHeader from './components/header';
+import EmptyBlog from './components/empty';
+import { useLoaderData } from 'react-router-dom';
 export default function BlogsBox() {
-    const { theme } = useParams()
+    const { currentTheme } = useSelector(state => state.user)
     const ref = useRef(null)
-    const [blogs, setBlogs] = useState([])
+    const [blogs, setBlogs] = useState(useLoaderData())
     const [column1, setColumn1] = useState([])
     const [column2, setColumn2] = useState([])
     const [column3, setColumn3] = useState([])
@@ -18,20 +20,16 @@ export default function BlogsBox() {
     const [searchedColumn4, setSearchedColumn4] = useState([])
     const [searchText, setSearchText] = useState()
     const [searchedBlogs, setSearchedBlogs] = useState([])
-
-
     const getData = async () => {
-        await axios.get('http://localhost:3001/api/blogs/random', { withCredentials: true }).then((res) => {
-            setBlogs(res.data)
+        await getrandomblog().then((blogs) => {
+            setBlogs(blogs)
         })
     }
     const handleSearchBlog = async () => {
-        console.log('daozhele');
-        console.log(searchText);
         if (searchText) {
-            await axios.get(`http://localhost:3001/api/blogs/search?params=${searchText}`, { withCredentials: true }).then((res) => {
-                setSearchedBlogs(res.data)
-                console.log(res.data);
+            const query = { params: searchText }
+            await searchblog(query).then((blogs) => {
+                setSearchedBlogs(blogs)
             }).catch(err => {
                 console.log(err);
                 message.error('error happens, can not get the blogs')
@@ -107,74 +105,29 @@ export default function BlogsBox() {
         }
     }
     useEffect(() => {
-        getData()
-    }, [])
-    useEffect(() => {
         arrange(blogs)
     }, [blogs])
     useEffect(() => {
-        console.log(searchedBlogs.length);
         arrangeSearch(searchedBlogs)
     }, [searchedBlogs])
-    useEffect(() => {
-        console.log(searchedBlogs.length === 0 || blogs.length === 0);
-    }, [searchedBlogs, blogs])
-    const lightHeaderClassname = theme === 'light' ? 'header-light' : ''
+    const lightHeaderClassname = currentTheme === 'light' ? 'header-light' : ''
     return (
         <>
             <div className={`header ${lightHeaderClassname}`}>
-                <div className='searchBox'>
-                    <SearchOutlined /><Input ref={ref} onChange={({ target: { value } }) => setSearchText(value)} size='large' placeholder="Search the blog here~" onPressEnter={(e) => handleSearchBlog(e.target.value)} allowClear bordered={false} />
-                </div>
-                <div className='refresh' onClick={getData}>
-                    <Tooltip title="refresh">
-                        <ReloadOutlined />
-                    </Tooltip>
-                </div>
+                <BlogPageHeader ref={ref} setSearchText={setSearchText} handleSearchBlog={handleSearchBlog} getData={getData} />
             </div>
             <div className='blog-content'>
-                {searchText && (searchedBlogs.length === 0 || blogs.length === 0) &&
-                    <div style={{ marginTop: "100px" }}>
-                        <Empty
-                            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                            imageStyle={{ height: 180 }}
-                            description={
-                                <span>
-                                    No blog fits
-                                </span>
-                            }
-                        >
-                        </Empty>
-                    </div>
-                }
+                {searchText && (searchedBlogs.length === 0 || blogs.length === 0) && <EmptyBlog />}
                 {!searchText ? <div className="row">
-                    <div className="column">
-                        {column1.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {column2.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
-
-                    <div className="column">
-                        {column3.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {column4.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
+                    <div className="column">{column1.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
+                    <div className="column">{column2.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
+                    <div className="column">{column3.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
+                    <div className="column">{column4.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
                 </div> : <div className="row">
-                    <div className="column">
-                        {searchedColumn1.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {searchedColumn2.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
-
-                    <div className="column">
-                        {searchedColumn3.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {searchedColumn4.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}
-                    </div>
+                    <div className="column">{searchedColumn1.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
+                    <div className="column">{searchedColumn2.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
+                    <div className="column">{searchedColumn3.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
+                    <div className="column">{searchedColumn4.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
                 </div>}
             </div>
         </>

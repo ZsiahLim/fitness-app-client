@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import './index.less'
-import { useParams } from 'react-router-dom'
 import CompetitionCard from './competitionCard'
 import pngurl1 from '../../Pic/monitorProcess.webp'
 import pngurl2 from '../../Pic/contact.webp'
 import pngurl3 from '../../Pic/tutorial.webp'
 import pngurl4 from '../../Pic/game.webp'
 import pngurl5 from '../../Pic/workoutPlan.jpg'
+import { useSelector } from 'react-redux'
 
 export default function CompetitionPage() {
-    let { theme } = useParams()
+    const { currentTheme } = useSelector((state) => state.user)
     const [selectedPic, setSelectedPic] = useState(1)
-    const lightCompetitionPageClassname = theme === 'light' ? 'competitionPage-light' : ''
+    const lightCompetitionPageClassname = currentTheme === 'light' ? 'competitionPage-light' : ''
     return (
         <div className={`competitionPage ${lightCompetitionPageClassname}`}>
             <div className='myCompetition'>
