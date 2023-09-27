@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux'
 import { UserOutlined, HeartTwoTone, HeartFilled } from '@ant-design/icons';
 import { cancellikeblog, getblogcomments, getuser, likeblog } from '../../../api/user.api'
 import BlogDetail from './blogDetail';
+import VideoJS from '../../../components/VideoJS'
 
 export default function BlogBrief({ blogInfo, getData }) {
-    const { userID, title, likesUsers, imgUrl } = blogInfo || {}
+    const { userID, title, likesUsers, imgUrl, blogType, videoUrl } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const { _id } = currentUser
     const [liked, setLiked] = useState(likesUsers.includes(_id))
@@ -52,19 +53,47 @@ export default function BlogBrief({ blogInfo, getData }) {
         setIsBlogOpen(false);
     };
     const [imgLoading, setImgLoading] = useState(true)
-    useEffect(() => {
-        console.log("image loading", imgLoading);
-    }, [imgLoading])
     const lightOneBlogClassname = currentTheme === 'light' ? 'oneBlog-light' : ''
+    const videoJsOptions = {
+        autoplay: false,
+        controls: true,
+        responsive: true,
+        fluid: true,
+        sources: [{
+            src: videoUrl,
+            type: 'video/mp4'
+        }]
+    };
+    const playerRef = React.useRef(null);
+    const handlePlayerReady = (player) => {
+        playerRef.current = player;
+
+        // You can handle player events here, for example:
+        player.on('waiting', () => {
+            // videojs.log('player is waiting');
+        });
+
+        player.on('dispose', () => {
+            // videojs.log('player will dispose');
+        });
+    };
+    useEffect(() => {
+        console.log(blogType === 'video');
+        console.log(blogType);
+        console.log(videoUrl);
+    }, [])
     return (
         <>
             <div className={`oneBlog ${lightOneBlogClassname}`} style={{ width: "100%" }}>
+                {blogType === 'video' && <div className='blogImg' onClick={showModal}>
+                    <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+                </div>}
                 {imgUrl.length !== 0 &&
-                    <Skeleton active loading={false}>
-                        <div className='blogImg' onClick={showModal}>
-                            <img onLoad={() => setImgLoading(false)} src={imgUrl[0]} style={{ width: "100%" }} />
-                        </div>
-                    </Skeleton>
+                    // <Skeleton active loading={false}> //need to be done
+                    <div className='blogImg' onClick={showModal}>
+                        <img onLoad={() => setImgLoading(false)} src={imgUrl[0]} style={{ width: "100%" }} />
+                    </div>
+                    // </Skeleton>
                 }
                 <Skeleton active loading={!user?.avator} >
                     <div className={`blogMainPart`}>
@@ -84,7 +113,7 @@ export default function BlogBrief({ blogInfo, getData }) {
                     </div>
                 </Skeleton>
             </div >
-            <Modal style={{ top: 60 }} bodyStyle={{ height: '80vh' }} width={imgUrl.length !== 0 ? "80%" : '50%'} maskStyle={{ 'opacity': 0.8, backgroundColor: '#000' }} footer={null} open={isBlogOpen} onOk={handleOk} onCancel={handleCloseDetailModal}>
+            <Modal style={{ top: 60 }} bodyStyle={{ height: '80vh' }} width={imgUrl.length !== 0||videoUrl ? "80%" : '50%'} maskStyle={{ 'opacity': 0.8, backgroundColor: '#000' }} footer={null} open={isBlogOpen} onOk={handleOk} onCancel={handleCloseDetailModal}>
                 <BlogDetail blog={blogInfo} getData={getData} handleCloseDetailModal={handleCloseDetailModal} />
             </Modal >
         </>

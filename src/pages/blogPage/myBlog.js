@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BlogBrief from './components/blogBrief';
-import { Button, Empty, Modal } from 'antd';
+import { Button, Empty, Modal, Tabs } from 'antd';
 import { getmyblog } from '../../api/user.api';
 import { useLoaderData } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -51,6 +51,8 @@ export default function MyBlog() {
     }, [myBlogs])
     const myblogHeaderClassname = currentTheme === 'light' ? 'myblog-header-light' : ''
     const [uploadBlogOpen, setUploadBlogOpen] = useState(false)
+    const onChange = (key) => { console.log(key) };
+    const tabItems = [{ key: 'myblogs', label: 'My Blogs' }, { key: 'favoriteBlogs', label: 'My Favorites Blogs' }]
     return (
         <>
             <div className={`myblog-header ${myblogHeaderClassname}`}>
@@ -58,6 +60,9 @@ export default function MyBlog() {
                 <div className='postBlogBtn' onClick={() => setUploadBlogOpen(true)}><UploadOutlined style={{ marginRight: 10 }} />Post blog</div>
             </div>
             <div className='blog-content'>
+                <div className='blog-content-tabs' style={{ padding: '0 10px' }}>
+                    <Tabs defaultActiveKey="1" items={tabItems} onChange={onChange} />
+                </div>
                 {(column1.length === 0 && column2.length === 0 && column3.length === 0 && column4.length === 0) &&
                     <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>No blogs right now</span>}><Button type="primary">Create Now</Button></Empty></div>}
                 <div class="row">

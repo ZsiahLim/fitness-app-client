@@ -7,11 +7,13 @@ import noGender from '../../../Pic/noGender.jpg'
 import MyCarousel from './myCarousel'
 import { addcomment, cancelfavoriteblog, cancellikeblog, createreport, deleteblog, favoriteblog, getblogcomments, getuser, likeblog, likecomment } from '../../../api/user.api'
 import EditBlog from './editBlog';
+import VideoJS from '../../../components/VideoJS';
+import videojs from 'video.js';
 const { TextArea } = Input;
 
 export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     const [blogInfo, setBlogInfo] = useState(blog)
-    const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags } = blogInfo || {}
+    const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const { _id } = currentUser
     const [liked, setLiked] = useState(likesUsers.includes(_id))
@@ -150,17 +152,42 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     }
     const reportCommmentContent = (<div style={{ display: 'flex', userSelect: 'none', cursor: 'pointer', justifyContent: "center", alignItems: 'center', width: 60, height: 36, borderRadius: 10, backgroundColor: currentTheme === 'light' ? "#f0f0f0" : '#383838' }} onClick={() => setIsCommentReportModalOpen(true)}>Report</div>)
     const lightBlogModalClassname = currentTheme === 'light' ? 'BlogModal-light' : ''
-    const withoutImgBlogMainPart = imgUrl.length === 0 ? 'blogMainPart-without' : ''
+    const withoutImgBlogMainPart = imgUrl.length === 0 && !videoUrl ? 'blogMainPart-without' : ''
     const [EditModalOpen, setEditModalOpen] = useState(false)
+    const videoJsOptions = {
+        autoplay: false,
+        fill: true,
+        controls: true,
+        responsive: true,
+        fluid: false,
+        sources: [{
+            src: videoUrl,
+            type: 'video/mp4'
+        }]
+    };
+    const playerRef = React.useRef(null);
+    const handlePlayerReady = (player) => {
+        playerRef.current = player;
+
+        // You can handle player events here, for example:
+        player.on('waiting', () => {
+            videojs.log('player is waiting');
+        });
+
+        player.on('dispose', () => {
+            videojs.log('player will dispose');
+        });
+    };
     return (
         <div className={`BlogModal ${lightBlogModalClassname}`} >
+            {blogType === "video" && <div className='blogImg'><div style={{ width: "100%", height: "100%" }}><VideoJS options={videoJsOptions} onReady={handlePlayerReady} /></div></div>}
             {imgUrl.length !== 0 && <div className='blogImg'><MyCarousel imgArr={imgUrl} /></div>}
             <div className={`blogMainPart ${withoutImgBlogMainPart}`} >
                 <div className='blogInfo'>
                     <div className='blogTitle'><div className='border'></div><h1>{title}</h1></div>
                     <div className='blogDescri'>{content}</div>
                     <div className='tags'>
-                        {tags.map((tag) => <Tag bordered={false} color="processing">
+                        {tags.map((tag, index) => <Tag key={index} bordered={false} color="processing">
                             <span>#{tag}</span>
                         </Tag>)}
                     </div>
