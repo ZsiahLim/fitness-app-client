@@ -1,12 +1,11 @@
 import { Button, Form, Input, Select, message, Upload, Radio } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { storage } from '../../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
 import CardTitle from '../../../components/CardTitle'
-import { postblog, updateblog } from '../../../api/user.api';
-import { useNavigate } from 'react-router-dom';
+import { updateblog } from '../../../api/user.api';
 const { TextArea } = Input;
 
 const normFile = (e) => {

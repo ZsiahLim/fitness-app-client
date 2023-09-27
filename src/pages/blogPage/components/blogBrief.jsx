@@ -3,7 +3,7 @@ import './blogBrief.less'
 import { Avatar, message, Modal, Skeleton } from 'antd'
 import { useSelector } from 'react-redux'
 import { UserOutlined, HeartTwoTone, HeartFilled } from '@ant-design/icons';
-import { cancellikeblog, getblogcomments, getuser, likeblog } from '../../../api/user.api'
+import { cancellikeblog, getuser, likeblog } from '../../../api/user.api'
 import BlogDetail from './blogDetail';
 import VideoJS from '../../../components/VideoJS'
 
@@ -56,7 +56,7 @@ export default function BlogBrief({ blogInfo, getData }) {
     const lightOneBlogClassname = currentTheme === 'light' ? 'oneBlog-light' : ''
     const videoJsOptions = {
         autoplay: false,
-        controls: true,
+        controls: false,
         responsive: true,
         fluid: true,
         sources: [{
@@ -113,7 +113,7 @@ export default function BlogBrief({ blogInfo, getData }) {
                     </div>
                 </Skeleton>
             </div >
-            <Modal style={{ top: 60 }} bodyStyle={{ height: '80vh' }} width={imgUrl.length !== 0||videoUrl ? "80%" : '50%'} maskStyle={{ 'opacity': 0.8, backgroundColor: '#000' }} footer={null} open={isBlogOpen} onOk={handleOk} onCancel={handleCloseDetailModal}>
+            <Modal style={{ top: 60 }} bodyStyle={{ height: '80vh' }} width={imgUrl.length !== 0 || videoUrl ? "80%" : '50%'} maskStyle={{ 'opacity': 0.8, backgroundColor: '#000' }} footer={null} open={isBlogOpen} onOk={handleOk} onCancel={handleCloseDetailModal}>
                 <BlogDetail blog={blogInfo} getData={getData} handleCloseDetailModal={handleCloseDetailModal} />
             </Modal >
         </>

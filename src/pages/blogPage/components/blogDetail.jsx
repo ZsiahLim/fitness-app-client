@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, message, Modal, Tag, Skeleton, List, Input, Form, Tooltip, Popconfirm, Popover } from 'antd'
 import { useSelector } from 'react-redux'
-import { UserOutlined, HeartTwoTone, HeartFilled, StarFilled, StarTwoTone, MessageFilled, LikeFilled, EllipsisOutlined, WarningFilled, DeleteFilled, ShareAltOutlined, EditOutlined, EditFilled } from '@ant-design/icons';
+import { UserOutlined, HeartTwoTone, HeartFilled, StarFilled, StarTwoTone, MessageFilled, LikeFilled, EllipsisOutlined, WarningFilled, DeleteFilled, ShareAltOutlined, EditFilled } from '@ant-design/icons';
 import { FormattedTime } from '../../../utils/formatTime'
 import noGender from '../../../Pic/noGender.jpg'
 import MyCarousel from './myCarousel'
@@ -171,13 +171,23 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
 
         // You can handle player events here, for example:
         player.on('waiting', () => {
-            videojs.log('player is waiting');
+            videojs.log('player is waiting zheli');
         });
 
         player.on('dispose', () => {
-            videojs.log('player will dispose');
+            videojs.log('player will dispose zheli');
+        });
+
+        player.on('pause', () => {
+            videojs.log('player will pause zheli');
         });
     };
+    useEffect(() => {
+        console.log('init');
+        return () => {
+            console.log('destory');
+        }
+    })
     return (
         <div className={`BlogModal ${lightBlogModalClassname}`} >
             {blogType === "video" && <div className='blogImg'><div style={{ width: "100%", height: "100%" }}><VideoJS options={videoJsOptions} onReady={handlePlayerReady} /></div></div>}
