@@ -103,7 +103,6 @@ export default function MyRouter() {
                 {
                     path: "blog",
                     element: <BlogPage />,
-                    // loader: async () => await getrandomblog(),
                     children: [
                         {
                             path: "",

@@ -12,9 +12,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 import { useDispatch } from 'react-redux'
 import axios from 'axios';
-
 import { useSelector } from 'react-redux'
-
+import { updateuserinfo } from '../../api/user.api';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const normFile = (e) => {
@@ -46,9 +45,7 @@ export default function ProfileCard() {
         if (updateAvatar) {
             const file = updateAvatar
             const storageRef = ref(storage, `${currentUser.name}-avatar`);//need to do
-
             const uploadTask = uploadBytesResumable(storageRef, file);
-
             uploadTask.on('state_changed',
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -71,13 +68,11 @@ export default function ProfileCard() {
                     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
                         console.log('File available at', downloadURL);
                         dispatch(loginStart())
-                        await axios.put(`http://localhost:3001/api/users/${currentUser._id}`, {
-                            avator: downloadURL,
-                            ...info
-                        }, { withCredentials: true }).then((res) => {
-                            dispatch(loginSuccess(res.data))
-                            handleEditOk()
-                        })
+                        await updateuserinfo(currentUser._id, { avator: downloadURL, ...info })
+                            .then((updatedUser) => {
+                                dispatch(loginSuccess(updatedUser))
+                                handleEditOk()
+                            })
                     });
                 }
             );
@@ -94,14 +89,13 @@ export default function ProfileCard() {
             submitToFireBase(newObj)
         } else {
             dispatch(loginStart())
-            await axios.put(`http://localhost:3001/api/users/${currentUser._id}`, newObj,
-                { withCredentials: true })
-                .then((res) => {
-                    dispatch(loginSuccess(res.data))
+            await updateuserinfo(currentUser._id, newObj)
+                .then((updatedUser) => {
+                    dispatch(loginSuccess(updatedUser))
                     handleEditOk()
                 })
         }
-    };
+    }
 
     return (
         <div className='profileCard'>
@@ -125,10 +119,11 @@ export default function ProfileCard() {
                 okText="Update"
                 cancelText="Cancel"
                 footer={null}
+                width={600}
             >
                 <Form
                     labelCol={{
-                        span: 4,
+                        span: 6,
                     }}
                     wrapperCol={{
                         span: 14,
@@ -163,8 +158,8 @@ export default function ProfileCard() {
                     </Form.Item>
                     <Form.Item name="preferedLanguage" label="Language">
                         <Select defaultValue={preferedLanguage}>
-                            <Select.Option value="English">English</Select.Option>
-                            <Select.Option value="Chinese">中文</Select.Option>
+                            <Select.Option value="en_US">English</Select.Option>
+                            <Select.Option value="zh_CN">中文</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name="hpNum" label="Phone number">

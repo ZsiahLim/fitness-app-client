@@ -6,7 +6,7 @@ import pngurl3 from '../../Pic/tutorial.webp'
 import pngurl4 from '../../Pic/game.webp'
 import pngurl5 from '../../Pic/workoutPlan.jpg'
 import { useNavigate } from 'react-router-dom'
-
+import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux'
 import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 import { auth, provider } from '../../firebase'
@@ -15,6 +15,7 @@ import { message } from 'antd'
 import { getuser, signin, signinWithGoogle } from '../../api/user.api'
 import { setContacts } from '../../redux/ContactsSlice'
 export default function Login() {
+    const { formatMessage } = useIntl()
     const [focusedname, setFocusedname] = useState(false)
     const [focusedpassword, setFocusedpassword] = useState(false)
     const [focusednameSup, setFocusednameSup] = useState(false)
@@ -29,10 +30,8 @@ export default function Login() {
     const activenameSup = focusednameSup ? 'active' : ''
     const activepasswordSup = focusedpasswordSup ? 'active' : ''
     const activeemail = focusedemail ? 'active' : ''
-
     const dispatch = useDispatch()
     const navigateTo = useNavigate()
-
     // 轮播图效果
     useEffect(() => {
         const timer = window.setInterval(() => {
@@ -118,9 +117,9 @@ export default function Login() {
                                 <h4>Medal - FitnessApp</h4>
                             </div>
                             <div className='heading'>
-                                <h2>Welcome Back</h2>
-                                <h6>Not registered yet?</h6>
-                                <a className='toggle' onClick={() => setSignup(true)}>&nbsp;Sign up</a>
+                                <h2>{formatMessage({ id: 'app.login.welcomeback' })}</h2>
+                                <h6>{formatMessage({ id: 'app.login.notRegisteredYet' })}</h6>
+                                <a className='toggle' onClick={() => setSignup(true)}>&nbsp;{formatMessage({ id: 'app.login.signup' })}</a>
                             </div>
                             <div className='actual-form'>
                                 <div className='input-wrap'>
@@ -139,7 +138,7 @@ export default function Login() {
                                         autoComplete="off"
                                         required
                                     />
-                                    <label>Name</label>
+                                    <label>{formatMessage({ id: 'app.login.name' })}</label>
                                 </div>
                                 <div className='input-wrap'>
                                     <input
@@ -157,12 +156,12 @@ export default function Login() {
                                         autoComplete="off"
                                         required
                                     />
-                                    <label>Password</label>
+                                    <label>{formatMessage({ id: 'app.login.password' })}</label>
                                 </div>
-                                <input type='submit' value="Sign In" className='sign-btn' />
-                                <input onClick={SignInWithGoogle} type='submit' value="Sign In With Google" className='sign-btn' />
+                                <input type='submit' value={formatMessage({ id: 'app.login.signin' })} className='sign-btn' />
+                                <input onClick={SignInWithGoogle} type='submit' value={formatMessage({ id: 'app.login.signinwithgoogle' })} className='sign-btn' />
                                 <p className='text'>
-                                    Forgotten your password or you login details?
+                                    {formatMessage({ id: 'app.login.forgetPassword' })}
                                     <a>Get help</a> signing in
                                 </p>
                             </div>
@@ -176,9 +175,9 @@ export default function Login() {
                                 <h4>FitnessApp</h4>
                             </div>
                             <div className='heading'>
-                                <h2>Get Started</h2>
-                                <h6>Already have an account?</h6>
-                                <a className='toggle' onClick={() => setSignup(false)}>&nbsp;Sign in</a>
+                                <h2>{formatMessage({ id: 'app.login.getStarted' })}</h2>
+                                <h6>{formatMessage({ id: 'app.login.alreadyhaveacc' })}</h6>
+                                <a className='toggle' onClick={() => setSignup(false)}>&nbsp;{formatMessage({ id: 'app.login.signin' })}</a>
                             </div>
                             <div className='actual-form'>
                                 <div className='input-wrap'>
@@ -197,7 +196,7 @@ export default function Login() {
                                         autoComplete="off"
                                         required
                                     />
-                                    <label>Name</label>
+                                    <label>{formatMessage({ id: 'app.login.name' })}</label>
                                 </div>
                                 <div className='input-wrap'>
                                     <input
@@ -215,7 +214,7 @@ export default function Login() {
                                         autoComplete="off"
                                         required
                                     />
-                                    <label>Email</label>
+                                    <label>{formatMessage({ id: 'app.login.email' })}</label>
                                 </div>
                                 <div className='input-wrap'>
                                     <input
@@ -233,12 +232,11 @@ export default function Login() {
                                         onChange={({ target: { value } }) => setSignUpInfo({ ...sigUpInfo, password: value })}
                                         required
                                     />
-                                    <label>Password</label>
+                                    <label>{formatMessage({ id: 'app.login.password' })}</label>
                                 </div>
-                                <input type='submit' value="Sign Up" className='sign-btn' />
+                                <input type='submit' value={formatMessage({ id: 'app.login.signup' })} className='sign-btn' />
                                 <p className='text'>
-                                    By signing up, I agree to the <a>Terms of Services</a>and
-                                    <a style={{ cursor: 'pointer' }}>Privacy policy</a>
+                                    By signing up, I agree to the <a>Terms of Services</a> and <a style={{ cursor: 'pointer' }}>Privacy policy</a>
                                 </p>
                             </div>
                         </form>
@@ -254,11 +252,11 @@ export default function Login() {
                         <div className='text-slider'>
                             <div className='text-wrap'>
                                 <div className='text-group' style={{ transform: `translateY(${-(selectedPic - 1) * 2.2}rem)` }}>
-                                    <h2>Track your workout prograss</h2>
-                                    <h2>Contact with your friends</h2>
-                                    <h2>Watch the rich tutorial library</h2>
-                                    <h2>Gamification features</h2>
-                                    <h2>Personalized Exercise Plan</h2>
+                                    <h2>{formatMessage({ id: 'app.login.propaganda1' })}</h2>
+                                    <h2>{formatMessage({ id: 'app.login.propaganda2' })}</h2>
+                                    <h2>{formatMessage({ id: 'app.login.propaganda3' })}</h2>
+                                    <h2>{formatMessage({ id: 'app.login.propaganda4' })}</h2>
+                                    <h2>{formatMessage({ id: 'app.login.propaganda5' })}</h2>
                                 </div>
                             </div>
                             <div className='bullets'>

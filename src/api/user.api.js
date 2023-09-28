@@ -1,5 +1,6 @@
 import { request } from './request';
-
+//user infomation
+export const updateuserinfo = (userID, data) => request('put', `/users/${userID}`, data);
 // authentication
 export const signin = (data) => request('post', '/auth/signin', data);
 export const signinWithGoogle = (data) => request('post', '/auth/google', data);
@@ -37,8 +38,6 @@ export const deleteblog = (blogID) => request('delete', `/blogs/${blogID}`);
 export const getmyblog = () => request('get', `/blogs/getmyblog`);
 export const postblog = (data) => request('post', '/blogs', data)
 export const updateblog = (blogID, data) => request('put', `/blogs/${blogID}`, data)
-
-
 
 // comments
 export const getblogcomments = (blogID) => request('get', `/comments/${blogID}`);
