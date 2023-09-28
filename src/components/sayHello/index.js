@@ -4,17 +4,17 @@ import './index.less'
 import { Avatar, Badge, Dropdown, List, Popover, Spin, Tabs, Tag } from 'antd';
 import { useSelector } from 'react-redux';
 import { TabPane } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
 
 const items = [{ key: '1', label: (<a target="_blank" rel="noopener noreferrer">System Messages</a>) }, { key: '2', label: (<a target="_blank" rel="noopener noreferrer">My Messages</a>) }];
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 export default function Index() {
     const { currentTheme, currentUser: { name } } = useSelector(state => state.user)
+    const { formatMessage } = useIntl()
     const [visible, setVisible] = useState(false);
     const [noticeList, setNoticeList] = useState([]);
     const [loading, setLoading] = useState(false);
     const { noticeCount } = useSelector(state => state.user);
-    // const { formatMessage } = useLocale();
-
     const noticeListFilter = (type) => {
         return noticeList.filter(notice => notice.type === type);
     };
@@ -39,11 +39,7 @@ export default function Index() {
         <div>
             <Spin tip="Loading..." indicator={antIcon} spinning={loading}>
                 <Tabs defaultActiveKey="1">
-                    <TabPane
-                        // tab={`${formatMessage({id: 'app.notice.messages',})}(${noticeListFilter('notification').length})`}
-                        tab={'系统消息'}
-                        key="1"
-                    >
+                    <TabPane tab={formatMessage({ id: 'systemNotifications' })} key="1"                    >
                         <List
                             dataSource={noticeListFilter('notification')}
                             renderItem={item => (
@@ -57,7 +53,7 @@ export default function Index() {
                             )}
                         />
                     </TabPane>
-                    <TabPane tab={`消息`} key="2">
+                    <TabPane tab={formatMessage({ id: 'messages' })} key="2">
                         <List
                             dataSource={noticeListFilter('message')}
                             renderItem={item => (
@@ -76,7 +72,7 @@ export default function Index() {
                             )}
                         />
                     </TabPane>
-                    <TabPane tab={'任务代办'} key="3">
+                    <TabPane tab={formatMessage({ id: 'todos' })} key="3">
                         <List
                             dataSource={noticeListFilter('event')}
                             renderItem={item => (
@@ -100,8 +96,8 @@ export default function Index() {
     );
     return (
         <div className='sayHello'>
-            <div style={{ fontWeight: 800, fontSize: '30px' }}>Hi, <span className={`Sayhello-username ${SayhelloUsernameClassname}`}>{name}</span> ! </div>
-            <div className={`welcome ${welcomeDashboardClassname}`}>Welcome to the <span style={{ fontWeight: 600 }}>Medal</span></div>
+            <div style={{ fontWeight: 800, fontSize: '30px' }}>{formatMessage({ id: 'hi' })}, <span className={`Sayhello-username ${SayhelloUsernameClassname}`}>{name}</span> ! </div>
+            <div className={`welcome ${welcomeDashboardClassname}`}><h3>{formatMessage({ id: 'sayhello' })} <span style={{ fontWeight: 600 }}>Medal</span>~</h3></div>
             <div className={`notificationBox ${notificationBoxClassname}`}>
                 <Popover
                     content={tabs}

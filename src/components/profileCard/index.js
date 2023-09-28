@@ -1,19 +1,14 @@
-import {
-    Avatar, Button, Modal, Cascader, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Switch, message, Upload,
-} from 'antd'
-
-import {
-    UserOutlined, PlusOutlined, EditOutlined
-} from '@ant-design/icons';
+import { Avatar, Button, Modal, DatePicker, Form, Input, InputNumber, Radio, Select, message, Upload } from 'antd'
+import { UserOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react'
 import './index.less'
-import { auth, storage } from '../../firebase'
+import { storage } from '../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
+import { loginSuccess } from '../../redux/userSlice'
 import { useDispatch } from 'react-redux'
-import axios from 'axios';
 import { useSelector } from 'react-redux'
 import { updateuserinfo } from '../../api/user.api';
+import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const normFile = (e) => {
@@ -25,78 +20,105 @@ const normFile = (e) => {
 
 export default function ProfileCard() {
     const { currentUser } = useSelector((state) => state.user)
-    const { _id, name, personalStatus, age, preferedTheme, preferedLanguage, gender } = currentUser
+    const { _id, name, personalStatus, age, preferedTheme, preferedLanguage, gender, avator, birthday, hpNum } = currentUser
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [updateAvatar, setUpdateAvatar] = useState()
     const dispatch = useDispatch()
-    const showEditModal = () => {
-        setIsEditModalOpen(true);
+    const showEditModal = () => { setIsEditModalOpen(true); };
+    const handleEditOk = () => { setIsEditModalOpen(false); };
+    const handleCancel = () => { setIsEditModalOpen(false); };
+    const [updatedAvator, setUpdatedAvator] = useState([{ uid: 0, name: 'Avator', status: 'done', url: avator, thumbUrl: avator }])
+    const propsImage = {
+        onRemove: (file) => {
+            const index = updatedAvator.indexOf(file);
+            const newFileList = updatedAvator.slice();
+            newFileList.splice(index, 1);
+            setUpdatedAvator(newFileList);
+        },
+        beforeUpload: (file) => {
+            const isImage = file.type?.startsWith('image')
+            if (isImage) {
+                updatedAvator.push({ ...file, name: file.name })
+                setUpdatedAvator(updatedAvator)
+            } else {
+                message.error('u only can upload picture here')
+                return false
+            }
+        },
+        fileList: updatedAvator,
     };
-    const handleEditOk = () => {
-        setIsEditModalOpen(false);
-    };
-    const handleCancel = () => {
-        setIsEditModalOpen(false);
-    };
-    const onAvatarDrop = ({ file }) => {
-        setUpdateAvatar(file)
-    }
-    const submitToFireBase = (info) => {
-        if (updateAvatar) {
-            const file = updateAvatar
-            const storageRef = ref(storage, `${currentUser.name}-avatar`);//need to do
+    const submitImageToFirebase = ({ file }) => {
+        if (file) {
+            const storageRef = ref(storage, `${name}-avator-${parseInt((new Date().getTime() / 1000).toString())}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case 'paused':
-                            console.log('Upload is paused');
-                            break;
-                        case 'running':
-                            console.log('Upload is running');
-                            break;
+            uploadTask.on('state_changed', (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                const handledBlogImgs = updatedAvator.map(item => {
+                    if (item.uid === file.uid) {
+                        return { ...file, status: 'uploading', percent: progress }
                     }
-                },
+                    return item
+                })
+                setUpdatedAvator(handledBlogImgs)
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running', progress);
+                        break;
+                }
+            },
                 (error) => {
-                    console.log(error);
+                    message.err('Some error happens')
+                    updatedAvator.map(item => {
+                        if (item.uid === file.uid) {
+                            return { ...file, status: 'error' }
+                        }
+                        return item
+                    })
+                    setUpdatedAvator(updatedAvator)
                 },
                 () => {
-                    // Handle successful uploads on complete
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        console.log('File available at', downloadURL);
-                        dispatch(loginStart())
-                        await updateuserinfo(currentUser._id, { avator: downloadURL, ...info })
-                            .then((updatedUser) => {
-                                dispatch(loginSuccess(updatedUser))
-                                handleEditOk()
-                            })
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        const handledBlogImgs = updatedAvator.map(item => {
+                            if (item.uid === file.uid) {
+                                return { ...file, status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }
+                            }
+                            return item
+                        })
+                        setUpdatedAvator(handledBlogImgs)
                     });
                 }
             );
         } else {
             message.err('Some error happens')
+            updatedAvator.map(item => {
+                if (item.uid === file.uid) {
+                    return item = { ...file, status: 'error' }
+                }
+                return item
+            })
+            setUpdatedAvator(updatedAvator)
         }
     }
-    const onFinish = async (Info) => {
-        let newObj = Object.keys(Info)
-            .filter((key) => Info[key] != null)
-            .reduce((a, key) => ({ ...a, [key]: Info[key] }), {});
-        console.log(newObj);
-        if (updateAvatar) {
-            submitToFireBase(newObj)
-        } else {
-            dispatch(loginStart())
-            await updateuserinfo(currentUser._id, newObj)
+    const onFinish = async (items) => {
+        let handledItems = { ...items, avator: updatedAvator[0].url }
+        let updateInfo = Object.keys(handledItems)
+            .filter((key) => handledItems[key] != null)
+            .reduce((a, key) => ({ ...a, [key]: handledItems[key] }), {});
+        try {
+            await updateuserinfo(currentUser._id, updateInfo)
                 .then((updatedUser) => {
                     dispatch(loginSuccess(updatedUser))
                     handleEditOk()
+                    message.success('updated successfully')
                 })
+        } catch (error) {
+            console.log(error);
+            message.error('error')
         }
     }
-
+    const onFinishFailed = (errorInfo) => { message.error('Failed:', errorInfo) }
     return (
         <div className='profileCard'>
             <div className='Card-Avatar'>
@@ -111,30 +133,8 @@ export default function ProfileCard() {
                     <Button onClick={showEditModal}><EditOutlined />&nbsp;&nbsp;Edit Profile</Button>
                 </div>
             </div>
-            <Modal
-                title="Update your profile"
-                open={isEditModalOpen}
-                onOk={handleEditOk}
-                onCancel={handleCancel}
-                okText="Update"
-                cancelText="Cancel"
-                footer={null}
-                width={600}
-            >
-                <Form
-                    labelCol={{
-                        span: 6,
-                    }}
-                    wrapperCol={{
-                        span: 14,
-                    }}
-                    layout="horizontal"
-                    style={{
-                        maxWidth: 600,
-                        width: 600,
-                    }}
-                    onFinish={onFinish}
-                >
+            <Modal title="Update your profile" open={isEditModalOpen} onOk={handleEditOk} onCancel={handleCancel} okText="Update" cancelText="Cancel" footer={null} width={600}>
+                <Form labelCol={{ span: 6, }} wrapperCol={{ span: 14, }} layout="horizontal" style={{ width: 600 }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
                     <Form.Item name="gender" label="Gender">
                         <Radio.Group defaultValue={gender}>
                             <Radio value="Male"> Male </Radio>
@@ -163,27 +163,14 @@ export default function ProfileCard() {
                         </Select>
                     </Form.Item>
                     <Form.Item name="hpNum" label="Phone number">
-                        <Input />
+                        <Input defaultValue={hpNum} />
                     </Form.Item>
                     <Form.Item name="birthday" label="Birthday">
-                        <DatePicker />
+                        <DatePicker defaultValue={dayjs(birthday, 'YYYY-MM-DD')} />
                     </Form.Item>
                     <Form.Item label="Avator" valuePropName="fileList" getValueFromEvent={normFile}>
-                        <Upload
-                            customRequest={onAvatarDrop}
-                            listType="picture-circle"
-                            maxCount={1}
-                        >
-                            <div>
-                                <PlusOutlined />
-                                <div
-                                    style={{
-                                        marginTop: 8,
-                                    }}
-                                >
-                                    Upload
-                                </div>
-                            </div>
+                        <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={9} {...propsImage}>
+                            <Button icon={<UploadOutlined />}>upload your avator</Button>
                         </Upload>
                     </Form.Item>
                     <Button style={{ marginLeft: 400 }} type="primary" htmlType="submit">

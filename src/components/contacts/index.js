@@ -3,10 +3,11 @@ import { UserOutlined, HeartTwoTone, MessageFilled, HeartFilled } from '@ant-des
 import { Avatar, Button } from 'antd';
 import './index.less'
 import { useSelector } from 'react-redux'
+import { useIntl } from 'react-intl';
 
-export default function Index(props) {
+export default function Index(props) {//need to update
     const { currentUser } = useSelector((state) => state.user)
-
+    const { formatMessage } = useIntl()
     const { theme } = props
     const [liked, setLiked] = useState(true)
     const contactsDashboardClassname = theme === 'light' ? 'contacts-light' : ''
@@ -15,7 +16,7 @@ export default function Index(props) {
     return (
         <div className={`contacts ${contactsDashboardClassname}`}>
             <div className='header' style={{ marginLeft: 20, fontWeight: 500, fontsize: 30, fontWeight: 700 }}>
-                Contacts
+                {formatMessage({ id: 'contacts' })}
             </div>
             <div className='contactlist' style={{ hight: '90%', width: "100%" }}>
                 <div className={`contactor ${contactorClassname}`}>
@@ -32,7 +33,7 @@ export default function Index(props) {
                         </div>
                     </div>
                     <div className='contactOperationBtn'>
-                        <Button>Message<MessageFilled /></Button>
+                        <Button>{formatMessage({ id: 'sendMessage' })}<MessageFilled /></Button>
                     </div>
                 </div>
             </div>

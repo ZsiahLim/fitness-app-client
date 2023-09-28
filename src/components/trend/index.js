@@ -3,12 +3,15 @@ import ReactEcharts from "echarts-for-react";
 import * as echarts from 'echarts'
 import './index.less'
 import { Segmented } from 'antd';
+import { useSelector } from 'react-redux';
+import { useIntl } from 'react-intl';
 
-export default function Index(props) {
-    const { theme } = props
-    const trendDashboardClassname = theme === 'light' ? 'trend-light' : ''
-    const trendTitleClassname = theme === 'light' ? 'cardTitle-light' : ''
-    const getColorBoundary = theme === 'dark' ? '#1d1d1d' : '#ffffff'
+export default function Index() {
+    const { currentTheme } = useSelector(state => state.user)
+    const trendDashboardClassname = currentTheme === 'light' ? 'trend-light' : ''
+    const trendTitleClassname = currentTheme === 'light' ? 'cardTitle-light' : ''
+    const getColorBoundary = currentTheme === 'dark' ? '#1d1d1d' : '#ffffff'
+    const { formatMessage } = useIntl()
 
     const getOptionLine = () => {
         return {
@@ -42,11 +45,11 @@ export default function Index(props) {
     }
     return (
         <div className={`trend ${trendDashboardClassname}`}>
-            <div className={`cardTitle ${trendTitleClassname}`}>Work trend</div>
+            <div className={`cardTitle ${trendTitleClassname}`}>{formatMessage({ id: 'worktrend' })}</div>
             <div className='Trend-Options'>
-                <Segmented options={['Weekly', 'Monthly', 'Yearly']} />
+                <Segmented defaultValue={formatMessage({ id: 'Weekly' })} options={[formatMessage({ id: 'Weekly' }), formatMessage({ id: 'Monthly' }), formatMessage({ id: 'Yearly' })]} />
             </div>
-            <ReactEcharts option={getOptionLine()} theme={theme} />
+            <ReactEcharts option={getOptionLine()} theme={currentTheme} />
         </div>
     )
 }

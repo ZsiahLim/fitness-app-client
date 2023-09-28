@@ -52,125 +52,123 @@
         width: calc(100% - 360px);
         padding: 20px;
 
-        .rightSidebar-Schedule {
 
-            .NoSchedueBox {
+        .NoSchedueBox {
 
-                .NoSchedule {
-                    font-size: 18px;
-                    font-weight: 500;
-                    width: 100%;
-                    display: flex;
+            .NoSchedule {
+                font-size: 18px;
+                font-weight: 500;
+                width: 100%;
+                display: flex;
 
-                    .border {
-                        width: 10px;
-                        height: 10;
-                        border-radius: 4px;
-                        background-color: @darkUsernameColor;
-                        margin-right: 6px;
-                    }
-
-                    .border-light {
-                        background-color: @lightUsernameColor;
-                    }
-
-                    .programName {
-                        &:hover {
-                            color: #4790ff;
-                            cursor: pointer;
-                        }
-                    }
-
+                .border {
+                    width: 10px;
+                    height: 10;
+                    border-radius: 4px;
+                    background-color: @darkUsernameColor;
+                    margin-right: 6px;
                 }
 
-                .schedule-promotion {
-                    margin-top: 10px;
-                    font-size: 14px;
-                    max-width: 400px;
-                    color: @darkTextColorforcomment;
+                .border-light {
+                    background-color: @lightUsernameColor;
                 }
 
-                .promotionPlan {
-                    margin-top: 10px;
-                    display: flex;
-                    justify-content: space-around;
-
-                    .promotionDay {
-                        padding: 6px;
-                        width: 24%;
-                        background: linear-gradient(to bottom, @darkNavHoverColor, @darkBlockBackgroundColor);
-                        color: #fff;
-                        opacity: 0.6;
-                        border-radius: 4px;
-                        overflow: hidden;
-
-                        .promotionDay-Title {
-                            font-weight: 500;
-                            font-size: 16px;
-                        }
-
-                        .promotionDay-content {
-                            font-size: 14px;
-                        }
-
-                    }
-
-                    .promotionDay-light {
-                        background: linear-gradient(to bottom, @lightDashboardBackgroundColor, @lightBlockBackgroundColor);
-                        color: @lightTextColor;
-                    }
-                }
-
-                .Evaluate {
-                    font-size: 12px;
-                    display: flex;
-                    align-items: center;
-                    padding: 10px;
-                    border-radius: 10px;
-                    cursor: pointer;
-
+                .programName {
                     &:hover {
-                        background-color: @darkNavHoverColor;
-                    }
-
-                    .personalizedWords {
-                        padding-right: 10px;
-                    }
-
-                    .personalizedBtn {
-                        width: 23px;
-                        height: 23px;
-                        border-radius: 6px;
-                        background-color: @darkNavHoverColor;
-                        display: flex;
-                        justify-content: center;
+                        color: #4790ff;
+                        cursor: pointer;
                     }
                 }
 
-                .Evaluate-light {
-                    &:hover {
-                        background-color: @lightNavHoverColor;
+            }
+
+            .schedule-promotion {
+                margin-top: 10px;
+                font-size: 14px;
+                max-width: 400px;
+                color: @darkTextColorforcomment;
+            }
+
+            .promotionPlan {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+
+                .promotionDay {
+                    padding: 6px;
+                    width: 24%;
+                    background: linear-gradient(to bottom, @darkNavHoverColor, @darkBlockBackgroundColor);
+                    color: #fff;
+                    opacity: 0.6;
+                    border-radius: 4px;
+                    overflow: hidden;
+
+                    .promotionDay-Title {
+                        font-weight: 500;
+                        font-size: 16px;
                     }
 
-                    .personalizedBtn {
-                        background-color: @lightNavHoverColor;
+                    .promotionDay-content {
+                        font-size: 14px;
                     }
+
+                }
+
+                .promotionDay-light {
+                    background: linear-gradient(to bottom, @lightDashboardBackgroundColor, @lightBlockBackgroundColor);
+                    color: @lightTextColor;
                 }
             }
 
-            .AddScheduleBtn {
-                cursor: pointer;
-                background-color: #4d90f9;
-                height: 50px;
+            .Evaluate {
+                font-size: 12px;
                 display: flex;
                 align-items: center;
+                padding: 10px;
                 border-radius: 10px;
-                justify-content: center;
-                color: #fff;
+                cursor: pointer;
 
                 &:hover {
-                    background-color: @lightUsernameColor;
+                    background-color: @darkNavHoverColor;
                 }
+
+                .personalizedWords {
+                    padding-right: 10px;
+                }
+
+                .personalizedBtn {
+                    width: 23px;
+                    height: 23px;
+                    border-radius: 6px;
+                    background-color: @darkNavHoverColor;
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+
+            .Evaluate-light {
+                &:hover {
+                    background-color: @lightNavHoverColor;
+                }
+
+                .personalizedBtn {
+                    background-color: @lightNavHoverColor;
+                }
+            }
+        }
+
+        .AddScheduleBtn {
+            cursor: pointer;
+            background-color: #4d90f9;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            justify-content: center;
+            color: #fff;
+
+            &:hover {
+                background-color: @lightUsernameColor;
             }
         }
 

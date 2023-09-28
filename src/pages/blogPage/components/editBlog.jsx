@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select, message, Upload, Radio } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import { storage } from '../../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
@@ -99,7 +99,6 @@ export default function EditBlog({ selectedBlog, setModalOpen }) {
                     setUploading(false)
                 },
                 () => {
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         const handledBlogImgs = blogImgs.map(item => {
                             if (item.uid === file.uid) {
@@ -148,7 +147,6 @@ export default function EditBlog({ selectedBlog, setModalOpen }) {
                     setUploading(false)
                 },
                 () => {
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setBlogVideo([{ ...file, status: 'done', url: downloadURL, name: file.name }])
                     });
@@ -203,11 +201,6 @@ export default function EditBlog({ selectedBlog, setModalOpen }) {
                     <Form.Item name="title" label="Title" rules={[{ required: true }]}><Input /></Form.Item>
                     <Form.Item name="content" label="Content" rules={[{ required: true }]}><TextArea rows={3} /></Form.Item>
                     <Form.Item name="tags" label="Tags" rules={[{ required: true }]}><Select mode="tags" style={{ width: '100%' }} placeholder="Tags Mode" options={options} /></Form.Item>
-                    {/* <Form.Item label="Picture" valuePropName="fileList" getValueFromEvent={normFile} rules={[{ required: true }]}>
-                        <Upload name="cover" listType="picture" customRequest={submitCoverToFirebase} maxCount={9} {...propsCover}>
-                            <Button icon={<UploadOutlined />}>Click to upload(max: 9)</Button>
-                        </Upload>
-                    </Form.Item> */}
                     <Form.Item name="blogType" label="Type" rules={[{ required: true }]}>
                         <Radio.Group optionType="button" defaultValue={blogType} onChange={({ target: { value } }) => setBlogType(value)}><Radio value="text"> Text </Radio><Radio value="picture"> Picture </Radio><Radio value="video"> Video </Radio></Radio.Group>
                     </Form.Item>

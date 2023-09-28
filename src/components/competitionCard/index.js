@@ -1,6 +1,8 @@
 import React from 'react'
 import { Badge, Avatar, List } from 'antd';
 import './index.less'
+import { useSelector } from 'react-redux';
+import { useIntl } from 'react-intl';
 
 const data = [
     {
@@ -20,12 +22,13 @@ const data = [
     },
 ];
 const colors = ['', 'cyan', 'green']
-export default function Index(props) {
-    const { theme } = props
-    const competitionDashboardClassname = theme === 'light' ? 'competition-light' : ''
+export default function Index() {
+    const { currentTheme } = useSelector(state => state.user)
+    const { formatMessage } = useIntl()
+    const competitionDashboardClassname = currentTheme === 'light' ? 'competition-light' : ''
     return (
         <div className={`competition ${competitionDashboardClassname}`}>
-            <div className='competitionTitle'>Running Competition</div>
+            <div className='competitionTitle'>{formatMessage({ id: 'competition' })}</div>
             <div className='competitionRange'>
                 <List
                     itemLayout="horizontal"

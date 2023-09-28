@@ -18,6 +18,7 @@ import ContactPage from '../pages/chatPage/contactPage'
 import FavoritesPage from '../pages/chatPage/favoritesPage'
 import BlogsBox from '../pages/blogPage/blogsBox'
 import MyBlog from '../pages/blogPage/myBlog'
+import EvaluatePage from '../pages/evaluatePage'
 // const Main = lazy(() => import('../pages/Dashboard/dashboard'))
 // const ChatPage = lazy(() => import('../pages/chatPage'))
 // const PlanPage = lazy(() => import('../pages/planPage'))
@@ -30,9 +31,6 @@ import MyBlog from '../pages/blogPage/myBlog'
 // const FavoritesPage = lazy(() => import('../pages/chatPage/favoritesPage'))
 // const BlogsBox = lazy(() => import('../pages/blogPage/blogsBox'))
 // const MyBlog = lazy(() => import('../pages/blogPage/myBlog'))
-
-
-
 
 export default function MyRouter() {
     const { currentUser } = useSelector((state) => state.user)
@@ -129,7 +127,11 @@ export default function MyRouter() {
                     element: <SettingPage />,
                 },
             ],
-        }
+        },
+        {
+            path: '/evaluate',
+            element: <ProtectedRoute><EvaluatePage /></ProtectedRoute>
+        },
     ])
     return (
         <RouterProvider router={router} />

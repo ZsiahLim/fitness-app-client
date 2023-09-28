@@ -5,7 +5,7 @@ const initialState = {
     loading: false,
     error: false,
     currentTheme: null,
-    userLocale: null
+    userLocale: navigator.language.substring(0, 2) === 'zh' ? "zh_CN" : 'en_US'
 }
 
 export const UserSlicer = createSlice({
@@ -28,7 +28,12 @@ export const UserSlicer = createSlice({
                     state.userLocale = "en_US"
                     break;
                 default:
-                    state.userLocale = navigator.language
+                    const start = navigator.language.substring(0, 2)
+                    if (start === 'zh') {
+                        state.userLocale = "zh_CN"
+                    } else {
+                        state.userLocale = "en_US"
+                    }
                     break;
             }
         },

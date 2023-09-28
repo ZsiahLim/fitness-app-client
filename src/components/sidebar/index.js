@@ -8,8 +8,11 @@ import { logout, setTheme } from '../../redux/userSlice';
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
 import noGenderPath from '../../Pic/noGender.jpg'
+import { useIntl } from 'react-intl';
+
 export default function Index() {
     const { currentUser, currentTheme } = useSelector((state) => state.user)
+    const { formatMessage } = useIntl()
     const dispatch = useDispatch()
     const avator = () => currentUser.avator ? currentUser.avator : noGenderPath
     const [clicked, setClicked] = useState(false);
@@ -58,7 +61,7 @@ export default function Index() {
     return (
         <div className={`sidebar ${lightsidebar}`}>
             <div className='content'>
-                <div className='logo'>
+                <div className='logo' style={{ cursor: 'pointer' }} onClick={() => navigateTo('/')}>
                     <div className='logoPic' style={{ marginBottom: 10 }}>
                         <Emoji emoji="sports-medal" size={30}></Emoji>
                     </div>
@@ -71,7 +74,7 @@ export default function Index() {
                     <Popover
                         content={
                             <div>
-                                Light mode &nbsp;
+                                {formatMessage({ id: 'app.dashboard.lightmode' })} &nbsp;
                                 {currentTheme === 'light' ? <Switch defaultChecked onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>
                                     : <Switch onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>}
                                 <br />
@@ -83,13 +86,13 @@ export default function Index() {
                                     cancelText="No"
                                 >
                                     <Button style={{ marginTop: 5 }} size='small' type="primary" danger>
-                                        Logout
+                                        {formatMessage({ id: 'app.dashboard.logout' })}
                                     </Button>
                                 </Popconfirm>
                             </div>
                         }
                         placement="rightBottom"
-                        title="Quick Setting"
+                        title={formatMessage({ id: 'app.dashboard.quickset' })}
                         trigger="click"
                         open={clicked}
                         onOpenChange={handleClickChange}
