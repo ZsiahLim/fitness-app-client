@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './index.less'
-import ProfileCard from '../../components/profileCard'
+import ProfileCard from './components/profileCard'
 import { Segmented, Divider } from 'antd';
 import MyBlog from '../blogPage/myBlog';
 import { useSelector } from 'react-redux';

@@ -26,7 +26,6 @@ export default function PlanPage() {
             <div className='planpage-schedule'>
                 <NoSchedule />
             </div>
-
         </div>
     )
 }

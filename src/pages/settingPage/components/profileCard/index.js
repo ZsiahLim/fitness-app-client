@@ -2,12 +2,12 @@ import { Avatar, Button, Modal, DatePicker, Form, Input, InputNumber, Radio, Sel
 import { UserOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react'
 import './index.less'
-import { storage } from '../../firebase'
+import { storage } from '../../../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { loginSuccess } from '../../redux/userSlice'
+import { loginSuccess } from '../../../../redux/userSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { updateuserinfo } from '../../api/user.api';
+import { updateuserinfo } from '../../../../api/user.api';
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;

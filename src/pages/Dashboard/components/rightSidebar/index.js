@@ -5,7 +5,7 @@ import { Divider, Modal } from 'antd';
 import dayjs from 'dayjs';
 import './index.less'
 import { useSelector } from 'react-redux';
-import NoSchedule from '../noSchedule';
+import NoSchedule from '../../../../components/noSchedule';
 
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 

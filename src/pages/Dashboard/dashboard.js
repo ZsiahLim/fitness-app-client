@@ -1,10 +1,10 @@
 import './index.less';
-import SayHello from '../../components/sayHello'
-import Contacts from '../../components/contacts'
-import Statistic from '../../components/statistic'
+import SayHello from './components/sayHello'
+import Contacts from './components/contacts'
+import Statistic from './components/statistic'
 import CompetitionCard from '../../components/competitionCard'
-import Trend from '../../components/trend'
-import RightSidebar from '../../components/rightSidebar';
+import Trend from './components/trend'
+import RightSidebar from './components/rightSidebar';
 import { useSelector } from 'react-redux';
 
 function Main() {

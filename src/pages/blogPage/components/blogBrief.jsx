@@ -52,7 +52,6 @@ export default function BlogBrief({ blogInfo, getData }) {
     const handleCloseDetailModal = () => {
         setIsBlogOpen(false);
     };
-    const [imgLoading, setImgLoading] = useState(true)
     const lightOneBlogClassname = currentTheme === 'light' ? 'oneBlog-light' : ''
     const videoJsOptions = {
         autoplay: false,
@@ -77,10 +76,25 @@ export default function BlogBrief({ blogInfo, getData }) {
             // videojs.log('player will dispose');
         });
     };
+    const imgRef = React.useRef(null)
+    const [imgLoading, setImgLoading] = useState(false)
     useEffect(() => {
-        console.log(blogType === 'video');
-        console.log(blogType);
-        console.log(videoUrl);
+        const callback = entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const image = entry.target
+                    image.setAttribute('src', imgUrl[0])
+                    observer.unobserve(image)
+                    console.log('chufale');
+                }
+            })
+        }
+        const observer = new IntersectionObserver(callback)
+        imgRef?.current && observer.observe(imgRef.current)
+        return () => {
+            imgRef?.current && observer.unobserve(imgRef.current)
+            imgRef?.current && console.log('xiezaile');
+        }
     }, [])
     return (
         <>
@@ -89,11 +103,11 @@ export default function BlogBrief({ blogInfo, getData }) {
                     <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
                 </div>}
                 {imgUrl.length !== 0 &&
-                    // <Skeleton active loading={false}> //need to be done
+                    // <Skeleton.Image active loading={false}>
                     <div className='blogImg' onClick={showModal}>
-                        <img onLoad={() => setImgLoading(false)} src={imgUrl[0]} style={{ width: "100%" }} />
+                        <img onLoad={() => { console.log('loaded'); }} ref={imgRef} data-src={imgUrl[0]} style={{ width: "100%" }} />
                     </div>
-                    // </Skeleton>
+                    // </Skeleton.Image>
                 }
                 <Skeleton active loading={!user?.avator} >
                     <div className={`blogMainPart`}>

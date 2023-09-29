@@ -5,6 +5,7 @@ import pushup from '../../Pic/pushup.jpeg'
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import TutorialCardHorizontal from '../tutorialCard/tutorialCardHorizontal';
 
 export default function NoSchedule() {
     const { currentTheme } = useSelector(state => state.user)
@@ -71,24 +72,8 @@ export default function NoSchedule() {
             <div className='RecommandForUser'>
                 <div className='RecommandForUser-title'>{formatMessage({ id: 'recommandForU' })}</div>
                 <div className='RecommandForUser-content'>
-                    <div className='RecommandForUser-Item'>
-                        <div className='RecommandForUser-Item-img'>
-                            <img src={muscle} style={{ width: "100%" }} />
-                        </div>
-                        <div className='RecommandForUser-Item-desc'>
-                            <div className='RecommandForUser-Item-title'>Lose Weight</div>
-                            <div className='RecommandForUser-Item-content'>Reduce beer belly and visceral fat</div>
-                        </div>
-                    </div>
-                    <div className='RecommandForUser-Item'>
-                        <div className='RecommandForUser-Item-img'>
-                            <img src={pushup} style={{ width: "100%" }} />
-                        </div>
-                        <div className='RecommandForUser-Item-desc'>
-                            <div className='RecommandForUser-Item-title'>Push-up training</div>
-                            <div className='RecommandForUser-Item-content'>Enhance precise force perception <br></br> unlock movement patterns</div>
-                        </div>
-                    </div>
+                    <TutorialCardHorizontal tutorial={{ cover: muscle, level: 'k1', colorie: 35, name: 'Lose Weight', duration: 9 }} />
+                    <TutorialCardHorizontal tutorial={{ cover: pushup, level: 'k2', colorie: 25, name: 'Push-up training', duration: 11 }} />
                 </div>
             </div>
         </>

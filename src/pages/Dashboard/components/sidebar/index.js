@@ -4,10 +4,10 @@ import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
 import Emoji from 'react-emojis';
 import './index.less'
 import { useSelector } from 'react-redux'
-import { logout, setTheme } from '../../redux/userSlice';
+import { logout, setTheme } from '../../../../redux/userSlice';
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
-import noGenderPath from '../../Pic/noGender.jpg'
+import noGenderPath from '../../../../Pic/noGender.jpg'
 import { useIntl } from 'react-intl';
 
 export default function Index() {
