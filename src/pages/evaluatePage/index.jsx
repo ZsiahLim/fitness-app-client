@@ -14,7 +14,7 @@ export default function EvaluatePage() {
     return (
         <div className={`App ${lightAppClassname}`}>
             <div className={`myDashboard ${lightDashboardClassname}`}>
-                <div className="header">
+                <div className="evaluatePage-header">
                     <div className="backHomeBtn" onClick={() => navigateTo(-1)}><LeftOutlined />&nbsp;Back</div>
                     <div className="progress">
                         <div className="progressBar"><div className="progressBar-item" style={{ width: `${selectPageNum * 12.5}%` }}></div></div>
