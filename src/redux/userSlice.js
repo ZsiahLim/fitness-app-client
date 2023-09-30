@@ -4,7 +4,7 @@ const initialState = {
     currentUser: null,
     loading: false,
     error: false,
-    currentTheme: null,
+    currentTheme: 'light',
     userLocale: navigator.language.substring(0, 2) === 'zh' ? "zh_CN" : 'en_US'
 }
 

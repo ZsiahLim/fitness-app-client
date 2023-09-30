@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BellFilled, LoadingOutlined } from '@ant-design/icons';
 import './index.less'
-import { Avatar, Badge, Dropdown, List, Popover, Spin, Tabs, Tag } from 'antd';
+import { Avatar, Badge, List, Popover, Spin, Tabs, Tag } from 'antd';
 import { useSelector } from 'react-redux';
 import { TabPane } from 'react-bootstrap';
 import { useIntl } from 'react-intl';

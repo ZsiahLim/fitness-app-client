@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { updateuserinfo } from '../../../../api/user.api';
 import dayjs from 'dayjs';
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const normFile = (e) => {
     if (Array.isArray(e)) {

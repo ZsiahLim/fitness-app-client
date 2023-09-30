@@ -65,17 +65,17 @@ export default function MyBlog() {
                 </div>
                 {(column1.length === 0 && column2.length === 0 && column3.length === 0 && column4.length === 0) &&
                     <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>No blogs right now</span>}><Button type="primary">Create Now</Button></Empty></div>}
-                <div class="row">
-                    <div class="column">
+                <div className="row">
+                    <div className="column">
                         {column1.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
                     </div>
-                    <div class="column">
+                    <div className="column">
                         {column2.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
                     </div>
-                    <div class="column">
+                    <div className="column">
                         {column3.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
                     </div>
-                    <div class="column">
+                    <div className="column">
                         {column4.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
                     </div>
                 </div>

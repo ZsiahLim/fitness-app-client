@@ -19,7 +19,7 @@ export const getuser = (userID) => request('get', `/users/find/${userID}`);
 
 // contacts
 export const removecontact = (contactID) => request('put', `/users/remove/${contactID}`);
-export const addcontact = (contactID, data) => request('put', `/users/add/${contactID}`, data);
+export const addcontact = (data) => request('put', `/users/add`, data);
 
 // conversation
 export const createconversation = (data) => request('post', `/conversations`, data);

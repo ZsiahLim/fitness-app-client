@@ -4,7 +4,7 @@ import Login from '../pages/Login'
 import Dashboard from '../pages/Dashboard'
 import ErrorPage from '../pages/ErrorPage'
 import { getconversation, getmyblog, getrandomblog, getuser } from '../api/user.api'
-import { lazy } from 'react'
+// import { lazy } from 'react'
 
 import Main from '../pages/Dashboard/dashboard'
 import ChatPage from '../pages/chatPage'

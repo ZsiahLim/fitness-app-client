@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { RightOutlined, ProfileOutlined } from '@ant-design/icons';
 import OneTutorialVideo from './oneTutorialVideo';
 import { Empty, message } from 'antd';
-import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { getalltutorial } from '../../api/user.api';
 export default function TutorialIntro({ tutorialVideo }) {
@@ -13,7 +12,6 @@ export default function TutorialIntro({ tutorialVideo }) {
         await getalltutorial().then(res => {
             setTutorialVideos(res)
         }).catch(err => {
-            // console.log(err);
             message.error('failed to get tutorial, try again please')
         })
     }

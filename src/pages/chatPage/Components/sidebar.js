@@ -4,17 +4,16 @@ import { Badge } from 'antd';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Sidebar(props) {
+export default function Sidebar() {
     const { currentTheme } = useSelector(state => state.user)
-    const { changeSelectPage } = props
     const navigateTo = useNavigate()
     const { pathname } = useLocation()
     const [selectPage, setSelectPage] = useState(pathname.split('/')[2]);
     const lightnavigation = currentTheme === 'light' ? 'navigation-light' : ''
-
     useEffect(() => {
         setSelectPage(pathname.split('/')[2])
     }, [pathname])
+
     return (
         <>
             <div className='chat-edit-bar'>

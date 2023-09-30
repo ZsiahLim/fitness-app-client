@@ -1,5 +1,4 @@
 import React from 'react'
-import imgPath2 from '../../Pic/game.webp'
 
 export default function OneTutorialVideo({ video }) {
     return (

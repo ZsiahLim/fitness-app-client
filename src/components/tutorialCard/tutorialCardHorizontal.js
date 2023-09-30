@@ -1,5 +1,4 @@
 import React from 'react'
-import muscle from '../../Pic/muscle.jpeg'
 import './tutorialCardHorizontal.less'
 import { CalendarOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'

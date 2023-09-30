@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-    UserOutlined
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { Avatar, message } from 'antd';
 import axios from 'axios'
 import { formatDateTime } from '../../../utils/chatContactFormat'

@@ -1,19 +1,16 @@
-import React from 'react'
 import { Avatar, Button, List, Skeleton, message, Modal, Select, Input, Popconfirm, Drawer, Segmented, Divider, Form } from 'antd';
 import { UserOutlined, MessageFilled } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux'
-import axios from 'axios';
 import { UserAddOutlined } from '@ant-design/icons'
 import { loginStart, loginSuccess } from '../../redux/userSlice'
 import { useDispatch } from 'react-redux'
-import { addcontact, createconversation, createreport, getuser, removecontact } from '../../api/user.api';
+import { addcontact, createconversation, createreport, removecontact } from '../../api/user.api';
 import { useLoaderData } from 'react-router-dom';
 const { TextArea } = Input;
 
 export default function ContactPage({ setSelectPage }) {
     const { currentUser, currentTheme } = useSelector((state) => state.user)
-    // const contacts = useLoaderData()
     const dispatch = useDispatch()
     const contactsId = currentUser.contactsUsers
     const [contacts, setContacts] = useState(useLoaderData())
@@ -48,7 +45,7 @@ export default function ContactPage({ setSelectPage }) {
         }
         try {
             dispatch(loginStart())
-            const updatedUser = await addcontact(currentUser._id, reqBody)
+            const updatedUser = await addcontact(reqBody)
             message.success('Add contact successfully!')
             setIsaddContactOpen(false)
             dispatch(loginSuccess(updatedUser))

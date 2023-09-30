@@ -5,9 +5,6 @@ import {
 import { Avatar } from 'antd';
 import { useSelector } from 'react-redux'
 import { FormatTimestamp } from '../../../utils/chatMessageFormat';
-import { getuser } from '../../../api/user.api';
-
-
 
 export default function Message(props) {
     const { owner, text, sender, createdAt } = props

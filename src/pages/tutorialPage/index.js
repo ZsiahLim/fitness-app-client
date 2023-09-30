@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './index.less'
 import TutorialItem from './tutorialItem'
 import { Divider, message } from 'antd'
-import TutorialIntro from './tutorialIntro'
 import { Empty, Button } from 'antd'
 import yoga from '../../Pic/tutorialIcon/yoga.svg'
 import cycling from '../../Pic/tutorialIcon/cycling.svg'
-import muscle from '../../Pic/muscle.jpeg'
 import rope from '../../Pic/tutorialIcon/rope-jumping-trans.svg'
 import walk from '../../Pic/tutorialIcon/walk.svg'
 import strength from '../../Pic/tutorialIcon/strength.svg'
@@ -76,7 +74,7 @@ export default function TutorialPage() {
                 </div>
                 <div className='tutorialSeries' style={{ display: 'flex' }}>
                     {tutorials.length !== 0 ?
-                        tutorials.map((tutorialVideo) => <div style={{ width: "23%" }}><TutorialCardVertical tutorial={{ cover: tutorialVideo.cover, level: tutorialVideo.level, colorie: tutorialVideo.colorie, name: tutorialVideo.name, duration: tutorialVideo.duration, brief: tutorialVideo.brief }} /></div>)
+                        tutorials.map((tutorialVideo, index) => <div key={index} style={{ width: "23%" }}><TutorialCardVertical tutorial={{ cover: tutorialVideo.cover, level: tutorialVideo.level, colorie: tutorialVideo.colorie, name: tutorialVideo.name, duration: tutorialVideo.duration, brief: tutorialVideo.brief }} /></div>)
                         : <Empty
                             image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                             imageStyle={{ height: 60 }}

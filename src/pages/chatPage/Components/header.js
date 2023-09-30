@@ -1,33 +1,28 @@
-import React from 'react'
-import axios from 'axios';
-import {
-    SearchOutlined,
-    PlusOutlined,
-} from '@ant-design/icons';
-import { Input, Button, Popover, message } from 'antd';
-import { useSelector, useDispatch } from 'react-redux'
-import { loginFailure, loginStart, loginSuccess } from '../../../redux/userSlice'
+import { SearchOutlined, PlusOutlined, } from '@ant-design/icons'
+import { Input, Button, Popover, message } from 'antd'
+import { useDispatch } from 'react-redux'
+import { loginStart, loginSuccess } from '../../../redux/userSlice'
+import { addcontact } from '../../../api/user.api'
 
 const Content = () => {
-    const { currentUser } = useSelector((state) => state.user)
     const dispatch = useDispatch()
-    const addContacts = async (contactID) => {
+    const add = async (contactID) => {
         try {
             dispatch(loginStart())
-            const res = await axios.put(`http://localhost:3001/api/users/add/${contactID}`, {}, { withCredentials: true })
-            dispatch(loginSuccess(res.data))
+            await addcontact({ method: 'userId', value: contactID }).then(updatedUser => {
+                dispatch(loginSuccess(updatedUser))
+            })
         } catch (error) {
             message.error('add contact failure')
         }
     }
     return (
         <div>
-            User ID <Input onPressEnter={({ target: { value } }) => { addContacts(value); }} placeholder="Search" style={{ width: '200px' }} prefix={<SearchOutlined />} allowClear />
+            User ID <Input onPressEnter={({ target: { contactID } }) => { add(contactID) }} placeholder="Search" style={{ width: '200px' }} prefix={<SearchOutlined />} allowClear />
         </div>
     )
 }
 export default function Header() {
-
     return (
         <>
             <Input placeholder="Search" style={{ width: '200px' }} prefix={<SearchOutlined />} allowClear />

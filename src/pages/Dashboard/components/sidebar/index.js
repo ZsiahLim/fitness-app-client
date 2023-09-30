@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import noGenderPath from '../../../../Pic/noGender.jpg'
 import { useIntl } from 'react-intl';
 
-export default function Index() {
+export default function Sidebar() {
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const { formatMessage } = useIntl()
     const dispatch = useDispatch()
@@ -52,8 +52,7 @@ export default function Index() {
         { value: 'profile', icon: () => <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'profile' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
     ]
     const navigationItem = (value, Icon) => {
-        console.log(value);
-        return <div className={`navigation ${lightnavigation}`} ref={navRef} onClick={() => navigateTo(`/${value}`)}>
+        return <div key={value} className={`navigation ${lightnavigation}`} ref={navRef} onClick={() => navigateTo(`/${value}`)}>
             <Icon />
             {!navShrink && <span className='navigationName navigationItem' style={selectPage === value ? { fontWeight: 500, color: "#4e8df5" } : {}}>{value.charAt(0).toUpperCase() + value.slice(1)}</span>}
         </div>

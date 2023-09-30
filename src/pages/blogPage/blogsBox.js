@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Blog from './components/blogBrief';
 import { message } from 'antd'
 import { getrandomblog, searchblog } from '../../api/user.api';
@@ -8,7 +8,6 @@ import EmptyBlog from './components/empty';
 import { useLoaderData } from 'react-router-dom';
 export default function BlogsBox() {
     const { currentTheme } = useSelector(state => state.user)
-    const ref = useRef(null)
     const [blogs, setBlogs] = useState(useLoaderData())
     const [column1, setColumn1] = useState([])
     const [column2, setColumn2] = useState([])
@@ -114,7 +113,7 @@ export default function BlogsBox() {
     return (
         <>
             <div className={`header ${lightHeaderClassname}`}>
-                <BlogPageHeader ref={ref} setSearchText={setSearchText} handleSearchBlog={handleSearchBlog} getData={getData} />
+                <BlogPageHeader setSearchText={setSearchText} handleSearchBlog={handleSearchBlog} getData={getData} />
             </div>
             <div className='blog-content'>
                 {searchText && (searchedBlogs.length === 0 || blogs.length === 0) && <EmptyBlog />}

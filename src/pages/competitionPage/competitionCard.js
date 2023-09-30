@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
 import imgPath2 from '../../Pic/game.webp'
-import { Avatar, Button } from 'antd'
+import { Button } from 'antd'
 import { useSelector } from 'react-redux'
 
 

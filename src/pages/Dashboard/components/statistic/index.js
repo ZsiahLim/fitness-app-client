@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
 import Card from './card'
-import { Col, Row } from 'antd';
 import './index.less'
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-export default function Index(props) {//need to update
+export default function Index() {//need to update
     const { currentTheme } = useSelector(state => state.user)
     const { formatMessage } = useIntl()
     const statisticDashboardClassname = currentTheme === 'light' ? 'statistic-light' : ''
@@ -35,10 +33,10 @@ export default function Index(props) {//need to update
     const cardslight = currentTheme === 'light' ? 'myCards-light' : ''
     return (
         <div className={`statistic ${statisticDashboardClassname}`}>
-            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={steps} /></div>
-            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={colorie} /></div>
-            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={distance} /></div>
-            <div className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={days} /></div>
+            <div key={'steps'} className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={steps} /></div>
+            <div key={'colorie'} className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={colorie} /></div>
+            <div key={'distance'} className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={distance} /></div>
+            <div key={'days'} className={`myCards ${cardslight}`} style={{ width: '49%', height: '48%' }}><Card cardInfo={days} /></div>
         </div>
     )
 }

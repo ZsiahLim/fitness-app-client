@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './card.less'
 import { Progress } from 'antd'
 export default function Card(props) {
-    const { cardInfo, bigger } = props
+    const { cardInfo } = props
     const [diagramBigger, setDiagramBigger] = useState(false);
     const cardRef = useRef(null);
     useEffect(() => {
