@@ -13,7 +13,7 @@ import { zhCN } from '@mui/material/locale';//need to do
 
 function App() {
   const { currentTheme, userLocale } = useSelector((state) => state.user)
-  const Language = userLocale.substring(0, 2)
+  const Language = userLocale ? userLocale.substring(0, 2) : 'en'
   console.log('lang', Language);
   const muiTheme = Language === 'en' ? createTheme({ palette: { mode: currentTheme, } }, zhCN) : createTheme({ palette: { mode: currentTheme, } }, zhCN)
 
