@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './myCarousel.less'
+import './index.less'
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 const MyCarousel = ({ imgArr }) => {

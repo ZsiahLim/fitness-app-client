@@ -117,6 +117,7 @@ export default function BlogsBox() {
             </div>
             <div className='blog-content'>
                 {searchText && (searchedBlogs.length === 0 || blogs.length === 0) && <EmptyBlog />}
+
                 {!searchText ? <div className="row">
                     <div className="column">{column1.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>
                     <div className="column">{column2.map((blog) => <Blog key={blog._id} blogInfo={blog} />)}</div>

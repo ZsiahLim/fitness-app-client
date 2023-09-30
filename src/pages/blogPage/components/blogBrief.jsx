@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import './blogBrief.less'
 import { Avatar, message, Modal, Skeleton } from 'antd'
 import { useSelector } from 'react-redux'
-import { UserOutlined, HeartTwoTone, HeartFilled } from '@ant-design/icons';
+import { UserOutlined, HeartTwoTone, HeartFilled, PlayCircleFilled } from '@ant-design/icons';
 import { cancellikeblog, getuser, likeblog } from '../../../api/user.api'
-import BlogDetail from './blogDetail';
+import BlogDetailModal from './blogDetailModal';
 import VideoJS from '../../../components/VideoJS'
-
 export default function BlogBrief({ blogInfo, getData }) {
     const { userID, title, likesUsers, imgUrl, blogType, videoUrl } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
+    const blogRef = useRef(null)
     const { _id } = currentUser
     const [liked, setLiked] = useState(likesUsers.includes(_id))
     const [likedNum, setLikeNum] = useState(likesUsers.length)
@@ -46,12 +46,7 @@ export default function BlogBrief({ blogInfo, getData }) {
     const showModal = () => {
         setIsBlogOpen(true);
     };
-    const handleOk = () => {
-        setIsBlogOpen(false);
-    };
-    const handleCloseDetailModal = () => {
-        setIsBlogOpen(false);
-    };
+
     const lightOneBlogClassname = currentTheme === 'light' ? 'oneBlog-light' : ''
     const videoJsOptions = {
         autoplay: false,
@@ -63,21 +58,7 @@ export default function BlogBrief({ blogInfo, getData }) {
             type: 'video/mp4'
         }]
     };
-    const playerRef = React.useRef(null);
-    const handlePlayerReady = (player) => {
-        playerRef.current = player;
-
-        // You can handle player events here, for example:
-        player.on('waiting', () => {
-            // videojs.log('player is waiting');
-        });
-
-        player.on('dispose', () => {
-            // videojs.log('player will dispose');
-        });
-    };
     const imgRef = React.useRef(null)
-    const [imgLoading, setImgLoading] = useState(false)
     useEffect(() => {
         const callback = entries => {
             entries.forEach(entry => {
@@ -98,16 +79,15 @@ export default function BlogBrief({ blogInfo, getData }) {
     }, [])
     return (
         <>
-            <div className={`oneBlog ${lightOneBlogClassname}`} style={{ width: "100%" }}>
+            <div ref={blogRef} className={`oneBlog ${lightOneBlogClassname}`} style={{ width: "100%" }}>
                 {blogType === 'video' && <div className='blogImg' onClick={showModal}>
-                    <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+                    <VideoJS options={videoJsOptions} />
+                    <div className='playBtn'><PlayCircleFilled /></div>
                 </div>}
                 {imgUrl.length !== 0 &&
-                    // <Skeleton.Image active loading={false}>
                     <div className='blogImg' onClick={showModal}>
-                        <img onLoad={() => { console.log('loaded'); }} ref={imgRef} data-src={imgUrl[0]} style={{ width: "100%" }} />
+                        <img onLoad={() => { console.log("new height", blogRef.current.offsetHeight); }} ref={imgRef} data-src={imgUrl[0]} style={{ width: "100%" }} />
                     </div>
-                    // </Skeleton.Image>
                 }
                 <Skeleton active loading={!user?.avator} >
                     <div className={`blogMainPart`}>
@@ -117,7 +97,6 @@ export default function BlogBrief({ blogInfo, getData }) {
                                 {user?.avator ? <Avatar size={30} icon={<UserOutlined />} src={user.avator} /> : <Avatar size={30} icon={<UserOutlined />} />}
                                 &nbsp;{user?.name}
                             </div>
-
                             <div className='operation'>
                                 <div className='likeStatusBtn' onClick={() => handleLikeBlog(blogInfo._id)}>
                                     {liked ? <HeartTwoTone /> : <HeartFilled />} {likedNum}
@@ -127,9 +106,7 @@ export default function BlogBrief({ blogInfo, getData }) {
                     </div>
                 </Skeleton>
             </div >
-            <Modal style={{ top: 60 }} bodyStyle={{ height: '80vh' }} width={imgUrl.length !== 0 || videoUrl ? "80%" : '50%'} maskStyle={{ 'opacity': 0.8, backgroundColor: '#000' }} footer={null} open={isBlogOpen} onOk={handleOk} onCancel={handleCloseDetailModal}>
-                <BlogDetail blog={blogInfo} getData={getData} handleCloseDetailModal={handleCloseDetailModal} />
-            </Modal >
+            <BlogDetailModal blog={blogInfo} getData={getData} imgUrl={imgUrl} videoUrl={videoUrl} isBlogOpen={isBlogOpen} setIsBlogOpen={setIsBlogOpen} />
         </>
     )
 }

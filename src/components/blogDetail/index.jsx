@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Avatar, message, Modal, Tag, Skeleton, List, Input, Form, Tooltip, Popconfirm, Popover } from 'antd'
 import { useSelector } from 'react-redux'
 import { UserOutlined, HeartTwoTone, HeartFilled, StarFilled, StarTwoTone, MessageFilled, LikeFilled, EllipsisOutlined, WarningFilled, DeleteFilled, ShareAltOutlined, EditFilled } from '@ant-design/icons';
-import { FormattedTime } from '../../../utils/formatTime'
-import noGender from '../../../Pic/noGender.jpg'
-import MyCarousel from './myCarousel'
+import { FormattedTime } from '../../utils/formatTime'
+import noGender from '../../Pic/noGender.jpg'
+import MyCarousel from '../../components/myCarousel'
 import { addcomment, cancelfavoriteblog, cancellikeblog, createreport, deleteblog, favoriteblog, getblogcomments, getuser, likeblog, likecomment } from '../../../api/user.api'
 import EditBlog from './editBlog';
 import VideoJS from '../../../components/VideoJS';
 import videojs from 'video.js';
+import { BlogModalOpenContext } from './blogBrief';
 const { TextArea } = Input;
 
 export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
+    const isBlogOpen = useContext(BlogModalOpenContext)
     const [blogInfo, setBlogInfo] = useState(blog)
     const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
@@ -168,6 +170,7 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     const playerRef = React.useRef(null);
     const handlePlayerReady = (player) => {
         playerRef.current = player;
+        console.log('play can do what', player);
 
         // You can handle player events here, for example:
         player.on('waiting', () => {
@@ -178,23 +181,21 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
             videojs.log('player will dispose zheli');
         });
 
-        player.on('pause', () => {
+        player.on('paused', () => {
             videojs.log('player will pause zheli');
         });
     };
     useEffect(() => {
-        console.log('init');
-        return () => {
-            console.log('destory');
-        }
-    })
+        console.log('open le me', isBlogOpen);
+        !isBlogOpen && playerRef.current.dispose()
+    }, [isBlogOpen])
     return (
         <div className={`BlogModal ${lightBlogModalClassname}`} >
             {blogType === "video" && <div className='blogImg'><div style={{ width: "100%", height: "100%" }}><VideoJS options={videoJsOptions} onReady={handlePlayerReady} /></div></div>}
             {imgUrl.length !== 0 && <div className='blogImg'><MyCarousel imgArr={imgUrl} /></div>}
             <div className={`blogMainPart ${withoutImgBlogMainPart}`} >
                 <div className='blogInfo'>
-                    <div className='blogTitle'><div className='border'></div><h1>{title}</h1></div>
+                    <div className='blogTitle' ><div className='border'></div><h1>{title}</h1></div>
                     <div className='blogDescri'>{content}</div>
                     <div className='tags'>
                         {tags.map((tag, index) => <Tag key={index} bordered={false} color="processing">
