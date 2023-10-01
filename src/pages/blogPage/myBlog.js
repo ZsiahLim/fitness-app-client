@@ -59,24 +59,26 @@ export default function MyBlog() {
                 <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> Back</div>
                 <div className='postBlogBtn' onClick={() => setUploadBlogOpen(true)}><UploadOutlined style={{ marginRight: 10 }} />Post blog</div>
             </div>
+            <div className='blog-content-tabs' style={{ padding: '0 10px' }}>
+                <Tabs defaultActiveKey="1" items={tabItems} onChange={onChange} />
+            </div>
             <div className='blog-content'>
-                <div className='blog-content-tabs' style={{ padding: '0 10px' }}>
-                    <Tabs defaultActiveKey="1" items={tabItems} onChange={onChange} />
-                </div>
                 {(column1.length === 0 && column2.length === 0 && column3.length === 0 && column4.length === 0) &&
                     <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>No blogs right now</span>}><Button type="primary">Create Now</Button></Empty></div>}
-                <div className="row">
-                    <div className="column">
-                        {column1.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {column2.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {column3.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
-                    </div>
-                    <div className="column">
-                        {column4.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                <div className='myblogpageview' style={{ width: '100%', height: 'calc(100% - 112px)' }}>
+                    <div className="row">
+                        <div className="column">
+                            {column1.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                        </div>
+                        <div className="column">
+                            {column2.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                        </div>
+                        <div className="column">
+                            {column3.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                        </div>
+                        <div className="column">
+                            {column4.map((blog) => <BlogBrief getData={getData} key={blog._id} blogInfo={blog} />)}
+                        </div>
                     </div>
                 </div>
             </div>

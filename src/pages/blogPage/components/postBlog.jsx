@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select, message, Upload, Radio } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { storage } from '../../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
@@ -16,6 +16,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
     const [blogType, setBlogType] = useState()
     const [blogImgs, setBlogImgs] = useState([])
     const [blogVideo, setBlogVideo] = useState([])
+    const [videoSize, setVideoSize] = useState([])
     const propsImage = {
         onRemove: (file) => {
             const index = blogImgs.indexOf(file);
@@ -26,13 +27,32 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
         beforeUpload: (file) => {
             const isImage = file.type?.startsWith('image')
             if (isImage) {
-                blogImgs.push({ ...file, name: file.name })
-                console.log("first1", blogImgs);
-                setBlogImgs(blogImgs)
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const image = new Image();
+                        image.src = e.target.result;
+                        image.onload = () => {
+                            const width = image.width;
+                            const height = image.height;
+                            // 在这里可以获取到文件的宽度和高度
+                            console.log(`宽度: ${width}, 高度: ${height}`);
+                            // 根据需要进行其他操作，例如验证宽度和高度是否符合要求
+                            blogImgs.push({ ...file, name: file.name, imgHeight: height, imgWidth: width })
+                            setBlogImgs(blogImgs)
+                            resolve();
+                        };
+                        image.onerror = (error) => {
+                            reject(error);
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                });
             } else {
                 message.error('u only can upload picture here')
                 return false
             }
+
         },
         fileList: blogImgs,
     };
@@ -44,10 +64,28 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             setBlogVideo(newFileList);
         },
         beforeUpload: (file) => {
-            console.log(file);
             const isVideo = file.type?.startsWith('video')
             if (isVideo) {
-                setBlogVideo([{ ...file, name: file.name }])
+                console.log("file daozhele", file);
+                return new Promise((resolve, reject) => {
+                    const video = document.createElement('video');
+                    video.preload = 'metadata';
+                    video.onloadedmetadata = () => {
+                        const width = video.videoWidth;
+                        const height = video.videoHeight;
+                        // 在这里可以获取到视频的宽度和高度
+                        console.log(`视频宽度: ${width}, 视频高度: ${height}`);
+                        setVideoSize({ height, width })
+                        // 根据需要进行其他操作，例如验证宽度和高度是否符合要求
+                        setBlogVideo([{ ...file, name: file.name, videoHeight: height, videoWidth: width }])
+                        console.log("blogVideo start", { ...file, name: file.name, videoHeight: height, videoWidth: width });
+                        resolve();
+                    };
+                    video.onerror = (error) => {
+                        reject(error);
+                    };
+                    video.src = URL.createObjectURL(file);
+                })
             } else {
                 message.error('u only can upload video here')
                 return false
@@ -65,11 +103,11 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 console.log("first", blogImgs);
                 const handledBlogImgs = blogImgs.map(item => {
                     if (item.uid === file.uid) {
-                        return { ...file, status: 'uploading', percent: progress }
+                        return { ...item, status: 'uploading', percent: progress }
                     }
                     return item
                 })
-                console.log(handledBlogImgs);
+                console.log("handledBlogImgs", handledBlogImgs);
                 setBlogImgs(handledBlogImgs)
                 switch (snapshot.state) {
                     case 'paused':
@@ -84,7 +122,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                     message.err('Some error happens')
                     blogImgs.map(item => {
                         if (item.uid === file.uid) {
-                            return { ...file, status: 'error' }
+                            return { ...item, status: 'error' }
                         }
                         return item
                     })
@@ -96,10 +134,11 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         const handledBlogImgs = blogImgs.map(item => {
                             if (item.uid === file.uid) {
-                                return { ...file, status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }
+                                return { ...item, status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }
                             }
                             return item
                         })
+                        console.log('handledBlogImgs', handledBlogImgs);
                         setBlogImgs(handledBlogImgs)
                     });
                     setUploading(false)
@@ -109,7 +148,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             message.err('Some error happens')
             blogImgs.map(item => {
                 if (item.uid === file.uid) {
-                    return item = { ...file, status: 'error' }
+                    return item = { ...item, status: 'error' }
                 }
                 return item
             })
@@ -125,7 +164,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             uploadTask.on('state_changed',
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setBlogVideo([{ ...file, status: 'uploading', percent: progress }])
+                    setBlogVideo([{ ...blogVideo[0], status: 'uploading', percent: progress }])
                     switch (snapshot.state) {
                         case 'paused':
                             console.log('Upload is paused');
@@ -137,20 +176,20 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 },
                 (error) => {
                     message.err('Some error happens')
-                    setBlogVideo([{ ...file, status: 'error' }])
+                    setBlogVideo([{ ...blogVideo[0], status: 'error' }])
                     setUploading(false)
                 },
                 () => {
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setBlogVideo([{ ...file, status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }])
+                        console.log('over:', blogVideo);
+                        setBlogVideo([{ ...blogVideo[0], status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }])
                     });
                     setUploading(false)
                 }
             );
         } else {
             message.err('Some error happens')
-            setBlogVideo([{ ...file, status: 'error' }])
+            setBlogVideo([{ ...blogVideo[0], status: 'error' }])
             setUploading(false)
         }
     }
@@ -160,10 +199,12 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             console.log(blogType);
             if (blogType === 'picture') {
                 const imgUrl = blogImgs.map(item => item.url)
-                handledItems = { ...items, imgUrl }
+                handledItems = { ...items, imgUrl, width: blogImgs[0].imgWidth, height: blogImgs[0].imgHeight }
             } else if (blogType === 'video') {
+                console.log("videoSize", videoSize);
                 const videoUrl = blogVideo[0].url
-                handledItems = { ...items, videoUrl }
+                const { height, width } = videoSize
+                handledItems = { ...items, videoUrl, height, width }
             } else {
                 message.error('system error')
                 return
@@ -185,6 +226,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
     const clear = () => {
         formRef.current?.resetFields()
         setBlogImgs([])
+        setBlogVideo([])
     };
     const lightpostBox = currentTheme === 'light' ? 'postBox-light' : ''
     return (
