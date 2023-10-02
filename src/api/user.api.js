@@ -36,6 +36,7 @@ export const favoriteblog = (blogID) => request('put', `/users/favorite/${blogID
 export const cancelfavoriteblog = (blogID) => request('put', `/users/cancelfavorite/${blogID}`);
 export const deleteblog = (blogID) => request('delete', `/blogs/${blogID}`);
 export const getmyblog = () => request('get', `/blogs/getmyblog`);
+export const getmyfavorblogs = () => request('get', `/blogs/getfavoriteblogs`);
 export const postblog = (data) => request('post', '/blogs', data)
 export const updateblog = (blogID, data) => request('put', `/blogs/${blogID}`, data)
 

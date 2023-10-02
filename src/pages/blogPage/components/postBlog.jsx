@@ -52,7 +52,6 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 message.error('u only can upload picture here')
                 return false
             }
-
         },
         fileList: blogImgs,
     };
@@ -205,6 +204,8 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 const videoUrl = blogVideo[0].url
                 const { height, width } = videoSize
                 handledItems = { ...items, videoUrl, height, width }
+            } else if (blogType === 'text') {
+                handledItems = { ...items }
             } else {
                 message.error('system error')
                 return
@@ -225,6 +226,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
     const onFinishFailed = (errorInfo) => { message.error('Failed:', errorInfo) }
     const clear = () => {
         formRef.current?.resetFields()
+        setBlogType('text')
         setBlogImgs([])
         setBlogVideo([])
     };

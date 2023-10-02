@@ -6,8 +6,8 @@ import { UserOutlined, HeartTwoTone, HeartFilled, PlayCircleFilled } from '@ant-
 import { cancellikeblog, getuser, likeblog } from '../../../api/user.api'
 import BlogDetailModal from './blogDetailModal';
 import VideoJS from '../../../components/VideoJS'
-export default function BlogBrief({ blogInfo, getData }) {
-    const { userID, title, likesUsers, imgUrl, blogType, videoUrl } = blogInfo || {}
+export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calcWaterfall }) {
+    const { userID, title, likesUsers, imgUrl, blogType, videoUrl, width, height } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const blogRef = useRef(null)
     const { _id } = currentUser
@@ -15,6 +15,36 @@ export default function BlogBrief({ blogInfo, getData }) {
     const [likedNum, setLikeNum] = useState(likesUsers.length)
     const [user, setUser] = useState()
     const [loading, setLoading] = useState(true)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    // 创建一个防抖函数
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return function () {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(func, delay);
+        };
+    };
+
+    // 窗口调整大小时的处理方法
+    const handleResize = () => {
+        setWindowWidth(window.innerWidth); // 更新窗口宽度
+        calcWaterfall(4, 10)
+    };
+
+    useEffect(() => {
+        // 添加窗口resize事件监听器，并在事件触发时调用防抖函数
+        const debouncedResizeHandler = debounce(handleResize, 200); // 200毫秒的防抖延迟
+        window.addEventListener('resize', debouncedResizeHandler);
+
+        return () => {
+            // 在组件卸载时，移除窗口resize事件监听器
+            window.removeEventListener('resize', debouncedResizeHandler);
+        };
+    }, []);
+    useEffect(() => {
+        console.log("blogRef.current?.offsetHeight", blogRef.current?.offsetHeight);
+        calcWaterfall(4, 10)
+    }, [blogRef.current?.offsetHeight])
     const getUserData = async () => {
         await getuser(userID)
             .then(user => {
@@ -74,19 +104,19 @@ export default function BlogBrief({ blogInfo, getData }) {
         imgRef?.current && observer.observe(imgRef.current)
         return () => {
             imgRef?.current && observer.unobserve(imgRef.current)
-            imgRef?.current && console.log('xiezaile');
         }
     }, [])
+
     return (
         <>
-            <div ref={blogRef} className={`oneBlog ${lightOneBlogClassname}`} style={{ width: "100%" }}>
-                {blogType === 'video' && <div className='blogImg' onClick={showModal}>
+            <div ref={blogRef} className={`oneBlog ${lightOneBlogClassname}`} >
+                {blogType === 'video' && <div className='blogImg' style={{ width: waterfallItemsWidth - 12, height: (height * (waterfallItemsWidth - 12) / width) }} onClick={showModal}>
                     <VideoJS options={videoJsOptions} />
                     <div className='playBtn'><PlayCircleFilled /></div>
                 </div>}
                 {imgUrl.length !== 0 &&
-                    <div className='blogImg' onClick={showModal}>
-                        <img onLoad={() => { console.log("new height", blogRef.current.offsetHeight); }} ref={imgRef} data-src={imgUrl[0]} style={{ width: "100%" }} />
+                    <div className='blogImg' style={{ width: waterfallItemsWidth - 12, height: (height * (waterfallItemsWidth - 12) / width) }} onClick={showModal}>
+                        <img onLoad={() => { console.log("new width", waterfallItemsWidth); }} ref={imgRef} data-src={imgUrl[0]} style={{ width: "100%" }} />
                     </div>
                 }
                 <Skeleton active loading={!user?.avator} >

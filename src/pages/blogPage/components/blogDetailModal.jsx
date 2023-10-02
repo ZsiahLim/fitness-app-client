@@ -8,7 +8,6 @@ import MyCarousel from '../../../components/myCarousel'
 import { addcomment, cancelfavoriteblog, cancellikeblog, createreport, deleteblog, favoriteblog, getblogcomments, getuser, likeblog, likecomment } from '../../../api/user.api'
 import EditBlog from './editBlog';
 import VideoJS from '../../../components/VideoJS';
-import videojs from 'video.js';
 const { TextArea } = Input;
 
 export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen }) {
@@ -167,25 +166,13 @@ export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen })
     };
     const playerRef = React.useRef(null);
     const handlePlayerReady = (player) => {
-        playerRef.current = player;
-        // // You can handle player events here, for example:
-        // player.on('waiting', () => {
-        //     videojs.log('player is waiting zheli');
-        // });
-
-        // player.on('dispose', () => {
-        //     videojs.log('player will dispose zheli');
-        // });
-
-        // player.on('paused', () => {
-        //     videojs.log('player will pause zheli');
-        // });
+        playerRef.current = player
     };
     const handleOk = () => {
         setIsBlogOpen(false);
     };
     const handleCloseDetailModal = () => {
-        playerRef.current.pause()
+        playerRef.current && playerRef.current.pause()
         setIsBlogOpen(false);
     };
     return (
