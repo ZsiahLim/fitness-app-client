@@ -1,0 +1,53 @@
+.specificiBlogPage {
+    height: 100%;
+    width: 100%;
+    background-color: #171717;
+    transition: 0.3s;
+    color: #e7e7e7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-width: 1050px;
+
+    .specificiBlogPage-main {
+        width: 80%;
+        height: 90%;
+        border: 3px solid #383838;
+        border-radius: 20px;
+    }
+
+    .specificiBlogPage-backBtn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 8px;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: #383838;
+
+        }
+    }
+
+}
+
+.specificiBlogPage-light {
+    background-color: #ffffff;
+    color: #313131;
+
+    .specificiBlogPage-main {
+        width: 80%;
+        height: 90%;
+        border: 3px solid #f3f3f3;
+        border-radius: 20px;
+    }
+
+    .specificiBlogPage-backBtn {
+        &:hover {
+            background-color: #f3f3f3;
+        }
+    }
+}

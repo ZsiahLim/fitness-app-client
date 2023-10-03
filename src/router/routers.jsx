@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Login from '../pages/Login'
 import Dashboard from '../pages/Dashboard'
 import ErrorPage from '../pages/ErrorPage'
-import { getconversation, getmyblog, getrandomblog, getuser } from '../api/user.api'
+import { getalltutorial, getconversation, getmyblog, getonetutorial, getrandomblog, getspecificblog, getuser } from '../api/user.api'
 // import { lazy } from 'react'
 
 import Main from '../pages/Dashboard/dashboard'
@@ -19,6 +19,8 @@ import FavoritesPage from '../pages/chatPage/favoritesPage'
 import BlogsBox from '../pages/blogPage/blogsBox'
 import MyBlog from '../pages/blogPage/myBlog'
 import EvaluatePage from '../pages/evaluatePage'
+import SpecificTutorialPage from '../pages/tutorialPage/pages/oneTutorialPage'
+import SpecificBlog from '../pages/blogPage/page/specificBlog'
 // const Main = lazy(() => import('../pages/Dashboard/dashboard'))
 // const ChatPage = lazy(() => import('../pages/chatPage'))
 // const PlanPage = lazy(() => import('../pages/planPage'))
@@ -96,6 +98,7 @@ export default function MyRouter() {
                 {
                     path: "tutorial",
                     element: <TutorialPage />,
+                    loader: async () => await getalltutorial()
                 },
                 {
                     path: "blog",
@@ -130,6 +133,16 @@ export default function MyRouter() {
         {
             path: '/evaluate',
             element: <ProtectedRoute><EvaluatePage /></ProtectedRoute>
+        },
+        {
+            path: '/specifictutorial/:id',
+            element: <ProtectedRoute><SpecificTutorialPage /></ProtectedRoute>,
+            loader: async ({ params }) => await getonetutorial(params.id)
+        },
+        {
+            path: '/specificblog/:id',
+            element: <ProtectedRoute><SpecificBlog /></ProtectedRoute>,
+            loader: async ({ params }) => await getspecificblog(params.id)
         },
     ])
     return (

@@ -2,12 +2,14 @@ import React from 'react'
 import './tutorialCardHorizontal.less'
 import { CalendarOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 export default function TutorialCardHorizontal({ tutorial }) {
-  const { cover, level, colorie, name, duration } = tutorial
+  const { cover, level, colorie, name, duration, _id } = tutorial
+  const navigateTo = useNavigate()
   const { currentTheme } = useSelector(state => state.user)
   const lightTutorialClassname = currentTheme === 'light' ? 'TutorialCardHorizontal-light' : ''
   return (
-    <div className={`TutorialCardHorizontal ${lightTutorialClassname}`}>
+    <div onClick={() => navigateTo(`/specifictutorial/${_id}`)} className={`TutorialCardHorizontal ${lightTutorialClassname}`}>
       <span className='TutorialCardHorizontal-cover'>
         <img src={cover} />
       </span>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
-import TutorialItem from './tutorialItem'
+import TutorialItem from './components/tutorialItem'
 import { Divider, message } from 'antd'
 import { Empty, Button } from 'antd'
 import yoga from '../../Pic/tutorialIcon/yoga.svg'
@@ -14,10 +14,12 @@ import aerobics from '../../Pic/tutorialIcon/aerobics.svg'
 import { getalltutorial } from '../../api/user.api'
 import { useSelector } from 'react-redux'
 import TutorialCardVertical from '../../components/tutorialCard/tutorialCardVertical'
+import WaterfallContainerForTutorial from '../../components/waterfallContainer/TutorialsWrapper'
+import { useLoaderData } from 'react-router-dom'
 export default function TutorialPage() {
     const { currentTheme } = useSelector(state => state.user)
     const [selectedPage, setSelectedPage] = useState()
-    const [tutorials, setTutorials] = useState([])
+    const [tutorials, setTutorials] = useState(useLoaderData())
     const getLibs = async (type) => {
         await getalltutorial().then(res => {
             setTutorials(res)
@@ -26,9 +28,6 @@ export default function TutorialPage() {
             message.error('failed to get tutorial library, try again please')
         })
     }
-    useEffect(() => {
-        getLibs('yoga')
-    }, [])
 
     const lightTutorialPageClassname = currentTheme === 'light' ? 'tutorialPage-light' : ''
     return (
@@ -73,14 +72,13 @@ export default function TutorialPage() {
                     <h2>{selectedPage ? selectedPage : "Recommand For You"}</h2>
                 </div>
                 <div className='tutorialSeries' style={{ display: 'flex' }}>
-                    {tutorials.length !== 0 ?
-                        tutorials.map((tutorialVideo, index) => <div key={index} style={{ width: "23%" }}><TutorialCardVertical tutorial={{ cover: tutorialVideo.cover, level: tutorialVideo.level, colorie: tutorialVideo.colorie, name: tutorialVideo.name, duration: tutorialVideo.duration, brief: tutorialVideo.brief }} /></div>)
+                    {tutorials.length !== 0 ? <WaterfallContainerForTutorial tutorials={tutorials} />
                         : <Empty
                             image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                             imageStyle={{ height: 60 }}
                             description={
                                 <span>
-                                    Customize <a href="#API">Description</a>
+                                    No tutorial
                                 </span>
                             }
                         >

@@ -39,6 +39,7 @@ export const getmyblog = () => request('get', `/blogs/getmyblog`);
 export const getmyfavorblogs = () => request('get', `/blogs/getfavoriteblogs`);
 export const postblog = (data) => request('post', '/blogs', data)
 export const updateblog = (blogID, data) => request('put', `/blogs/${blogID}`, data)
+export const getspecificblog = (blogID) => request('get', `/blogs/find/${blogID}`)
 
 // comments
 export const getblogcomments = (blogID) => request('get', `/comments/${blogID}`);
@@ -47,4 +48,6 @@ export const likecomment = (commentID) => request('put', `/users/likecomment/${c
 
 // tutorial
 export const getalltutorial = () => request('get', '/tutorials')
+export const getonetutorial = (tutorialID) => request('get', `/tutorials/find/${tutorialID}`)
+
 
