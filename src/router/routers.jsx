@@ -21,6 +21,8 @@ import MyBlog from '../pages/blogPage/myBlog'
 import EvaluatePage from '../pages/evaluatePage'
 import SpecificTutorialPage from '../pages/tutorialPage/pages/oneTutorialPage'
 import SpecificBlog from '../pages/blogPage/page/specificBlog'
+import FinishExercise from '../components/finishExercise'
+import { message } from 'antd'
 // const Main = lazy(() => import('../pages/Dashboard/dashboard'))
 // const ChatPage = lazy(() => import('../pages/chatPage'))
 // const PlanPage = lazy(() => import('../pages/planPage'))
@@ -35,10 +37,18 @@ import SpecificBlog from '../pages/blogPage/page/specificBlog'
 // const MyBlog = lazy(() => import('../pages/blogPage/myBlog'))
 
 export default function MyRouter() {
-    const { currentUser } = useSelector((state) => state.user)
+    const { currentUser, currentTutorial } = useSelector((state) => state.user)
     const ProtectedRoute = ({ children }) => {
         if (!currentUser) {
             return <Navigate to={'/login'} />
+        } else {
+            return children
+        }
+    }
+    const ProtectedRouteForFinishPage = ({ children }) => {
+        if (!currentTutorial) {
+            message.error(`You don't have tutorial data`)
+            return <Navigate to={'/'} />
         } else {
             return children
         }
@@ -143,6 +153,10 @@ export default function MyRouter() {
             path: '/specificblog/:id',
             element: <ProtectedRoute><SpecificBlog /></ProtectedRoute>,
             loader: async ({ params }) => await getspecificblog(params.id)
+        },
+        {
+            path: '/finish/:watchtime',
+            element: <ProtectedRouteForFinishPage><FinishExercise /></ProtectedRouteForFinishPage>,
         },
     ])
     return (

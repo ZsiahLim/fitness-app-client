@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 export const VideoJS = (props) => {
@@ -14,10 +14,8 @@ export const VideoJS = (props) => {
             videoRef.current.appendChild(videoElement);
 
             const player = playerRef.current = videojs(videoElement, options, () => {
-                videojs.log('player is ready');
                 onReady && onReady(player);
             });
-
             // You could update an existing player in the `else` block here
             // on prop change, for example:
         } else {

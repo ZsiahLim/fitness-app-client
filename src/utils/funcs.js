@@ -10,3 +10,13 @@ export const calculateAverage = (arr) => {
     const average = sum / arr.length;
     return average;
 }
+
+export const secToMin = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    // 使用字符串插值或字符串连接来构建格式化的时间字符串
+    const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+
+    return formattedTime;
+}

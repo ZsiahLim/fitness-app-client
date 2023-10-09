@@ -1,0 +1,107 @@
+.finishExercise {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .finishExercisePage {
+        width: 60%;
+        min-width: 430px;
+        max-width: 800px;
+
+        &-title {
+            margin-top: 80px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        &-mainStatistics {
+            height: 230px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+
+            &-showContent {
+                width: 80%;
+                margin: 0 auto;
+                flex: 1;
+                display: flex;
+                align-items: center;
+
+                &-colorieChart {
+                    width: 50%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+
+                    .ant-progress-text {
+                        font-weight: 600;
+                        color: #ed7276;
+                    }
+                }
+
+                &-exerciseDetail {
+                    width: 50%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    padding-left: 30px;
+
+                    &-item {}
+                }
+            }
+        }
+
+        &-evaluateTutorial {
+            background-color: #f5f5f5;
+            padding: 10px 20px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+
+            &-show {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            &-rate {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+
+                &-score {
+                    flex: 1;
+                    margin: 2px;
+                    height: 50px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #fff;
+                    border-radius: 4px;
+                    font-weight: 600;
+                    cursor: pointer;
+                }
+
+                .clicked {
+                    background-color: #5d8ef2;
+                    color: #f5f5f5;
+                    transition: 0.6s;
+                }
+            }
+
+            &-promo {
+                display: flex;
+                margin-top: 10px;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
