@@ -155,8 +155,9 @@ export default function MyRouter() {
             loader: async ({ params }) => await getspecificblog(params.id)
         },
         {
-            path: '/finish/:watchtime',
+            path: '/finish/:tutorialID/:watchtime',
             element: <ProtectedRouteForFinishPage><FinishExercise /></ProtectedRouteForFinishPage>,
+            loader: async ({ params }) => await getonetutorial(params.tutorialID)
         },
     ])
     return (

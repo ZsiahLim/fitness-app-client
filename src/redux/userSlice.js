@@ -6,7 +6,6 @@ const initialState = {
     error: false,
     currentTheme: 'light',
     userLocale: navigator.language.substring(0, 2) === 'zh' ? "zh_CN" : 'en_US',
-    currentTutorial: null
 }
 
 export const UserSlicer = createSlice({
@@ -57,14 +56,10 @@ export const UserSlicer = createSlice({
         },
         setLoading: (state, action) => {
             state.loading = action.payload
-        },
-        setCurrentTutorial: (state, action) => {
-            console.log('diaoyonglemeiyou a');
-            state.currentTutorial = action.payload
-        },
+        }
     }
 })
 
-export const { setLoading, loginStart, loginFailure, loginSuccess, logout, setTheme, setLocale, setCurrentTutorial } = UserSlicer.actions
+export const { setLoading, loginStart, loginFailure, loginSuccess, logout, setTheme, setLocale } = UserSlicer.actions
 
 export default UserSlicer.reducer

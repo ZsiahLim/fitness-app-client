@@ -2,19 +2,30 @@ import { useSelector } from 'react-redux'
 import CardTitle from '../CardTitle'
 import './index.less'
 import { Avatar, Progress } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { LeftOutlined, UserOutlined } from '@ant-design/icons'
+import { useEffect, useState } from 'react'
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
+import { secToMin } from '../../utils/funcs'
 const scoreArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export default function FinishExercise() {
     const { watchtime } = useParams()
-    const { currentUser, currentTutorial } = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user)
     const [score, setScore] = useState()
-    //calculate colorie according to the duration and watchtime
+    const currentTutorial = useLoaderData()
+    const navigateTo = useNavigate()
+    // 模拟根据用户看视频时长来计算卡路里
+    const calculateCalorie = () => {
+        console.log('tutorial duration', currentTutorial.duration);
+        let rate = (watchtime / Math.floor(currentTutorial.duration))
+        rate = rate > 1 ? 1 : rate
 
-
+        //only mock need to update later
+        const averageColorie = (currentTutorial.lowerEstimateColorie + currentTutorial.higherEstimateColorie) / 2
+        return Math.floor(rate * averageColorie)
+    }
     return (
         <div className='finishExercise'>
+            <div className='finishExercise-backBtn' onClick={() => navigateTo(-1)}><LeftOutlined /></div>
             <div className='finishExercisePage'>
                 <div className="finishExercisePage-title">恭喜你完成训练！🎉</div>
                 <div className="finishExercisePage-mainStatistics">
@@ -23,17 +34,17 @@ export default function FinishExercise() {
                     </div>
                     <div className="finishExercisePage-mainStatistics-showContent">
                         <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
-                            <Progress type="dashboard" percent={100} format={() => 12} strokeColor={'#ed7276'} strokeWidth={16} />
+                            <Progress type="dashboard" percent={100} format={() => calculateCalorie()} strokeColor={'#ed7276'} strokeWidth={16} />
                             <div className='commentText'>预估消耗(千卡)</div>
                         </div>
                         <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail">
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
                                 <div className="commentText">{currentTutorial.level} - {currentTutorial.duration}分钟</div>
-                                {currentTutorial.name}
+                                {currentTutorial.name} - <span className="commentText">{currentTutorial.brief}</span>
                             </div>
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">时长</div>
-                                <div className="">{watchtime}</div>
+                                <div className="commentText">训练时长</div>
+                                <div className="">{secToMin(watchtime)}</div>
                             </div>
                         </div>
                     </div>

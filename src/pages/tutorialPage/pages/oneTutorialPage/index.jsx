@@ -8,20 +8,18 @@ import { CalendarFilled, LeftOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Tag } from 'antd'
 import { VideoJSForTutorial } from '../../../../components/VideoJSForTutorial'
-import { setCurrentTutorial } from '../../../../redux/userSlice'
 
 export default function SpecificTutorialPage() {
     const tutorial = useLoaderData()
     const navigateTo = useNavigate()
     const { currentTheme } = useSelector(state => state.user)
-    const { name, brief, cover, colorie, duration, description, level, rate, users, video, type, equipments } = tutorial
+    const { name, brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, level, rate, users, video, type, equipments } = tutorial
     const [startedExcersise, setStartedExcersise] = useState(false)
     const lightSpecificTutorialPageClassname = currentTheme === 'light' ? 'specificTutorialPage-light' : ''
     const addToCalendar = <div><CalendarFilled /></div>
     const videoJsOptions = {
         autoplay: false,
         fill: true,
-        // controls: true,
         responsive: true,
         fluid: false,
         sources: [{
@@ -74,7 +72,7 @@ export default function SpecificTutorialPage() {
                     </div>
                     <div className="specificTutorialPage-detail-colorie">
                         <div style={{ fontWeight: 500, fontSize: 16 }} className='commentText'>预估消耗(千卡)</div>
-                        <div style={{ fontWeight: 600 }}>{colorie}</div>
+                        <div style={{ fontWeight: 600 }}>{lowerEstimateColorie}~{higherEstimateColorie}</div>
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 10 }} className='commentText'>Equipments Requirement:</div>
                     <div className="specificTutorialPage-detail-equipments">
@@ -89,10 +87,6 @@ export default function SpecificTutorialPage() {
             {startedExcersise && <div className='specificTutorialPage-video'>
                 <div className='specificTutorialPage-video-exitBtn' onClick={() => setStartedExcersise(false)}><LeftOutlined /> Exit</div>
                 <VideoJSForTutorial tutorial={tutorial} options={videoJsOptions} onReady={handlePlayerReady} />
-                <div className='specificTutorialPage-video-operate'>
-                    {<div className='specificTutorialPage-video-operate-pause' onClick={() => playerRef.current?.pause()}>暂停跟练</div>}
-                    {<div className='specificTutorialPage-video-operate-start' onClick={() => playerRef.current?.play()}>开始跟练</div>}
-                </div>
             </div>}
         </div >
     )

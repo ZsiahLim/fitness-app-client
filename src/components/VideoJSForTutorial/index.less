@@ -1,0 +1,50 @@
+.VideoJSForTutorial {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    &-time {
+        position: absolute;
+        bottom: 10;
+        left: 10;
+        z-index: 10;
+    }
+
+    &-operate {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        transform: translate(-50%, -50%);
+        z-index: 11;
+
+        &-pause {
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #5d8ef2;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        &-start {
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #5d8ef2;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 10px;
+            z-index: 1;
+        }
+    }
+}

@@ -2,6 +2,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+
+    &-backBtn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 8px;
+        border-radius: 10px;
+        z-index: 1;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+    }
 
     .finishExercisePage {
         width: 60%;
@@ -53,8 +69,12 @@
                     align-items: flex-start;
                     flex-direction: column;
                     padding-left: 30px;
+                    ;
 
-                    &-item {}
+                    &-item {
+                        width: 100%;
+                        word-wrap: break-word
+                    }
                 }
             }
         }

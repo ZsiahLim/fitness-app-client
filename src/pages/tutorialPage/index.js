@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './index.less'
 import TutorialItem from './components/tutorialItem'
 import { Divider, message } from 'antd'
-import { Empty, Button } from 'antd'
+import { Empty } from 'antd'
 import yoga from '../../Pic/tutorialIcon/yoga.svg'
 import cycling from '../../Pic/tutorialIcon/cycling.svg'
 import rope from '../../Pic/tutorialIcon/rope-jumping-trans.svg'
@@ -13,7 +13,6 @@ import fat from '../../Pic/tutorialIcon/fat-burning.svg'
 import aerobics from '../../Pic/tutorialIcon/aerobics.svg'
 import { getalltutorial } from '../../api/user.api'
 import { useSelector } from 'react-redux'
-import TutorialCardVertical from '../../components/tutorialCard/tutorialCardVertical'
 import WaterfallContainerForTutorial from '../../components/waterfallContainer/TutorialsWrapper'
 import { useLoaderData } from 'react-router-dom'
 export default function TutorialPage() {
@@ -82,7 +81,7 @@ export default function TutorialPage() {
                                 </span>
                             }
                         >
-                            <Button type="primary">Create Now</Button>
+                            {/* <Button type="primary">Create Now</Button> */}
                         </Empty>}
                 </div>
             </div>
