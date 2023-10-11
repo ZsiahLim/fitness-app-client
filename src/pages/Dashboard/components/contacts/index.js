@@ -5,13 +5,12 @@ import './index.less'
 import { useSelector } from 'react-redux'
 import { useIntl } from 'react-intl';
 
-export default function Index(props) {//need to update
-    const { currentUser } = useSelector((state) => state.user)
+export default function Index() {//need to update
+    const { currentUser, currentTheme } = useSelector((state) => state.user)
     const { formatMessage } = useIntl()
-    const { theme } = props
     const [liked, setLiked] = useState(true)
-    const contactsDashboardClassname = theme === 'light' ? 'contacts-light' : ''
-    const contactorClassname = theme === 'light' ? 'contactor-light' : ''
+    const contactsDashboardClassname = currentTheme === 'light' ? 'contacts-light' : ''
+    const contactorClassname = currentTheme === 'light' ? 'contactor-light' : ''
 
     return (
         <div className={`contacts ${contactsDashboardClassname}`}>

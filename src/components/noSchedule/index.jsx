@@ -54,21 +54,15 @@ export default function NoSchedule() {
                     </div>
                 </div>
             </div>
-            <Divider />
-            {pathname.includes('home') ? <div
-                key={1}
-                className='AddScheduleBtn'
-                onClick={() => navigateTo('/calender')}
-            >
-                {formatMessage({ id: 'goplanpage' })}
-            </div>
-                : <div
-                    key={2}
-                    className='AddScheduleBtn'
-                ><PlusOutlined />
-                    &nbsp;&nbsp;Add schedule
-                </div>}
-            <Divider />
+            {pathname.includes('home') ? <div key={1} className='AddSchedule' onClick={() => navigateTo('/calender')}>
+                <div className="AddSchedule-btn">
+                    {formatMessage({ id: 'goplanpage' })}
+                </div>
+            </div> : <div key={2} className='AddSchedule'>
+                <div className="AddSchedule-btn">
+                    <PlusOutlined />&nbsp;&nbsp;Add schedule
+                </div>
+            </div>}
             <div className='RecommandForUser'>
                 <div className='RecommandForUser-title'>{formatMessage({ id: 'recommandForU' })}</div>
                 <div className='RecommandForUser-content'>

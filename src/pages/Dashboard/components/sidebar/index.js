@@ -54,7 +54,7 @@ export default function Sidebar() {
     const navigationItem = (value, Icon) => {
         return <div key={value} className={`navigation ${lightnavigation}`} ref={navRef} onClick={() => navigateTo(`/${value}`)}>
             <Icon />
-            {!navShrink && <span className='navigationName navigationItem' style={selectPage === value ? { fontWeight: 500, color: "#4e8df5" } : {}}>{value.charAt(0).toUpperCase() + value.slice(1)}</span>}
+            {/* {!navShrink && <span className='navigationName navigationItem' style={selectPage === value ? { fontWeight: 500, color: "#4e8df5" } : {}}>{value.charAt(0).toUpperCase() + value.slice(1)}</span>} */}
         </div>
     }
     return (

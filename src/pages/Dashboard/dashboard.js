@@ -13,18 +13,18 @@ function Main() {
     return (
         <div className='contentBox'>
             <div className='contendBox-left'>
-                <SayHello theme={currentTheme} userName={currentUser.name} />
+                <SayHello />
                 <div className='contendBox-left-subTop'>
-                    <Contacts theme={currentTheme} />
-                    <Statistic theme={currentTheme} />
+                    <Contacts />
+                    <Statistic />
                 </div>
                 <div className='contendBox-left-subBottom'>
-                    <CompetitionCard theme={currentTheme} />
-                    <Trend theme={currentTheme} />
+                    <CompetitionCard />
+                    <Trend />
                 </div>
             </div>
             <div className={`contendBox-right ${contendBoxRightDashboardClassname}`}>
-                <RightSidebar theme={currentTheme} />
+                <RightSidebar />
             </div>
         </div>
     );

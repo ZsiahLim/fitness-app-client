@@ -30,16 +30,16 @@
         left: 1%;
         right: 1%;
         border-radius: 20px;
+        display: flex;
+        align-items: center;
+
 
         .sidebar {
-            width: 6%;
+            flex-basis: 80px;
+            margin-left: 10px;
             height: 98%;
             background-color: @darkBlockBackgroundColor;
-            position: absolute;
             // max-width: 100px;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 1%;
             border-radius: 16px;
         }
 
@@ -49,30 +49,26 @@
         }
 
         .contentBox {
-            width: 91%;
+            flex: 1;
             height: 98%;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 1%;
             border-radius: 16px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
 
             .contendBox-left {
-                width: 65%;
+                flex-basis: 65%;
                 height: 100%;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: 0%;
                 border-radius: 16px;
+                display: flex;
+                flex-direction: column;
+                padding-right: 10px;
 
                 .sayHello {
                     width: 100%;
                     height: 12%;
-                    position: absolute;
-                    top: 0%;
-                    right: 0%;
                     border-radius: 16px;
+                    margin-bottom: 1%;
 
                     .welcome {
                         color: @darkTextColorforcomment
@@ -87,23 +83,17 @@
                 .contendBox-left-subTop {
                     width: 100%;
                     height: 43%;
-                    position: absolute;
-                    bottom: 44%;
-                    right: 0%;
                     border-radius: 16px;
+                    display: flex;
+                    margin-bottom: 1%;
 
                     .contacts {
                         width: 33%;
                         height: 100%;
-                        // background-color: @darkBlockBackgroundColor;
-                        position: absolute;
-                        left: 0%;
                         border-radius: 16px;
                     }
 
                     .contacts-light {
-                        // background-color: @lightBlockBackgroundColor;
-
                         .ant-card-body {
                             background-color: #fff;
                             transition: 0.3s;
@@ -113,8 +103,6 @@
                     .statistic {
                         width: 66%;
                         height: 100%;
-                        position: absolute;
-                        right: 0%;
                         border-radius: 16px;
                     }
                 }
@@ -123,17 +111,13 @@
                     width: 100%;
                     height: 43%;
                     // background-color: @darkTextColor;
-                    position: absolute;
-                    bottom: 0%;
-                    right: 0%;
                     border-radius: 16px;
+                    display: flex;
 
                     .competition {
                         width: 33%;
                         height: 100%;
                         // background-color: @darkBlockBackgroundColor;
-                        position: absolute;
-                        left: 0%;
                         border-radius: 16px;
 
                         .ant-list-item {
@@ -155,8 +139,6 @@
                         width: 66%;
                         height: 100%;
                         background-color: @darkBlockBackgroundColor;
-                        position: absolute;
-                        right: 0%;
                         border-radius: 16px;
                     }
 
@@ -167,15 +149,12 @@
             }
 
             .contendBox-right {
-                width: 34%;
+                flex: 1;
+                margin-right: 10px;
                 height: 100%;
                 background-color: @darkBlockBackgroundColor;
                 transition: 0.3s;
-                position: absolute;
                 // max-width: 100px;
-                top: 50%;
-                transform: translateY(-50%);
-                right: 0%;
                 border-radius: 16px;
             }
 

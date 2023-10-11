@@ -1,46 +1,54 @@
 .myDashboard {
-    .evaluatePage-header {
-        height: 60px;
+    .evaluatePage-mainContent {
+        width: 100%;
+        height: 100%;
         display: flex;
-        align-items: center;
+        flex-direction: column;
 
-        .backHomeBtn {
-            margin-left: 10px;
-            height: 40px;
-            line-height: 40px;
-            padding: 0 20px;
-            border-radius: 20px;
-            background-color: #fff;
-            cursor: pointer;
-        }
-
-        .progress {
-            flex-grow: 1;
+        .evaluatePage-header {
+            flex-basis: 60px;
+            height: 60px;
             display: flex;
-            justify-content: center;
+            align-items: center;
 
-            .progressBar {
-                height: 10px;
-                width: 90%;
+            .backHomeBtn {
+                margin-left: 10px;
+                height: 40px;
+                line-height: 40px;
+                padding: 0 20px;
+                border-radius: 20px;
                 background-color: #fff;
-
-                border-radius: 5px;
-
-                .progressBar-item {
-                    background-color: #4d90f9;
-                    height: 100%;
-                    border-radius: 5px;
-                    transition: 0.5s;
-                }
+                cursor: pointer;
             }
 
+            .progress {
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+
+                .progressBar {
+                    height: 10px;
+                    width: 90%;
+                    background-color: #fff;
+
+                    border-radius: 5px;
+
+                    .progressBar-item {
+                        background-color: #4d90f9;
+                        height: 100%;
+                        border-radius: 5px;
+                        transition: 0.5s;
+                    }
+                }
+
+            }
         }
-    }
 
-    .questionCard {
-        width: 80%;
-        margin: 0 auto;
-        transition: 0.5s;
-
+        .questionCard {
+            flex: 1;
+            width: 80%;
+            margin: 0 auto;
+            transition: 0.5s;
+        }
     }
 }

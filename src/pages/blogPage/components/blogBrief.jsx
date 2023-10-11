@@ -28,7 +28,7 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
     // 窗口调整大小时的处理方法
     const handleResize = () => {
         setWindowWidth(window.innerWidth); // 更新窗口宽度
-        calcWaterfall(4, 10)
+        calcWaterfall(4, 2)
     };
 
     useEffect(() => {

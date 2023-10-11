@@ -17,24 +17,21 @@
 
 .planPage {
     background-color: @darkBlockBackgroundColor;
-    width: 91%;
+    flex: 1;
     height: 98%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1%;
     border-radius: 16px;
-    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
     display: flex;
 
     .rightSidebar-date {
-        width: 360px;
-        margin-top: 100px;
+        height: 100%;
+        flex-basis: 360px;
         padding-left: 30px;
         display: flex;
         flex-direction: column;
-        justify-content: start;
         align-items: center;
+        justify-content: center;
 
         .rightSidebar-today {
             font-size: 24px;
@@ -47,11 +44,11 @@
     }
 
     .planpage-schedule {
+        flex: 1;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        width: calc(100% - 360px);
         padding: 20px;
-
 
         .NoSchedueBox {
 
@@ -157,36 +154,31 @@
             }
         }
 
-        .AddScheduleBtn {
-            cursor: pointer;
-            background-color: #4d90f9;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            border-radius: 10px;
-            justify-content: center;
+        .AddSchedule {
+            width: 100%;
+            margin-top: 12px;
+            margin-bottom: 12px;
             color: #fff;
-
-            &:hover {
-                background-color: @lightUsernameColor;
-            }
-        }
-
-        .AddScheduleBtn {
-            cursor: pointer;
-            background-color: #4d90f9;
-            height: 80px;
-            width: 60%;
-            margin: 0 auto;
             display: flex;
-            align-items: center;
-            border-radius: 10px;
             justify-content: center;
-            color: #fff;
+            align-items: center;
 
-            &:hover {
-                background-color: @lightUsernameColor;
+            &-btn {
+                max-width: 600px;
+                border-radius: 10px;
+                height: 50px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                background-color: #4d90f9;
+
+                &:hover {
+                    background-color: @lightUsernameColor;
+                }
             }
+
         }
 
         .RecommandForUser {
@@ -195,7 +187,6 @@
 
             .RecommandForUser-title {
                 font-weight: 500;
-                margin-bottom: 10px;
             }
 
             @media (max-width: 1380px) {
