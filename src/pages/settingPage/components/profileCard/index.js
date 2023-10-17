@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { updateuserinfo } from '../../../../api/user.api';
 import dayjs from 'dayjs';
 const { TextArea } = Input;
+
 const normFile = (e) => {
     if (Array.isArray(e)) {
         return e;
@@ -168,7 +169,7 @@ export default function ProfileCard() {
                         <DatePicker defaultValue={dayjs(birthday, 'YYYY-MM-DD')} />
                     </Form.Item>
                     <Form.Item label="Avator" valuePropName="fileList" getValueFromEvent={normFile}>
-                        <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={9} {...propsImage}>
+                        <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>
                             <Button icon={<UploadOutlined />}>upload your avator</Button>
                         </Upload>
                     </Form.Item>

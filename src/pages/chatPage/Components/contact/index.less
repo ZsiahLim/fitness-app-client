@@ -1,0 +1,43 @@
+@darkNavHoverColor: #383838;
+@lightNavHoverColor: #f0f0f0;
+
+.chatPage-oneContact {
+    display: flex;
+    width: 100%;
+    padding: 6px 14px 6px 12px;
+    margin: 0 auto;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    height: 62px;
+    margin-bottom: 6px;
+    cursor: pointer;
+
+    &-avator {
+        flex-basis: 60px;
+    }
+
+    &-name {
+        flex: 1;
+        height: 100%;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        border-bottom: 0.2px solid #383838;
+    }
+}
+
+.chatPage-oneContact-light {
+    .chatPage-oneContact-name {
+        border-bottom: 0.2px solid #f3f3f3;
+    }
+}
+
+.chatPage-oneContact-dark-selected {
+    background-color: @darkNavHoverColor !important;
+}
+
+.chatPage-oneContact-light-selected {
+    background-color: @lightNavHoverColor !important;
+}

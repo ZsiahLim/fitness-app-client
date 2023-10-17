@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Message from './Components/message';
+import Message from '../Components/message';
 import {
     EllipsisOutlined,
 } from '@ant-design/icons';
 import { Button, message, Popover } from 'antd';
-import Conversation from './Components/conversation';
 import { useSelector } from 'react-redux'
-import Header from './Components/header';
+import Header from '../Components/header';
 import { io } from 'socket.io-client'
-import { deleteconversation, getconversation, getcurrentconversationmessages, sendmessage } from '../../api/user.api';
-export default function ChatBox() {
+import { deleteconversation, getconversation, getcurrentconversationmessages, sendmessage } from '../../../api/user.api';
+import Conversation from '../Components/ConversationsList/conversation';
+export default function ConversationPage() {
     const searchInput = useRef(null)
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const scrollerRef = useRef(null)

@@ -3,9 +3,9 @@ import { UserOutlined, MessageFilled } from '@ant-design/icons';
 import { useState } from 'react';
 import { useSelector } from 'react-redux'
 import { UserAddOutlined } from '@ant-design/icons'
-import { loginStart, loginSuccess } from '../../redux/userSlice'
+import { loginStart, loginSuccess } from '../../../redux/userSlice'
 import { useDispatch } from 'react-redux'
-import { addcontact, createconversation, createreport, removecontact } from '../../api/user.api';
+import { addcontact, createconversation, createreport, removecontact } from '../../../api/user.api';
 import { useLoaderData } from 'react-router-dom';
 const { TextArea } = Input;
 
@@ -181,7 +181,6 @@ export default function ContactPage({ setSelectPage }) {
                     <Segmented options={['My medal', 'My Blogs', 'Liked Blogs', 'Favorite Blogs', 'My Tutorials', 'My Competitions']} />
                 </div>
                 <div className='divider'>
-
                     <Divider style={{ width: "90%" }} />
                 </div>
             </Drawer>

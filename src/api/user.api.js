@@ -4,17 +4,20 @@ export const updateuserinfo = (userID, data) => request('put', `/users/${userID}
 // authentication
 export const signin = (data) => request('post', '/auth/signin', data);
 export const signinWithGoogle = (data) => request('post', '/auth/google', data);
-export const signup = (data) => request('post', '/auth/signup', data);
+export const usersignup = (data) => request('post', '/auth/signup', data);
 
 // conversation
 export const getconversation = () => request('get', '/conversations');
-export const deleteconversation = (data) => request('delete', '/users/conversations', data);
+export const getspecificconversation = (conversationID) => request('get', `/conversations/${conversationID}`);
+export const getspecificconversationunreadnum = (conversationID) => request('get', `/conversations/unreadnum/${conversationID}`);
+export const deleteconversation = (conversationID) => request('delete', `/conversations/${conversationID}`);
 
 // messages
 export const getcurrentconversationmessages = (conversationID) => request('get', `/messages/${conversationID}`);
 export const sendmessage = (data) => request('post', '/messages', data);
+export const getunreadedmessage = () => request('get', '/messages/unreadmsgs');
 
-// get users file
+// get users
 export const getuser = (userID) => request('get', `/users/find/${userID}`);
 
 // contacts

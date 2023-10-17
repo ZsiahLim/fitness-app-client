@@ -90,7 +90,6 @@ export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen })
         await deleteblog(blogID)
             .then(() => {
                 message.success('delete successfully')
-                getData()
                 handleCloseDetailModal()
             }).catch((err) => {
                 message.error('error happens')

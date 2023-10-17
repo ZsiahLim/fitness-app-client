@@ -17,477 +17,297 @@
 @lightUsernameColor: #4790ff;
 
 .chat-contentBox {
-    width: 91%;
-    height: 98%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1%;
-    border-radius: 16px;
-    display: flex;
     overflow: hidden;
+    flex: 1;
+    height: 98%;
+    border-radius: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    background-color: @darkBlockBackgroundColor;
 
-    .chat-sidebar {
-        flex-basis: 60px;
+    &-leftBar {
+        flex-basis: 320px;
+        height: 100%;
         display: flex;
+        flex-direction: column;
+        border-right: 0.4px solid #383838;
 
-        .chat-edit-bar {
-            overflow: hidden;
+        &-header {
             flex-basis: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 0.4px solid #383838;
+            justify-content: space-between;
 
-
-            .navigationBar {
-                padding-top: 50px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-
-                .navigation {
-                    margin-bottom: 10px;
-                    height: 36px;
-                    cursor: pointer;
-                    width: 36px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 5px;
-
-                    &:hover {
-                        background-color: @darkNavHoverColor;
-                    }
-                }
-
-                .navigation-light {
-                    &:hover {
-                        background-color: @lightBackgroundColor;
-                    }
-                }
+            &-title {
+                font-size: 28px;
+                font-weight: 800;
             }
         }
-    }
 
-    .chat-chatBox {
-        display: flex;
-        width: 100%;
-        height: 100%;
+        &-mainContent {
+            flex: 1;
+            overflow-y: auto;
+        }
 
-        .chat-contact {
-            border-top-left-radius: 16px;
-            border-bottom-left-radius: 16px;
-            width: 400px;
-            background-color: @darkBlockBackgroundColor;
-            overflow: hidden;
+        &-footNavigationBar {
+            border-top: 0.4px solid #383838;
+            flex-basis: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
 
-            .chat-contact-header {
-                background-color: @darkBlockBackgroundColor;
-                height: 50px;
+            .navigation {
+                height: 36px;
+                cursor: pointer;
+                width: 36px;
                 display: flex;
+                justify-content: center;
                 align-items: center;
-                justify-content: space-around;
-            }
+                border-radius: 5px;
 
-            .conversations {
-                height: calc(100% - 50px);
-                overflow: auto;
-
-                &::-webkit-scrollbar {
-                    /*滚动条整体样式*/
-                    width: 6px;
-                    /*高宽分别对应横竖滚动条的尺寸*/
-                    height: 1px;
-                    background-color: transparent;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                    /*滚动条里面小方块*/
-                    border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-                    background: rgba(157, 165, 183, 0.7);
-                }
-
-                &::-webkit-scrollbar-track {
-                    /*滚动条里面轨道*/
-                    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-                    border-radius: 10px;
-                    // background: #EDEDED;
-                }
-
-                &::-webkit-scrollbar-thumb:hover {
-                    background: #888888;
-                    /*鼠标移上滚动条样式*/
-                }
-
-
-                .chat-MessageBox {
-                    display: flex;
-                    width: 100%;
-                    padding: 6px 14px 6px 12px;
-                    margin: 0 auto;
-                    margin-bottom: 8px;
-                    align-items: center;
-                    gap: 10px;
-                    border-radius: 4px;
-
-                    &:hover {
-                        cursor: pointer;
-                        background-color: @darkNavHoverColor;
-                    }
-
-                    .chat-messageBox-avator {
-                        width: 60px;
-                    }
-
-                    .userInfo {
-                        width: 100%;
-
-                        .topInfo {
-                            display: flex;
-
-                            .userName {
-                                font-size: 16px;
-                                font-weight: 400;
-                                // width: 130px;
-                                // overflow: hidden;
-                                // text-overflow: ellipsis;
-                                // white-space: nowrap;
-                                width: 140px;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                            }
-
-                            .date {
-                                flex: 1;
-                                text-align: end;
-                                font-size: 8px;
-                                height: 22px;
-                                line-height: 12px;
-                                color: @darkTextColorforcomment;
-                            }
-                        }
-
-
-                        .message {
-                            margin-top: 4px;
-                            width: 140px;
-                            font-size: 14px;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                            color: @darkTextColorforcomment;
-                        }
-                    }
-                }
-
-                .chat-MessageBox-selected {
+                &:hover {
                     background-color: @darkNavHoverColor;
                 }
             }
 
-        }
-
-        .chat-contact-light {
-            background-color: @lightBlockBackgroundColor !important;
-
-            .chat-contact-header {
-                background-color: @lightBlockBackgroundColor !important;
-            }
-
-            .chat-MessageBox {
+            .navigation-light {
                 &:hover {
-                    background-color: @lightNavHoverColor !important;
-                }
-
-                .userInfo {
-
-                    .userName {}
-
-                    .message {
-                        color: @lightTextColor;
-                    }
+                    background-color: @lightBackgroundColor;
                 }
             }
+        }
+    }
 
-            .chat-MessageBox-selected {
-                background-color: @lightNavHoverColor !important;
+    &-rightBar {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        &-header {
+            flex-basis: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
+
+            // border-bottom: 0.4px solid #383838;
+            &-left {
+                display: flex;
+                cursor: pointer;
+                align-items: center;
+                font-size: 18px;
+                font-weight: 600;
             }
         }
 
-        .RightContent {
-            width: 100%;
+        &-contactDetail {
+            flex: 1;
+        }
 
-            .chatInfo {
-                flex: 1;
-                height: 50px;
-                background-color: @darkBlockBackgroundColor;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 30px;
+        &-mainContent {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
 
-                .ChatUserName {}
 
-                .chat-icons {
-                    width: 30px;
-                    height: 30px;
-                    line-height: 30px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    &:hover {
-                        background-color: @darkNavHoverColor;
-                    }
-                }
+            &::-webkit-scrollbar {
+                /*滚动条整体样式*/
+                width: 6px;
+                /*高宽分别对应横竖滚动条的尺寸*/
+                height: 1px;
+                background-color: transparent;
             }
 
-            .chat-messages {
-                // background-color: #fff;
-                height: calc(100% - 100px);
-                overflow-y: auto;
-                padding: 10px;
+            &::-webkit-scrollbar-thumb {
+                /*滚动条里面小方块*/
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+                background: rgba(157, 165, 183, 0.7);
+            }
 
-                &::-webkit-scrollbar {
-                    /*滚动条整体样式*/
-                    width: 6px;
-                    /*高宽分别对应横竖滚动条的尺寸*/
-                    height: 1px;
-                    background-color: transparent;
-                }
+            &::-webkit-scrollbar-track {
+                /*滚动条里面轨道*/
+                -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                // background: #EDEDED;
+            }
 
-                &::-webkit-scrollbar-thumb {
-                    /*滚动条里面小方块*/
-                    border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-                    background: rgba(157, 165, 183, 0.7);
-                }
+            &::-webkit-scrollbar-thumb:hover {
+                background: #888888;
+                /*鼠标移上滚动条样式*/
+            }
 
-                &::-webkit-scrollbar-track {
-                    /*滚动条里面轨道*/
-                    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-                    border-radius: 10px;
-                    // background: #EDEDED;
-                }
+            .chat-message {
+                display: flex;
+                margin-bottom: 20px;
+                gap: 16px;
 
-                &::-webkit-scrollbar-thumb:hover {
-                    background: #888888;
-                    /*鼠标移上滚动条样式*/
-                }
+                .chat-messagerInfo {}
 
-                .chat-message {
+                .chat-messagerContent {
                     display: flex;
-                    margin-bottom: 20px;
-                    gap: 16px;
+                    max-width: 70%;
+                    flex-direction: column;
+                    gap: 10px;
+
+                    .message-text {
+                        width: fit-content;
+                        background-color: @darkNavHoverColor;
+                        padding: 10px 20px;
+                        border-radius: 8px;
+                        max-width: 400px;
+                        word-wrap: break-word;
+                        display: flex;
+
+                        // .msg-image {
+                        //     flex-basis: 100%;
+                        //     background-color: #fff;
+                        //     width: 100px;
+                        //     height: 100px;
+                        //     flex: 1;
+
+                        //     img {
+                        //         max-width: 400px;
+                        //         object-fit: fill;
+                        //     }
+                        // }
+                    }
+
+                    .messageTimeAgo {
+                        font-size: 11px;
+                        color: @darkTextColorforcomment;
+                    }
+
+                    .messagePhoto {
+                        width: 50%;
+                    }
+                }
+
+                &.owner {
+                    flex-direction: row-reverse;
 
                     .chat-messagerInfo {}
 
                     .chat-messagerContent {
-                        display: flex;
-                        max-width: 70%;
-                        flex-direction: column;
-                        gap: 10px;
+                        align-items: end;
 
-                        .messageItself {
+
+                        .message-text {
                             width: fit-content;
-                            background-color: @darkBlockBackgroundColor;
+                            background-color: #4790ff;
                             padding: 10px 20px;
                             border-radius: 8px;
                         }
 
-                        .messageTimeAgo {
-                            font-size: 11px;
-                            color: @darkTextColorforcomment;
-                        }
+                        .message-image {
+                            width: 200px;
+                            overflow: hidden;
 
-                        .messagePhoto {
-                            width: 50%;
-                        }
-                    }
-
-                    &.owner {
-                        flex-direction: row-reverse;
-
-                        .chat-messagerInfo {}
-
-                        .chat-messagerContent {
-                            align-items: end;
-
-                            .messageItself {
-                                width: fit-content;
-                                background-color: @darkBlockBackgroundColor;
-                                padding: 10px 20px;
+                            img {
                                 border-radius: 8px;
+                                max-width: 100%;
+                                object-fit: contain;
                             }
 
-                            .messagePhoto {
-                                width: 50%;
+                            video {
+                                border-radius: 8px;
+                                max-width: 100%;
+                                object-fit: contain;
                             }
                         }
                     }
                 }
             }
-
-            .noScroll::-webkit-scrollbar {
-                /*滚动条整体样式*/
-                width: 0px !important;
-                /*高宽分别对应横竖滚动条的尺寸*/
-                height: 0px !important;
-            }
-
-            .chat-sendInput {
-                height: 50px;
-                background-color: @darkBlockBackgroundColor;
-                display: flex;
-                align-items: center;
-                padding-left: 20px;
-                padding-right: 20px;
-
-                input {
-                    border: none;
-                    outline: none;
-                    padding-left: 10px;
-                    background-color: @darkBlockBackgroundColor;
-                    color: @darkTextColor;
-
-                    &::placeholder {
-                        color: @darkTextColorforcomment;
-                    }
-                }
-            }
-        }
-    }
-
-    .chat-chatBox-light {
-
-        .chatInfo {
-            background-color: @lightBlockBackgroundColor !important;
-
-            .ChatUserName {}
-
-            .chat-icons {
-                &:hover {
-                    background-color: @lightNavHoverColor !important;
-                }
-            }
         }
 
-        .chat-messages {
+        &-footer {
+            flex-basis: 50px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-top: 0.4px solid #383838;
 
-            .chat-message {
-                .chat-messagerContent {
-                    .messageItself {
-                        background-color: @lightBlockBackgroundColor !important;
-                    }
-
-                    .messagePhoto {}
-                }
-
-                &.owner {
-
-                    .chat-messagerInfo {}
-
-                    .chat-messagerContent {
-
-                        .messageItself {
-                            background-color: @lightBlockBackgroundColor !important;
-                        }
-
-                        .messagePhoto {}
-                    }
-                }
+            &-moreBtn {
+                cursor: pointer;
             }
-        }
-
-        .chat-sendInput {
-            background-color: @lightBlockBackgroundColor !important;
 
             input {
-                background-color: @lightBlockBackgroundColor !important;
-                color: @lightTextColor !important;
+                border: none;
+                outline: none;
+                padding-left: 10px;
+                background-color: #1d1d1d;
+                color: @darkTextColor;
 
                 &::placeholder {
-                    color: @lightTextColor !important;
+                    color: @darkTextColorforcomment;
+                }
+            }
+
+        }
+    }
+}
+
+.chat-contentBox-light {
+    background-color: #fff;
+
+    .chat-contentBox-leftBar {
+        border-right: 1px solid #f3f3f3 !important;
+
+        .chat-contentBox-leftBar-header {
+            border-bottom: 0.4px solid #f3f3f3 !important;
+        }
+
+        .chat-contentBox-leftBar-footNavigationBar {
+            border-top: 0.4px solid #f3f3f3 !important;
+        }
+    }
+
+    .chat-contentBox-rightBar {
+        &-footer {
+            border-top: 0.4px solid #f3f3f3;
+
+            input {
+                color: @lightTextColor;
+                background-color: #fff;
+
+                &::placeholder {
+                    color: @darkTextColorforcomment;
+                }
+            }
+        }
+
+        .chat-message {
+
+            .messageItself {
+                background-color: @lightNavHoverColor;
+            }
+
+            &.owner {
+
+                .chat-messagerContent {
+
+                    .messageItself {
+                        background-color: #4790ff;
+                    }
+
+                    .messagePhoto {
+                        width: 50%;
+                    }
                 }
             }
         }
     }
-
-    .contactsPage {
-        background-color: @darkBlockBackgroundColor;
-        border-radius: 20px;
-        width: 100%;
-        padding: 0 10%;
-        margin: 0 auto;
-
-        .contactPage-header {
-            display: flex;
-            justify-content: end;
-            padding-top: 20px;
-
-            .contactPage-addBtn {
-                cursor: pointer;
-                height: 50px;
-                background-color: @darkUsernameColor;
-                width: 200px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 16px;
-                color: #fff;
-                font-weight: 700;
-            }
-        }
-
-        .contactPage-contactList {
-            .contactsPage-btn {
-                cursor: pointer;
-            }
-
-            .contactsPage-deleteBtn {}
-
-            .contactsPage-chatBtn {
-                font-size: 16px;
-                font-weight: 700px;
-                color: #fff;
-                width: 80px;
-                height: 36px;
-                border-radius: 16px;
-                background-color: @darkUsernameColor;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .contactsPage-reportBtn {}
-        }
-
-
-    }
-
-    .contactsPage-light {
-        background-color: @lightBlockBackgroundColor;
-
-        .contactPage-header {
-
-            .contactPage-addBtn {
-                color: #fff;
-                font-weight: 700;
-            }
-        }
-    }
-
 }
 
-.AddContactContent {
-    margin: 60px 0px 40px 0px;
+.sendBox {
+    width: 400px;
     display: flex;
-    justify-content: space-around;
-
-    .addInfo {
-        display: flex;
-        align-items: center;
-    }
+    height: 100px;
 }

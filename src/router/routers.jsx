@@ -13,9 +13,9 @@ import TutorialPage from '../pages/tutorialPage'
 import BlogPage from '../pages/blogPage'
 import CompetitionPage from '../pages/competitionPage'
 import SettingPage from '../pages/settingPage'
-import ChatBox from '../pages/chatPage/chatBox'
-import ContactPage from '../pages/chatPage/contactPage'
-import FavoritesPage from '../pages/chatPage/favoritesPage'
+import ConversationPage from '../pages/chatPage/pages/conversationPage'
+import ContactPage from '../pages/chatPage/pages/contactPage'
+import FavoritesPage from '../pages/chatPage/pages/favoritesPage'
 import BlogsBox from '../pages/blogPage/blogsBox'
 import MyBlog from '../pages/blogPage/myBlog'
 import EvaluatePage from '../pages/evaluatePage'
@@ -23,6 +23,8 @@ import SpecificTutorialPage from '../pages/tutorialPage/pages/oneTutorialPage'
 import SpecificBlog from '../pages/blogPage/page/specificBlog'
 import FinishExercise from '../components/finishExercise'
 import { message } from 'antd'
+import ContactDetail from '../pages/chatPage/pages/contactPage/contactDetail'
+import ConversationDetail from '../pages/chatPage/pages/conversationPage/conversationDetail'
 // const Main = lazy(() => import('../pages/Dashboard/dashboard'))
 // const ChatPage = lazy(() => import('../pages/chatPage'))
 // const PlanPage = lazy(() => import('../pages/planPage'))
@@ -45,14 +47,7 @@ export default function MyRouter() {
             return children
         }
     }
-    const ProtectedRouteForFinishPage = ({ children }) => {
-        if (!currentTutorial) {
-            message.error(`You don't have tutorial data`)
-            return <Navigate to={'/'} />
-        } else {
-            return children
-        }
-    }
+
     const router = createBrowserRouter([
         {
             path: '/login',
@@ -81,8 +76,15 @@ export default function MyRouter() {
                         },
                         {
                             path: "conversations",
-                            element: <ChatBox />,
-                            loader: async () => await getconversation()
+                            element: <ConversationPage />,
+                            loader: async () => await getconversation(),
+                            children: [
+                                {
+                                    path: "specific/:conversationID",
+                                    element: <ConversationDetail />,
+                                    // loader: async ({ params }) => await getuser(params.conversationID)
+                                },
+                            ]
                         },
                         {
                             path: "contacts",
@@ -92,12 +94,19 @@ export default function MyRouter() {
                                 const getContactByID = async (userID) => await getuser(userID)
                                 const requests = contactsId.map(userId => getContactByID(userId));
                                 return await Promise.all(requests)
-                            }
+                            },
+                            children: [
+                                {
+                                    path: "detail/:contactID",
+                                    element: <ContactDetail />,
+                                    loader: async ({ params }) => await getuser(params.contactID)
+                                },
+                            ]
                         },
                         {
                             path: "favorites",
                             element: <FavoritesPage />,
-                            loader: async () => await getconversation()
+                            // loader: async () => await getconversation()
                         },
                     ]
                 },
@@ -156,7 +165,7 @@ export default function MyRouter() {
         },
         {
             path: '/finish/:tutorialID/:watchtime',
-            element: <ProtectedRouteForFinishPage><FinishExercise /></ProtectedRouteForFinishPage>,
+            element: <FinishExercise />,
             loader: async ({ params }) => await getonetutorial(params.tutorialID)
         },
     ])

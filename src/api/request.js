@@ -10,37 +10,24 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     config => {
-        // store.dispatch(
-        //     setLoading(true),
-        // );
         return config;
     },
     error => {
-        // store.dispatch(
-        //     setLoading(false),
-        // );
         Promise.reject(error);
     },
 );
 
 axiosInstance.interceptors.response.use(
     config => {
-        // store.dispatch(
-        //     setLoading(true),
-        // );
         return config?.data;
     },
     error => {
-        // store.dispatch(
-        //     setLoading(false),
-        // );
         let errorMessage = 'error';
         if (error?.message?.includes('Network Error')) {
             errorMessage = 'network connection error!';
         } else {
             errorMessage = error?.message;
         }
-        error.message && $message.error(errorMessage);
         return {
             status: false,
             message: errorMessage,

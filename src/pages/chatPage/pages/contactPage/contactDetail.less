@@ -1,0 +1,81 @@
+.chat-contentBox-rightBar-contactDetail {
+    padding: 0 10%;
+    display: flex;
+    flex-direction: column;
+
+    &-contactCard {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 0.4px solid #383838;
+
+        &-avator {
+            flex-basis: 140px;
+            height: 100%;
+        }
+
+        &-detail {
+            user-select: text;
+            flex: 1;
+            height: 100%;
+
+            &-remark {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    &-remarks {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        border-bottom: 0.4px solid #383838;
+
+        &-title {
+            flex-basis: 140px;
+        }
+
+        &-item {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+
+    &-action {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        &-item {
+            display: flex;
+            flex-direction: column;
+            width: 80px;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                color: #5d8ef2 !important;
+            }
+
+            &-desc {
+                margin-top: 4px;
+            }
+        }
+    }
+}
+
+
+.chat-contentBox-rightBar-contactDetail-light {
+    .chat-contentBox-rightBar-contactDetail-contactCard {
+        border-bottom: 0.4px solid #f3f3f3;
+    }
+
+    .chat-contentBox-rightBar-contactDetail-remarks {
+        border-bottom: 0.4px solid #f3f3f3;
+    }
+
+}

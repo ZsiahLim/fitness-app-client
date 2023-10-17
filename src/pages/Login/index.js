@@ -12,7 +12,7 @@ import { loginFailure, loginStart, loginSuccess } from '../../redux/userSlice'
 import { auth, provider } from '../../firebase'
 import { signInWithPopup } from 'firebase/auth'
 import { message } from 'antd'
-import { getuser, signin, signinWithGoogle } from '../../api/user.api'
+import { getuser, signin, signinWithGoogle, usersignup } from '../../api/user.api'
 import { setContacts } from '../../redux/ContactsSlice'
 export default function Login() {
     const { formatMessage } = useIntl()
@@ -54,7 +54,7 @@ export default function Login() {
     }
     const registerUser = async () => {
         dispatch(loginStart())
-        await signup(sigUpInfo)
+        await usersignup(sigUpInfo)
             .then((res) => {
                 localStorage.setItem('token', res.token)
                 dispatch(loginSuccess(res.user))

@@ -1,0 +1,102 @@
+@darkBlockBackgroundColor: #1d1d1d;
+@lightBlockBackgroundColor: #ffffff;
+
+@darkTextColor: #e7e7e7;
+@darkTextColorforcomment: #747474;
+@lightTextColor: #313131;
+@darkHtmlBackgroundColor: #171717;
+@lightHtmlBackgroundColor: #ffffff;
+@lightDashboardBackgroundColor: #f3f3f3;
+@darkBackgroundColor: #0c0f0e;
+@lightBackgroundColor: #ffffff;
+@darkTextColor: #949494;
+@lightTextColor: #9b999b;
+@darkNavHoverColor: #383838;
+@lightNavHoverColor: #f0f0f0;
+@darkUsernameColor: #4d90f9;
+@lightUsernameColor: #4790ff;
+
+.chat-MessageBox {
+    display: flex;
+    width: 100%;
+    padding: 6px 14px 6px 12px;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: @darkNavHoverColor;
+    }
+
+    .chat-messageBox-avator {
+        width: 60px;
+    }
+
+    .userInfo {
+        width: 100%;
+
+        .topInfo {
+            display: flex;
+
+            .userName {
+                font-size: 18px;
+                font-weight: 600;
+                // width: 130px;
+                // overflow: hidden;
+                // text-overflow: ellipsis;
+                // white-space: nowrap;
+                width: 140px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+            }
+
+            .date {
+                flex: 1;
+                text-align: end;
+                font-size: 8px;
+                height: 22px;
+                line-height: 12px;
+                color: @darkTextColorforcomment;
+            }
+        }
+
+
+        .message {
+            margin-top: 4px;
+            width: 140px;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: @darkTextColorforcomment;
+        }
+    }
+}
+
+.chat-MessageBox-light {
+    &:hover {
+        background-color: @lightNavHoverColor !important;
+    }
+
+    .userInfo {
+
+        .userName {}
+
+        .message {
+            color: @lightTextColor;
+        }
+    }
+}
+
+.chat-MessageBox-dark-selected {
+    background-color: @darkNavHoverColor !important;
+}
+
+.chat-MessageBox-light-selected {
+    background-color: @lightNavHoverColor !important;
+}
