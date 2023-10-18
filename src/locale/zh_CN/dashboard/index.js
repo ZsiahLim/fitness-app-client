@@ -3,6 +3,7 @@ export const zhCN_dashboard = {
     'app.dashboard.lightmode': '亮色模式',
     'app.dashboard.logout': '登出',
     'hi': '嗨',
+    'happyBirthday': '生日快乐🎂',
     'sayhello': '欢迎回到',
     'medal': 'Medal',
     'systemNotifications': '系统通知',

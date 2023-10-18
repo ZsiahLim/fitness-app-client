@@ -3,6 +3,7 @@ export const enUS_dashboard = {
     'app.dashboard.lightmode': 'Light Mode',
     'app.dashboard.logout': 'Logout',
     'hi': 'Hi',
+    'happyBirthday': 'Happy Birthday🎂',
     'sayhello': 'Welcome back to ',
     'medal': 'Medal',
     'systemNotifications': 'System Notifications',

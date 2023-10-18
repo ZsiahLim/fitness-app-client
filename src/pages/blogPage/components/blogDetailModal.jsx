@@ -206,9 +206,9 @@ export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen })
                                 <div className='Btn'>
                                     <MessageFilled /> {comments.length}
                                 </div>
-                                <div className='Btn'>
+                                {owner && <div className='Btn'>
                                     <EditFilled onClick={() => setEditModalOpen(true)} />
-                                </div>
+                                </div>}
                                 <div className='Btn'>
                                     {owner ? <Popconfirm
                                         title="Delete the blog"

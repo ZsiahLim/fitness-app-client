@@ -155,7 +155,7 @@ export default function MyRouter() {
         },
         {
             path: '/specifictutorial/:id',
-            element: <ProtectedRoute><SpecificTutorialPage /></ProtectedRoute>,
+            element: <SpecificTutorialPage />,
             loader: async ({ params }) => await getonetutorial(params.id)
         },
         {

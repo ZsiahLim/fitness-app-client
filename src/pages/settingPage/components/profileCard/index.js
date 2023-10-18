@@ -166,7 +166,7 @@ export default function ProfileCard() {
                         <Input defaultValue={hpNum} />
                     </Form.Item>
                     <Form.Item name="birthday" label="Birthday">
-                        <DatePicker defaultValue={dayjs(birthday, 'YYYY-MM-DD')} />
+                        {birthday ? <DatePicker defaultValue={dayjs(birthday, 'YYYY-MM-DD')} /> : <DatePicker />}
                     </Form.Item>
                     <Form.Item label="Avator" valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>

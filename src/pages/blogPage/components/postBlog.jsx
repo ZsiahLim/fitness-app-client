@@ -13,7 +13,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
     const formRef = React.useRef(null)
     const { currentTheme } = useSelector((state) => state.user)
     const [uploading, setUploading] = useState(false)
-    const [blogType, setBlogType] = useState()
+    const [blogType, setBlogType] = useState('text')
     const [blogImgs, setBlogImgs] = useState([])
     const [blogVideo, setBlogVideo] = useState([])
     const [videoSize, setVideoSize] = useState([])
