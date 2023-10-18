@@ -6,6 +6,9 @@ export const signin = (data) => request('post', '/auth/signin', data);
 export const signinWithGoogle = (data) => request('post', '/auth/google', data);
 export const usersignup = (data) => request('post', '/auth/signup', data);
 
+// notification
+export const getnotifications = (data) => request('get', '/notification/getmynotification', data);
+
 // conversation
 export const getconversation = () => request('get', '/conversations');
 export const getspecificconversation = (conversationID) => request('get', `/conversations/${conversationID}`);

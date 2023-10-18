@@ -27,7 +27,8 @@ export default function RightSidebar() {
         <div className='RightSidebarBox'>
             <div className='rightSidebar-date'>
                 <div className='rightSidebar-today'>
-                    <span>{new Date(today).toLocaleDateString(lang, options)}</span> <CalendarFilled onClick={showModal} style={{ fontSize: 20 }} />
+                    <div>{new Date(today).toLocaleDateString(lang, options)}</div>
+                    <CalendarFilled onClick={showModal} style={{ fontSize: 20 }} />
                 </div>
             </div>
             <Divider />

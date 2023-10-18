@@ -30,12 +30,20 @@ export default function Conversation(props) {
             setUnreadNum(res.length)
         }
         getUnreadNum()
-        // const readNum = setInterval(getUnreadNum, 3000)
-        // return () => {
-        //     clearInterval(readNum)
-        // }
     }, [])
 
+    const getMsgValue = (conversation) => {
+        switch (conversation.lastWordType) {
+            case 'text':
+                return conversation.lastWords
+            case 'image':
+                return '[picture]'
+            case 'video':
+                return '[video]'
+            default:
+                break;
+        }
+    }
     const selectedChatMessageBoxClassname = currentConversationID === conversation._id ? (currentTheme === 'light' ? "chat-MessageBox-light-selected" : "chat-MessageBox-dark-selected") : ''
     const lightClassname = currentTheme === 'light' ? "chat-MessageBox-light" : ''
     return (
@@ -52,9 +60,7 @@ export default function Conversation(props) {
                     <span className='date'>{formatDateTime(conversation.updatedAt)}</span>
                 </div>
                 {currentConversationID !== conversation._id && <p className='message'>
-                    {conversation.lastWordType === 'text' && conversation.lastWords}
-                    {conversation.lastWordType === 'picture' && '[ picture ]'}
-                    {conversation.lastWordType === 'video' && '[ video ]'}
+                    {getMsgValue(conversation)}
                 </p>}
             </div>
         </div>

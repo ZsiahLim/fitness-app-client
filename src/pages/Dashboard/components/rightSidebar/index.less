@@ -22,21 +22,20 @@
     .rightSidebar-date {
         display: flex;
         height: 30px;
-        // justify-content: center;
         align-items: center;
+        flex-basis: 30px;
 
         .rightSidebar-today {
             font-size: 24px;
             font-weight: 600;
-        }
-
-        .rightSidebar-calendar {
-            margin-left: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
         }
     }
 
     .rightSidebar-Schedule {
-        height: calc(100% - 78.667px);
+        flex: 1;
         overflow: auto;
 
         &::-webkit-scrollbar {
