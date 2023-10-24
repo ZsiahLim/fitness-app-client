@@ -4,7 +4,7 @@ import { store } from '../redux/store';
 import { setLoading } from '../redux/userSlice';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: 'https://medal.onrender.com/api',
     // timeout: 6000,
 });
 

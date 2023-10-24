@@ -39,7 +39,7 @@ import ConversationDetail from '../pages/chatPage/pages/conversationPage/convers
 // const MyBlog = lazy(() => import('../pages/blogPage/myBlog'))
 
 export default function MyRouter() {
-    const { currentUser, currentTutorial } = useSelector((state) => state.user)
+    const { currentUser } = useSelector((state) => state.user)
     const ProtectedRoute = ({ children }) => {
         if (!currentUser) {
             return <Navigate to={'/login'} />

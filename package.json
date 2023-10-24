@@ -161,7 +161,7 @@
       "react-app"
     ]
   },
-  "proxy": "http://localhost:3001/api/",
+  "proxy": "https://medal.onrender.com/api/",
   "devDependencies": {
     "video.js": "^8.5.2"
   }

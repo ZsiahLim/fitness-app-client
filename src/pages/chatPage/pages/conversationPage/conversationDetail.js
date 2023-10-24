@@ -33,7 +33,7 @@ export default function ConversationDetail() {
         setArrivalMessage(newMessage)
     }
     useEffect(() => {
-        socket.current = io("ws://localhost:3001")
+        socket.current = io("ws://medal.onrender.com:3001")
         socket.current.emit("addUser", currentUser._id)
         socket.current.on("getUsers", users => {
             console.log("users", users);
