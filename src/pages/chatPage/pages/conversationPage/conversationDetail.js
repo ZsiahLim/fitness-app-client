@@ -8,7 +8,6 @@ import { deleteconversation, getcurrentconversationmessages, getspecificconversa
 import { useLocation, useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../firebase";
-import { Model } from "echarts";
 const { TextArea } = Input;
 const { confirm } = Modal;
 
@@ -33,7 +32,7 @@ export default function ConversationDetail() {
         setArrivalMessage(newMessage)
     }
     useEffect(() => {
-        socket.current = io("ws://medal.onrender.com:3001")
+        socket.current = io("ws://medal.onrender.com")
         socket.current.emit("addUser", currentUser._id)
         socket.current.on("getUsers", users => {
             console.log("users", users);

@@ -28,14 +28,16 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
     // 窗口调整大小时的处理方法
     const handleResize = () => {
         setWindowWidth(window.innerWidth); // 更新窗口宽度
-        calcWaterfall(4, 2)
+        const width = window.innerWidth
+        let coloumnNum = Math.floor(width / 300)
+        coloumnNum = width < 600 ? 2 : coloumnNum
+        calcWaterfall(coloumnNum, 2)
     };
 
     useEffect(() => {
         // 添加窗口resize事件监听器，并在事件触发时调用防抖函数
         const debouncedResizeHandler = debounce(handleResize, 200); // 200毫秒的防抖延迟
         window.addEventListener('resize', debouncedResizeHandler);
-
         return () => {
             // 在组件卸载时，移除窗口resize事件监听器
             window.removeEventListener('resize', debouncedResizeHandler);
@@ -43,7 +45,7 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
     }, []);
     useEffect(() => {
         console.log("blogRef.current?.offsetHeight", blogRef.current?.offsetHeight);
-        calcWaterfall(4, 10)
+        handleResize()
     }, [blogRef.current?.offsetHeight])
     const getUserData = async () => {
         await getuser(userID)
