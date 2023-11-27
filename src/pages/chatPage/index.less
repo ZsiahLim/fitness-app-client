@@ -165,18 +165,23 @@
                         word-wrap: break-word;
                         display: flex;
 
-                        // .msg-image {
-                        //     flex-basis: 100%;
-                        //     background-color: #fff;
-                        //     width: 100px;
-                        //     height: 100px;
-                        //     flex: 1;
+                    }
 
-                        //     img {
-                        //         max-width: 400px;
-                        //         object-fit: fill;
-                        //     }
-                        // }
+                    .message-image {
+                        width: 200px;
+                        overflow: hidden;
+
+                        img {
+                            border-radius: 8px;
+                            max-width: 100%;
+                            object-fit: contain;
+                        }
+
+                        video {
+                            border-radius: 8px;
+                            max-width: 100%;
+                            object-fit: contain;
+                        }
                     }
 
                     .messageTimeAgo {
