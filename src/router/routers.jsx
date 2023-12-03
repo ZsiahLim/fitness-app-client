@@ -10,7 +10,7 @@ import ChatPage from '../pages/chatPage'
 import PlanPage from '../pages/planPage'
 import TutorialPage from '../pages/tutorialPage'
 import BlogPage from '../pages/blogPage'
-import CompetitionPage from '../pages/competitionPage'
+import StatisticsPage from '../pages/StatisticPage'
 import SettingPage from '../pages/settingPage'
 import ConversationPage from '../pages/chatPage/pages/conversationPage'
 import ContactPage from '../pages/chatPage/pages/contactPage'
@@ -138,8 +138,8 @@ export default function MyRouter() {
                     ]
                 },
                 {
-                    path: "competition",
-                    element: <CompetitionPage />,
+                    path: "statistics",
+                    element: <StatisticsPage />,
                 },
                 {
                     path: "profile",

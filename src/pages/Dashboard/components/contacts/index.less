@@ -16,6 +16,34 @@
 
 .contacts {
     height: 100%;
+    display: flex;
+
+    .myCards {
+        border-radius: 16px;
+        flex: 1;
+        background-color: @darkBlockBackgroundColor;
+        display: flex;
+        flex-direction: column;
+
+        .contacts-container {
+            padding: 0 6px;
+            overflow: auto;
+
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+
+            /* Internet Explorer 10+ */
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+        }
+    }
+
+    .myCards-light {
+        background-color: @lightBlockBackgroundColor;
+    }
 
     .contactlist {
         position: relative;

@@ -1,4 +1,5 @@
 import { request } from './request';
 
-export const getNotification = (data) => request('get', '/notification', data);
-
+export const deletenotification = (id) => request('delete', `/notification/${id}`);
+// notification
+export const getnotifications = (data) => request('get', '/notification/getmynotification', data);

@@ -46,17 +46,12 @@ export default function ConversationDetail() {
     }, [])
 
     const handleDeleteConversation = async () => {
-        await deleteconversation(location.pathname.split('/')[4]).then(() => {
+        await deleteconversation(location.pathname.split('/')[4]).then(res => {
             navigateTo('/chat/conversations')
         }).catch(() => {
             message.error('error')
         })
     }
-
-    useEffect(() => {
-        console.log('change', currentConversationMessages);
-    }, [currentConversationMessages])
-
     const sendMessage = async (type, value, width, height) => {
         const conversationID = location.pathname.split('/')[4]
         try {
@@ -79,25 +74,27 @@ export default function ConversationDetail() {
 
     const [contact, setContact] = useState()
     useEffect(() => {
-        const conversationID = location.pathname.split('/')[4]
-        const getContactInfo = async () => {
-            const conversation = await getspecificconversation(conversationID)
-            const contactIndex = conversation.members.indexOf(currentUser._id) === 1 ? 0 : 1
-            const contactID = conversation.members[contactIndex]
-            const contact = await getuser(contactID)
-            setContact(contact)
-        }
-        getContactInfo()
-        const getMessages = async () => {
-            try {
-                const res = await getcurrentconversationmessages(conversationID)
-                setCurrentConversationMessages(res)
-            } catch (error) {
-                message.error('Failed to get your messages')
+        if (location.pathname.split('/')[3] === "specific" && location.pathname.split('/')[4]) {
+            const conversationID = location.pathname.split('/')[4]
+            const getContactInfo = async () => {
+                const conversation = await getspecificconversation(conversationID)
+                const contactIndex = conversation.members.indexOf(currentUser._id) === 1 ? 0 : 1
+                const contactID = conversation.members[contactIndex]
+                const contact = await getuser(contactID)
+                setContact(contact)
             }
+            getContactInfo()
+            const getMessages = async () => {
+                try {
+                    const res = await getcurrentconversationmessages(conversationID)
+                    setCurrentConversationMessages(res)
+                } catch (error) {
+                    message.error('Failed to get your messages')
+                }
+            }
+            getMessages()
         }
-        getMessages()
-        console.log('location');
+
     }, [location])
 
     useEffect(() => {

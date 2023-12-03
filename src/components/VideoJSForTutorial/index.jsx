@@ -4,6 +4,8 @@ import 'video.js/dist/video-js.css';
 import './index.less'
 import { secToMin } from '../../utils/funcs';
 import { useNavigate } from 'react-router-dom';
+import COLORS from '../../constants/COLORS';
+import { PauseOutlined } from '@ant-design/icons';
 export const VideoJSForTutorial = (props) => {
     const videoRef = useRef(null);
     const playerRef = useRef(null);
@@ -13,6 +15,9 @@ export const VideoJSForTutorial = (props) => {
     const [played, setPlayed] = useState(false)
     const [playing, setPlaying] = useState(false)
     const [currentTimeInSeconds, setCurrentTimeInSeconds] = useState(0)
+
+    const [startTime, setStartTime] = useState()
+    
     useEffect(() => {
         // Make sure Video.js player is only initialized once
         if (!playerRef.current) {
@@ -72,16 +77,21 @@ export const VideoJSForTutorial = (props) => {
     }
 
     return (
-        <div className='VideoJSForTutorial' ref={videoRef} data-vjs-player >
-            {played && <div className='VideoJSForTutorial-time' style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 10, }}>
-                <div style={{ fontSize: 18, fontWeight: 800, color: '#e7e7e7' }}>已训练</div>
-                <div style={{ fontSize: 36, fontWeight: 800, color: '#e7e7e7' }}>{watchTime}</div>
+        <div
+            className='VideoJSForTutorial'
+            ref={videoRef}
+            data-vjs-player >
+            {played && <div className='VideoJSForTutorial-time' style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 10, backgroundColor: COLORS.white, opacity: 0.8, padding: "0 10px", borderRadius: 10 }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: COLORS.primary }}>已训练</div>
+                <div style={{ fontSize: 36, fontWeight: 800, color: COLORS.primary }}>{watchTime}</div>
             </div>}
-            <div className='VideoJSForTutorial-operate'>
-                {playing && <div className='VideoJSForTutorial-operate-pause' style={{ fontSize: 18, fontWeight: 800, color: '#e7e7e7' }} onClick={() => playerRef.current?.pause()}>暂停跟练</div>}
+            {<div className='VideoJSForTutorial-operate'>
+                {playing && <div className='VideoJSForTutorial-operate-pause' style={{ fontSize: 18, fontWeight: 800, color: '#e7e7e7', backgroundColor: COLORS.gray }} onClick={() => playerRef.current?.pause()}>
+                    <PauseOutlined style={{ fontWeight: 800 }} />
+                </div>}
                 {!playing && <div className='VideoJSForTutorial-operate-start' style={{ fontSize: 18, fontWeight: 800, color: '#e7e7e7' }} onClick={() => playerRef.current?.play()}>{!played ? '开始跟练' : '继续跟练'}</div>}
                 {(played && !playing) && <div className='VideoJSForTutorial-operate-start' style={{ fontSize: 18, fontWeight: 800, backgroundColor: '#FF6B6B', color: '#e7e7e7' }} onClick={() => endExerciseCheck()}>结束锻炼</div>}
-            </div>
+            </div>}
         </div>
     );
 }

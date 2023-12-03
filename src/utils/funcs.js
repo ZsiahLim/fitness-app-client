@@ -20,3 +20,19 @@ export const secToMin = (seconds) => {
 
     return formattedTime;
 }
+export const secToSpecificMin = (seconds) => {
+    const minutes = Math.round(seconds / 60);
+    // 使用字符串插值或字符串连接来构建格式化的时间字符串
+    const formattedTime = `${minutes}`;
+
+    return formattedTime;
+}
+export const secConvertToMin = (seconds) => {
+    const minutes = parseFloat((seconds / 60).toFixed(1));
+    // 使用字符串插值或字符串连接来构建格式化的时间字符串
+    return minutes;
+}
+
+export const isEmptyObj = (obj) => {
+    return Object.keys(obj).length === 0;
+}

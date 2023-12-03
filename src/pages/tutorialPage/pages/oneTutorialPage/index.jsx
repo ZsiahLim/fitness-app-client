@@ -21,6 +21,9 @@ export default function SpecificTutorialPage() {
         autoplay: false,
         fill: true,
         responsive: true,
+
+        controls: true,
+
         fluid: false,
         sources: [{
             src: video,
@@ -67,7 +70,7 @@ export default function SpecificTutorialPage() {
                             {rate.length === 0 ? <div className="specificTutorialPage-detail-statistic-rate"><span className='commentText'>暂无评分</span></div> : <div className="specificTutorialPage-detail-statistic-rate">评分{calculateAverage(rate)}</div>}
                         </div>
                     </div>
-                    <div className="specificTutorialPage-detail-desc">
+                    <div className="specificTutorialPage-detail-desc" style={{ overflow: 'auto' }}>
                         {description}
                     </div>
                     <div className="specificTutorialPage-detail-colorie">
@@ -78,10 +81,10 @@ export default function SpecificTutorialPage() {
                     <div className="specificTutorialPage-detail-equipments">
                         {equipments.map(item => <div className="specificTutorialPage-detail-equipments-item">{item}</div>)}
                     </div>
-                    <div className="specificTutorialPage-detail-frequency">
+                    {/* <div className="specificTutorialPage-detail-frequency">
                         <div style={{ fontSize: 18, fontWeight: 600 }} className='commentText'>练习频次:</div>
                         <div>3-5次/周</div>
-                    </div>
+                    </div> */}
                 </div>
             </>}
             {startedExcersise && <div className='specificTutorialPage-video'>

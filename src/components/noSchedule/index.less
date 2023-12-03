@@ -1,0 +1,113 @@
+@darkBlockBackgroundColor: #1d1d1d;
+@lightBlockBackgroundColor: #ffffff;
+@darkUsernameColor: #4d90f9;
+@lightUsernameColor: #4790ff;
+@darkTextColor: #e7e7e7;
+@darkTextColorforcomment: #747474;
+@lightTextColor: #313131;
+@darkHtmlBackgroundColor: #171717;
+@lightHtmlBackgroundColor: #ffffff;
+@lightDashboardBackgroundColor: #f3f3f3;
+@darkBackgroundColor: #0c0f0e;
+@lightBackgroundColor: #ffffff;
+@darkTextColor: #949494;
+@lightTextColor: #9b999b;
+@darkNavHoverColor: #383838;
+@lightNavHoverColor: #f0f0f0;
+
+.NoSchedueBox {
+    padding: 10px;
+    border-radius: 10px;
+
+    .NoSchedule {
+        font-size: 18px;
+        font-weight: 500;
+        width: 100%;
+        display: flex;
+
+        .border {
+            width: 10px;
+            height: 10;
+            border-radius: 4px;
+            background-color: @darkUsernameColor;
+            margin-right: 6px;
+        }
+
+        .border-light {
+            background-color: @lightUsernameColor;
+        }
+
+        .programName {
+            &:hover {
+                color: #4790ff;
+                cursor: pointer;
+            }
+        }
+
+    }
+
+    .schedule-promotion {
+        margin-top: 10px;
+        font-size: 14px;
+        word-wrap: break-word;
+        color: @darkTextColorforcomment;
+    }
+
+    .promotionPlan {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-around;
+
+        .promotionDay {
+            padding: 6px;
+            width: 24%;
+            background: linear-gradient(to bottom, @darkNavHoverColor, @darkBlockBackgroundColor);
+            color: #fff;
+            opacity: 0.6;
+            border-radius: 4px;
+            overflow: hidden;
+
+            .promotionDay-Title {
+                font-weight: 500;
+                font-size: 16px;
+            }
+
+            .promotionDay-content {
+                font-size: 14px;
+            }
+
+        }
+
+        .promotionDay-light {
+            background: linear-gradient(to bottom, @lightDashboardBackgroundColor, @lightBlockBackgroundColor);
+            color: @lightTextColor;
+        }
+    }
+}
+
+.AddSchedule {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-btn {
+        max-width: 600px;
+        border-radius: 10px;
+        height: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background-color: #4d90f9;
+
+        &:hover {
+            background-color: @lightUsernameColor;
+        }
+    }
+
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ContactsTwoTone, MessageTwoTone, StarTwoTone, } from '@ant-design/icons';
+import { ContactsTwoTone, MessageTwoTone, StarTwoTone, UserAddOutlined, } from '@ant-design/icons';
 import { Badge, message } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getunreadedmessage } from '../../../api/user.api';
@@ -58,7 +58,7 @@ export default function FootNavigationBar() {
                 }}
                 onClick={() => navigateTo('/chat/favorites')}
             >
-                <StarTwoTone
+                <UserAddOutlined
                     className='navigationCenteredItem'
                     twoToneColor={selectPage === 'favorites' ? '#4e8df5' : "#3d3d3d"}
                     style={{ fontSize: 26 }}

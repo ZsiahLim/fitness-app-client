@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from 'echarts'
 import './index.less'
 import { Segmented } from 'antd';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import useRecords from '../../../../hooks/useRecords';
+import { BarchartsOptions } from '../../../../utils/BarchartsOptions';
+
+const DATE = {
+    week: "week",
+    month: "month",
+    year: "year",
+}
 
 export default function Index() {
     const { currentTheme } = useSelector(state => state.user)
@@ -12,6 +20,36 @@ export default function Index() {
     const trendTitleClassname = currentTheme === 'light' ? 'cardTitle-light' : ''
     const getColorBoundary = currentTheme === 'dark' ? '#1d1d1d' : '#ffffff'
     const { formatMessage } = useIntl()
+
+    const { weeklyData, monthlyData, yearlyData } = useRecords()
+    const [weekDataChatsOption, setWeekDataChatsOption] = useState()
+    const [monthDataChatsOption, setMonthDataChatsOption] = useState()
+    const [yearDataChatsOption, setYearDataChatsOption] = useState()
+    const [selectDateType, setSelectDateType] = useState(DATE.week)
+    useEffect(() => {
+        const dateArr = weeklyData.map((item) => item.week)
+        const durationArr = weeklyData.map((item) => item.duration)
+        const calorieArr = weeklyData.map((item) => item.calories)
+        const stepArr = weeklyData.map((item) => item.steps)
+        const distanceArr = weeklyData.map((item) => item.distance)
+        setWeekDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
+    }, [weeklyData])
+    useEffect(() => {
+        const dateArr = monthlyData.map((item) => item.month)
+        const durationArr = monthlyData.map((item) => item.duration)
+        const calorieArr = monthlyData.map((item) => item.calories)
+        const stepArr = monthlyData.map((item) => item.steps)
+        const distanceArr = monthlyData.map((item) => item.distance)
+        setMonthDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
+    }, [monthlyData])
+    useEffect(() => {
+        const dateArr = yearlyData.map((item) => item.year)
+        const durationArr = weeklyData.map((item) => item.duration)
+        const calorieArr = weeklyData.map((item) => item.calories)
+        const stepArr = weeklyData.map((item) => item.steps)
+        const distanceArr = weeklyData.map((item) => item.distance)
+        setYearDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
+    }, [yearlyData])
 
     const getOptionLine = () => {
         return {
@@ -43,13 +81,22 @@ export default function Index() {
             backgroundColor: ''
         };
     }
+    const typeOptions = {
+        week: { value: 'week', label: formatMessage({ id: 'Weekly' }) },
+        month: { value: 'month', label: formatMessage({ id: 'Monthly' }) },
+        year: { value: 'year', label: formatMessage({ id: 'Yearly' }) },
+    }
     return (
-        <div className={`trend ${trendDashboardClassname}`}>
-            <div className={`cardTitle ${trendTitleClassname}`}>{formatMessage({ id: 'worktrend' })}</div>
-            <div className='Trend-Options'>
-                <Segmented defaultValue={formatMessage({ id: 'Weekly' })} options={[formatMessage({ id: 'Weekly' }), formatMessage({ id: 'Monthly' }), formatMessage({ id: 'Yearly' })]} />
+        <div className={`trend ${trendDashboardClassname}`} style={{ padding: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className={`cardTitle ${trendTitleClassname}`}>{formatMessage({ id: 'worktrend' })}</div>
+                <Segmented defaultValue={typeOptions.week.value} onChange={(type) => setSelectDateType(type)} options={[typeOptions.week, typeOptions.month, typeOptions.year]} />
             </div>
-            <ReactEcharts option={getOptionLine()} theme={currentTheme} />
+            <div style={{ position: 'relative', margin: '20px auto' }}>
+                {(selectDateType == DATE.week && weekDataChatsOption) && <ReactEcharts option={weekDataChatsOption} theme={'light'} />}
+                {(selectDateType == DATE.month && monthDataChatsOption) && <ReactEcharts option={monthDataChatsOption} theme={'light'} />}
+                {(selectDateType == DATE.year && yearDataChatsOption) && <ReactEcharts option={yearDataChatsOption} theme={'light'} />}
+            </div>
         </div>
     )
 }

@@ -3,10 +3,11 @@ import { Avatar, Badge, List, Modal, Popover, Spin, Tabs, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { TabPane } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { getnotifications, getunreadedmessage, getuser } from '../../../../api/user.api';
+import { getunreadedmessage, getuser } from '../../../../api/user.api';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import './index.less'
+import { getnotifications } from '../../../../api/notification.api';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 export default function Notifications() {

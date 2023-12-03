@@ -11,11 +11,12 @@ export default function Index() {
     const welcomeDashboardClassname = currentTheme === 'light' ? 'welcome-light' : ''
     const SayhelloUsernameClassname = currentTheme === 'light' ? 'Sayhello-username-light' : ''
     const notificationBoxClassname = currentTheme === 'light' ? 'notificationBox-light' : ''
-    const [isBirthday, setIsBirthday] = useState(checkIsBirthday(birthday))
+    const [isBirthday] = useState(checkIsBirthday(birthday))
+
     return (
         <div className='sayHello'>
             <div style={{ fontWeight: 800, fontSize: '30px' }}>{isBirthday ? formatMessage({ id: 'happyBirthday' }) : formatMessage({ id: 'hi' })}, <span className={`Sayhello-username ${SayhelloUsernameClassname}`}>{name}</span> ! </div>
-            <div className={`welcome ${welcomeDashboardClassname}`}><h3>{formatMessage({ id: 'sayhello' })} <span style={{ fontWeight: 600 }}>Medal</span>~</h3></div>
+            <div className={`welcome ${welcomeDashboardClassname}`}>{formatMessage({ id: 'sayhello' })} <span style={{ fontWeight: 600 }}>Medal</span>~</div>
             <div className={`notificationBox ${notificationBoxClassname}`}>
                 <Notifications />
             </div>

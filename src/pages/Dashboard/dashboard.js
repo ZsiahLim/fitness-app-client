@@ -2,7 +2,7 @@ import './index.less';
 import SayHello from './components/sayHello'
 import Contacts from './components/contacts'
 import Statistic from './components/statistic'
-import CompetitionCard from '../../components/competitionCard'
+import MeasurementCard from '../../components/MeasurementCard'
 import Trend from './components/trend'
 import RightSidebar from './components/rightSidebar';
 import { useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ function Main() {
                     <Statistic />
                 </div>
                 <div className='contendBox-left-subBottom'>
-                    <CompetitionCard />
+                    <MeasurementCard />
                     <Trend />
                 </div>
             </div>

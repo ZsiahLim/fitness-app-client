@@ -24,6 +24,19 @@
     margin-right: 10px;
     display: flex;
 
+    &-left {
+        overflow: auto;
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+
+        /* Internet Explorer 10+ */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+
     .rightSidebar-date {
         height: 100%;
         flex-basis: 360px;
@@ -45,271 +58,10 @@
 
     .planpage-schedule {
         flex: 1;
-        height: 100%;
         display: flex;
         flex-direction: column;
-        padding: 20px;
-
-        .NoSchedueBox {
-
-            .NoSchedule {
-                font-size: 18px;
-                font-weight: 500;
-                width: 100%;
-                display: flex;
-
-                .border {
-                    width: 10px;
-                    height: 10;
-                    border-radius: 4px;
-                    background-color: @darkUsernameColor;
-                    margin-right: 6px;
-                }
-
-                .border-light {
-                    background-color: @lightUsernameColor;
-                }
-
-                .programName {
-                    &:hover {
-                        color: #4790ff;
-                        cursor: pointer;
-                    }
-                }
-
-            }
-
-            .schedule-promotion {
-                margin-top: 10px;
-                font-size: 14px;
-                max-width: 400px;
-                color: @darkTextColorforcomment;
-            }
-
-            .promotionPlan {
-                margin-top: 10px;
-                display: flex;
-                justify-content: space-around;
-
-                .promotionDay {
-                    padding: 6px;
-                    width: 24%;
-                    background: linear-gradient(to bottom, @darkNavHoverColor, @darkBlockBackgroundColor);
-                    color: #fff;
-                    opacity: 0.6;
-                    border-radius: 4px;
-                    overflow: hidden;
-
-                    .promotionDay-Title {
-                        font-weight: 500;
-                        font-size: 16px;
-                    }
-
-                    .promotionDay-content {
-                        font-size: 14px;
-                    }
-
-                }
-
-                .promotionDay-light {
-                    background: linear-gradient(to bottom, @lightDashboardBackgroundColor, @lightBlockBackgroundColor);
-                    color: @lightTextColor;
-                }
-            }
-
-            .Evaluate {
-                font-size: 12px;
-                display: flex;
-                align-items: center;
-                padding: 10px;
-                border-radius: 10px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: @darkNavHoverColor;
-                }
-
-                .personalizedWords {
-                    padding-right: 10px;
-                }
-
-                .personalizedBtn {
-                    width: 23px;
-                    height: 23px;
-                    border-radius: 6px;
-                    background-color: @darkNavHoverColor;
-                    display: flex;
-                    justify-content: center;
-                }
-            }
-
-            .Evaluate-light {
-                &:hover {
-                    background-color: @lightNavHoverColor;
-                }
-
-                .personalizedBtn {
-                    background-color: @lightNavHoverColor;
-                }
-            }
-        }
-
-        .AddSchedule {
-            width: 100%;
-            margin-top: 12px;
-            margin-bottom: 12px;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            &-btn {
-                max-width: 600px;
-                border-radius: 10px;
-                height: 50px;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                background-color: #4d90f9;
-
-                &:hover {
-                    background-color: @lightUsernameColor;
-                }
-            }
-
-        }
-
-        .RecommandForUser {
-            height: 100%;
-            overflow: hidden;
-
-            .RecommandForUser-title {
-                font-weight: 500;
-            }
-
-            @media (max-width: 1380px) {
-                .RecommandForUser-content {
-                    display: flex;
-                    flex-direction: column;
-                    width: 100%;
-
-                    .RecommandForUser-Item {
-                        width: 100% !important;
-                        height: 130px;
-                        border-radius: 20px;
-                        background-color: @darkNavHoverColor;
-                        display: flex;
-                        margin-bottom: 6px;
-
-                        .RecommandForUser-Item-img {
-                            border-radius: 10px;
-                            overflow: hidden;
-                            flex-basis: 200px;
-
-                            .img {
-                                vertical-align: middle;
-                                width: 100% !important;
-
-                            }
-                        }
-
-                        .RecommandForUser-Item-desc {
-                            padding-left: 10px;
-                            padding-top: 10px;
-
-                            .RecommandForUser-Item-title {}
-
-                            .RecommandForUser-Item-content {
-                                margin-top: 6px;
-                                padding: 4px;
-                                font-size: 12px;
-                                color: @darkTextColorforcomment;
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            .RecommandForUser-content {
-                display: flex;
-                height: calc(100% - 46.667px);
-                overflow: auto;
-
-                &::-webkit-scrollbar {
-                    /*滚动条整体样式*/
-                    width: 6px;
-                    /*高宽分别对应横竖滚动条的尺寸*/
-                    height: 1px;
-                    background-color: transparent;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                    /*滚动条里面小方块*/
-                    border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-                    background: rgba(157, 165, 183, 0.7);
-                }
-
-                &::-webkit-scrollbar-track {
-                    /*滚动条里面轨道*/
-                    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-                    border-radius: 10px;
-                    // background: #EDEDED;
-                }
-
-                &::-webkit-scrollbar-thumb:hover {
-                    background: #888888;
-                    /*鼠标移上滚动条样式*/
-                }
-
-                .RecommandForUser-Item {
-                    width: 48%;
-                    height: 130px;
-                    margin: 0 auto;
-                    border-radius: 20px;
-                    background-color: @darkNavHoverColor;
-                    display: flex;
-                    margin-bottom: 6px;
-
-                    .RecommandForUser-Item-img {
-                        width: 200px;
-                        border-radius: 10px;
-                        overflow: hidden;
-                        flex-basis: 200px;
-
-                        .img {
-                            vertical-align: middle;
-                            height: 100% !important;
-                        }
-                    }
-
-                    .RecommandForUser-Item-desc {
-                        padding-left: 10px;
-                        padding-top: 10px;
-
-                        .RecommandForUser-Item-title {}
-
-                        .RecommandForUser-Item-content {
-                            margin-top: 6px;
-                            padding: 4px;
-                            font-size: 12px;
-                            color: @darkTextColorforcomment;
-                        }
-                    }
-                }
-
-
-                .RecommandForUser-Item-light {
-                    background-color: @lightNavHoverColor;
-                }
-
-            }
-        }
+        padding: 10px 10px 0 20px;
     }
-
 }
 
 .planPage-light {

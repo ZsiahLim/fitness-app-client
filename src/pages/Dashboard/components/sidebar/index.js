@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { VideoCameraTwoTone, HomeTwoTone, MessageTwoTone, CalendarTwoTone, IdcardTwoTone, FlagTwoTone, SoundTwoTone, UserOutlined } from '@ant-design/icons';
+import { VideoCameraTwoTone, HomeTwoTone, MessageTwoTone, CalendarTwoTone, IdcardTwoTone, FlagTwoTone, SoundTwoTone, UserOutlined, FileTextTwoTone } from '@ant-design/icons';
 import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
 import Emoji from 'react-emojis';
 import './index.less'
@@ -48,7 +48,8 @@ export default function Sidebar() {
         { value: 'calender', icon: () => <CalendarTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'calender' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'tutorial', icon: () => <VideoCameraTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'tutorial' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'blog', icon: () => <SoundTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'blog' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
-        { value: 'competition', icon: () => <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        // { value: 'competition', icon: () => <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
+        { value: 'statistics', icon: () => <FileTextTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'statistics' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'profile', icon: () => <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'profile' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
     ]
     const navigationItem = (value, Icon) => {
