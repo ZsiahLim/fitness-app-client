@@ -22,13 +22,12 @@ function useRecords() {
     const [records, setAllRecords] = useState([])
     const getRecords = async () => {
         await getrecords().then(res => {
-            if (res.status !== false) {
+            if (res && res?.status !== false) {
                 setAllRecords(res)
                 dispatch(setRecords(res))
-            } else {
-                message.error("出现异常请重试")
             }
         }).catch(err => {
+            console.log(err, 'err');
             message.error("出现异常请重试")
         })
     }

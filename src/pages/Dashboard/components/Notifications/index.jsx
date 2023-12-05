@@ -80,7 +80,9 @@ export default function Notifications() {
         <div>
             <Spin tip="Loading..." indicator={antIcon} spinning={loading}>
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab={`${formatMessage({ id: 'systemNotifications' })}(${notifications.length})`} key="1">
+                    <TabPane
+                        style={{ maxHeight: 400, overflow: "auto" }}
+                        tab={`${formatMessage({ id: 'systemNotifications' })}(${notifications.length})`} key="1">
                         <List
                             dataSource={notifications}
                             renderItem={notification => (
@@ -94,7 +96,9 @@ export default function Notifications() {
                             )}
                         />
                     </TabPane>
-                    <TabPane tab={`${formatMessage({ id: 'messages' })}(${unreadedMsgs.length})`} key="2">
+                    <TabPane
+                        style={{ maxHeight: 400, overflow: "auto" }}
+                        tab={`${formatMessage({ id: 'messages' })}(${unreadedMsgs.length})`} key="2">
                         <List
                             dataSource={unreadedMsgs}
                             renderItem={unreadedMsg => (
@@ -113,7 +117,9 @@ export default function Notifications() {
                             )}
                         />
                     </TabPane>
-                    <TabPane tab={formatMessage({ id: 'todos' })} key="3">
+                    <TabPane
+                        style={{ maxHeight: 400, overflow: "auto" }}
+                        tab={formatMessage({ id: 'todos' })} key="3">
                         <List
                             dataSource={noticeListFilter('event')}
                             renderItem={item => (

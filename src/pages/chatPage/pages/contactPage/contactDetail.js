@@ -1,37 +1,60 @@
 import { EllipsisOutlined, LeftOutlined, MessageFilled, MessageOutlined, UserOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { createconversation, createreport, getuser, removecontact } from '../../../../api/user.api'
 import { Avatar, Dropdown, Form, Modal, message } from 'antd'
 import './contactDetail.less'
 import { useDispatch, useSelector } from 'react-redux'
 import TextArea from 'antd/es/input/TextArea'
 import { loginStart, loginSuccess } from '../../../../redux/userSlice'
+import SIZE from '../../../../constants/SIZE'
+import useUserTheme from '../../../../hooks/useUserTheme'
+import APPTHEME from '../../../../constants/COLORS/APPTHEME'
+import COLORS from '../../../../constants/COLORS'
+import { formatTimeToChinese } from '../../../../utils/formatTime'
 
 export default function ContactDetail() {
-    const { currentTheme } = useSelector(state => state.user)
-    const [contact, setContact] = useState()
-    const location = useLocation()
+    const { userID: ContactID } = useParams()
     const navigateTo = useNavigate()
-
+    const theme = useUserTheme()
+    const THEME = APPTHEME[theme]
     const dispatch = useDispatch()
-    useEffect(() => {
-        const contactID = location.pathname.split('/')[4]
-        getData(contactID).then((res) => {
-            setContact(res)
-            console.log('contact', res);
-        })
-    }, [location])
+    const { currentTheme, currentUser } = useSelector(state => state.user)
+    const [contact, setContact] = useState()
+    const [records, setRecords] = useState([])
+    const [alreadySubscribed, setAlreadySubscribed] = useState(currentUser.contactsUsers.includes(ContactID))
 
-    const getData = async (userID) => {
-        return await getuser(userID)
+    const getData = async () => {
+        await getuser(ContactID).then(res => {
+            if (res.status !== false) {
+                setContact(res)
+                setRecords(res.records)
+            } else {
+                message.error("出现异常请稍后重试")
+            }
+        })
     }
-    const confirmDelete = async (id) => {
-        dispatch(loginStart())
-        const updatedUser = await removecontact(id)
-        message.success('this contact has been already deleted')
-        dispatch(loginSuccess(updatedUser))
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+    useEffect(() => {
+        setAlreadySubscribed(currentUser.contactsUsers.includes(ContactID))
+    }, [currentUser])
+
+    const confirmDelete = async () => {
         navigateTo('/chat/contacts')
+        dispatch(loginStart())
+        await removecontact(ContactID).then(res => {
+            if (res.status !== false) {
+                console.log("currentUser contact", res.contactsUsers);
+                message.success('this contact has been already deleted')
+                dispatch(loginSuccess(res))
+            } else {
+                message.error('出现异常请稍后重试')
+            }
+        })
     };
     const items = [
         {
@@ -42,7 +65,7 @@ export default function ContactDetail() {
             key: '4',
             danger: true,
             label: (
-                <div onClick={() => confirmDelete(contact._id)}>
+                <div onClick={() => confirmDelete()}>
                     Delete user
                 </div>
             ),
@@ -65,10 +88,16 @@ export default function ContactDetail() {
     }
 
     const lightContactDetailClassName = currentTheme === 'light' ? 'chat-contentBox-rightBar-contactDetail-light' : ''
-    const doConversation = async (contactID) => {
+    const doConversation = async () => {
         try {
-            const conversation = await createconversation({ receiverId: contactID })
-            navigateTo(`/chat/conversations/specific/${conversation._id}`)
+            await createconversation({ receiverId: ContactID }).then((res) => {
+                if (res.status !== false) {
+                    const conversation = res.conversation
+                    navigateTo(`/chat/conversations/specific/${conversation._id}`)
+                } else {
+                    message.error('failed to create conversation')
+                }
+            })
         } catch (error) {
             message.error('failed to create conversation')
         }
@@ -76,7 +105,7 @@ export default function ContactDetail() {
     return (
         <>
             <div className="chat-contentBox-rightBar-header">
-                <LeftOutlined style={{ fontSize: 24 }} onClick={() => navigateTo('/chat/contacts')} />
+                <LeftOutlined style={{ fontSize: 24 }} onClick={() => navigateTo(-1)} />
                 <Dropdown menu={{ items }}>
                     <EllipsisOutlined style={{ fontSize: 24, cursor: "pointer" }} />
                 </Dropdown>
@@ -90,12 +119,20 @@ export default function ContactDetail() {
                         <div className="chat-contentBox-rightBar-contactDetail-contactCard-detail-remark">{contact?.name}</div>
                         <div className="chat-contentBox-rightBar-contactDetail-contactCard-detail-namej commentText">Username: {contact?.name}</div>
                         <div className="chat-contentBox-rightBar-contactDetail-contactCard-detail-medalID commentText">MedalID: {contact?._id}</div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', flexDirection: 'row', marginBottom: 10, marginHorizontal: '3%', }}>
+                            <div style={{ fontSize: 14 }}>@{contact?.name}</div>
+                            <div style={{ fontSize: 12, color: COLORS.commentText }}>于{formatTimeToChinese(contact?.createdAt)}加入</div>
+                        </div>
+                    </div>
+                    <div>
+                        
                     </div>
                 </div>
-                <div className='chat-contentBox-rightBar-contactDetail-remarks'>
-                    <div className='chat-contentBox-rightBar-contactDetail-remarks-title'>Remark</div>
-                    <div className='chat-contentBox-rightBar-contactDetail-remarks-item'>{contact?.name}</div>
-                </div>
+
+                {contact?.personalStatus && <div className='chat-contentBox-rightBar-contactDetail-remarks'>
+                    <div className='chat-contentBox-rightBar-contactDetail-remarks-title'>Personal Status</div>
+                    <div className='chat-contentBox-rightBar-contactDetail-remarks-item'>{contact?.personalStatus}</div>
+                </div>}
                 <div className='chat-contentBox-rightBar-contactDetail-action'>
                     <div className='chat-contentBox-rightBar-contactDetail-action-item' onClick={() => doConversation(contact?._id)}>
                         <MessageOutlined style={{ fontSize: 36 }} />

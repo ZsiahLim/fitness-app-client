@@ -54,14 +54,13 @@ export default function FootNavigationBar() {
             </div>
             <div className={`navigation ${lightnavigation}`}
                 style={{
-                    backgroundColor: selectPage === 'favorites' ? `${currentTheme === 'dark' ? '#383838' : '#ffffff'}` : ''
+                    backgroundColor: selectPage === 'subscribe' ? `${currentTheme === 'dark' ? '#383838' : '#ffffff'}` : ''
                 }}
-                onClick={() => navigateTo('/chat/favorites')}
+                onClick={() => navigateTo('/chat/subscribe')}
             >
                 <UserAddOutlined
                     className='navigationCenteredItem'
-                    twoToneColor={selectPage === 'favorites' ? '#4e8df5' : "#3d3d3d"}
-                    style={{ fontSize: 26 }}
+                    style={{ fontSize: 26, color: selectPage === 'subscribe' ? '#4e8df5' : "#3d3d3d" }}
                 />
             </div>
         </>

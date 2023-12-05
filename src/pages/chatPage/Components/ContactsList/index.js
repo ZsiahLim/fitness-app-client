@@ -19,7 +19,7 @@ export default function ContactsList() {
         res.then((contacts) => {
             setContacts(contacts)
         })
-    }, [])
+    }, [currentUser.contactsUsers])
     const lightcontactsPageClassname = currentTheme === 'light' ? "contactsPage-light" : ''
     const navigateTo = useNavigate()
     const location = useLocation()

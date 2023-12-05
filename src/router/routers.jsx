@@ -14,7 +14,6 @@ import StatisticsPage from '../pages/StatisticPage'
 import SettingPage from '../pages/settingPage'
 import ConversationPage from '../pages/chatPage/pages/conversationPage'
 import ContactPage from '../pages/chatPage/pages/contactPage'
-import FavoritesPage from '../pages/chatPage/pages/favoritesPage'
 import BlogsBox from '../pages/blogPage/blogsBox'
 import MyBlog from '../pages/blogPage/myBlog'
 import EvaluatePage from '../pages/evaluatePage'
@@ -23,18 +22,8 @@ import SpecificBlog from '../pages/blogPage/page/specificBlog'
 import FinishExercise from '../components/finishExercise'
 import ContactDetail from '../pages/chatPage/pages/contactPage/contactDetail'
 import ConversationDetail from '../pages/chatPage/pages/conversationPage/conversationDetail'
-// const Main = lazy(() => import('../pages/Dashboard/dashboard'))
-// const ChatPage = lazy(() => import('../pages/chatPage'))
-// const PlanPage = lazy(() => import('../pages/planPage'))
-// const TutorialPage = lazy(() => import('../pages/tutorialPage'))
-// const BlogPage = lazy(() => import('../pages/blogPage'))
-// const CompetitionPage = lazy(() => import('../pages/competitionPage'))
-// const SettingPage = lazy(() => import('../pages/settingPage'))
-// const ChatBox = lazy(() => import('../pages/chatPage/chatBox'))
-// const ContactPage = lazy(() => import('../pages/chatPage/contactPage'))
-// const FavoritesPage = lazy(() => import('../pages/chatPage/favoritesPage'))
-// const BlogsBox = lazy(() => import('../pages/blogPage/blogsBox'))
-// const MyBlog = lazy(() => import('../pages/blogPage/myBlog'))
+import SubscribeUserPage from '../pages/chatPage/pages/SubscribeUserPage'
+
 
 export default function MyRouter() {
     const { currentUser } = useSelector((state) => state.user)
@@ -95,16 +84,23 @@ export default function MyRouter() {
                             },
                             children: [
                                 {
-                                    path: "detail/:contactID",
+                                    path: "detail/:userID",
                                     element: <ContactDetail />,
                                     loader: async ({ params }) => await getuser(params.contactID)
                                 },
                             ]
                         },
                         {
-                            path: "favorites",
-                            element: <FavoritesPage />,
+                            path: "subscribe",
+                            element: <SubscribeUserPage />,
                             // loader: async () => await getconversation()
+                            children: [
+                                {
+                                    path: "user/:userID",
+                                    element: <ContactDetail />,
+                                    loader: async ({ params }) => await getuser(params.contactID)
+                                },
+                            ]
                         },
                     ]
                 },

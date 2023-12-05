@@ -10,20 +10,19 @@ function useMeasurement() {
 
     const getMeasurement = async () => {
         await getmeasurements().then(res => {
-            if (res.status !== false) {
+            console.log(res);
+            if (res && res?.status !== false) {
                 setAllMeasurements(res)
             } else {
-                message.error('出现异常请稍后重试')
+
             }
         })
     }
     const getLatestMeasurement = async () => {
         await getlatestmeasurement().then(res => {
-            if (res.status !== false) {
-                console.log("latest", res);
+            if (res && res?.status !== false) {
                 setLatestMeasurement(res)
             } else {
-                message.error('出现异常请稍后重试')
             }
         })
     }

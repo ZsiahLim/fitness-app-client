@@ -5,13 +5,14 @@ import { Button, Dropdown, Input, Modal, Progress, Upload, message } from 'antd'
 import { useSelector } from 'react-redux'
 import { io } from 'socket.io-client'
 import { deleteconversation, getcurrentconversationmessages, getspecificconversation, getuser, sendmessage } from '../../../../api/user.api';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../firebase";
 const { TextArea } = Input;
 const { confirm } = Modal;
 
 export default function ConversationDetail() {
+    const { conversationID } = useParams()
     const navigateTo = useNavigate()
     const location = useLocation()
     const searchInput = useRef(null)
@@ -46,14 +47,13 @@ export default function ConversationDetail() {
     }, [])
 
     const handleDeleteConversation = async () => {
-        await deleteconversation(location.pathname.split('/')[4]).then(res => {
+        await deleteconversation(conversationID).then(res => {
             navigateTo('/chat/conversations')
         }).catch(() => {
             message.error('error')
         })
     }
     const sendMessage = async (type, value, width, height) => {
-        const conversationID = location.pathname.split('/')[4]
         try {
             if (value) {
                 socket.current.emit('sendMessage', { msgType: type, senderId: currentUser._id, receiverId: contact._id, msgValue: value, msgHeight: height ? height : null, msgWidth: width ? width : null })
@@ -74,28 +74,26 @@ export default function ConversationDetail() {
 
     const [contact, setContact] = useState()
     useEffect(() => {
-        if (location.pathname.split('/')[3] === "specific" && location.pathname.split('/')[4]) {
-            const conversationID = location.pathname.split('/')[4]
-            const getContactInfo = async () => {
-                const conversation = await getspecificconversation(conversationID)
-                const contactIndex = conversation.members.indexOf(currentUser._id) === 1 ? 0 : 1
-                const contactID = conversation.members[contactIndex]
-                const contact = await getuser(contactID)
-                setContact(contact)
-            }
-            getContactInfo()
-            const getMessages = async () => {
-                try {
-                    const res = await getcurrentconversationmessages(conversationID)
-                    setCurrentConversationMessages(res)
-                } catch (error) {
-                    message.error('Failed to get your messages')
-                }
-            }
-            getMessages()
+        const getContactInfo = async () => {
+            const conversation = await getspecificconversation(conversationID)
+            const contactIndex = conversation.members.indexOf(currentUser._id) === 1 ? 0 : 1
+            const contactID = conversation.members[contactIndex]
+            const contact = await getuser(contactID)
+            setContact(contact)
         }
+        getContactInfo()
+        const getMessages = async () => {
+            try {
+                const res = await getcurrentconversationmessages(conversationID)
+                setCurrentConversationMessages(res)
+            } catch (error) {
+                message.error('Failed to get your messages')
+            }
+        }
+        getMessages()
 
-    }, [location])
+
+    }, [])
 
     useEffect(() => {
         if (arrivalMessage) {

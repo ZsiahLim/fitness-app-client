@@ -15,16 +15,15 @@ function useUserTarget() {
 
     const getTarget = async () => {
         await getuser(currentUser._id).then(res => {
-            if (res.status !== false) {
+            if (res && res?.status !== false) {
                 res?.weightTarget && setWeightTarget(res.weightTarget)
                 res?.stepTarget && setStepTarget(res.stepTarget)
                 res?.distanceTarget && setDistanceTarget(res.distanceTarget)
                 res?.calorieTarget && setCalorieTarget(res.calorieTarget)
                 res?.durationTarget && setDurationTarget(res.durationTarget)
-            } else {
-                message.error("出现异常请重试")
             }
         }).catch(err => {
+            console.log(err, 'err');
             message.error("出现异常请重试")
         })
     }

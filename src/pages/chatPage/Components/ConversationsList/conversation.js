@@ -7,13 +7,22 @@ import { useSelector } from 'react-redux';
 import './index.less'
 import { useLocation } from 'react-router-dom';
 import { getspecificconversationunreadnum, getuser } from '../../../../api/user.api';
+import COLORS from '../../../../constants/COLORS';
 
 export default function Conversation(props) {
     const { conversation, currentUserId } = props
+    const contactIndex = conversation.members.indexOf(currentUserId) === 1 ? 0 : 1
+    const contactID = conversation.members[contactIndex]
+
     const currentConversationID = useLocation().pathname.split('/')[4]
-    const { currentTheme } = useSelector(state => state.user)
+    const { currentTheme, currentUser } = useSelector(state => state.user)
     const [contact, setContact] = useState()
     const [unreadNum, setUnreadNum] = useState(0)
+    useEffect(() => {
+        setAlreadySubscribed(currentUser.contactsUsers.includes(contactID))
+    }, [currentUser])
+
+    const [alreadySubscribed, setAlreadySubscribed] = useState(true)
     useEffect(() => {
         const contactIndex = conversation.members.indexOf(currentUserId) === 1 ? 0 : 1
         const contactID = conversation.members[contactIndex]
@@ -56,7 +65,10 @@ export default function Conversation(props) {
             </div>
             <div className='userInfo'>
                 <div className='topInfo'>
-                    <p className='userName'>{contact && contact.name}</p>
+                    <div className='userName' style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <div>{contact && contact.name}</div>
+                        {!alreadySubscribed && <div style={{ fontSize: 10, color: COLORS.commentText }}>[未关注]</div>}
+                    </div>
                     <span className='date'>{formatDateTime(conversation.updatedAt)}</span>
                 </div>
                 {currentConversationID !== conversation._id && <p className='message'>
@@ -64,5 +76,6 @@ export default function Conversation(props) {
                 </p>}
             </div>
         </div>
+
     )
 }

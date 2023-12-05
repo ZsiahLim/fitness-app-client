@@ -12,6 +12,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import APPTHEME from '../../constants/COLORS/APPTHEME';
 import useUserTheme from '../../hooks/useUserTheme';
 import { formatTimeToChineseDetail } from '../../utils/formatTime';
+import { Empty } from 'antd';
 
 export default function Index() {
     const theme = useUserTheme()
@@ -86,8 +87,9 @@ export default function Index() {
                 </div>
                 <div style={{ flex: 1, padding: '0 10px' }}>
                     {isEmptyObj(latestMeasurement) && <div
-                        style={{ marginTop: 20, display: 'flex', justifyContent: 'center', color: COLORS.commentText, padding: 10, borderRadius: 16, backgroundColor: THEME.backgroundColor }}
+                        style={{ marginTop: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', color: COLORS.commentText, padding: 10, borderRadius: 16, backgroundColor: THEME.backgroundColor }}
                     >
+                        <Empty description={false} />
                         还没有记录，添加记录跟踪你的体重身材变化吧
                     </div>}
                     {!isEmptyObj(latestMeasurement) && <div>

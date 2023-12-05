@@ -22,15 +22,6 @@ export default function ConversationPage() {
             <div className="chat-contentBox-leftBar">
                 <div className="chat-contentBox-leftBar-header">
                     <div className="chat-contentBox-leftBar-header-title">Chat</div>
-                    {/* <div
-                        onClick={() => navigateTo('/chat/contacts')}
-                    >
-                        <TeamOutlined
-                            className='navigationCenteredItem'
-                            twoToneColor={"#3d3d3d"}
-                            style={{ fontSize: 26 }}
-                        />
-                    </div> */}
                 </div>
                 <div className="chat-contentBox-leftBar-mainContent">
                     <div className='conversations'>

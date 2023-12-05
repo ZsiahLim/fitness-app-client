@@ -12,10 +12,8 @@ function useCompletedTutorials(selectDay) {
 
     const getData = async () => {
         await getsessions().then(res => {
-            if (res.status !== false) {
+            if (res && res?.status !== false) {
                 setCurrentSessions(res)
-            } else {
-                message.error('出现异常请重试')
             }
         })
     }

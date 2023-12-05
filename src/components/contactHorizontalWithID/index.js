@@ -4,15 +4,16 @@ import { Avatar, message } from 'antd'
 import useUserTheme from '../../hooks/useUserTheme'
 import APPTHEME from '../../constants/COLORS/APPTHEME'
 import { createconversation, getuser, removecontact } from '../../api/user.api'
-import GENDER from '../../constants/GENDER'
 import { useDispatch } from 'react-redux'
 import { loginSuccess } from '../../redux/userSlice'
 import COLORS from '../../constants/COLORS'
 import { MessageFilled } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
 export default function ContactHorizontalWithID({ contactID }) {
     const dispatch = useDispatch()
     const theme = useUserTheme()
+    const navigateTo = useNavigate()
     const currentTheme = APPTHEME[theme]
     const [contact, setContact] = useState({ name: "", gender: "", avator: null })
     const { name, gender, avator } = contact
@@ -28,9 +29,8 @@ export default function ContactHorizontalWithID({ contactID }) {
     const handleSendMessage = async () => {
         await createconversation({ receiverId: contactID }).then(res => {
             if (res.status !== false) {
-                dispatch(loginSuccess(res.user))
                 const conversation = res.conversation
-                // navigate('SpecificConversationPage', { conversationID: conversation._id, contact })
+                navigateTo(`/chat/conversations/specific/${conversation._id}`)
             } else {
                 console.log(res);
                 message.error("出现异常请稍后重试")
