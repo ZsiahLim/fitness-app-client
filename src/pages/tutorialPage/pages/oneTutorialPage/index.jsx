@@ -5,7 +5,7 @@ import MyCarousel from '../../../../components/myCarousel'
 import CardTitle from '../../../../components/CardTitle'
 import './index.less'
 import { CalendarFilled, LeftOutlined } from '@ant-design/icons'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Tag } from 'antd'
 import { VideoJSForTutorial } from '../../../../components/VideoJSForTutorial'
 

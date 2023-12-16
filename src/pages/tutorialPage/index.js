@@ -1,88 +1,108 @@
 import React, { useState } from 'react'
 import './index.less'
-import TutorialItem from './components/tutorialItem'
-import { Divider, message } from 'antd'
-import { Empty } from 'antd'
+import { message } from 'antd'
 import yoga from '../../Pic/tutorialIcon/yoga.svg'
 import cycling from '../../Pic/tutorialIcon/cycling.svg'
-import rope from '../../Pic/tutorialIcon/rope-jumping-trans.svg'
-import walk from '../../Pic/tutorialIcon/walk.svg'
+import rope from '../../Pic/tutorialIcon/rope.png'
 import strength from '../../Pic/tutorialIcon/strength.svg'
-import health from '../../Pic/tutorialIcon/health.svg'
 import fat from '../../Pic/tutorialIcon/fat-burning.svg'
-import aerobics from '../../Pic/tutorialIcon/aerobics.svg'
 import { getalltutorial } from '../../api/user.api'
 import { useSelector } from 'react-redux'
 import WaterfallContainerForTutorial from '../../components/waterfallContainer/TutorialsWrapper'
 import { useLoaderData } from 'react-router-dom'
+import { getspecifictypetutorials } from '../../api/tutorial.api'
+import { FileOutlined, FolderOpenOutlined, StarOutlined } from '@ant-design/icons'
+import COLORS from '../../constants/COLORS'
+import TutorialItem from './components/tutorialItem'
 export default function TutorialPage() {
     const { currentTheme } = useSelector(state => state.user)
     const [selectedPage, setSelectedPage] = useState()
-    const [tutorials, setTutorials] = useState(useLoaderData())
-    const getLibs = async (type) => {
+    const [allTutorials, setAllTutorials] = useState(useLoaderData())
+    const [specificTypeTutorials, setSpecificTutorials] = useState(useLoaderData())
+    const getAllTutorials = async (type) => {
         await getalltutorial().then(res => {
-            setTutorials(res)
+            setAllTutorials(res)
         }).catch(err => {
             console.log(err);
             message.error('failed to get tutorial library, try again please')
         })
     }
 
+    const getSpecificTutorials = async (type) => {
+        const reqBody = { type }
+        console.log(reqBody);
+        await getspecifictypetutorials(reqBody).then(res => {
+            if (res.status !== false) {
+                setSpecificTutorials(res)
+                console.log("res", res);
+            } else {
+                message.error("出现异常，请稍后重试")
+            }
+        })
+    }
+    const getRecommandTutorials = async (type) => {
+        const reqBody = { type }
+        console.log(reqBody);
+        await getspecifictypetutorials(reqBody).then(res => {
+            if (res.status !== false) {
+                setSpecificTutorials(res)
+                console.log("res", res);
+            } else {
+                message.error("出现异常，请稍后重试")
+            }
+        })
+    }
     const lightTutorialPageClassname = currentTheme === 'light' ? 'tutorialPage-light' : ''
     return (
         <div className={`tutorialPage ${lightTutorialPageClassname}`}>
             <div className='tutorialItems'>
                 <div onClick={() => {
+                    setSelectedPage("All")
+                    getAllTutorials('yoga')
+                }}>
+                    <div className='tutorialItem'>
+                        <div className='TutorialIcon'><FolderOpenOutlined style={{ fontSize: 30, color: COLORS.white }} /></div>
+                        <div className='TutorialTitle'>All</div>
+                    </div>
+                </div>
+                <div onClick={() => {
+                    setSelectedPage("Recommand")
+                    getSpecificTutorials('yoga')
+                }}>
+                    <div className='tutorialItem'>
+                        <div className='TutorialIcon'>
+                            <StarOutlined style={{ fontSize: 30, color: COLORS.white }} />
+                        </div>
+                        <div className='TutorialTitle'>Recommand</div>
+                    </div>
+                </div>
+                <div onClick={() => {
                     setSelectedPage("Yoga")
-                    getLibs('yoga')
+                    getSpecificTutorials('yoga')
                 }}><TutorialItem tutorial={{ title: "Yoga", icon: yoga }} /></div>
                 <div onClick={() => {
                     setSelectedPage("Jump  rope")
-                    getLibs('rope')
+                    getSpecificTutorials('rope')
                 }}><TutorialItem tutorial={{ title: "Jump rope", icon: rope }} /></div>
                 <div onClick={() => {
-                    setSelectedPage("Walk")
-                    getLibs('walk')
-                }}><TutorialItem tutorial={{ title: "Walk", icon: walk }} /></div>
-                <div onClick={() => {
                     setSelectedPage("Fat burning")
-                    getLibs('fat')
+                    getSpecificTutorials('burning')
                 }}><TutorialItem tutorial={{ title: "Fat burning", icon: fat }} /></div>
                 <div onClick={() => {
                     setSelectedPage("Cycling")
-                    getLibs('cycling')
+                    getSpecificTutorials('cycling')
                 }}><TutorialItem tutorial={{ title: "Cycling", icon: cycling }} /></div>
                 <div onClick={() => {
-                    setSelectedPage("Aerobics")
-                    getLibs('aerobics')
-                }}><TutorialItem tutorial={{ title: "Aerobics", icon: aerobics }} /></div>
-                <div onClick={() => {
-                    setSelectedPage("Health")
-                    getLibs('healthy')
-                }}><TutorialItem tutorial={{ title: "Health", icon: health }} /></div>
-                <div onClick={() => {
                     setSelectedPage("Strength")
-                    getLibs('strength')
+                    getSpecificTutorials('strength')
                 }}><TutorialItem tutorial={{ title: "Strength", icon: strength }} /></div>
             </div>
-            <Divider />
             <div className='tutorialContent'>
                 <div className='tutorialRecommand'>
-                    <h2>{selectedPage ? selectedPage : "Recommand For You"}</h2>
+                    <h2>{selectedPage ? selectedPage : "All"}</h2>
                 </div>
                 <div className='tutorialSeries' style={{ display: 'flex' }}>
-                    {tutorials.length !== 0 ? <WaterfallContainerForTutorial tutorials={tutorials} />
-                        : <Empty
-                            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                            imageStyle={{ height: 60 }}
-                            description={
-                                <span>
-                                    No tutorial
-                                </span>
-                            }
-                        >
-                            {/* <Button type="primary">Create Now</Button> */}
-                        </Empty>}
+                    {specificTypeTutorials.length !== 0 && <WaterfallContainerForTutorial tutorials={specificTypeTutorials} />}
                 </div>
             </div>
         </div>

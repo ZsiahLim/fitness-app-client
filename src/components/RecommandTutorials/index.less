@@ -25,53 +25,54 @@
         font-weight: 500;
     }
 
-    @media (max-width: 1380px) {
-        .RecommandForUser-content {
+    // @media (max-width: 1380px) {
+    .RecommandForUser-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .RecommandForUser-Item {
+            width: 100% !important;
+            height: 130px;
+            border-radius: 20px;
+            background-color: @darkNavHoverColor;
             display: flex;
-            flex-direction: column;
-            width: 100%;
+            margin-bottom: 6px;
 
-            .RecommandForUser-Item {
-                width: 100% !important;
-                height: 130px;
-                border-radius: 20px;
-                background-color: @darkNavHoverColor;
-                display: flex;
-                margin-bottom: 6px;
+            .RecommandForUser-Item-img {
+                border-radius: 10px;
+                overflow: hidden;
+                flex-basis: 200px;
 
-                .RecommandForUser-Item-img {
-                    border-radius: 10px;
-                    overflow: hidden;
-                    flex-basis: 200px;
+                .img {
+                    vertical-align: middle;
+                    width: 100% !important;
 
-                    .img {
-                        vertical-align: middle;
-                        width: 100% !important;
-
-                    }
                 }
+            }
 
-                .RecommandForUser-Item-desc {
-                    padding-left: 10px;
-                    padding-top: 10px;
+            .RecommandForUser-Item-desc {
+                padding-left: 10px;
+                padding-top: 10px;
 
-                    .RecommandForUser-Item-title {}
+                .RecommandForUser-Item-title {}
 
-                    .RecommandForUser-Item-content {
-                        margin-top: 6px;
-                        padding: 4px;
-                        font-size: 12px;
-                        color: @darkTextColorforcomment;
-                    }
+                .RecommandForUser-Item-content {
+                    margin-top: 6px;
+                    padding: 4px;
+                    font-size: 12px;
+                    color: @darkTextColorforcomment;
                 }
             }
         }
+
+        // }
 
     }
 
     .RecommandForUser-content {
         display: flex;
-        height: calc(100% - 46.667px);
+        // height: calc(100% - 46.667px);
         overflow: auto;
 
         &::-webkit-scrollbar {
@@ -149,6 +150,7 @@
 .Evaluate {
     font-size: 12px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
     border-radius: 10px;
@@ -160,15 +162,6 @@
 
     .personalizedWords {
         padding-right: 10px;
-    }
-
-    .personalizedBtn {
-        width: 23px;
-        height: 23px;
-        border-radius: 6px;
-        background-color: @darkNavHoverColor;
-        display: flex;
-        justify-content: center;
     }
 }
 

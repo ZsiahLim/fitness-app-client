@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.less'
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
@@ -13,6 +13,7 @@ import APPTHEME from '../../constants/COLORS/APPTHEME';
 import useUserTheme from '../../hooks/useUserTheme';
 import { formatTimeToChineseDetail } from '../../utils/formatTime';
 import { Empty } from 'antd';
+import UploadMeasurementModal from '../MeasurementModals/uploadModal';
 
 export default function Index() {
     const theme = useUserTheme()
@@ -21,8 +22,8 @@ export default function Index() {
     const { formatMessage } = useIntl()
     const competitionDashboardClassname = currentTheme === 'light' ? 'competition-light' : ''
     const myCardsClassname = currentTheme === 'light' ? 'myCards-light' : ''
-    const { latestMeasurement, allMeasurements } = useMeasurement()
     const getColorBoundary = currentTheme === 'dark' ? '#1d1d1d' : '#ffffff'
+    const { latestMeasurement, allMeasurements } = useMeasurement()
     const { weightArr, dateArr } = useMeasurements(allMeasurements)
     const WeightLineOption = {
         tooltip: {
@@ -74,6 +75,7 @@ export default function Index() {
     useEffect(() => {
         console.log("latestMeasurement.updatedAt", latestMeasurement.updatedAt);
     }, [latestMeasurement])
+    const [UploadMeasurementModalVisible, setUploadMeasurementModalVisible] = useState()
     return (
         <div className={`competition ${competitionDashboardClassname}`}>
             <div className={`myCards ${myCardsClassname}`}>
@@ -81,7 +83,7 @@ export default function Index() {
                     <div>
                         Measurement
                     </div>
-                    <div>
+                    <div onClick={() => setUploadMeasurementModalVisible(true)}>
                         <PlusOutlined />
                     </div>
                 </div>
@@ -124,6 +126,7 @@ export default function Index() {
                     <ReactEcharts option={WeightLineOption} theme={'light'} />
                 </div>
             </div>
+            <UploadMeasurementModal visible={UploadMeasurementModalVisible} setVisible={setUploadMeasurementModalVisible} />
         </div>
     )
 }

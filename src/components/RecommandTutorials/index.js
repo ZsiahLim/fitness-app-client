@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
 import { getalltutorial } from '../../api/user.api'
-import { message } from 'antd'
+import { Empty, message } from 'antd'
 import TutorialCardHorizontal from '../tutorialCard/tutorialCardHorizontal'
 import { useIntl } from 'react-intl'
 import { RightOutlined } from '@ant-design/icons'
@@ -9,13 +9,20 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import COLORS from '../../constants/COLORS'
 import CardTitle from '../CardTitle'
+import { getrecommandtutorials } from '../../api/tutorial.api'
+import { isEmptyObj } from '../../utils/funcs'
+import SIZE from '../../constants/SIZE'
+import useUserTheme from '../../hooks/useUserTheme'
+import APPTHEME from '../../constants/COLORS/APPTHEME'
 export default function RecommandTutorials() {
-    const [recommandTutorials, setRecommandTutorials] = useState()
-    const { currentTheme } = useSelector(state => state.user)
+    const theme = useUserTheme()
+    const THEME = APPTHEME[theme]
+    const [recommandTutorials, setRecommandTutorials] = useState([])
+    const { currentTheme, currentUser } = useSelector(state => state.user)
     const { formatMessage } = useIntl()
     const navigateTo = useNavigate()
     const getRecommandTutorials = async () => {
-        await getalltutorial().then(res => {
+        await getrecommandtutorials().then(res => {
             if (res.status !== false) {
                 setRecommandTutorials(res)
             } else {
@@ -39,14 +46,24 @@ export default function RecommandTutorials() {
                 <div className='personalizedWords'>
                     {formatMessage({ id: 'evaluateLevel' })}
                 </div>
-                <div className='personalizedBtn'>
-                    <RightOutlined style={{ color: COLORS.black }} />
-                </div>
+                <RightOutlined style={{ color: COLORS.white }} />
             </div>
             <div className='RecommandForUser-content'>
-                {recommandTutorials && recommandTutorials.map((item, index) => (
+                {recommandTutorials.length !== 0 && recommandTutorials.map((item, index) => (
                     <TutorialCardHorizontal key={index} tutorial={item} withCalendar={true} />
                 ))}
+                {(recommandTutorials.length === 0 && currentUser?.personalPrefer && !isEmptyObj(currentUser?.personalPrefer)) && (
+                    <div style={{ marginTop: SIZE.LargerMargin, flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 30, borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.backgroundColor }}>
+                        <Empty description={false} />
+                        <div style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.commentText }}>抱歉我们无法找到满足适合您喜好的教程</div>
+                    </div>
+                )}
+                {(recommandTutorials.length === 0 && (!currentUser?.personalPrefer || isEmptyObj(currentUser?.personalPrefer))) && (
+                    <div style={{ marginTop: SIZE.LargerMargin, flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 30, borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.backgroundColor }}>
+                        <Empty description={false} />
+                        <div style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.commentText }}>请做一下喜好问卷，来为您个性化推荐适合您喜好的教程</div>
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -43,6 +43,11 @@ const ANSWER = {
             zh: "高级",
             value: level.advanced
         },
+        anyway: {
+            en: "Don't Know",
+            zh: "不清楚",
+            value: null
+        },
     },
     frequency: {
         five: {
@@ -68,59 +73,58 @@ const ANSWER = {
                 lowRangeValue: 10,
                 higherRangeValue: 20
             },
-        }
+        },
+        anyway: {
+            en: "No limit",
+            zh: "随便练练",
+            value: null
+        },
     },
     duration: {
-        ten: {
-            en: "Less than 10 min",
-            zh: "少于10分钟",
+        fifteen: {
+            en: "Less than 15 mins",
+            zh: "少于15分钟",
             value: {
                 lowRangeValue: 0,
-                higherRangeValue: 10
-            },
-        },
-        tenMore: {
-            en: "More than 10 Less than 20 min",
-            zh: "10到20分钟",
-            value: {
-                lowRangeValue: 10,
                 higherRangeValue: 15
             },
         },
-        twentyMore: {
-            en: "More than 15 min",
-            zh: "多于15分钟",
+        fifteenMore: {
+            en: "More than 15 mins",
+            zh: "大于15分钟",
             value: {
                 lowRangeValue: 15,
                 higherRangeValue: 100
             },
-        }
+        },
+        anyway: {
+            en: "No limit",
+            zh: "都可以",
+            value: null
+        },
     },
     calorie: {
-        ten: {
-            en: "Less than 10 kcal",
-            zh: "少于10千卡",
+        twenty: {
+            en: "Less than 20 kcal",
+            zh: "少于20千卡",
             value: {
                 lowRangeValue: 0,
-                higherRangeValue: 10
-            },
-        },
-        tenMore: {
-            en: "More than 10 Less than 50 kcl",
-            zh: "十到五十千卡",
-            value: {
-                lowRangeValue: 10,
-                higherRangeValue: 50
+                higherRangeValue: 20
             },
         },
         twentyMore: {
-            en: "more than 50 kcal",
-            zh: "多于五十千卡",
+            en: "more than 20 kcal",
+            zh: "多于20千卡",
             value: {
-                lowRangeValue: 50,
+                lowRangeValue: 20,
                 higherRangeValue: 1000
             },
-        }
+        },
+        anyway: {
+            en: "No limit",
+            zh: "都可以",
+            value: null
+        },
     },
 }
 
@@ -135,25 +139,25 @@ const EvaluationQuestions = [
         id: 2,
         type: "level",
         question: { zh: "您的健身水平如何？", en: "What are your fitness level?" },
-        answers: [ANSWER.level.beginner, ANSWER.level.medium, ANSWER.level.advanced]
+        answers: [ANSWER.level.beginner, ANSWER.level.medium, ANSWER.level.advanced, ANSWER.level.anyway]
     },
     {
         id: 3,
         type: "frequency",
         question: { zh: "您每周计划锻炼多少次？", en: "How many times a week do you plan to exercise?" },
-        answers: [ANSWER.frequency.five, ANSWER.frequency.ten, ANSWER.frequency.more]
+        answers: [ANSWER.frequency.five, ANSWER.frequency.ten, ANSWER.frequency.more, ANSWER.frequency.anyway]
     },
     {
         id: 4,
         type: "duration",
         question: { zh: "您希望每次锻炼的时长是多少？", en: "How long do you want each workout to last??" },
-        answers: [ANSWER.duration.ten, ANSWER.duration.tenMore, ANSWER.duration.twentyMore]
+        answers: [ANSWER.duration.fifteen, ANSWER.duration.fifteenMore, ANSWER.duration.anyway]
     },
     {
         id: 5,
         type: "calorie",
         question: { zh: "您希望每次锻炼消耗多少卡路里？", en: "How many calories do you want to burn per workout?" },
-        answers: [ANSWER.calorie.ten, ANSWER.calorie.tenMore, ANSWER.calorie.twentyMore]
+        answers: [ANSWER.calorie.twenty, ANSWER.calorie.twentyMore, ANSWER.calorie.anyway]
     },
 ]
 

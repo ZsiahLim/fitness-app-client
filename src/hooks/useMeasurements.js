@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { formatTimeForCharts } from '../utils/formatTime';
+import { formatTimeForChartSoloItem } from '../utils/formatTime';
 // 这是一个自定义Hook
 function useMeasurements(allMeasurements) {
     const [weightArr, setWeightArr] = useState([])
@@ -8,7 +8,7 @@ function useMeasurements(allMeasurements) {
     const [dateArr, setDateArr] = useState([])
     const [bodyFatRateArr, setBodyFatArr] = useState([])
     useEffect(() => {
-        const xData = allMeasurements?.length !== 0 ? allMeasurements?.map((item) => formatTimeForCharts(item.date)) : []
+        const xData = allMeasurements?.length !== 0 ? allMeasurements?.map((item) => formatTimeForChartSoloItem(item.date)) : []
         setDateArr(xData)
         const yData = allMeasurements?.length !== 0 ? allMeasurements?.map((item) => item.weight) : []
         setWeightArr(yData)
@@ -16,7 +16,7 @@ function useMeasurements(allMeasurements) {
         setHeightArr(heightData)
         const BMIData = allMeasurements?.length !== 0 ? allMeasurements?.map((item) => item.BMI) : []
         setBMIArr(BMIData)
-        const bodyFats = allMeasurements?.length !== 0 ? allMeasurements?.map((item) => item.bodyFatRate ? item.bodyFatRate : null) : []
+        const bodyFats = allMeasurements?.length !== 0 ? allMeasurements?.map((item) => item.bodyFatRate ? item.bodyFatRate : undefined) : []
         setBodyFatArr(bodyFats)
     }, [allMeasurements]);
 

@@ -6,6 +6,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
 import CardTitle from '../../../components/CardTitle'
 import { postblog } from '../../../api/user.api';
+import heic2any from "heic2any";
+
 const { TextArea } = Input;
 const normFile = (e) => { return Array.isArray(e) ? e : e?.fileList }
 const options = [{ value: 'fit', label: 'fit' }, { value: 'eat', label: 'eat' }, { value: 'daily life', label: 'daily life' }];
@@ -25,29 +27,39 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             setBlogImgs(newFileList);
         },
         beforeUpload: (file) => {
+            console.log("file", file);
             const isImage = file.type?.startsWith('image')
             if (isImage) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const image = new Image();
-                        image.src = e.target.result;
-                        image.onload = () => {
-                            const width = image.width;
-                            const height = image.height;
-                            // 在这里可以获取到文件的宽度和高度
-                            console.log(`宽度: ${width}, 高度: ${height}`);
-                            // 根据需要进行其他操作，例如验证宽度和高度是否符合要求
-                            blogImgs.push({ ...file, name: file.name, imgHeight: height, imgWidth: width })
-                            setBlogImgs(blogImgs)
-                            resolve();
+                const isSupportedImageType = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type);
+                if (!isSupportedImageType) {
+                    message.error('You can only upload JPEG, PNG, GIF, or WEBP images.');
+                    return false; // 阻止上传
+                } else {
+                    // 其他图片处理逻辑...
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const image = new Image();
+                            image.src = e.target.result;
+                            image.onload = () => {
+                                const width = image.width;
+                                const height = image.height;
+                                // 在这里可以获取到文件的宽度和高度
+                                console.log(`宽度: ${width}, 高度: ${height}`);
+                                // 根据需要进行其他操作，例如验证宽度和高度是否符合要求
+                                blogImgs.push({ ...file, name: file.name, imgHeight: height, imgWidth: width })
+                                setBlogImgs(blogImgs)
+                                resolve();
+                            };
+                            image.onerror = (error) => {
+                                message.error("不支持此类型图片")
+                                console.log("error", error)
+                                reject(error);
+                            };
                         };
-                        image.onerror = (error) => {
-                            reject(error);
-                        };
-                    };
-                    reader.readAsDataURL(file);
-                });
+                        reader.readAsDataURL(file);
+                    });
+                }
             } else {
                 message.error('u only can upload picture here')
                 return false
@@ -131,6 +143,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 () => {
                     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        console.log("downloadURL", downloadURL);
                         const handledBlogImgs = blogImgs.map(item => {
                             if (item.uid === file.uid) {
                                 return { ...item, status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }

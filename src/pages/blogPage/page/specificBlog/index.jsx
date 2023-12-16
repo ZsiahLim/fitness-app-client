@@ -10,6 +10,7 @@ import EditBlog from '../../components/editBlog';
 import VideoJS from '../../../../components/VideoJS';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import './index.less'
+import { shareBlog } from '../../../../utils/shareFuncs';
 const { TextArea } = Input;
 
 
@@ -222,7 +223,7 @@ export default function SpecificBlog() {
                                         </Popconfirm>
                                             : <Tooltip placement="top" title={'report'}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
                                     </div>
-                                    <div className='Btn'>
+                                    <div className='Btn' onClick={() => shareBlog(specificBlog._id)}>
                                         <Tooltip placement="top" title={'share'}>
                                             <ShareAltOutlined />
                                         </Tooltip>

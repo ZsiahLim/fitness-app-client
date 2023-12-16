@@ -9,7 +9,7 @@ import { loginSuccess } from '../../redux/userSlice'
 import { setSessions } from '../../redux/SessionSlice'
 import { createsession } from '../../api/session.api'
 export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
-  const { cover, level, colorie, name, duration, _id } = tutorial
+  const { cover, level, lowerEstimateColorie, higherEstimateColorie, name, duration, _id } = tutorial
   const navigateTo = useNavigate()
   const { userSelectDay } = useSelector(state => state.calendar)
   const { currentTheme } = useSelector(state => state.user)
@@ -38,22 +38,37 @@ export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
     <div
       onClick={() => navigateTo(`/specifictutorial/${_id}`)}
       className={`TutorialCardHorizontal ${lightTutorialClassname}`}>
-      <span className='TutorialCardHorizontal-cover'>
-        <img src={cover} />
-      </span>
-      <span className='TutorialCardHorizontal-desc'>
-        <div className='TutorialCardHorizontal-desc-title'>{name}</div>
-        <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {colorie}千卡</div>
-      </span>
-      {withCalendar && <span
-        className='TutorialCardHorizontal-extraBtn'
-        onClick={(e) => {
-          e.stopPropagation()
-          handleAddToCalendar()
-        }}
-      >
-        <CalendarOutlined />
-      </span>}
-    </div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{
+          flexShrink: 0,
+          flexBasis: 60,
+          height: 60,
+          width: 60,
+          borderRadius: 10,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "hidden",
+          marginRight: 10
+        }}>
+          <img style={{ maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'cover' }} src={cover} />
+        </span>
+        <div>
+          <div className='TutorialCardHorizontal-desc-title'>{name}</div>
+          <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {lowerEstimateColorie}~{higherEstimateColorie}千卡</div>
+        </div>
+      </div>
+      {
+        withCalendar && <span
+          className='TutorialCardHorizontal-extraBtn'
+          onClick={(e) => {
+            e.stopPropagation()
+            handleAddToCalendar()
+          }}
+        >
+          <CalendarOutlined />
+        </span>
+      }
+    </div >
   )
 }

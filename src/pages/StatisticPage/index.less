@@ -15,15 +15,28 @@
 @lightNavHoverColor: #f0f0f0;
 
 .StatisticsPage {
-    background-color: @darkBlockBackgroundColor;
+    // background-color: @darkBlockBackgroundColor;
     flex: 1;
     height: 98%;
-    border-radius: 16px;
     margin-left: 10px;
     margin-right: 10px;
     display: flex;
+    overflow: hidden;
+
+    &-container {
+        overflow: auto;
+
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+
+        /* Internet Explorer 10+ */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 }
 
 .StatisticsPage-light {
-    background-color: @lightBlockBackgroundColor;
+    // background-color: @lightBlockBackgroundColor;
 }

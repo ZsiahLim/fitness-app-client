@@ -125,7 +125,7 @@ export default function Login() {
                                 <div className='input-wrap'>
                                     <input
                                         type='text'
-                                        minLength={4}
+                                        minLength={3}
                                         className={`input-field ${activename}`}
                                         onFocus={() => setFocusedname(true)}
                                         onBlur={({ target: { value } }) => {

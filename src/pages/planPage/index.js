@@ -53,26 +53,27 @@ export default function PlanPage() {
     };
     return (
         <div className={`planPage ${lightPlanPageClassname}`}>
-            <div className='planPage-left' style={{ flexBasis: "360px", height: '100%', padding: '10px', }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: "0 10px" }}>
-                    <h2>{selectDay && new Date(selectDay).toLocaleDateString(preferedLanguage === "en_US" ? "en" : 'zh', options)}</h2>
-                    <CalendarFilled onClick={showModal} style={{ fontSize: 20 }} />
+            <div style={{ flex: 1, display: 'flex', }}>
+                <div className='planPage-left' style={{ flexBasis: "360px", height: '100%', padding: '10px', }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: "0 10px" }}>
+                        <h2>{selectDay && new Date(selectDay).toLocaleDateString(preferedLanguage === "en_US" ? "en" : 'zh', options)}</h2>
+                        <CalendarFilled onClick={showModal} style={{ fontSize: 20 }} />
+                    </div>
+                    <TodayTodo selectDay={selectDay} />
+                    <Modal title={`Select date: ${formatTimeToChinese(selectDay)}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                        <div style={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}>
+                            <Calendar fullscreen={false} onSelect={onSelect} defaultValue={dayjs(selectDay)} />
+                        </div>
+                    </Modal>
                 </div>
-                <TodayTodo selectDay={selectDay} />
-            </div>
-            <div style={{ flex: 1, height: '100%', overflow: 'auto', padding: '10px' }}>
-                <RecommandTutorials />
-            </div>
-            <Modal title={`Select date: ${formatTimeToChinese(selectDay)}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <div style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center'
-                }}>
-                    <div></div>
-                    <Calendar fullscreen={false} onSelect={onSelect} defaultValue={dayjs(selectDay)} />
+                <div style={{ flex: 1, overflow: 'auto', padding: '10px' }}>
+                    <RecommandTutorials />
                 </div>
-            </Modal>
+            </div>
         </div>
     )
 }

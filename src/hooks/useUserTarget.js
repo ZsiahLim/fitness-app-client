@@ -29,7 +29,7 @@ function useUserTarget() {
     }
     useEffect(() => {
         getTarget()
-    }, [])
+    }, [currentUser?.weightTarget])
 
     // 返回状态和设置方法
     return {

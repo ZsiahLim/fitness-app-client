@@ -2,13 +2,22 @@
     padding: 0 10%;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+
+    /* Internet Explorer 10+ */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
 
     &-contactCard {
         width: 100%;
         display: flex;
         align-items: center;
-        padding-bottom: 20px;
-        border-bottom: 0.4px solid #383838;
+        padding-bottom: 10px;
 
         &-avator {
             flex-basis: 140px;
@@ -31,7 +40,6 @@
         height: 60px;
         display: flex;
         align-items: center;
-        border-bottom: 0.4px solid #383838;
 
         &-title {
             flex-basis: 140px;

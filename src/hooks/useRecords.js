@@ -55,6 +55,8 @@ function useRecords() {
     const [maxDistance, setMaxDistance] = useState(0);
     const [maxDistanceDate, setMaxDistanceDate] = useState(null);
     const [durationSum, setDurationSum] = useState(0)
+    const [stepSum, setStepSum] = useState(0)
+    const [distanceSum, setDistanceSum] = useState(0)
     const [calorieSum, setCalorieSum] = useState(0.0)
     const [tutorialCalorieSum, setTutorialCalorieSum] = useState(0.0)
 
@@ -75,6 +77,8 @@ function useRecords() {
             let sumDuration = 0;
             let sumCalorie = 0;
             let sumTutorialCalorie = 0;
+            let sumStep = 0;
+            let sumDistance = 0;
             setMaxSteps(maxstepsInfo.steps);
             setMaxDistance(maxdistanceInfo.distance);
             setMaxDuration(maxdurationInfo.duration);
@@ -82,6 +86,8 @@ function useRecords() {
             setDateArr(records.map(item => formatTimeForCharts(item.date)));
             setDurationArr(records.map(item => {
                 sumDuration += parseInt(item.duration)
+                sumStep += parseInt(item.steps)
+                sumDistance += parseInt(item.distance)
                 return secConvertToMin(item.duration)
             }));
             setCalorieArr(records.map(item => {
@@ -94,6 +100,8 @@ function useRecords() {
                 sumTutorialCalorie += parseFloat(item.tutorialCalorieConsumption)
                 return item.tutorialCalorieConsumption || 0
             }));
+            setStepSum(sumStep)
+            setDistanceSum(sumDistance)
             setDurationSum(sumDuration)
             setCalorieSum(sumCalorie)
             setTutorialCalorieSum(sumTutorialCalorie)
@@ -160,12 +168,13 @@ function useRecords() {
 
     // 返回状态和设置方法
     return {
+        records,
         durationSum, durationArr,
         calorieSum, calorieArr,
         tutorialCalorieSum, tutorialCalorieArr,
+        stepSum, stepArr,
+        distanceSum, distanceArr,
         dateArr,
-        stepArr,
-        distanceArr,
         maxSteps, maxStepsDate,
         maxDuration, maxDurationDate,
         maxCalorie, maxCalorieDate,

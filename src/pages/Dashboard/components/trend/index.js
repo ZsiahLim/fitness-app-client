@@ -17,7 +17,7 @@ const DATE = {
     year: "year",
 }
 
-export default function Index() {
+const ExerciseTrend = () => {
     const { currentTheme } = useSelector(state => state.user)
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
@@ -121,3 +121,5 @@ export default function Index() {
         </div>
     )
 }
+
+export default ExerciseTrend

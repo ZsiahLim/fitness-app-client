@@ -2,16 +2,17 @@ import EXERCISETYPE from '../EXERCISETYPE';
 import { ICON } from './ICON';
 import COLORS from '../COLORS';
 import { exerciseLogo } from './ExerciseLogo';
+import { FolderOpenOutlined, StarOutlined } from '@ant-design/icons';
 const TutorialsInLibrary = [
     {
         name: 'All',
         value: "all",
-        icon: ICON.all(30, COLORS.white)
+        icon: <FolderOpenOutlined style={{ fontSize: 30, color: COLORS.white }} />
     },
     {
         name: 'Star',
         value: "recommand",
-        icon: ICON.personalize(30, COLORS.white)
+        icon: <StarOutlined style={{ fontSize: 30, color: COLORS.white }} />
     },
     {
         name: 'Rope',

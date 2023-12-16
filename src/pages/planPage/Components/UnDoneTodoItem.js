@@ -32,7 +32,7 @@ const UnDoneTodoItem = ({ tutorial }) => {
             <div style={{ flexBasis: 6, height: 36, width: 6, borderRadius: 3, backgroundColor: COLORS.primary }}></div>
             <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: SIZE.NormalTitle, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{tutorial.name}</div>
+                    <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{tutorial.name}</div>
                     <div style={{ fontSize: 12, color: COLORS.commentText }}>{tutorial.brief} </div>
                 </div>
                 <div onClick={(e) => { e.stopPropagation(); handleDelete() }}><DeleteOutlined /></div>

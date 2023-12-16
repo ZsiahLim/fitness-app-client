@@ -8,6 +8,7 @@ import MyCarousel from '../../../components/myCarousel'
 import { addcomment, cancelfavoriteblog, cancellikeblog, createreport, deleteblog, favoriteblog, getblogcomments, getuser, likeblog, likecomment } from '../../../api/user.api'
 import EditBlog from './editBlog';
 import VideoJS from '../../../components/VideoJS';
+import { shareBlog } from '../../../utils/shareFuncs';
 const { TextArea } = Input;
 
 export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen }) {
@@ -221,7 +222,9 @@ export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen })
                                     </Popconfirm>
                                         : <Tooltip placement="top" title={'report'}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
                                 </div>
-                                <div className='Btn'>
+                                <div className='Btn'
+                                    onClick={() => shareBlog(blogInfo._id)}
+                                >
                                     <Tooltip placement="top" title={'share'}>
                                         <ShareAltOutlined />
                                     </Tooltip>

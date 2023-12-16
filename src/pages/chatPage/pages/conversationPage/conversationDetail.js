@@ -91,9 +91,7 @@ export default function ConversationDetail() {
             }
         }
         getMessages()
-
-
-    }, [])
+    }, [conversationID])
 
     useEffect(() => {
         if (arrivalMessage) {

@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { useSelector } from 'react-redux';
 // 这是一个自定义Hook
 function useMeasurement() {
+    const { measurements, latestMeasurement: SavedMeasuremenst } = useSelector(state => state.measurement)
     const { currentUser } = useSelector(state => state.user)
     const [allMeasurements, setAllMeasurements] = useState([])
     const [latestMeasurement, setLatestMeasurement] = useState({})
@@ -26,10 +27,11 @@ function useMeasurement() {
             }
         })
     }
+
     useEffect(() => {
         getMeasurement()
         getLatestMeasurement()
-    }, [currentUser?.measurements])
+    }, [currentUser?.measurements, measurements])
 
     // 返回状态和设置方法
     return { latestMeasurement, allMeasurements }

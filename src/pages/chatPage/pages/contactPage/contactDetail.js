@@ -1,8 +1,8 @@
 import { EllipsisOutlined, LeftOutlined, MessageFilled, MessageOutlined, UserOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { createconversation, createreport, getuser, removecontact } from '../../../../api/user.api'
-import { Avatar, Dropdown, Form, Modal, message } from 'antd'
+import { addcontactbyid, createconversation, createreport, getuser, removecontact } from '../../../../api/user.api'
+import { Avatar, Dropdown, Form, Modal, Tabs, message } from 'antd'
 import './contactDetail.less'
 import { useDispatch, useSelector } from 'react-redux'
 import TextArea from 'antd/es/input/TextArea'
@@ -12,6 +12,9 @@ import useUserTheme from '../../../../hooks/useUserTheme'
 import APPTHEME from '../../../../constants/COLORS/APPTHEME'
 import COLORS from '../../../../constants/COLORS'
 import { formatTimeToChinese } from '../../../../utils/formatTime'
+import WaterfallContainer from '../../../../components/waterfallContainer/BlogsWrapper'
+import UserRecordSum from '../../../../components/UserRecordSum'
+import UserBestRecord from '../../../../components/UserBestRecord'
 
 export default function ContactDetail() {
     const { userID: ContactID } = useParams()
@@ -21,6 +24,7 @@ export default function ContactDetail() {
     const dispatch = useDispatch()
     const { currentTheme, currentUser } = useSelector(state => state.user)
     const [contact, setContact] = useState()
+
     const [records, setRecords] = useState([])
     const [alreadySubscribed, setAlreadySubscribed] = useState(currentUser.contactsUsers.includes(ContactID))
 
@@ -37,7 +41,7 @@ export default function ContactDetail() {
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [ContactID])
 
     useEffect(() => {
         setAlreadySubscribed(currentUser.contactsUsers.includes(ContactID))
@@ -60,15 +64,6 @@ export default function ContactDetail() {
         {
             key: '3',
             label: (<div onClick={() => setIsReportModalOpen(true)}>Report</div>),
-        },
-        {
-            key: '4',
-            danger: true,
-            label: (
-                <div onClick={() => confirmDelete()}>
-                    Delete user
-                </div>
-            ),
         },
     ];
 
@@ -102,6 +97,40 @@ export default function ContactDetail() {
             message.error('failed to create conversation')
         }
     }
+
+    const handleSendMessage = async () => {
+        await createconversation({ receiverId: ContactID }).then(res => {
+            if (res.status !== false) {
+                const conversation = res.conversation
+                navigateTo(`/chat/conversations/specific/${conversation._id}`)
+            } else {
+                message.error('出现异常请重试')
+            }
+        }).catch(err => {
+            message.error('出现异常请重试')
+        })
+    }
+    const handleSubscribe = async () => {
+        await addcontactbyid(ContactID).then(res => {
+            if (res.status !== false) {
+                dispatch(loginSuccess(res))
+            } else {
+                message.error('出现异常请重试')
+            }
+        }).catch(err => {
+            message.error('出现异常请重试')
+        })
+    }
+    const handleUnSubscribe = async () => {
+        await removecontact(ContactID).then(res => {
+            if (res.status !== false) {
+                dispatch(loginSuccess(res))
+            } else {
+                message.error('出现异常请稍后重试')
+            }
+        })
+    }
+
     return (
         <>
             <div className="chat-contentBox-rightBar-header">
@@ -125,7 +154,7 @@ export default function ContactDetail() {
                         </div>
                     </div>
                     <div>
-                        
+
                     </div>
                 </div>
 
@@ -133,19 +162,49 @@ export default function ContactDetail() {
                     <div className='chat-contentBox-rightBar-contactDetail-remarks-title'>Personal Status</div>
                     <div className='chat-contentBox-rightBar-contactDetail-remarks-item'>{contact?.personalStatus}</div>
                 </div>}
-                <div className='chat-contentBox-rightBar-contactDetail-action'>
-                    <div className='chat-contentBox-rightBar-contactDetail-action-item' onClick={() => doConversation(contact?._id)}>
-                        <MessageOutlined style={{ fontSize: 36 }} />
-                        <div className='chat-contentBox-rightBar-contactDetail-action-item-desc commentText'>
-                            Message
-                        </div>
+                <div style={{ margin: "10px 0", display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: SIZE.NormalMargin, paddingRight: SIZE.NormalMargin }}>
+                    <div
+                        style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: SIZE.NormalMargin, paddingHorizontal: SIZE.LargerMargin, borderRadius: SIZE.CardBorderRadiusForBtn, borderWidth: 2, borderColor: COLORS.primary }}
+                        onClick={handleSendMessage}
+                    >
+                        <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.primary }}>发消息</div>
                     </div>
+                    {alreadySubscribed ?
+                        <div
+                            style={{ padding: '0 40px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: SIZE.CardBorderRadiusForBtn, backgroundColor: COLORS.primary }}
+                            onClick={handleUnSubscribe}
+                        >
+                            <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.white }}>取消关注</div>
+                        </div> : <div
+                            style={{ padding: '0 40px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: SIZE.CardBorderRadiusForBtn, backgroundColor: COLORS.primary }}
+                            onClick={handleSubscribe}
+                        >
+                            <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.white }}>关注</div>
+                        </div>}
                 </div>
-                <div className='chat-contentBox-rightBar-contactDetail-'>
-
-                </div>
-                <div className='chat-contentBox-rightBar-contactDetail-'>
-
+                <div style={{ height: 0.4, width: '100%', backgroundColor: "#383838" }}></div>
+                <div>
+                    <Tabs
+                        defaultActiveKey='blog'
+                        centered
+                        items={[{
+                            label: `Blog`,
+                            key: 'blog',
+                            children: <div>
+                                {contact?.blogs && <div style={{ marginBottom: SIZE.LittleMargin }}><div style={{ fontSize: 12, color: COLORS.commentText }}>总共「{contact.blogs.length}」个动态</div></div>}
+                                {contact?.blogs && <WaterfallContainer blogs={contact.blogs} />}
+                                {/* {user?.blogs && user.blogs.map((item, index) => <BlogCard blog={item} key={index} />)} */}
+                            </div>,
+                        }, {
+                            label: `Record`,
+                            key: "record",
+                            children: <div>
+                                {records.length !== 0 && <UserRecordSum records={records} />}
+                                {records.length !== 0 && <UserBestRecord records={records} />}
+                                <div style={{ fontSize: SIZE.SmallTitle, color: COLORS.commentText }}>总共「{records.length}」个运动记录</div>
+                            </div>,
+                        }]}
+                    />
                 </div>
                 <Modal title="Report" open={isReportModalOpen} onOk={handleSubmitReport} onCancel={handleSubmitReportCancel}>
                     <Form

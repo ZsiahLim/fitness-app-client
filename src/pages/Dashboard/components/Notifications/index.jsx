@@ -1,6 +1,6 @@
 import { BellFilled, LoadingOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Badge, List, Modal, Popover, Spin, Tabs, Tag } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Avatar, Badge, Empty, List, Modal, Popover, Spin, Tabs, } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TabPane } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { getunreadedmessage, getuser } from '../../../../api/user.api';
@@ -8,45 +8,45 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import './index.less'
 import { getnotifications } from '../../../../api/notification.api';
+import useUncompletedTutorials from '../../../../hooks/useUncompletedTutorials';
+import UnDoneTodoItem from '../../../planPage/Components/UnDoneTodoItem';
+import useUserTheme from '../../../../hooks/useUserTheme';
+import APPTHEME from '../../../../constants/COLORS/APPTHEME';
+import COLORS from '../../../../constants/COLORS';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 export default function Notifications() {
     const { formatMessage } = useIntl()
     const navigateTo = useNavigate()
     const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const [allNotifications, setAllNotifications] = useState(0)
     const [notifications, setNotifications] = useState([]);
     const [unreadedMsgs, setUnreadedMsgs] = useState([])
+    const yetDoneTutorial = useUncompletedTutorials()
 
     const noticeListFilter = (type) => {
         return notifications.filter(notice => notice.type === type);
     };
     const getNotice = async () => {
-        setLoading(true);
         const unreadedMsgs = await getunreadedmessage()
         setUnreadedMsgs(unreadedMsgs)
-        console.log(unreadedMsgs);
         const notifications = await getnotifications()
         setNotifications(notifications)
-        console.log("notifications", notifications);
-        setLoading(false);
     };
-
     useEffect(() => {
         getNotice();
-        // const intervalId = setInterval(getNotice, 3000)
-        // return () => {
-        //     clearInterval(intervalId)
-        // }
+        const intervalId = setInterval(getNotice, 3000)
+        return () => {
+            clearInterval(intervalId)
+        }
     }, []);
-
     //get allNotification number
     useEffect(() => {
-        const allNotificationsNum = notifications.length + unreadedMsgs.length
-        setAllNotifications(allNotificationsNum)
-    }, [notifications, unreadedMsgs]);
+        const prevNum = allNotifications
+        const allNotificationsNum = notifications.length + unreadedMsgs.length + yetDoneTutorial.length
+        prevNum !== allNotificationsNum && setAllNotifications(allNotificationsNum)
+    }, [notifications, unreadedMsgs, yetDoneTutorial]);
     const [currentNotification, setCurrenNotification] = useState({})
     const handleSystemDetailOpen = (notification) => {
         setCurrenNotification(notification)
@@ -76,33 +76,36 @@ export default function Notifications() {
                 break;
         }
     }
+    useEffect(() => {
+        console.log("done");
+    }, [yetDoneTutorial])
     const tabs = (
         <div>
-            <Spin tip="Loading..." indicator={antIcon} spinning={loading}>
-                <Tabs defaultActiveKey="1">
-                    <TabPane
-                        style={{ maxHeight: 400, overflow: "auto" }}
-                        tab={`${formatMessage({ id: 'systemNotifications' })}(${notifications.length})`} key="1">
-                        <List
+            <Tabs
+                defaultActiveKey="1"
+                items={[
+                    {
+                        label: `${formatMessage({ id: 'systemNotifications' })}(${notifications.length})`,
+                        key: '1',
+                        children: <List
                             dataSource={notifications}
-                            renderItem={notification => (
-                                <List.Item onClick={() => handleSystemDetailOpen(notification)}>
+                            renderItem={(notification, index) => (
+                                <List.Item key={index} onClick={() => handleSystemDetailOpen(notification)}>
                                     <List.Item.Meta
                                         avatar={<Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'} />}
                                         title={<>{'系统消息'}</>}
                                         description={notification.title}
                                     />
                                 </List.Item>
-                            )}
-                        />
-                    </TabPane>
-                    <TabPane
-                        style={{ maxHeight: 400, overflow: "auto" }}
-                        tab={`${formatMessage({ id: 'messages' })}(${unreadedMsgs.length})`} key="2">
-                        <List
+                            )} />
+                    },
+                    {
+                        label: `${formatMessage({ id: 'messages' })}(${unreadedMsgs.length})`,
+                        key: '2',
+                        children: <List
                             dataSource={unreadedMsgs}
-                            renderItem={unreadedMsg => (
-                                <List.Item onClick={() => navigateTo(`/chat/conversations/specific/${unreadedMsg.conversationId}`)}>
+                            renderItem={(unreadedMsg, index) => (
+                                <List.Item key={index} onClick={() => navigateTo(`/chat/conversations/specific/${unreadedMsg.conversationId}`)}>
                                     <List.Item.Meta
                                         avatar={unreadedMsg?.senderDetail ? <Avatar src={unreadedMsg?.senderDetail.avator} /> : <Avatar icon={<UserOutlined />} />}
                                         title={unreadedMsg?.senderDetail ? <>{unreadedMsg?.senderDetail.name}</> : <>user</>}
@@ -116,29 +119,15 @@ export default function Notifications() {
                                 </List.Item>
                             )}
                         />
-                    </TabPane>
-                    <TabPane
-                        style={{ maxHeight: 400, overflow: "auto" }}
-                        tab={formatMessage({ id: 'todos' })} key="3">
-                        <List
-                            dataSource={noticeListFilter('event')}
-                            renderItem={item => (
-                                <List.Item>
-                                    <List.Item.Meta
-                                        title={
-                                            <div className="notice-title">
-                                                <div className="notice-title-content">{item.title}</div>
-                                                <Tag >{item.extra}</Tag>
-                                            </div>
-                                        }
-                                        description={item.description}
-                                    />
-                                </List.Item>
-                            )}
-                        />
-                    </TabPane>
-                </Tabs>
-            </Spin>
+                    },
+                    {
+                        label: `${formatMessage({ id: 'todos' })}`,
+                        key: '3',
+                        children: <TodoPane />
+                    },
+                ]}
+            >
+            </Tabs>
         </div>
     );
     const [systemDetailOpen, setSystemDetailOpen] = useState(false)
@@ -164,3 +153,20 @@ export default function Notifications() {
         </>
     )
 }
+
+function TodoPane() {
+    const theme = useUserTheme()
+    const THEME = APPTHEME[theme]
+    const yetDoneTutorial = useUncompletedTutorials()
+    return (
+        <div>
+            {yetDoneTutorial.length === 0 ? <div style={{ width: "100%", height: '96%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: 16, backgroundColor: THEME.backgroundColor, }}>
+                <Empty description={false} />
+                <div style={{ fontSize: 14, color: COLORS.commentText }}>
+                    还没有代办日程
+                </div>
+            </div> : yetDoneTutorial.map((item, index) => <UnDoneTodoItem key={index} tutorial={item} />)}
+        </div>
+    )
+}
+

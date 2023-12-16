@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { checkTwoDaysIsEqual } from '../utils/checkIsToday';
 import { getlatestrecord, getrecords } from '../api/record.api';
 import { setRecords } from '../redux/RecordSlice';
@@ -14,6 +14,7 @@ function useRecord(selectDay) {
     const getRecords = async () => {
         await getrecords().then(res => {
             if (res && res?.status !== false) {
+                console.log("resss", res);
                 setAllRecords(res)
                 dispatch(setRecords(res))
             }
@@ -40,7 +41,6 @@ function useRecord(selectDay) {
         if (allRecords.length !== 0) {
             const foundRecord = allRecords.find(record => checkTwoDaysIsEqual(new Date(record.date), selectDay ? selectDay : new Date()))
             foundRecord && setTodayRecord(foundRecord)
-            console.log("foundRecord", foundRecord);
         }
     }, [selectDay, allRecords]);
 
