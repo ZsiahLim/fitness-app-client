@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { checkTwoDaysIsEqual } from '../utils/checkIsToday';
 import { getsessions } from '../api/session.api';
-import { message } from 'antd';
 
 // 这是一个自定义Hook
 function useCompletedTutorials(selectDay) {

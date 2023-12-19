@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { checkTwoDaysIsEqual } from '../utils/checkIsToday';
 import { getlatestrecord, getrecords } from '../api/record.api';
@@ -7,7 +7,6 @@ import { message } from 'antd';
 
 // 这是一个自定义Hook
 function useRecord(selectDay) {
-    const [todayRecord, setTodayRecord] = useState({})
     const [latestRecord, setLatestRecord] = useState({})
     const dispatch = useDispatch()
     const [allRecords, setAllRecords] = useState([])
@@ -36,11 +35,22 @@ function useRecord(selectDay) {
         getRecords()
         getLatestRecord()
     }, [])
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (allRecords.length !== 0) {
+    //         const foundRecord = allRecords.find(record => checkTwoDaysIsEqual(new Date(record.date), selectDay ? selectDay : new Date()))
+    //         foundRecord && setTodayRecord(foundRecord)
+    //     }
+    // }, [selectDay, allRecords]);
+    const todayRecord = useMemo(() => {
         if (allRecords.length !== 0) {
             const foundRecord = allRecords.find(record => checkTwoDaysIsEqual(new Date(record.date), selectDay ? selectDay : new Date()))
-            foundRecord && setTodayRecord(foundRecord)
+            return foundRecord ? foundRecord : {}
+        } else {
+            return {}
         }
+        // return selectDay && allRecords.find(record =>
+        //     checkTwoDaysIsEqual(new Date(record.date), selectDay)
+        // );
     }, [selectDay, allRecords]);
 
     // 返回状态和设置方法
