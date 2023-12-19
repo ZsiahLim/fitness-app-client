@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { updateuserinfo } from '../../../../api/user.api';
 import dayjs from 'dayjs';
+import COLORS from '../../../../constants/COLORS';
 const { TextArea } = Input;
 
 const normFile = (e) => {
@@ -121,17 +122,27 @@ export default function ProfileCard() {
     const onFinishFailed = (errorInfo) => { message.error('Failed:', errorInfo) }
     return (
         <div className='profileCard'>
-            <div className='Card-Avatar'>
-                <Avatar size={160} icon={<UserOutlined />} src={currentUser?.avator ? currentUser.avator : ''} />
-            </div>
-            <div className='Card-UserInfo'>
-                <div className='Card-Username'><h1>{name}</h1></div>
-                {personalStatus && <div className='Card-UserStatus'>"{personalStatus}"</div>}
-                {age && <div className='Card-UserAge'>{age} years old</div>}
-                <div className='Card-UserAppId'>Medal ID: {_id}</div>
-                <div className='Card-Edit'>
-                    <Button onClick={showEditModal}><EditOutlined />&nbsp;&nbsp;Edit Profile</Button>
+            <div style={{ display: 'flex' }}>
+                <div className='Card-Avatar'>
+                    <Avatar size={80} icon={<UserOutlined />} src={currentUser?.avator ? currentUser.avator : ''} />
                 </div>
+                <div className='Card-UserInfo'>
+                    <div className='Card-Username'><h1 style={{ color: COLORS.primary }}>{name}</h1></div>
+                    <div className='Card-UserAppId' style={{ fontSize: 12, color: COLORS.commentText, marginBottom: 6 }}>ID: {_id} <Button
+                        size='small'
+                        onClick={async () => {
+                            try {
+                                await navigator.clipboard.writeText(_id)
+                                message.success('复制成功')
+                            } catch (error) {
+                                console.error("复制失败")
+                            }
+                        }}
+                    >Copy</Button></div>
+                </div>
+            </div>
+            <div className='Card-Edit'>
+                <Button onClick={showEditModal}><EditOutlined />&nbsp;&nbsp;Edit Profile</Button>
             </div>
             <Modal title="Update your profile" open={isEditModalOpen} onOk={handleEditOk} onCancel={handleCancel} okText="Update" cancelText="Cancel" footer={null} width={600}>
                 <Form labelCol={{ span: 6, }} wrapperCol={{ span: 14, }} layout="horizontal" style={{ width: 600 }} onFinish={onFinish} onFinishFailed={onFinishFailed}>

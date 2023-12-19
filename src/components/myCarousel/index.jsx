@@ -1,23 +1,17 @@
 import React, { useState } from 'react'
 import './index.less'
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
 const MyCarousel = ({ imgArr }) => {
-    const { currentTheme } = useSelector(state => state.user)
     const [seletedIndex, setSelectedIndex] = useState(0)
     const handleLeftSlideAction = () => setSelectedIndex((seletedIndex - 1 + imgArr.length) % imgArr.length)
     const handleRightSlideAction = () => setSelectedIndex((seletedIndex + 1) % imgArr.length)
-    const lightDisplayIndex = currentTheme === 'light' ? 'displayIndex-light' : ''
     return (
         <div className="myCarouselContainer">
             {imgArr && <div className='myCarousel'>
                 {/* 这是照片合集分页 */}
                 <div
                     className='myCarouselSlider'
-                    style={{
-                        width: `${imgArr.length}00%`,
-                        transform: `translate(-${seletedIndex * (100 / imgArr.length)}%)`
-                    }}
+                    style={{ width: `${imgArr.length}00%`, transform: `translate(-${seletedIndex * (100 / imgArr.length)}%)` }}
                 >
                     {imgArr.map((item, index) => (
                         <section key={index}>
@@ -47,7 +41,7 @@ const MyCarousel = ({ imgArr }) => {
                             ))}
                         </ul>
                     </div>
-                    <div className={`displayIndex ${lightDisplayIndex}`}>
+                    <div className={`displayIndex`}>
                         {seletedIndex + 1} / {imgArr.length}
                     </div>
                 </>}

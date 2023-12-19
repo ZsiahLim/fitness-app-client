@@ -44,7 +44,6 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                 getWholeBlogInfo(usersReqs, comments)
             }
         }).catch(err => {
-            console.log(err);
             message.error('failed to get user data')
         })
     }

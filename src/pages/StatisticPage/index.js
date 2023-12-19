@@ -26,6 +26,7 @@ import SpecificTypeCard from './SpecificTypeCard'
 import UserBestRecord from '../../components/UserBestRecord'
 import { updateweighttarget } from '../../api/user.api'
 import ExerciseTrend from '../Dashboard/components/trend'
+import { STATISTICITEMS } from './statisticItems'
 
 
 export default function StatisticsPage() {
@@ -57,7 +58,6 @@ export default function StatisticsPage() {
             setRecordDate(formatTimeToChinese(todayRecord.updatedAt))
         }
     }, [todayRecord, latestRecord])
-
     const { durationArr, stepArr, calorieArr, distanceArr, dateArr, records } = useRecords()
 
     return (
@@ -65,10 +65,10 @@ export default function StatisticsPage() {
             <div style={{ display: 'flex', flex: 1, gap: SIZE.NormalMargin }}>
                 <div className='StatisticsPage-container' style={{ width: '100%', height: '100%', overflow: 'auto', flex: 1 }}>
                     <TodayExercise />
-                    <SpecificTypeCard valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行"} titleColor={COLORS.primary} currentValue={distanceNum} targetValue={distanceTarget} unit={"m"} />
-                    <SpecificTypeCard valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} titleColor={COLORS.primary} currentValue={stepNum} targetValue={stepTarget} unit={"步"} />
-                    <SpecificTypeCard valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} titleColor={COLORS.colorieOrange} currentValue={calorieNum} targetValue={calorieTarget} unit={"千卡"} />
-                    <SpecificTypeCard valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} titleColor={COLORS.purple} currentValue={secToSpecificMin(durationNum)} targetValue={secToSpecificMin(durationTarget)} unit={"分钟"} />
+                    <SpecificTypeCard type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行距离"} titleColor={COLORS.primary} currentValue={(distanceNum / 1000).toFixed(2)} targetValue={(distanceTarget / 1000).toFixed(2)} unit={"km"} />
+                    <SpecificTypeCard type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} titleColor={COLORS.primary} currentValue={stepNum} targetValue={stepTarget} unit={"步"} />
+                    <SpecificTypeCard type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} titleColor={COLORS.colorieOrange} currentValue={calorieNum} targetValue={calorieTarget} unit={"千卡"} />
+                    <SpecificTypeCard type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} titleColor={COLORS.purple} currentValue={secToSpecificMin(durationNum)} targetValue={secToSpecificMin(durationTarget)} unit={"分钟"} />
                     <ExerciseOverview />
                     <UserBestRecord records={records} />
                     <WholeTrend />
@@ -300,12 +300,14 @@ const BodyMatricOverviewCard = () => {
                     <div style={{}}><InputNumber style={{ width: 200 }} defaultValue={weightTarget} min={30} max={200} step={0.01} onChange={handleInputWeight} /></div>
                 </div>
                 {((weightTarget !== newWeightTarget) && newWeightTarget) ? <div
+                    className='buttonHover'
                     onClick={handleUploadWeightTarget}
-                    style={{ fontSize: 14, fontWeight: 'bold', borderRadius: 14, backgroundColor: COLORS.primary, padding: "6px 20px" }}>
+                    style={{ fontSize: 14, color: COLORS.white, userSelect: 'none', fontWeight: 'bold', borderRadius: 14, backgroundColor: COLORS.primary, padding: "6px 20px" }}>
                     设置
                 </div> :
                     <div
-                        style={{ fontSize: 14, fontWeight: 'bold', borderRadius: 14, backgroundColor: COLORS.commentText, padding: "6px 20px" }}>
+                        className='buttonHover'
+                        style={{ fontSize: 14, color: COLORS.white, userSelect: 'none', fontWeight: 'bold', borderRadius: 14, backgroundColor: COLORS.commentText, padding: "6px 20px" }}>
                         设置
                     </div>}
             </div>

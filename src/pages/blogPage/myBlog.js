@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Empty, Modal, Tabs } from 'antd';
-import { getmyblog, getmyfavorblogs } from '../../api/user.api';
+import { Button, Empty, Modal, Tabs, message } from 'antd';
+import { getmyblog, getmyfavorblogs, getspecificblog } from '../../api/user.api';
 import { useLoaderData } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { LeftOutlined, UploadOutlined } from '@ant-design/icons';
 import PostBlog from './components/postBlog';
 import WaterfallContainer from '../../components/waterfallContainer/BlogsWrapper';
 export default function MyBlog() {
-    const { currentTheme } = useSelector(state => state.user)
+    const { currentTheme, currentUser } = useSelector(state => state.user)
     const [myBlogs, setMyBlogs] = useState(useLoaderData())
     const [pageTab, setPageTab] = useState('myblogs')
     const getData = async () => {
@@ -19,15 +19,34 @@ export default function MyBlog() {
     useEffect(() => {
         const getFavorBlogs = async () => {
             await getmyfavorblogs().then(favors => {
-                setFavorBlogs(favors)
+                if (favors.status !== false) {
+                    setFavorBlogs(favors)
+                } else {
+                    message.error('出现异常请重试')
+                }
             })
         }
         getFavorBlogs()
     }, [])
 
+    const [likeBlogs, setLikeBlogs] = useState([])
+    useEffect(() => {
+        if (currentUser?.likeBlogs && currentUser?.likeBlogs.length !== 0) {
+            getLikedBlogs(currentUser.likeBlogs)
+        }
+    }, [currentUser])
+
+    const getLikedBlogs = async (likedBlogsID) => {
+        const likedBlogs = likedBlogsID.map(async (blogID) => { return await getspecificblog(blogID) })
+        await Promise.all(likedBlogs).then((responses) => {
+            const likedBlogs = responses.filter(blog => blog.status !== false)
+            setLikeBlogs(likedBlogs)
+        })
+    }
+
     const myblogHeaderClassname = currentTheme === 'light' ? 'myblog-header-light' : ''
     const [uploadBlogOpen, setUploadBlogOpen] = useState(false)
-    const tabItems = [{ key: 'myblogs', label: 'My Blogs' }, { key: 'favoriteBlogs', label: 'My Favorites Blogs', disabled: favorBlogs ? false : true }]
+    const tabItems = [{ key: 'myblogs', label: 'My Blogs' }, { key: 'likedBlogs', label: 'Liked Blogs' }, { key: 'favoriteBlogs', label: 'My Favorites Blogs', disabled: favorBlogs ? false : true }]
     return (
         <>
             <div className={`myblog-header ${myblogHeaderClassname}`}>
@@ -42,6 +61,7 @@ export default function MyBlog() {
                     <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>No blogs right now</span>}><Button type="primary" onClick={() => setUploadBlogOpen(true)}>Post your first blog</Button></Empty></div>}
                 <div className='myblogpageview' style={{ width: '100%', height: 'calc(100% - 112px)' }}>
                     {pageTab === 'myblogs' && <WaterfallContainer blogs={myBlogs} />}
+                    {pageTab === 'likedBlogs' && <WaterfallContainer blogs={likeBlogs} />}
                     {pageTab === 'favoriteBlogs' && <WaterfallContainer blogs={favorBlogs} />}
                 </div>
             </div >

@@ -31,10 +31,12 @@ export default function PurePercentage({ currentValue, targetValue }) {
                 }}></div>
             </div>
             <div style={{ display: 'flex', width: 40, alignItems: 'baseline', justifyContent: 'end' }}>
-                <div style={{ fontSize: 18, fontWeight: 'bold', }}>
-                    {percentage * 100}
-                </div>
-                <div style={{ fontSize: 12 }}>%</div>
+                {!isNaN(percentage) ? <>
+                    <div style={{ fontSize: 18, fontWeight: 'bold', }}>
+                        {percentage * 100}
+                    </div>
+                    <div style={{ fontSize: 12 }}>%</div>
+                </> : <></>}
             </div>
         </div >
     )

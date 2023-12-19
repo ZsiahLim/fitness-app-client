@@ -10,9 +10,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/zh-cn';
 import { zhCN } from '@mui/material/locale';//need to do
+import useUserTheme from './hooks/useUserTheme';
 
 function App() {
-  const { currentTheme, userLocale } = useSelector((state) => state.user)
+  const { userLocale } = useSelector((state) => state.user)
+  const currentTheme = useUserTheme()
   let Language
   if (userLocale) {
     console.log("userLocale", userLocale);

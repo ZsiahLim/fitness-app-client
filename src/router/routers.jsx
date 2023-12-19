@@ -19,10 +19,11 @@ import MyBlog from '../pages/blogPage/myBlog'
 import EvaluatePage from '../pages/evaluatePage'
 import SpecificTutorialPage from '../pages/tutorialPage/pages/oneTutorialPage'
 import SpecificBlog from '../pages/blogPage/page/specificBlog'
-import FinishExercise from '../components/finishExercise'
+import FinishExercise from '../pages/finishExercise'
 import ContactDetail from '../pages/chatPage/pages/contactPage/contactDetail'
 import ConversationDetail from '../pages/chatPage/pages/conversationPage/conversationDetail'
 import SubscribeUserPage from '../pages/chatPage/pages/SubscribeUserPage'
+import { getrecommandtutorials, getspecifictypetutorials } from '../api/tutorial.api'
 
 
 export default function MyRouter() {
@@ -109,9 +110,18 @@ export default function MyRouter() {
                     element: <PlanPage />,
                 },
                 {
-                    path: "tutorial",
+                    path: "tutorial/:type?",
                     element: <TutorialPage />,
-                    loader: async () => await getalltutorial()
+                    loader: async ({ params }) => {
+                        if (params.type) {
+                            if (params.type === "recommand") {
+                                return await getrecommandtutorials()
+                            }
+                            return await getspecifictypetutorials({ type: params.type })
+                        } else {
+                            return await getalltutorial()
+                        }
+                    },
                 },
                 {
                     path: "blog",
@@ -158,9 +168,8 @@ export default function MyRouter() {
             loader: async ({ params }) => await getspecificblog(params.id)
         },
         {
-            path: '/finish/:tutorialID/:watchtime',
+            path: '/finish',
             element: <FinishExercise />,
-            loader: async ({ params }) => await getonetutorial(params.tutorialID)
         },
     ])
     return (

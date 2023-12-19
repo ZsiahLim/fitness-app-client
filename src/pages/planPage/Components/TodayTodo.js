@@ -37,7 +37,7 @@ export default function TodayTodo({ selectDay }) {
                 {!collapseUndo && yetDoneTutorial.map((tutorial, index) => <UnDoneTodoItem tutorial={tutorial} key={index} />)}
             </>}
             {doneTutorial.length !== 0 && <>
-                <div style={{ marginBottom: SIZE.NormalMargin, color: currentTheme.fontColor }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: SIZE.NormalMargin, color: currentTheme.fontColor, fontWeight: 'bold' }}>
                     <div>已完成: {doneTutorial.length}</div>
                     <div onClick={() => setCollapseDone(!collapseDone)}>
                         {collapseDone ? <RightOutlined /> : <DownOutlined />}

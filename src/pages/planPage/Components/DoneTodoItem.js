@@ -23,24 +23,25 @@ const DoneTodoItem = ({ tutorial }) => {
             }
         })
     }
+    const handleNav = () => navigateTo("/finish", { state: { tutorial, exerciseData: tutorial.session } })
     return (
         <div
-            onClick={() => navigateTo("AfterExercise", { tutorial, data: tutorial.session })}
-            style={{ padding: 10, flexDirection: 'row', marginBottom: SIZE.NormalMargin, gap: 10, borderRadius: SIZE.CardBorderRadius, backgroundColor: currentTheme.contentColor }}
+            onClick={handleNav}
+            style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin, padding: 10, flexDirection: 'row', gap: 10, borderRadius: SIZE.CardBorderRadius, backgroundColor: currentTheme.backgroundColor }}
         >
-            <div style={{ height: '100%', width: 6, borderRadius: 3, backgroundColor: COLORS.primary }}></div>
-            <div style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ flexBasis: 6, height: 36, width: 6, borderRadius: 3, backgroundColor: COLORS.primary }}></div>
+            <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: SIZE.NormalTitle, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{tutorial.name}</div>
+                    <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{tutorial.name}</div>
                     <div style={{ fontSize: 12, color: COLORS.commentText }}>{tutorial.brief} </div>
                 </div>
                 <div style={{ display: 'flex', gap: SIZE.NormalMargin, alignItems: 'center' }}>
-                    <DownCircleFilled />
+                    <DownCircleFilled style={{ color: COLORS.green }} />
                     <div onClick={(e) => {
                         e.stopPropagation()
                         handleDelete()
                     }}>
-                        <DeleteOutlined style={{ color: COLORS.green }} />
+                        <DeleteOutlined />
                     </div>
                 </div>
             </div>

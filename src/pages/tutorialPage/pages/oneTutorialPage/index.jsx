@@ -1,29 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import { calculateAverage } from '../../../../utils/funcs'
 import MyCarousel from '../../../../components/myCarousel'
-import CardTitle from '../../../../components/CardTitle'
 import './index.less'
-import { CalendarFilled, LeftOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
-import { Tag } from 'antd'
+import { CalendarFilled, CalendarOutlined, EllipsisOutlined, LeftOutlined, StarOutlined } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
 import { VideoJSForTutorial } from '../../../../components/VideoJSForTutorial'
+import COLORS from '../../../../constants/COLORS'
+import SIZE from '../../../../constants/SIZE'
+import { Dropdown, message } from 'antd'
+import { formatTimeToChinese } from '../../../../utils/formatTime'
+import useIsTutorialHasAlr from '../../../../hooks/useIsTutorialHasAlr'
+import { createsession } from '../../../../api/session.api'
+import { loginSuccess } from '../../../../redux/userSlice'
+import { setSessions } from '../../../../redux/SessionSlice'
+import { addtutorialtofavor } from '../../../../api/tutorial.api'
+import useCheckFavorTutorialIsExist from '../../../../hooks/useCheckFavorTutorialIsExist'
 
 export default function SpecificTutorialPage() {
     const tutorial = useLoaderData()
+    const dispatch = useDispatch()
     const navigateTo = useNavigate()
     const { currentTheme } = useSelector(state => state.user)
-    const { name, brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, level, rate, users, video, type, equipments } = tutorial
+    const { userSelectDay } = useSelector(state => state.calendar)
+    const { _id, name, brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, level, rate, users, video, type, equipments } = tutorial
     const [startedExcersise, setStartedExcersise] = useState(false)
     const lightSpecificTutorialPageClassname = currentTheme === 'light' ? 'specificTutorialPage-light' : ''
-    const addToCalendar = <div><CalendarFilled /></div>
     const videoJsOptions = {
         autoplay: false,
         fill: true,
         responsive: true,
-
-        controls: true,
-
+        controls: false,
         fluid: false,
         sources: [{
             src: video,
@@ -47,6 +54,49 @@ export default function SpecificTutorialPage() {
             console.log('视频已暂停');
         });
     }
+    const isTodayHasAlr = useIsTutorialHasAlr(_id)
+
+    const handleAddToCalendar = async () => {
+        if (isTodayHasAlr) {
+            message.error("今日已有这个训练了")
+        } else {
+            const newSession = {
+                date: new Date(userSelectDay),
+                tutorial: _id,
+            }
+            await createsession(newSession).then(res => {
+                if (res.status === false) {
+                    message.error("出现异常, 请稍后再试")
+                } else {
+                    message.success("添加成功")
+                    dispatch(loginSuccess(res.user))
+                    dispatch(setSessions(res.updatedSessions))
+                }
+            })
+        }
+    }
+    const isExit = useCheckFavorTutorialIsExist(_id)
+    const handleAddTutorialTofavor = async () => {
+        if (isExit) {
+            message.error("你已收藏教程")
+        } else {
+            await addtutorialtofavor(_id).then(res => {
+                if (res.status === false) {
+                    message.error("出现异常，请稍后再试")
+                } else {
+                    dispatch(loginSuccess(res))
+                    message.success('收藏成功')
+                }
+            })
+        }
+    }
+    const tutorialOptions = [{
+        key: '1', label: (<div onClick={handleAddToCalendar}><CalendarOutlined /> Add to {formatTimeToChinese(new Date(userSelectDay))} schedule</div>),
+    },
+    {
+        key: '2', label: (<div onClick={handleAddTutorialTofavor}><StarOutlined /> Add to favor list</div>),
+    },];
+
     return (
         <div className={`specificTutorialPage ${lightSpecificTutorialPageClassname}`}>
             {!startedExcersise && <>
@@ -56,9 +106,22 @@ export default function SpecificTutorialPage() {
                     <div className='startVideo' onClick={() => setStartedExcersise(true)}>开始跟练</div>
                 </div>
                 <div className="specificTutorialPage-detail">
-                    <div className="specificTutorialPage-detail-title"><CardTitle title={name} extra={addToCalendar} /></div>
-                    <div className="specificTutorialPage-detail-tags">
-                        <Tag>无条约</Tag><Tag>零噪音</Tag>
+                    <div className="specificTutorialPage-detail-title">
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
+                            <div style={{
+                                backgroundColor: COLORS.primary,
+                                width: "8px",
+                                height: 30,
+                                borderRadius: 4,
+                                marginRight: 6
+                            }}></div>
+                            <div style={{ flex: 1, fontSize: 18, fontWeight: '500' }}>{name}</div>
+                            <div style={{ marginLeft: SIZE.NormalMargin }}>
+                                <Dropdown menu={{ items: tutorialOptions }} placement="bottomLeft">
+                                    <EllipsisOutlined style={{ fontSize: 24 }} />
+                                </Dropdown>
+                            </div>
+                        </div>
                     </div>
                     <div className="specificTutorialPage-detail-statistic">
                         <div className='specificTutorialPage-detail-statistic-left'>
@@ -81,10 +144,6 @@ export default function SpecificTutorialPage() {
                     <div className="specificTutorialPage-detail-equipments">
                         {equipments.map(item => <div className="specificTutorialPage-detail-equipments-item">{item}</div>)}
                     </div>
-                    {/* <div className="specificTutorialPage-detail-frequency">
-                        <div style={{ fontSize: 18, fontWeight: 600 }} className='commentText'>练习频次:</div>
-                        <div>3-5次/周</div>
-                    </div> */}
                 </div>
             </>}
             {startedExcersise && <div className='specificTutorialPage-video'>

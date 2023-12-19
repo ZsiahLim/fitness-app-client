@@ -1,11 +1,11 @@
 .TutorialCardHorizontal {
-    height: 80px;
     display: flex;
     align-items: center;
     padding: 10px;
     border-radius: 16px;
     justify-content: space-between;
     margin-bottom: 10px;
+    overflow: hidden;
     cursor: pointer;
 
     &:hover {
@@ -34,17 +34,11 @@
     }
 
     &-desc {
-        flex-grow: 1;
-        flex-shrink: 1;
+        flex: 1;
         display: flex;
         flex-direction: column;
         line-height: 30px;
         justify-content: space-between;
-        white-space: nowrap;
-        /* 不允许换行 */
-        overflow: hidden;
-        /* 隐藏超出容器的部分 */
-        text-overflow: ellipsis;
 
         &-title {
             font-weight: 600;

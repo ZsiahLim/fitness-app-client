@@ -5,7 +5,7 @@ export const zhCN_dashboard = {
     'hi': '嗨',
     'happyBirthday': '生日快乐🎂',
     'sayhello': '欢迎回到',
-    'medal': 'Medal',
+    'brandName': 'Target',
     'systemNotifications': '系统通知',
     'messages': '消息',
     'todos': '待办事项',

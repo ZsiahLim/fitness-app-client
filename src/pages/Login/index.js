@@ -114,7 +114,7 @@ export default function Login() {
                         }} autoComplete="off" className='sign-in-form'>
                             <div className='logo'>
                                 {/* img */}
-                                <h4>Medal - FitnessApp</h4>
+                                <h4>Target - FitnessApp</h4>
                             </div>
                             <div className='heading'>
                                 <h2>{formatMessage({ id: 'app.login.welcomeback' })}</h2>

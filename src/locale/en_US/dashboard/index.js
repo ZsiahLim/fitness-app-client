@@ -5,7 +5,7 @@ export const enUS_dashboard = {
     'hi': 'Hi',
     'happyBirthday': 'Happy Birthday🎂',
     'sayhello': 'Welcome back to ',
-    'medal': 'Medal',
+    'BrandName': 'Target',
     'systemNotifications': 'System Notifications',
     'messages': 'Messages',
     'todos': 'Todos',

@@ -29,7 +29,6 @@ function useRecord(selectDay) {
                 setLatestRecord(res)
             }
         }).catch(err => {
-            console.log(err, 'err');
             message.error("出现异常请重试")
         })
     }

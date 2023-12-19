@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import useMeasurement from '../../hooks/useMeasurement';
 import { isEmptyObj } from '../../utils/funcs';
@@ -16,13 +15,9 @@ import { Empty } from 'antd';
 import UploadMeasurementModal from '../MeasurementModals/uploadModal';
 
 export default function Index() {
-    const theme = useUserTheme()
-    const THEME = APPTHEME[theme]
-    const { currentTheme } = useSelector(state => state.user)
+    const currentTheme = useUserTheme()
+    const THEME = APPTHEME[currentTheme]
     const { formatMessage } = useIntl()
-    const competitionDashboardClassname = currentTheme === 'light' ? 'competition-light' : ''
-    const myCardsClassname = currentTheme === 'light' ? 'myCards-light' : ''
-    const getColorBoundary = currentTheme === 'dark' ? '#1d1d1d' : '#ffffff'
     const { latestMeasurement, allMeasurements } = useMeasurement()
     const { weightArr, dateArr } = useMeasurements(allMeasurements)
     const WeightLineOption = {
@@ -62,7 +57,7 @@ export default function Index() {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 0.7, [{
                             offset: 0, color: '#6C96E1' // 0% 处的颜色
                         }, {
-                            offset: 1, color: getColorBoundary// 100% 处的颜色
+                            offset: 1, color: THEME.contentColor// 100% 处的颜色
                         }]
                         ),  //背景渐变色 
                     },
@@ -77,8 +72,8 @@ export default function Index() {
     }, [latestMeasurement])
     const [UploadMeasurementModalVisible, setUploadMeasurementModalVisible] = useState()
     return (
-        <div className={`competition ${competitionDashboardClassname}`}>
-            <div className={`myCards ${myCardsClassname}`}>
+        <div className={"competition"}>
+            <div className={`myCards`} style={{ backgroundColor: THEME.contentColor }}>
                 <div style={{ fontSize: 16, padding: "4px 10px", fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         Measurement

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { VideoCameraTwoTone, HomeTwoTone, MessageTwoTone, CalendarTwoTone, IdcardTwoTone, FlagTwoTone, SoundTwoTone, UserOutlined, FileTextTwoTone } from '@ant-design/icons';
+import { VideoCameraTwoTone, HomeTwoTone, MessageTwoTone, CalendarTwoTone, IdcardTwoTone, SoundTwoTone, UserOutlined, FileTextTwoTone } from '@ant-design/icons';
 import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
-import Emoji from 'react-emojis';
 import './index.less'
 import { useSelector } from 'react-redux'
 import { logout, setTheme } from '../../../../redux/userSlice';
@@ -9,14 +8,18 @@ import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
 import noGenderPath from '../../../../Pic/noGender.jpg'
 import { useIntl } from 'react-intl';
+import useUserTheme from '../../../../hooks/useUserTheme';
+import APPTHEME from '../../../../constants/COLORS/APPTHEME';
+import ICON from '../../../../Pic/targetIcon.png'
 
 export default function Sidebar() {
-    const { currentUser, currentTheme } = useSelector((state) => state.user)
+    const currentTheme = useUserTheme()
+    const THEME = APPTHEME[currentTheme]
+    const { currentUser } = useSelector((state) => state.user)
     const { formatMessage } = useIntl()
     const dispatch = useDispatch()
     const avator = () => currentUser.avator ? currentUser.avator : noGenderPath
     const [clicked, setClicked] = useState(false);
-    const [selectPage, setSelectPage] = useState('home');
     const [navShrink, setNavShrink] = useState()
     const navigateTo = useNavigate()
     useEffect(() => {
@@ -34,7 +37,6 @@ export default function Sidebar() {
         message.success('Logout successfully!');
         navigateTo('/login')
     }
-    const lightsidebar = currentTheme === 'light' ? 'sidebar-light' : ''
     const lightnavigation = currentTheme === 'light' ? 'navigation-light' : ''
     const location = useLocation()
     const [selecetedNavItem, setSelectedNavItem] = useState(location.pathname.split('/')[1])
@@ -48,7 +50,6 @@ export default function Sidebar() {
         { value: 'calender', icon: () => <CalendarTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'calender' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'tutorial', icon: () => <VideoCameraTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'tutorial' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'blog', icon: () => <SoundTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'blog' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
-        // { value: 'competition', icon: () => <FlagTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'competition' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'statistics', icon: () => <FileTextTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'statistics' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
         { value: 'profile', icon: () => <IdcardTwoTone className={navShrink ? 'navigationCenteredItem' : 'navigationItem'} twoToneColor={selecetedNavItem === 'profile' ? '#4e8df5' : "#3d3d3d"} style={{ fontSize: 18 }} /> },
     ]
@@ -58,13 +59,13 @@ export default function Sidebar() {
         </div>
     }
     return (
-        <div className={`sidebar ${lightsidebar}`}>
+        <div className={`sidebar`} style={{ backgroundColor: THEME.contentColor }}>
             <div className='content'>
                 <div className='logo' style={{ cursor: 'pointer' }} onClick={() => navigateTo('/')}>
-                    <div className='logoPic' style={{ marginBottom: 10 }}>
-                        <Emoji emoji="sports-medal" size={30}></Emoji>
+                    <div className='logoPic' style={{ marginBottom: 10, width: 40, height: 40 }}>
+                        <img style={{ maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'cover' }} src={ICON} />
                     </div>
-                    Medal
+                    Target
                 </div>
                 <div className='navigationBar'>
                     {navObjs.map(nav => navigationItem(nav.value, nav.icon))}
