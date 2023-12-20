@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { cardType } from '..'
 import COLORS from '../../../constants/COLORS'
 import { AppstoreAddOutlined, AppstoreOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import SIZE from '../../../constants/SIZE'
 import useUserTheme from '../../../hooks/useUserTheme'
 import APPTHEME from '../../../constants/COLORS/APPTHEME'
-import { useNavigate } from 'react-router-dom'
 import { Empty } from 'antd'
 import TutorialCardHorizontalWithID from '../../../components/tutorialCard/tutorialCardHorizontalWithID'
 

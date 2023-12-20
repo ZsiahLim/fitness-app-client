@@ -58,10 +58,10 @@ export default function TutorialPage() {
                     setSelectedPage(EXERCISETYPE.yoga.label)
                     navigateTo(`/tutorial/${EXERCISETYPE.yoga.value}`)
                 }}><TutorialItem tutorial={{ title: "Yoga", icon: yoga }} /></div>
-                <div onClick={() => {
+                {/* <div onClick={() => {
                     setSelectedPage(EXERCISETYPE.rope.label)
                     navigateTo(`/tutorial/${EXERCISETYPE.rope.value}`)
-                }}><TutorialItem tutorial={{ title: "Jump rope", icon: rope }} /></div>
+                }}><TutorialItem tutorial={{ title: "Jump rope", icon: rope }} /></div> */}
                 <div onClick={() => {
                     setSelectedPage(EXERCISETYPE.burning.label)
                     navigateTo(`/tutorial/${EXERCISETYPE.burning.value}`)

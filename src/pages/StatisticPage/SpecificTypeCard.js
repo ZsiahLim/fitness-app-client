@@ -95,7 +95,7 @@ const SpecificTypeCard = ({ type, title, titleColor, icon, currentValue, targetV
                         {icon}
                     </div>
                     <div style={{ fontSize: 16, fontWeight: 'bold', color: titleColor }}>{title}</div>
-                    <div style={{ fontSize: 14, color: COLORS.commentText }}>更新于{formatTimeToChinese(recordDate)}</div>
+                    <div style={{ fontSize: 14, color: COLORS.commentText }}>{recordDate ? `更新于${formatTimeToChinese(recordDate)}` : "暂无数据"}</div>
                 </div>
                 <div
                     onClick={() => setCollapsed(!collapsed)}
@@ -112,7 +112,7 @@ const SpecificTypeCard = ({ type, title, titleColor, icon, currentValue, targetV
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
-                    <div style={{ fontSize: SIZE.ExtraLargerTitle, fontWeight: 'bold', color: THEME.fontColor }}>{currentValue}</div>
+                    <div style={{ fontSize: SIZE.ExtraLargerTitle, fontWeight: 'bold', color: THEME.fontColor }}>{currentValue ? currentValue : "0"}</div>
                     <div style={{ fontWeight: 'bold', color: THEME.fontColor }}>{unit} </div>
                 </div>
                 <Tooltip placement="top" title={"目标" + title} arrow={false}>

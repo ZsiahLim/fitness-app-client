@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { message } from 'antd';
 import { getuser } from '../api/user.api';
 
 // 这是一个自定义Hook
@@ -24,7 +23,6 @@ function useUserTarget() {
             }
         }).catch(err => {
             console.log(err, 'err');
-            message.error("出现异常请重试")
         })
     }
     useEffect(() => {

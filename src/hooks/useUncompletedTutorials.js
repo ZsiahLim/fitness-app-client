@@ -18,7 +18,7 @@ function useUncompletedTutorials(selectDay) {
     }
     useEffect(() => {
         getData()
-    }, [])
+    }, [sessions])
 
     useEffect(() => {
         let tutorials = []
@@ -37,7 +37,7 @@ function useUncompletedTutorials(selectDay) {
                 }
             })
         setUnCompletedTutorials(tutorials)
-    }, [selectDay, currentSessions]);
+    }, [selectDay, currentSessions, sessions]);
 
     // 返回状态和设置方法
     return unCompletedtutorials;

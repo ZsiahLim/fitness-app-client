@@ -18,11 +18,11 @@ export default function Conversation(props) {
     const { currentTheme, currentUser } = useSelector(state => state.user)
     const [contact, setContact] = useState()
     const [unreadNum, setUnreadNum] = useState(0)
+    const [alreadySubscribed, setAlreadySubscribed] = useState(true)
     useEffect(() => {
         setAlreadySubscribed(currentUser.contactsUsers.includes(contactID))
     }, [currentUser])
 
-    const [alreadySubscribed, setAlreadySubscribed] = useState(true)
     useEffect(() => {
         const contactIndex = conversation.members.indexOf(currentUserId) === 1 ? 0 : 1
         const contactID = conversation.members[contactIndex]

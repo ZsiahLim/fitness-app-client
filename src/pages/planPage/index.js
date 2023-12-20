@@ -12,6 +12,7 @@ import { Modal } from 'antd';
 import { CalendarFilled } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { formatTimeToChinese } from '../../utils/formatTime';
+import MyExerciseCard from '../settingPage/components/MyExerciseCard';
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function PlanPage() {
@@ -71,6 +72,7 @@ export default function PlanPage() {
                     </Modal>
                 </div>
                 <div style={{ flex: 1, overflow: 'auto', padding: '10px' }}>
+                    <MyExerciseCard />
                     <RecommandTutorials />
                 </div>
             </div>

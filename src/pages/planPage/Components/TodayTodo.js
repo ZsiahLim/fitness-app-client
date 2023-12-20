@@ -8,7 +8,7 @@ import SIZE from '../../../constants/SIZE'
 import useUserTheme from '../../../hooks/useUserTheme'
 import APPTHEME from '../../../constants/COLORS/APPTHEME'
 import UnDoneTodoItem from './UnDoneTodoItem'
-import { ArrowRightOutlined, DownOutlined, RightCircleFilled, RightOutlined } from '@ant-design/icons'
+import { DownOutlined, RightOutlined } from '@ant-design/icons'
 
 export default function TodayTodo({ selectDay }) {
     const theme = useUserTheme()
@@ -16,7 +16,6 @@ export default function TodayTodo({ selectDay }) {
     const yetDoneTutorial = useUncompletedTutorials(selectDay)
     const doneTutorial = useCompletedTutorials(selectDay)
     const [noTutorial, setNoTutorial] = useState(yetDoneTutorial.length === 0 && doneTutorial.length === 0)
-
     const [collapseUndo, setCollapseUndo] = useState(false)
     const [collapseDone, setCollapseDone] = useState(false)
     useEffect(() => {

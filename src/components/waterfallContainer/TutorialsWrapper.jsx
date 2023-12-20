@@ -18,12 +18,9 @@ export default function WaterfallContainerForTutorial({ tutorials }) {
             if (index < column) {
                 item.style.top = '0px'
                 item.style.left = index * (waterfallItemsWidth + gap) + 'px'
-                console.log("item height", item.offsetHeight);
                 previousHeightArr.push(item.offsetHeight)
-                console.log("previousHeightArr", previousHeightArr);
             } else {
                 minIdx = getMinIdx(previousHeightArr)
-                console.log("minIndex", minIdx);
                 item.style.left = waterfallItems[minIdx].offsetLeft + 'px'
                 item.style.top = previousHeightArr[minIdx] + gap + 'px'
                 previousHeightArr[minIdx] += item.offsetHeight + gap

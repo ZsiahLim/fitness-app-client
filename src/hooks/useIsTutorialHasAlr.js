@@ -36,8 +36,7 @@ function useIsTutorialHasAlr(tutorialID) {
 
     const isTutorialHasAlr = useMemo(() => {
         return sessions.some(session =>
-            checkTwoDaysIsEqual(new Date(userSelectDay), new Date(session.date)) &&
-            session.tutorial._id === tutorialID
+            checkTwoDaysIsEqual(new Date(userSelectDay), new Date(session.date)) && session?.tutorial && session.tutorial._id === tutorialID
         );
     }, [userSelectDay, sessions, tutorialID]);
 

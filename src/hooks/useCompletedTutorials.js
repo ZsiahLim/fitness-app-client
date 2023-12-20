@@ -18,25 +18,39 @@ function useCompletedTutorials(selectDay) {
     }
     useEffect(() => {
         getData()
-    }, [])
+    }, [sessions])
     useEffect(() => {
         let tutorials = [];
         selectDay ? currentSessions.map(session => {
             if (checkTwoDaysIsEqual(new Date(session.date), selectDay)) {
                 if (session.completed === true) {
-                    tutorials.push({ ...session.tutorial, sessionID: session._id, session })
+                    console.log("session.tutorial", session.tutorial);
+                    if (session.tutorial) {
+                        console.log("daozhele", session.otherTypeTutorial);
+                        tutorials.push({ ...session.tutorial, sessionID: session._id, session })
+                    } else {
+                        console.log("other", session.otherTypeTutorial);
+                        tutorials.push({ ...session.otherTypeTutorial, sessionID: session._id, session })
+                    }
                 }
             }
         }) : currentSessions.map(session => {
             if (checkTwoDaysIsEqual(new Date(session.date), new Date())) {
                 if (session.completed === true) {
-                    tutorials.push({ ...session.tutorial, sessionID: session._id, session })
+                    console.log("session.tutorial", session.tutorial);
+                    if (session.tutorial) {
+                        console.log("daozhele");
+                        tutorials.push({ ...session.tutorial, sessionID: session._id, session })
+                    } else {
+                        console.log("other", session);
+                        tutorials.push({ ...session.otherTypeTutorial, sessionID: session._id, session })
+                    }
                 }
             }
         })
 
         setCompletedTutorials(tutorials)
-    }, [selectDay, currentSessions]);
+    }, [selectDay, sessions, currentSessions]);
 
 
     // 返回状态和设置方法

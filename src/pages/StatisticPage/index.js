@@ -65,10 +65,10 @@ export default function StatisticsPage() {
             <div style={{ display: 'flex', flex: 1, gap: SIZE.NormalMargin }}>
                 <div className='StatisticsPage-container' style={{ width: '100%', height: '100%', overflow: 'auto', flex: 1 }}>
                     <TodayExercise />
-                    <SpecificTypeCard type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行距离"} titleColor={COLORS.primary} currentValue={(distanceNum / 1000).toFixed(2)} targetValue={(distanceTarget / 1000).toFixed(2)} unit={"km"} />
-                    <SpecificTypeCard type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} titleColor={COLORS.primary} currentValue={stepNum} targetValue={stepTarget} unit={"步"} />
-                    <SpecificTypeCard type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} titleColor={COLORS.colorieOrange} currentValue={calorieNum} targetValue={calorieTarget} unit={"千卡"} />
-                    <SpecificTypeCard type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} titleColor={COLORS.purple} currentValue={secToSpecificMin(durationNum)} targetValue={secToSpecificMin(durationTarget)} unit={"分钟"} />
+                    <SpecificTypeCard type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行距离"} titleColor={COLORS.primary} currentValue={distanceNum ? (distanceNum / 1000).toFixed(2) : "0"} targetValue={distanceTarget ? (distanceTarget / 1000).toFixed(2) : null} unit={"km"} />
+                    <SpecificTypeCard type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} titleColor={COLORS.primary} currentValue={stepNum} targetValue={stepTarget ? stepTarget : null} unit={"步"} />
+                    <SpecificTypeCard type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} titleColor={COLORS.colorieOrange} currentValue={calorieNum} targetValue={calorieTarget ? calorieTarget : null} unit={"千卡"} />
+                    <SpecificTypeCard type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} titleColor={COLORS.purple} currentValue={durationNum ? secToSpecificMin(durationNum) : "0"} targetValue={durationTarget ? secToSpecificMin(durationTarget) : null} unit={"分钟"} />
                     <ExerciseOverview />
                     <UserBestRecord records={records} />
                     <WholeTrend />
@@ -400,7 +400,7 @@ const TodayExercise = () => {
                     运动时长
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                    <div style={{ fontSize: 20, fontWeight: 'bold' }}>{durationNum ? secToSpecificMin(durationNum) : "--"}</div>
+                    <div style={{ fontSize: 20, fontWeight: 'bold' }}>{durationNum ? secToSpecificMin(durationNum) : "0"}</div>
                     <div style={{ fontSize: 12 }}>min</div>
                 </div>
             </div>

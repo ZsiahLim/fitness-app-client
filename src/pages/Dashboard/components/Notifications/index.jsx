@@ -24,10 +24,6 @@ export default function Notifications() {
     const [notifications, setNotifications] = useState([]);
     const [unreadedMsgs, setUnreadedMsgs] = useState([])
     const yetDoneTutorial = useUncompletedTutorials()
-
-    const noticeListFilter = (type) => {
-        return notifications.filter(notice => notice.type === type);
-    };
     const getNotice = async () => {
         const unreadedMsgs = await getunreadedmessage()
         setUnreadedMsgs(unreadedMsgs)
@@ -158,6 +154,7 @@ function TodoPane() {
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const yetDoneTutorial = useUncompletedTutorials()
+    console.log("yetDoneTutorial", yetDoneTutorial);
     return (
         <div>
             {yetDoneTutorial.length === 0 ? <div style={{ width: "100%", height: '96%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: 16, backgroundColor: THEME.backgroundColor, }}>

@@ -44,6 +44,7 @@ function useRecord(selectDay) {
     const todayRecord = useMemo(() => {
         if (allRecords.length !== 0) {
             const foundRecord = allRecords.find(record => checkTwoDaysIsEqual(new Date(record.date), selectDay ? selectDay : new Date()))
+            console.log("foundRecord", foundRecord);
             return foundRecord ? foundRecord : {}
         } else {
             return {}

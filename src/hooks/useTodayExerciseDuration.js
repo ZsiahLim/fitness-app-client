@@ -8,17 +8,22 @@ function useTodayExerciseDuration(selectDay) {
     const [duration, setDuration] = useState(0)
 
     useEffect(() => {
-        let tutorials = [];
         let sum = 0;
         selectDay ? sessions.map(session => {
+            console.log("sesssssss", session);
             if (checkTwoDaysIsEqual(new Date(session.date), selectDay)) {
-                if (session.completed === true) {
+                console.log("sesssssss", session);
+                if (session.completed === true && session.exerciseDuration) {
+                    console.log("session.exerciseDuration", session.exerciseDuration);
                     sum += parseInt(session.exerciseDuration)
                 }
             }
         }) : sessions.map(session => {
+            console.log("sesssssss", session);
             if (checkTwoDaysIsEqual(new Date(session.date), new Date())) {
-                if (session.completed === true) {
+                console.log("sesssssss", session);
+                if (session.completed === true && session.exerciseDuration) {
+                    console.log("session.exerciseDuration", session.exerciseDuration);
                     sum += parseInt(session.exerciseDuration)
                 }
             }
