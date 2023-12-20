@@ -3,28 +3,27 @@ import { Calendar } from 'antd';
 import './index.less'
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserSelectDay } from '../../redux/CalendarSlice';
-import { checkIsToday } from '../../utils/checkIsToday';
 import RecommandTutorials from '../../components/RecommandTutorials';
-import useUncompletedTutorials from '../../hooks/useUncompletedTutorials';
-import useCompletedTutorials from '../../hooks/useCompletedTutorials';
 import TodayTodo from './Components/TodayTodo';
 import { Modal } from 'antd';
-import { CalendarFilled } from '@ant-design/icons';
+import { CalendarFilled, RightOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { formatTimeToChinese } from '../../utils/formatTime';
 import MyExerciseCard from '../settingPage/components/MyExerciseCard';
+import SIZE from '../../constants/SIZE';
+import useUserTheme from '../../hooks/useUserTheme';
+import APPTHEME from '../../constants/COLORS/APPTHEME';
+import { useNavigate } from 'react-router-dom';
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function PlanPage() {
     const dispatch = useDispatch()
-    const { currentTheme, currentUser: { preferedLanguage } } = useSelector(state => state.user)
+    const navigateTo = useNavigate()
+    const currentTheme = useUserTheme()
+    const THEME = APPTHEME[currentTheme]
+    const { currentUser: { preferedLanguage } } = useSelector(state => state.user)
     const lightPlanPageClassname = currentTheme === 'light' ? 'planPage-light' : ''
     const [selectDay, setSelectday] = useState(new Date());
-    const [isToday, setIsToday] = useState(true)
-    const yetDoneTutorial = useUncompletedTutorials(selectDay)
-    const doneTutorial = useCompletedTutorials(selectDay)
-    const [noTutorial, setNoTutorial] = useState(yetDoneTutorial.length === 0 && doneTutorial.length === 0)
-
     const [isModalOpen, setIsModalOpen] = useState(false)
     useEffect(() => {
         setSelectday(new Date())
@@ -32,8 +31,6 @@ export default function PlanPage() {
 
     useEffect(() => {
         if (selectDay) {
-            const whetherToday = checkIsToday(selectDay)
-            setIsToday(whetherToday)
             dispatch(setUserSelectDay(selectDay.toISOString()))
         }
     }, [selectDay])
@@ -73,6 +70,10 @@ export default function PlanPage() {
                 </div>
                 <div style={{ flex: 1, overflow: 'auto', padding: '10px' }}>
                     <MyExerciseCard />
+                    <div onClick={() => navigateTo('/tutorial')} className='buttonHover' style={{ padding: SIZE.NormalMargin, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: THEME.backgroundColor, borderRadius: SIZE.CardBorderRadius, fontWeight: 'bold' }}>
+                        <div>Go to Tutorial Library to find more</div>
+                        <RightOutlined />
+                    </div>
                     <RecommandTutorials />
                 </div>
             </div>
