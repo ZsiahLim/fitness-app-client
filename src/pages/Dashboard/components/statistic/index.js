@@ -1,24 +1,24 @@
 import Card from './card'
 import './index.less'
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import useRecord from '../../../../hooks/useRecord';
 import { isEmptyObj, secToSpecificMin } from '../../../../utils/funcs';
 import { useEffect, useState } from 'react';
 import useUserTarget from '../../../../hooks/useUserTarget';
 import { formatTimeToChinese } from '../../../../utils/formatTime';
+import useUserTheme from '../../../../hooks/useUserTheme';
+import APPTHEME from '../../../../constants/COLORS/APPTHEME';
 export default function Index() {//need to update
-    const { currentTheme } = useSelector(state => state.user)
+    const currentTheme = useUserTheme()
+    const THEME = APPTHEME[currentTheme]
     const { formatMessage } = useIntl()
-    const statisticDashboardClassname = currentTheme === 'light' ? 'statistic-light' : ''
     const { latestRecord, todayRecord } = useRecord()
     const [recordDate, setRecordDate] = useState()
     const [stepNum, setStepNum] = useState(null)
     const [calorieNum, setCalorieNum] = useState(null)
     const [distanceNum, setDistanceNum] = useState(null)
     const [durationNum, setDurationNum] = useState(null)
-
-    const { weightTarget, stepTarget, calorieTarget, distanceTarget, durationTarget } = useUserTarget()
+    const { stepTarget, calorieTarget, distanceTarget, durationTarget } = useUserTarget()
 
     useEffect(() => {
         if (isEmptyObj(todayRecord)) {
@@ -41,41 +41,40 @@ export default function Index() {//need to update
     const cardsInfo = {
         steps: {
             title: `${formatMessage({ id: 'steps' })}`,
-            number: stepNum ? stepNum : '--',
+            number: stepNum ? stepNum : '0',
             unit: '步',
-            percentage: (stepNum && stepTarget) ? ((stepNum / stepTarget).toPrecision(2) * 100) : '--',
+            percentage: (stepNum && stepTarget) ? ((stepNum / stepTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         colorie: {
             title: `${formatMessage({ id: 'colorie' })}`,
-            number: calorieNum ? calorieNum : '--',
+            number: calorieNum ? calorieNum.toFixed(0) : '0',
             unit: 'kcal',
-            percentage: calorieNum && calorieTarget ? ((calorieNum / calorieTarget).toPrecision(2) * 100) : '--',
+            percentage: calorieNum && calorieTarget ? ((calorieNum / calorieTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         distance: {
             title: `${formatMessage({ id: 'distance' })}`,
-            number: distanceNum ? distanceNum : '--',
+            number: distanceNum ? distanceNum : '0',
             unit: 'm',
-            percentage: distanceNum && distanceTarget ? ((distanceNum / distanceTarget).toPrecision(2) * 100) : '--',
+            percentage: (distanceNum && distanceTarget) ? ((distanceNum / distanceTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
-        days: {
+        duration: {
             title: 'Duration',
-            number: durationNum ? secToSpecificMin(durationNum) : "--",
+            number: durationNum ? secToSpecificMin(durationNum) : "0",
             unit: 'min',
-            percentage: durationNum && durationTarget ? ((durationNum / durationTarget).toPrecision(2) * 100) : '--',
+            percentage: durationNum && durationTarget ? ((durationNum / durationTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
     }
-    const { steps, colorie, distance, days } = cardsInfo
-    const cardslight = currentTheme === 'light' ? 'myCards-light' : ''
+    const { steps, colorie, distance, duration } = cardsInfo
     return (
-        <div className={`statistic ${statisticDashboardClassname} `}>
-            <div key={'steps'} className={`myCards ${cardslight} `} style={{ width: '49%', height: '48%' }}><Card cardInfo={steps} /></div>
-            <div key={'colorie'} className={`myCards ${cardslight} `} style={{ width: '49%', height: '48%' }}><Card cardInfo={colorie} /></div>
-            <div key={'distance'} className={`myCards ${cardslight} `} style={{ width: '49%', height: '48%' }}><Card cardInfo={distance} /></div>
-            <div key={'days'} className={`myCards ${cardslight} `} style={{ width: '49%', height: '48%' }}><Card cardInfo={days} /></div>
+        <div className={`statistic`}>
+            <div key={'steps'} className={`myCards`} style={{ width: '49%', height: '48%', backgroundColor: THEME.contentColor }}><Card cardInfo={steps} /></div>
+            <div key={'colorie'} className={`myCards`} style={{ width: '49%', height: '48%', backgroundColor: THEME.contentColor }}><Card cardInfo={colorie} /></div>
+            <div key={'distance'} className={`myCards`} style={{ width: '49%', height: '48%', backgroundColor: THEME.contentColor }}><Card cardInfo={distance} /></div>
+            <div key={'days'} className={`myCards`} style={{ width: '49%', height: '48%', backgroundColor: THEME.contentColor }}><Card cardInfo={duration} /></div>
         </div>
     )
 }

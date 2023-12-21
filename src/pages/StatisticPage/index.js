@@ -40,7 +40,7 @@ export default function StatisticsPage() {
     const [calorieNum, setCalorieNum] = useState(null)
     const [distanceNum, setDistanceNum] = useState(null)
     const [durationNum, setDurationNum] = useState(null)
-    const { weightTarget, stepTarget, calorieTarget, distanceTarget, durationTarget } = useUserTarget()
+    const { stepTarget, calorieTarget, distanceTarget, durationTarget } = useUserTarget()
     useEffect(() => {
         if (isEmptyObj(todayRecord)) {
             if (!isEmptyObj(latestRecord)) {

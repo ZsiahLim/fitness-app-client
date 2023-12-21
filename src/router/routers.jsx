@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Login from '../pages/Login'
 import Dashboard from '../pages/Dashboard'
@@ -27,7 +27,7 @@ import { getrecommandtutorials, getspecifictypetutorials } from '../api/tutorial
 
 
 export default function MyRouter() {
-    const { currentUser } = useSelector((state) => state.user)
+    const { currentUser } = useSelector((state) => state.user, shallowEqual)
     const ProtectedRoute = ({ children }) => {
         if (!currentUser) {
             return <Navigate to={'/login'} />
