@@ -70,7 +70,7 @@ const ExerciseAndBodyMatric = () => {
                 <div style={{ fontSize: 14, }}>min</div>
             </div>
             <div style={{ color: COLORS.commentText, fontSize: 14 }}>
-                总消耗{calorieSum}({tutorialCalorieSum})千卡
+                总消耗{calorieSum ? calorieSum.toFixed(0) : 0}({tutorialCalorieSum ? tutorialCalorieSum : 0})千卡
             </div>
         </div>
         <div style={{ flex: 1, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, }}>
@@ -80,15 +80,15 @@ const ExerciseAndBodyMatric = () => {
                     <RightOutlined />
                 </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', }}>
+            {latestMeasurement?.weight && <div style={{ display: 'flex', alignItems: 'baseline', }}>
                 <div style={{ fontWeight: 'bold', fontSize: 20 }}>{latestMeasurement.weight}</div>
                 <div style={{ fontSize: 14, }}>Kg</div>
-            </div>
-            <div style={{ color: COLORS.commentText, fontSize: 14 }}>
+            </div>}
+            {latestMeasurement?.date && <div style={{ color: COLORS.commentText, fontSize: 14 }}>
                 记录于{formatTimeForChartSoloItem(new Date(latestMeasurement.date))}
-            </div>
+            </div>}
         </div>
-    </div>
+    </div >
 }
 
 export const Card = ({ type, title, unitDescription, LeftIcon, leftTitle, leftValue, RightIcon, rightTitle, rightValue }) => {

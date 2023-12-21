@@ -16,12 +16,13 @@ import { loginSuccess } from '../../../../redux/userSlice'
 import { setSessions } from '../../../../redux/SessionSlice'
 import { addtutorialtofavor } from '../../../../api/tutorial.api'
 import useCheckFavorTutorialIsExist from '../../../../hooks/useCheckFavorTutorialIsExist'
+import useUserTheme from '../../../../hooks/useUserTheme'
 
 export default function SpecificTutorialPage() {
+    const currentTheme = useUserTheme()
     const tutorial = useLoaderData()
     const dispatch = useDispatch()
     const navigateTo = useNavigate()
-    const { currentTheme } = useSelector(state => state.user)
     const { userSelectDay } = useSelector(state => state.calendar)
     const { _id, name, brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, level, rate, users, video, type, equipments } = tutorial
     const [startedExcersise, setStartedExcersise] = useState(false)
