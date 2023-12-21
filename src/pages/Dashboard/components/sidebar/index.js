@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { VideoCameraTwoTone, HomeTwoTone, MessageTwoTone, CalendarTwoTone, IdcardTwoTone, SoundTwoTone, UserOutlined, FileTextTwoTone } from '@ant-design/icons';
-import { Avatar, Popover, Switch, Button, message, Popconfirm } from 'antd';
+import { Avatar, Popover, Switch, Button, message, Popconfirm, Segmented } from 'antd';
 import './index.less'
 import { useSelector } from 'react-redux'
-import { logout, setTheme } from '../../../../redux/userSlice';
+import { loginSuccess, logout, setTheme } from '../../../../redux/userSlice';
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
 import noGenderPath from '../../../../Pic/noGender.jpg'
@@ -11,6 +11,7 @@ import { useIntl } from 'react-intl';
 import useUserTheme from '../../../../hooks/useUserTheme';
 import APPTHEME from '../../../../constants/COLORS/APPTHEME';
 import ICON from '../../../../Pic/targetIcon.png'
+import { updateuserinfo } from '../../../../api/user.api';
 
 export default function Sidebar() {
     const currentTheme = useUserTheme()
@@ -41,7 +42,6 @@ export default function Sidebar() {
     const location = useLocation()
     const [selecetedNavItem, setSelectedNavItem] = useState(location.pathname.split('/')[1])
     useEffect(() => {
-        console.log(location.pathname.split('/')[1]);
         setSelectedNavItem(location.pathname.split('/')[1])
     }, [location])
     const navObjs = [
@@ -58,6 +58,23 @@ export default function Sidebar() {
             <Icon />
         </div>
     }
+    // const [userSelectTheme, setUserSelectTheme] = useState()
+    // const handleUpdate = async () => {
+    //     if (userSelectTheme) {
+    //         let handledItems = { preferedTheme: "dark" }
+    //         await updateuserinfo(currentUser._id, handledItems)
+    //             .then((res) => {
+    //                 if (res.status !== false) {
+    //                     dispatch(loginSuccess(res))
+    //                 } else {
+    //                     message.error("出现异常请稍后重试")
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 message.error("出现异常请稍后重试")
+    //             })
+    //     }
+    // }
     return (
         <div className={`sidebar`} style={{ backgroundColor: THEME.contentColor }}>
             <div className='content'>
@@ -78,6 +95,9 @@ export default function Sidebar() {
                                 {currentTheme === 'light' ? <Switch defaultChecked onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>
                                     : <Switch onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>}
                                 <br />
+                                {/* <Segmented
+                                    options={['light', 'dark']}
+                                /> */}
                                 <Popconfirm
                                     title="Attention"
                                     description="Are you sure to logout?"

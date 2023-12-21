@@ -13,7 +13,7 @@ import EXERCISETYPE from '../../constants/EXERCISETYPE'
 // const scoreArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export default function FinishExercise() {
     const location = useLocation();
-    const { tutorial, exerciseData: { exerciseDuration, startTime, endTime, calorieConsumption } } = location.state;
+    const { tutorial, exerciseData: { step, distance, exerciseDuration, startTime, endTime, calorieConsumption } } = location.state;
     const { currentUser } = useSelector(state => state.user)
     // const [score, setScore] = useState()
     const navigateTo = useNavigate()
@@ -27,16 +27,24 @@ export default function FinishExercise() {
                         <Avatar src={currentUser.avator} size={36} icon={<UserOutlined />} /> {currentUser.name}
                     </div>
                     <div className="finishExercisePage-mainStatistics-showContent">
-                        <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
+                        {tutorial.name !== "Run" && tutorial.name !== "Walk" && <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
                             <Progress type="dashboard" percent={100} format={() => calorieConsumption} strokeColor={'#ed7276'} strokeWidth={16} />
                             <div className='commentText'>预估消耗(千卡)</div>
-                        </div>
+                        </div>}
                         <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail">
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">{tutorial.level} - {tutorial.duration}分钟</div>
+                                {tutorial.level && <div className="commentText">{tutorial.level} - {tutorial.duration}分钟</div>}
                                 {tutorial.name}
                                 <div className="commentText">{tutorial.brief}</div>
                             </div>
+                            {step && <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
+                                <div className="commentText">步数</div>
+                                <div style={{ fontSize: 18, fontWeight: 'bold' }}>{step}</div>
+                            </div>}
+                            {distance && <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
+                                <div className="commentText">距离(m)</div>
+                                <div style={{ fontSize: 18, fontWeight: 'bold' }}>{distance.toFixed(0)}</div>
+                            </div>}
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
                                 <div className="commentText">训练时长</div>
                                 <div style={{ fontSize: 18, fontWeight: 'bold' }}>{secToMin(exerciseDuration)}</div>
