@@ -36,3 +36,15 @@ export const secConvertToMin = (seconds) => {
 export const isEmptyObj = (obj) => {
     return Object.keys(obj).length === 0;
 }
+
+export const isAfterToday = (timestamp) => {
+    // 创建一个代表给定时间戳的Date对象
+    const givenDate = new Date(timestamp);
+
+    // 获取今天的日期（年月日）并将时间设置为午夜（00:00:00）
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // 比较两个日期的时间戳
+    return givenDate.getTime() > today.getTime();
+}

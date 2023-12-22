@@ -9,9 +9,11 @@ import { addcomment, cancelfavoriteblog, cancellikeblog, createreport, deleteblo
 import EditBlog from './editBlog';
 import VideoJS from '../../../components/VideoJS';
 import { shareBlog } from '../../../utils/shareFuncs';
+import useCheckUserStatus from '../../../hooks/useCheckUserStatus';
 const { TextArea } = Input;
 
 export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen }) {
+    const { isMuted, muteDate } = useCheckUserStatus()
     const [blogInfo, setBlogInfo] = useState(blog)
     const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
@@ -98,15 +100,19 @@ export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen })
             })
     }
     const handleComment = async () => {
-        mycomment && await addcomment({ blogID: blogInfo._id, content: mycomment })
-            .then(() => {
-                message.success('comment successfully')
-                getBlogComments()
-                setMycomment('')
-            }).catch(error => {
-                message.error(error)
-                console.log(error);
-            })
+        if (!isMuted) {
+            mycomment && await addcomment({ blogID: blogInfo._id, content: mycomment })
+                .then(() => {
+                    message.success('comment successfully')
+                    getBlogComments()
+                    setMycomment('')
+                }).catch(error => {
+                    message.error(error)
+                    console.log(error);
+                })
+        } else {
+            message.error("您因违反社区规定已被禁言, 禁言期间无法发评论, 禁言终止日期:" + muteDate, 5)
+        }
     }
     const handleLikeComment = async (commentId) => {
         await likecomment(commentId)

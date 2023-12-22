@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { updateuserinfo } from '../../../../api/user.api';
 import dayjs from 'dayjs';
 import COLORS from '../../../../constants/COLORS';
+import useCheckUserStatus from '../../../../hooks/useCheckUserStatus';
 const { TextArea } = Input;
 
 const normFile = (e) => {
@@ -27,6 +28,8 @@ export default function ProfileCard() {
     const showEditModal = () => { setIsEditModalOpen(true); };
     const handleEditOk = () => { setIsEditModalOpen(false); };
     const handleCancel = () => { setIsEditModalOpen(false); };
+    const { isMuted, muteDate } = useCheckUserStatus()
+    console.log("isMuted", isMuted);
     const [updatedAvator, setUpdatedAvator] = useState([{ uid: 0, name: 'Avator', status: 'done', url: avator, thumbUrl: avator }])
     const propsImage = {
         onRemove: (file) => {
@@ -139,6 +142,7 @@ export default function ProfileCard() {
                             }
                         }}
                     >Copy</Button></div>
+                    {isMuted && <div>账号状态: 「禁言」禁言截止日期{muteDate}</div>}
                 </div>
             </div>
             <div className='Card-Edit'>

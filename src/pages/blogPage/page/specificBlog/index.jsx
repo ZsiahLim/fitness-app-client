@@ -11,10 +11,12 @@ import VideoJS from '../../../../components/VideoJS';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import './index.less'
 import { shareBlog } from '../../../../utils/shareFuncs';
+import useCheckUserStatus from '../../../../hooks/useCheckUserStatus';
 const { TextArea } = Input;
 
 
 export default function SpecificBlog() {
+    const { isMuted, muteDate } = useCheckUserStatus()
     const [specificBlog, setSpecificBlog] = useState(useLoaderData())
     const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = specificBlog || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
@@ -100,15 +102,20 @@ export default function SpecificBlog() {
             })
     }
     const handleComment = async () => {
-        mycomment && await addcomment({ blogID: specificBlog._id, content: mycomment })
-            .then(() => {
-                message.success('comment successfully')
-                getBlogComments()
-                setMycomment('')
-            }).catch(error => {
-                message.error(error)
-                console.log(error);
-            })
+        console.log("isMuted", isMuted);
+        if (!isMuted) {
+            mycomment && await addcomment({ blogID: specificBlog._id, content: mycomment })
+                .then(() => {
+                    message.success('comment successfully')
+                    getBlogComments()
+                    setMycomment('')
+                }).catch(error => {
+                    message.error(error)
+                    console.log(error);
+                })
+        } else {
+            message.error("您因违反社区规定已被禁言, 禁言期间无法发评论, 禁言终止日期:" + muteDate, 5)
+        }
     }
     const handleLikeComment = async (commentId) => {
         await likecomment(commentId)

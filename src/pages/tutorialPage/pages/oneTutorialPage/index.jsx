@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import { calculateAverage } from '../../../../utils/funcs'
 import MyCarousel from '../../../../components/myCarousel'
 import './index.less'
-import { CalendarFilled, CalendarOutlined, EllipsisOutlined, LeftOutlined, StarOutlined } from '@ant-design/icons'
+import { CalendarFilled, CalendarOutlined, EllipsisOutlined, LeftOutlined, ShareAltOutlined, StarOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { VideoJSForTutorial } from '../../../../components/VideoJSForTutorial'
 import COLORS from '../../../../constants/COLORS'
@@ -17,6 +17,7 @@ import { setSessions } from '../../../../redux/SessionSlice'
 import { addtutorialtofavor } from '../../../../api/tutorial.api'
 import useCheckFavorTutorialIsExist from '../../../../hooks/useCheckFavorTutorialIsExist'
 import useUserTheme from '../../../../hooks/useUserTheme'
+import { shareTutorial } from '../../../../utils/shareFuncs'
 
 export default function SpecificTutorialPage() {
     const currentTheme = useUserTheme()
@@ -96,7 +97,11 @@ export default function SpecificTutorialPage() {
     },
     {
         key: '2', label: (<div onClick={handleAddTutorialTofavor}><StarOutlined /> Add to favor list</div>),
-    },];
+    },
+    {
+        key: '3', label: (<div onClick={() => shareTutorial(_id)}><ShareAltOutlined /> Share</div>),
+    },
+    ];
 
     return (
         <div className={`specificTutorialPage ${lightSpecificTutorialPageClassname}`}>

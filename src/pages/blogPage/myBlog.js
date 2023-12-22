@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { LeftOutlined, UploadOutlined } from '@ant-design/icons';
 import PostBlog from './components/postBlog';
 import WaterfallContainer from '../../components/waterfallContainer/BlogsWrapper';
+import useCheckUserStatus from '../../hooks/useCheckUserStatus';
+import { formatTimeToChinese } from '../../utils/formatTime';
 export default function MyBlog() {
     const { currentTheme, currentUser } = useSelector(state => state.user)
     const [myBlogs, setMyBlogs] = useState(useLoaderData())
@@ -44,6 +46,8 @@ export default function MyBlog() {
         })
     }
 
+    const { isMuted, muteDate } = useCheckUserStatus()
+
     const myblogHeaderClassname = currentTheme === 'light' ? 'myblog-header-light' : ''
     const [uploadBlogOpen, setUploadBlogOpen] = useState(false)
     const tabItems = [{ key: 'myblogs', label: 'My Blogs' }, { key: 'likedBlogs', label: 'Liked Blogs' }, { key: 'favoriteBlogs', label: 'My Favorites Blogs', disabled: favorBlogs ? false : true }]
@@ -51,7 +55,13 @@ export default function MyBlog() {
         <>
             <div className={`myblog-header ${myblogHeaderClassname}`}>
                 <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> Back</div>
-                <div className='postBlogBtn' onClick={() => setUploadBlogOpen(true)}><UploadOutlined style={{ marginRight: 10 }} />Post blog</div>
+                <Button type={isMuted ? 'default' : 'primary'} onClick={() => {
+                    if (!isMuted) {
+                        setUploadBlogOpen(true)
+                    } else {
+                        message.error("您因违反社区规定已被禁言, 禁言期间无法发博客, 禁言终止日期:" + muteDate, 5)
+                    }
+                }}><UploadOutlined style={{ marginRight: 10 }} />Post blog</Button>
             </div>
             <div className='blog-content-tabs' style={{ padding: '0 10px' }}>
                 <Tabs defaultActiveKey="1" items={tabItems} onChange={(tab) => { setPageTab(tab) }} />

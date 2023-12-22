@@ -24,16 +24,27 @@ import ContactDetail from '../pages/chatPage/pages/contactPage/contactDetail'
 import ConversationDetail from '../pages/chatPage/pages/conversationPage/conversationDetail'
 import SubscribeUserPage from '../pages/chatPage/pages/SubscribeUserPage'
 import { getrecommandtutorials, getspecifictypetutorials } from '../api/tutorial.api'
+import useCheckUserStatus from '../hooks/useCheckUserStatus'
+import { message } from 'antd'
 
 
 export default function MyRouter() {
     const { currentUser } = useSelector((state) => state.user, shallowEqual)
     const ProtectedRoute = ({ children }) => {
+        const { isBlocked } = useCheckUserStatus()
+        if (isBlocked) {
+            message.info("您因为违反平台规则被封禁，无法再访问平台", 10)
+        }
         if (!currentUser) {
             return <Navigate to={'/login'} />
         } else {
-            return children
+            if (isBlocked) {
+                return <Navigate to={'/login'} />
+            } else {
+                return children
+            }
         }
+
     }
 
     const router = createBrowserRouter([
