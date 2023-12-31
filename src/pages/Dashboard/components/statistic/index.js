@@ -1,6 +1,5 @@
 import Card from './card'
 import './index.less'
-import { useIntl } from 'react-intl';
 import useRecord from '../../../../hooks/useRecord';
 import { isEmptyObj, secToSpecificMin } from '../../../../utils/funcs';
 import { useEffect, useState } from 'react';
@@ -8,10 +7,13 @@ import useUserTarget from '../../../../hooks/useUserTarget';
 import { formatTimeToChinese } from '../../../../utils/formatTime';
 import useUserTheme from '../../../../hooks/useUserTheme';
 import APPTHEME from '../../../../constants/COLORS/APPTHEME';
-export default function Index() {//need to update
+import StepTitle from '../../../../components/ExerciseStatisItems/Step';
+import CalorieTitle from '../../../../components/ExerciseStatisItems/Calorie';
+import DistanceTitle from '../../../../components/ExerciseStatisItems/Distance';
+import DurationTitle from '../../../../components/ExerciseStatisItems/Duration';
+const Statistics = () => {//need to update
     const currentTheme = useUserTheme()
     const THEME = APPTHEME[currentTheme]
-    const { formatMessage } = useIntl()
     const { latestRecord, todayRecord } = useRecord()
     const [recordDate, setRecordDate] = useState()
     const [stepNum, setStepNum] = useState(null)
@@ -40,28 +42,28 @@ export default function Index() {//need to update
 
     const cardsInfo = {
         steps: {
-            title: `${formatMessage({ id: 'steps' })}`,
+            title: <StepTitle />,
             number: stepNum ? stepNum : '0',
             unit: '步',
             percentage: (stepNum && stepTarget) ? ((stepNum / stepTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         colorie: {
-            title: `${formatMessage({ id: 'colorie' })}`,
+            title: <CalorieTitle />,
             number: calorieNum ? calorieNum.toFixed(0) : '0',
             unit: 'kcal',
             percentage: calorieNum && calorieTarget ? ((calorieNum / calorieTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         distance: {
-            title: `${formatMessage({ id: 'distance' })}`,
+            title: <DistanceTitle />,
             number: distanceNum ? distanceNum : '0',
             unit: 'm',
             percentage: (distanceNum && distanceTarget) ? ((distanceNum / distanceTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         duration: {
-            title: 'Duration',
+            title: <DurationTitle />,
             number: durationNum ? secToSpecificMin(durationNum) : "0",
             unit: 'min',
             percentage: durationNum && durationTarget ? ((durationNum / durationTarget) * 100).toFixed(0) : '--',
@@ -78,3 +80,4 @@ export default function Index() {//need to update
         </div>
     )
 }
+export default Statistics

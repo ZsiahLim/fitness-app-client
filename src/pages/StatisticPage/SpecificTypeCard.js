@@ -15,7 +15,7 @@ import { updatecalorietarget, updatedistancetarget, updatedurationtarget, update
 import { loginSuccess } from '../../redux/userSlice'
 import { STATISTICITEMS } from './statisticItems'
 
-const SpecificTypeCard = ({ type, title, titleColor, icon, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {
+const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {
     const theme = useUserTheme()
     const dispatch = useDispatch()
     const THEME = APPTHEME[theme]
@@ -90,11 +90,7 @@ const SpecificTypeCard = ({ type, title, titleColor, icon, currentValue, targetV
         <div style={{ marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', marginBottom: SIZE.NormalMargin, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                    {/* icon */}
-                    <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', width: 26, height: 26, backgroundColor: titleColor, borderRadius: 9 }}>
-                        {icon}
-                    </div>
-                    <div style={{ fontSize: 16, fontWeight: 'bold', color: titleColor }}>{title}</div>
+                    {ExerciseStatisItems}
                     <div style={{ fontSize: 14, color: COLORS.commentText }}>{recordDate ? `更新于${formatTimeToChinese(recordDate)}` : "暂无数据"}</div>
                 </div>
                 <div

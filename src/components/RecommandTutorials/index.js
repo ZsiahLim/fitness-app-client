@@ -14,6 +14,7 @@ import { isEmptyObj } from '../../utils/funcs'
 import SIZE from '../../constants/SIZE'
 import useUserTheme from '../../hooks/useUserTheme'
 import APPTHEME from '../../constants/COLORS/APPTHEME'
+import preference from '../../Pic/preference.png'
 export default function RecommandTutorials() {
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
@@ -47,7 +48,8 @@ export default function RecommandTutorials() {
                 style={{ backgroundColor: COLORS.primary, color: COLORS.white, fontWeight: '500' }}
                 onClick={() => navigateTo('/evaluate')}
             >
-                <div className='personalizedWords'>
+                <div className='personalizedWords' style={{ display: 'flex', alignItems: 'center' }}>
+                    <img src={preference} style={{ height: 30, width: 30 }} />
                     {formatMessage({ id: 'evaluateLevel' })}
                 </div>
                 <RightOutlined style={{ color: COLORS.white }} />

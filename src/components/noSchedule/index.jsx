@@ -1,14 +1,11 @@
 import './index.less'
-import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import useUserTheme from '../../hooks/useUserTheme';
 
 export default function NoSchedule() {
-    const { currentTheme } = useSelector(state => state.user)
+    const theme = useUserTheme()
     const { formatMessage } = useIntl()
-    const navigateTo = useNavigate();
-    const { pathname } = useLocation()
-    const lightPromotionPlanClassname = currentTheme === 'light' ? 'promotionDay-light' : ""
+    const lightPromotionPlanClassname = theme === 'light' ? 'promotionDay-light' : ""
     return (
         <>
             <div className='NoSchedueBox' >
@@ -36,14 +33,7 @@ export default function NoSchedule() {
                         <div className='promotionDay-content'>Rest</div>
                     </div>
                 </div>
-
             </div>
-            {pathname.includes('home') && <div key={1} className='AddSchedule' onClick={() => navigateTo('/calender')}>
-                <div className="AddSchedule-btn">
-                    {formatMessage({ id: 'goplanpage' })}
-                </div>
-            </div>}
-
         </>
     )
 }

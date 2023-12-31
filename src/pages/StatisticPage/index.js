@@ -27,13 +27,16 @@ import UserBestRecord from '../../components/UserBestRecord'
 import { updateweighttarget } from '../../api/user.api'
 import ExerciseTrend from '../Dashboard/components/trend'
 import { STATISTICITEMS } from './statisticItems'
+import NoMore from '../../components/NoMore'
+import CalorieTitle from '../../components/ExerciseStatisItems/Calorie'
+import DistanceTitle from '../../components/ExerciseStatisItems/Distance'
+import StepTitle from '../../components/ExerciseStatisItems/Step'
+import DurationTitle from '../../components/ExerciseStatisItems/Duration'
 
 
 export default function StatisticsPage() {
     const { currentTheme } = useSelector((state) => state.user)
     const lightPageClassname = currentTheme === 'light' ? 'StatisticsPage-light' : ''
-    const theme = useUserTheme()
-    const THEME = APPTHEME[theme]
     const { latestRecord, todayRecord } = useRecord()
     const [recordDate, setRecordDate] = useState()
     const [stepNum, setStepNum] = useState(null)
@@ -65,10 +68,10 @@ export default function StatisticsPage() {
             <div style={{ display: 'flex', flex: 1, gap: SIZE.NormalMargin }}>
                 <div className='StatisticsPage-container' style={{ width: '100%', height: '100%', overflow: 'auto', flex: 1 }}>
                     <TodayExercise />
-                    <SpecificTypeCard type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行距离"} titleColor={COLORS.primary} currentValue={distanceNum ? (distanceNum / 1000).toFixed(2) : "0"} targetValue={distanceTarget ? (distanceTarget / 1000).toFixed(2) : null} unit={"km"} />
-                    <SpecificTypeCard type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} titleColor={COLORS.primary} currentValue={stepNum} targetValue={stepTarget ? stepTarget : null} unit={"步"} />
-                    <SpecificTypeCard type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} titleColor={COLORS.colorieOrange} currentValue={calorieNum} targetValue={calorieTarget ? calorieTarget : null} unit={"千卡"} />
-                    <SpecificTypeCard type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} titleColor={COLORS.purple} currentValue={durationNum ? secToSpecificMin(durationNum) : "0"} targetValue={durationTarget ? secToSpecificMin(durationTarget) : null} unit={"分钟"} />
+                    <SpecificTypeCard ExerciseStatisItems={<DistanceTitle />} type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行距离"} currentValue={distanceNum ? (distanceNum / 1000).toFixed(2) : "0"} targetValue={distanceTarget ? (distanceTarget / 1000).toFixed(2) : null} unit={"km"} />
+                    <SpecificTypeCard ExerciseStatisItems={<StepTitle />} type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} currentValue={stepNum} targetValue={stepTarget ? stepTarget : null} unit={"步"} />
+                    <SpecificTypeCard ExerciseStatisItems={<CalorieTitle />} type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} currentValue={calorieNum} targetValue={calorieTarget ? calorieTarget : null} unit={"千卡"} />
+                    <SpecificTypeCard ExerciseStatisItems={<DurationTitle />} type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} currentValue={durationNum ? secToSpecificMin(durationNum) : "0"} targetValue={durationTarget ? secToSpecificMin(durationTarget) : null} unit={"分钟"} />
                     <ExerciseOverview />
                     <UserBestRecord records={records} />
                     <WholeTrend />
@@ -84,9 +87,6 @@ export default function StatisticsPage() {
             </div>
         </div >
     )
-}
-const NoMore = () => {
-    return <div style={{ display: 'flex', justifyContent: 'center', fontSize: 12, color: COLORS.commentText }}>--没有更多内容了--</div>
 }
 
 const WholeTrend = () => {
@@ -325,49 +325,6 @@ const MetricItem = ({ title, value, unit }) => {
     </div>
 }
 
-// const SpecificTypeCard = ({ title, titleColor, icon, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {
-//     console.log("valueArr", valueArr, 'dateArr', dateArr);
-//     const theme = useUserTheme()
-//     const THEME = APPTHEME[theme]
-//     const [collapsed, setCollapsed] = useState(false)
-//     return (
-//         <div style={{ marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
-//             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-//                 <div style={{ display: 'flex', marginBottom: SIZE.NormalMargin, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-//                     {/* icon */}
-//                     <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', width: 26, height: 26, backgroundColor: titleColor, borderRadius: 9 }}>
-//                         {icon}
-//                     </div>
-//                     <div style={{ fontSize: 16, fontWeight: 'bold', color: titleColor }}>{title}</div>
-//                     <div style={{ fontSize: 14, color: COLORS.commentText }}>更新于{formatTimeToChinese(recordDate)}</div>
-//                 </div>
-//                 <div
-//                     onClick={() => setCollapsed(!collapsed)}
-//                 >
-//                     {collapsed ? <div style={{ display: 'flex', alignItems: 'center' }}>
-//                         <div style={{ fontSize: 14, display: 'flex', alignItems: 'center', color: COLORS.commentText }}>展开</div>
-//                         <RightOutlined style={{ color: COLORS.commentText }} />
-//                     </div> :
-//                         <div style={{ display: 'flex', alignItems: 'center' }}>
-//                             <div style={{ fontSize: 14, display: 'flex', alignItems: 'center', color: COLORS.commentText }}>折叠</div>
-//                             <DownOutlined style={{ color: COLORS.commentText }} />
-//                         </div>}
-//                 </div>
-//             </div>
-//             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
-//                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
-//                     <div style={{ fontSize: SIZE.ExtraLargerTitle, fontWeight: 'bold', color: THEME.fontColor }}>{currentValue}</div>
-//                     <div style={{ fontWeight: 'bold', color: THEME.fontColor }}>{unit} </div>
-//                 </div>
-//                 <div style={{ color: COLORS.commentText, fontWeight: 'bold' }}>/ {targetValue ? targetValue : "--"}{unit}</div>
-//             </div>
-//             <PurePercentage currentValue={currentValue} targetValue={targetValue} />
-//             {!collapsed && <div style={{ padding: 19, display: 'flex', alignItems: 'center' }}>
-//                 {(valueArr && dateArr) && <ReactEcharts option={SimpleLineChartOption(dateArr, valueArr, 'nihao')} theme={'light'} />}
-//             </div>}
-//         </div >)
-// }
-
 const TodayExercise = () => {
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
@@ -441,7 +398,7 @@ const ExerciseOverview = () => {
                 <ExerciseItem title={'步数'} titleColor={COLORS.primary} value={stepSum ? stepSum : "--"} unit={'步'} />
             </div>
             <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
-                <ExerciseItem title={'卡路里'} titleColor={COLORS.colorieOrange} value={calorieSum ? calorieSum : "--"} unit={'千卡'} />
+                <ExerciseItem title={'卡路里'} titleColor={COLORS.colorieOrange} value={calorieSum ? calorieSum.toFixed(1) : "--"} unit={'千卡'} />
                 <ExerciseItem title={'健身'} titleColor={COLORS.purple} value={durationSum ? secToSpecificMin(durationSum) : "--"} unit={'分钟'} />
             </div>
         </div>

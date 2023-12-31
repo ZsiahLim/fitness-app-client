@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import { calculateAverage } from '../../../../utils/funcs'
 import MyCarousel from '../../../../components/myCarousel'
 import './index.less'
-import { CalendarFilled, CalendarOutlined, EllipsisOutlined, LeftOutlined, ShareAltOutlined, StarOutlined } from '@ant-design/icons'
+import { CalendarOutlined, EllipsisOutlined, LeftOutlined, ShareAltOutlined, StarOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { VideoJSForTutorial } from '../../../../components/VideoJSForTutorial'
 import COLORS from '../../../../constants/COLORS'
@@ -92,15 +92,10 @@ export default function SpecificTutorialPage() {
             })
         }
     }
-    const tutorialOptions = [{
-        key: '1', label: (<div onClick={handleAddToCalendar}><CalendarOutlined /> Add to {formatTimeToChinese(new Date(userSelectDay))} schedule</div>),
-    },
-    {
-        key: '2', label: (<div onClick={handleAddTutorialTofavor}><StarOutlined /> Add to favor list</div>),
-    },
-    {
-        key: '3', label: (<div onClick={() => shareTutorial(_id)}><ShareAltOutlined /> Share</div>),
-    },
+    const tutorialOptions = [
+        { key: '1', label: (<div onClick={handleAddToCalendar}><CalendarOutlined /> Add to {formatTimeToChinese(new Date(userSelectDay))} schedule</div>), },
+        { key: '2', label: (<div onClick={handleAddTutorialTofavor}><StarOutlined /> Add to favor list</div>), },
+        { key: '3', label: (<div onClick={() => shareTutorial(_id)}><ShareAltOutlined /> Share</div>), },
     ];
 
     return (

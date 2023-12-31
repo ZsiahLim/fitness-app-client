@@ -1,7 +1,4 @@
-import { message as $message } from 'antd';
 import axios from 'axios';
-import { store } from '../redux/store';
-import { setLoading } from '../redux/userSlice';
 
 const axiosInstance = axios.create({
     baseURL: 'https://medal.onrender.com/api',

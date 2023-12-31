@@ -29,7 +29,6 @@ export default function ProfileCard() {
     const handleEditOk = () => { setIsEditModalOpen(false); };
     const handleCancel = () => { setIsEditModalOpen(false); };
     const { isMuted, muteDate } = useCheckUserStatus()
-    console.log("isMuted", isMuted);
     const [updatedAvator, setUpdatedAvator] = useState([{ uid: 0, name: 'Avator', status: 'done', url: avator, thumbUrl: avator }])
     const propsImage = {
         onRemove: (file) => {

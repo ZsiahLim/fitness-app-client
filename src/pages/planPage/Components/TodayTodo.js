@@ -16,6 +16,9 @@ export default function TodayTodo({ selectDay }) {
     const yetDoneTutorial = useUncompletedTutorials(selectDay)
     const doneTutorial = useCompletedTutorials(selectDay)
     const [noTutorial, setNoTutorial] = useState(yetDoneTutorial.length === 0 && doneTutorial.length === 0)
+    useEffect(() => {
+        setNoTutorial(yetDoneTutorial.length === 0 && doneTutorial.length === 0)
+    }, [yetDoneTutorial, doneTutorial])
     const [collapseUndo, setCollapseUndo] = useState(false)
     const [collapseDone, setCollapseDone] = useState(false)
     useEffect(() => {

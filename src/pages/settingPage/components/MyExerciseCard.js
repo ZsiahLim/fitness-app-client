@@ -59,7 +59,7 @@ function MyExerciseCard() {
                 <div style={{ width: 6, height: 24, borderRadius: 4, backgroundColor: COLORS.primary }}></div>
                 <div style={{ fontSize: 22, fontWeight: 'bold' }}>{"Exercise"}</div>
             </div>
-            <div style={{ flex: 1, padding: '20px 0', display: 'flex', gap: SIZE.NormalMargin, backgroundColor: THEME.contentColor, borderRadius: SIZE.CardBorderRadius }}>
+            <div style={{ flex: 1, padding: '20px 0', display: 'flex', flexWrap: 'wrap', gap: SIZE.NormalMargin, backgroundColor: THEME.contentColor, borderRadius: SIZE.CardBorderRadius }}>
                 <div onClick={handleShowFavorContent} className='buttonHover' style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: SIZE.NormalMargin }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <div style={{ padding: SIZE.LargerMargin, borderRadius: SIZE.CardBorderRadius, backgroundColor: COLORS.primary }}>

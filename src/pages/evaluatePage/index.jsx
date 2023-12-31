@@ -54,7 +54,7 @@ export default function EvaluatePage() {
             <div className={`myDashboard ${lightDashboardClassname}`}>
                 <div className="evaluatePage-mainContent">
                     <div className="evaluatePage-header">
-                        <div className="backHomeBtn" onClick={() => navigateTo(-1)}><LeftOutlined />&nbsp;Back</div>
+                        <div className="backHomeBtn" onClick={() => navigateTo(-1)} style={{ color: COLORS.black }}><LeftOutlined />&nbsp;Back</div>
                         <div className="progress">
                             <div className="progressBar"><div className="progressBar-item" style={{ width: `${questionNo * (1 / EvaluationQuestions.length) * 100}%` }}></div></div>
                         </div>

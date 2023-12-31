@@ -8,13 +8,14 @@ import { useSelector } from 'react-redux';
 import NoSchedule from '../../../../components/noSchedule';
 import TodayTodo from '../../../planPage/Components/TodayTodo';
 import { formatTimeToChinese } from '../../../../utils/formatTime';
+import RecommandTutorials from '../../../../components/RecommandTutorials';
+import MyExerciseCard from '../../../settingPage/components/MyExerciseCard';
+import NavigateToPlanPage from './components/NavigateToPlanPage';
 
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function RightSidebar() {
-    const { userLocale } = useSelector(state => state.user)
-    const { currentTheme, currentUser: { preferedLanguage } } = useSelector(state => state.user)
-    const lang = userLocale.substring(0, 2)
+    const { currentUser: { preferedLanguage } } = useSelector(state => state.user)
     const [selectDay, setSelectDay] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -40,6 +41,9 @@ export default function RightSidebar() {
             </div>
             <div className='rightSidebar-Schedule'>
                 <TodayTodo selectDay={selectDay} />
+                <MyExerciseCard />
+                <RecommandTutorials />
+                <NavigateToPlanPage />
             </div>
             <Modal title={`${formatTimeToChinese(selectDay)}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <div style={{
