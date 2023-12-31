@@ -70,11 +70,11 @@ export default function PlanPage() {
                 </div>
                 <div style={{ flex: 1, overflow: 'auto', padding: '10px' }}>
                     <MyExerciseCard />
+                    <RecommandTutorials />
                     <div onClick={() => navigateTo('/tutorial')} className='buttonHover' style={{ padding: SIZE.NormalMargin, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: THEME.backgroundColor, borderRadius: SIZE.CardBorderRadius, fontWeight: 'bold' }}>
                         <div>Go to Tutorial Library to find more</div>
                         <RightOutlined />
                     </div>
-                    <RecommandTutorials />
                 </div>
             </div>
         </div>

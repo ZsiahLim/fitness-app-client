@@ -13,11 +13,11 @@ import useUserTheme from '../../hooks/useUserTheme';
 import { formatTimeToChineseDetail } from '../../utils/formatTime';
 import { Empty } from 'antd';
 import UploadMeasurementModal from '../MeasurementModals/uploadModal';
+import matric from '../../Pic/matric.png'
 
 export default function Index() {
     const currentTheme = useUserTheme()
     const THEME = APPTHEME[currentTheme]
-    const { formatMessage } = useIntl()
     const { latestMeasurement, allMeasurements } = useMeasurement()
     const { weightArr, dateArr } = useMeasurements(allMeasurements)
     const WeightLineOption = {
@@ -67,16 +67,14 @@ export default function Index() {
         ],
         backgroundColor: ''
     };
-    useEffect(() => {
-        console.log("latestMeasurement.updatedAt", latestMeasurement.updatedAt);
-    }, [latestMeasurement])
     const [UploadMeasurementModalVisible, setUploadMeasurementModalVisible] = useState()
     return (
         <div className={"competition"}>
-            <div className={`myCards`} style={{ backgroundColor: THEME.contentColor }}>
+            <div className={`myCards`} style={{ backgroundColor: THEME.contentColor, padding: "10px 0" }}>
                 <div style={{ fontSize: 16, padding: "4px 10px", fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
-                        Measurement
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <img src={matric} style={{ height: 24, width: 24 }}></img>
+                        <div>Measurement</div>
                     </div>
                     <div onClick={() => setUploadMeasurementModalVisible(true)}>
                         <PlusOutlined />

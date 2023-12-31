@@ -37,15 +37,7 @@ export default function ContactHorizontalWithID({ contactID }) {
             }
         })
     }
-    const handleDeleteUser = async () => {
-        await removecontact(contactID).then(res => {
-            if (res.status !== false) {
-                dispatch(loginSuccess(res))
-            } else {
-                message.error("出现异常请稍后重试")
-            }
-        })
-    }
+
     useEffect(() => {
         getUser()
     }, [])
@@ -58,13 +50,13 @@ export default function ContactHorizontalWithID({ contactID }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: 10,
-            padding: "4px 4px",
+            padding: 10,
             marginBottom: 4,
             flexDirection: 'row'
         }}>
-            <div onClick={() => {
-                // navigate('UserPage', { userID: contactID })
-            }}
+            <div
+                className='buttonHover'
+                onClick={() => navigateTo(`/chat/contacts/detail/${contactID}`)}
                 style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar src={avator} />
                 <div
@@ -78,7 +70,7 @@ export default function ContactHorizontalWithID({ contactID }) {
                     </div>
                 </div>
             </div>
-            <div onClick={handleSendMessage} style={{ color: COLORS.commentText, }}><MessageFilled /></div>
+            <div className='buttonHover' onClick={handleSendMessage} style={{ color: COLORS.commentText, }}><MessageFilled /></div>
         </div >
     )
 }

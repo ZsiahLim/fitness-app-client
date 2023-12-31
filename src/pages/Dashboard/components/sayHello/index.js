@@ -17,10 +17,12 @@ export default function Index() {
 
     return (
         <div className='sayHello'>
-            <div style={{ fontWeight: 800, fontSize: '30px' }}>{isBirthday ? formatMessage({ id: 'happyBirthday' }) : formatMessage({ id: 'hi' })}, <span style={{ color: COLORS.primary }}>{name}</span> ! </div>
-            <div style={{ color: COLORS.commentText }}>{formatMessage({ id: 'sayhello' })} <span style={{ fontWeight: 600 }}>Target</span>~</div>
-            <div className={`notificationBox`} style={{ backgroundColor: THEME.contentColor }}>
-                <Notifications />
+            <div>
+                <div style={{ fontWeight: 800, fontSize: '30px' }}>{isBirthday ? formatMessage({ id: 'happyBirthday' }) : formatMessage({ id: 'hi' })}, <span style={{ color: COLORS.primary }}>{name}</span> ! </div>
+                <div style={{ color: COLORS.commentText }}>{formatMessage({ id: 'sayhello' })} <span style={{ fontWeight: 600 }}>Target</span>~</div>
+                <div className={`notificationBox`} style={{ backgroundColor: THEME.contentColor }}>
+                    <Notifications />
+                </div>
             </div>
         </div >
     )

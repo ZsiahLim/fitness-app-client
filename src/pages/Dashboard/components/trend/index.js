@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import ReactEcharts from "echarts-for-react";
-import * as echarts from 'echarts'
 import './index.less'
 import { Empty, Segmented } from 'antd';
 import { useSelector } from 'react-redux';
@@ -10,7 +9,7 @@ import { BarchartsOptions } from '../../../../utils/BarchartsOptions';
 import COLORS from '../../../../constants/COLORS';
 import useUserTheme from '../../../../hooks/useUserTheme';
 import APPTHEME from '../../../../constants/COLORS/APPTHEME';
-
+import Trend from '../../../../Pic/trend.png'
 const DATE = {
     week: "week",
     month: "month",
@@ -23,7 +22,6 @@ const ExerciseTrend = () => {
     const THEME = APPTHEME[theme]
     const trendDashboardClassname = currentTheme === 'light' ? 'trend-light' : ''
     const trendTitleClassname = currentTheme === 'light' ? 'cardTitle-light' : ''
-    const getColorBoundary = currentTheme === 'dark' ? '#1d1d1d' : '#ffffff'
     const { formatMessage } = useIntl()
 
     const { weeklyData, monthlyData, yearlyData } = useRecords()
@@ -55,37 +53,6 @@ const ExerciseTrend = () => {
         const distanceArr = weeklyData.map((item) => item.distance)
         setYearDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
     }, [yearlyData])
-
-    const getOptionLine = () => {
-        return {
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line',
-                    name: 'Sports trend',
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 0.7, [{
-                                offset: 0, color: '#6C96E1' // 0% 处的颜色
-                            }, {
-                                offset: 1, color: getColorBoundary// 100% 处的颜色
-                            }]
-                            ),  //背景渐变色 
-                        },
-                    },
-                    smooth: true
-                }
-            ],
-            backgroundColor: ''
-        };
-    }
     const typeOptions = {
         week: { value: 'week', label: formatMessage({ id: 'Weekly' }) },
         month: { value: 'month', label: formatMessage({ id: 'Monthly' }) },
@@ -94,7 +61,10 @@ const ExerciseTrend = () => {
     return (
         <div className={`trend ${trendDashboardClassname}`} style={{ padding: 10 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className={`cardTitle ${trendTitleClassname}`}>{formatMessage({ id: 'worktrend' })}</div>
+                <div className={`cardTitle ${trendTitleClassname}`}>
+                    <img src={Trend} style={{ height: 24, width: 24 }} />
+                    <div>{formatMessage({ id: 'worktrend' })}</div>
+                </div>
                 <Segmented defaultValue={typeOptions.week.value} onChange={(type) => setSelectDateType(type)} options={[typeOptions.week, typeOptions.month, typeOptions.year]} />
             </div>
 
