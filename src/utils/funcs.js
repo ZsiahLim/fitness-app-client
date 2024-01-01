@@ -23,7 +23,7 @@ export const secToMin = (seconds) => {
 export const secToSpecificMin = (seconds) => {
     const minutes = Math.round(seconds / 60);
     // 使用字符串插值或字符串连接来构建格式化的时间字符串
-    const formattedTime = `${minutes}`;
+    const formattedTime = minutes;
 
     return formattedTime;
 }

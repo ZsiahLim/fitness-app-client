@@ -9,7 +9,9 @@ import { loginSuccess } from '../../redux/userSlice'
 import { setSessions } from '../../redux/SessionSlice'
 import { createsession } from '../../api/session.api'
 import { getspecifictutorial } from '../../api/tutorial.api'
+import useUserLocale from '../../hooks/useUserLocale'
 export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar }) {
+  const userLocale = useUserLocale()
   const [tutorial, setTutorial] = useState({})
   const getTutorial = async () => {
     await getspecifictutorial(tutorialID).then(res => {
@@ -25,7 +27,7 @@ export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar 
   useEffect(() => {
     getTutorial()
   }, [])
-  const { cover, level, lowerEstimateColorie, higherEstimateColorie, name, duration, _id } = tutorial
+  const { _id, name, zh_name, brief, zh_brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, zh_description, level, rate, users, video, type, equipments } = tutorial
   const navigateTo = useNavigate()
   const { userSelectDay } = useSelector(state => state.calendar)
   const { currentTheme } = useSelector(state => state.user)
@@ -70,7 +72,7 @@ export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar 
           <img style={{ maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'cover' }} src={cover} />
         </span>
         <div className='TutorialCardHorizontal-desc'>
-          <div className='TutorialCardHorizontal-desc-title'>{name}</div>
+          <div className='TutorialCardHorizontal-desc-title'>{userLocale === "zh" ? zh_name : name}</div>
           <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {lowerEstimateColorie}~{higherEstimateColorie}千卡</div>
         </div>
       </div>

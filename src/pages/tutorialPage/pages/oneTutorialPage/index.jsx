@@ -18,14 +18,18 @@ import { addtutorialtofavor } from '../../../../api/tutorial.api'
 import useCheckFavorTutorialIsExist from '../../../../hooks/useCheckFavorTutorialIsExist'
 import useUserTheme from '../../../../hooks/useUserTheme'
 import { shareTutorial } from '../../../../utils/shareFuncs'
+import useUserLocale from '../../../../hooks/useUserLocale'
+import APPTHEME from '../../../../constants/COLORS/APPTHEME'
 
 export default function SpecificTutorialPage() {
     const currentTheme = useUserTheme()
+    const THEME = APPTHEME[currentTheme]
     const tutorial = useLoaderData()
     const dispatch = useDispatch()
     const navigateTo = useNavigate()
+    const userLocale = useUserLocale()
     const { userSelectDay } = useSelector(state => state.calendar)
-    const { _id, name, brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, level, rate, users, video, type, equipments } = tutorial
+    const { _id, name, zh_name, brief, zh_brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, zh_description, level, rate, users, video, type, equipments } = tutorial
     const [startedExcersise, setStartedExcersise] = useState(false)
     const lightSpecificTutorialPageClassname = currentTheme === 'light' ? 'specificTutorialPage-light' : ''
     const videoJsOptions = {
@@ -116,7 +120,7 @@ export default function SpecificTutorialPage() {
                                 borderRadius: 4,
                                 marginRight: 6
                             }}></div>
-                            <div style={{ flex: 1, fontSize: 18, fontWeight: '500' }}>{name}</div>
+                            <div style={{ flex: 1, fontSize: 18, fontWeight: '500' }}>{userLocale === "zh" ? zh_name : name}</div>
                             <div style={{ marginLeft: SIZE.NormalMargin }}>
                                 <Dropdown menu={{ items: tutorialOptions }} placement="bottomLeft">
                                     <EllipsisOutlined style={{ fontSize: 24 }} />
@@ -124,9 +128,10 @@ export default function SpecificTutorialPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="specificTutorialPage-detail-statistic">
+                    <div style={{ fontWeight: 'bold', fontStyle: 'italic' }}>「“{userLocale === "zh" ? zh_brief : brief}”」</div>
+                    <div className="specificTutorialPage-detail-statistic" style={{ backgroundColor: THEME.backgroundColor }}>
                         <div className='specificTutorialPage-detail-statistic-left'>
-                            <div className="specificTutorialPage-detail-statistic-level" style={{ marginRight: 10 }}>{level} <span className='commentText'>零基础</span></div>
+                            <div className="specificTutorialPage-detail-statistic-level" style={{ marginRight: 10 }}>{level}</div>
                             <div className="specificTutorialPage-detail-statistic-duration">{duration} <span className='commentText'>min</span></div>
                         </div>
                         <div className='specificTutorialPage-detail-statistic-right'>
@@ -135,7 +140,7 @@ export default function SpecificTutorialPage() {
                         </div>
                     </div>
                     <div className="specificTutorialPage-detail-desc" style={{ overflow: 'auto' }}>
-                        {description}
+                        {userLocale === "zh" ? zh_description : description}
                     </div>
                     <div className="specificTutorialPage-detail-colorie">
                         <div style={{ fontWeight: 500, fontSize: 16 }} className='commentText'>预估消耗(千卡)</div>
