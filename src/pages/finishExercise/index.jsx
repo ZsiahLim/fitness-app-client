@@ -5,18 +5,26 @@ import { Avatar, Progress } from 'antd'
 import { LeftOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { secToMin } from '../../utils/funcs'
-import { formatTimeForChartSoloItem } from '../../utils/formatTime'
+import { formatTimeForChartSoloItem, formatTimeToChineseDetail } from '../../utils/formatTime'
 import PIC from '../../constants/PIC'
 import COLORS from '../../constants/COLORS'
 import EXERCISETYPE from '../../constants/EXERCISETYPE'
+import useUserLocale from '../../hooks/useUserLocale'
+import StepTitle from '../../components/ExerciseStatisItems/Step'
+import DistanceTitle from '../../components/ExerciseStatisItems/Distance'
+import useUserTheme from '../../hooks/useUserTheme'
+import APPTHEME from '../../constants/COLORS/APPTHEME'
+import DurationTitle from '../../components/ExerciseStatisItems/Duration'
 
 // const scoreArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export default function FinishExercise() {
+    const userLocale = useUserLocale()
     const location = useLocation();
     const { tutorial, exerciseData: { step, distance, exerciseDuration, startTime, endTime, calorieConsumption } } = location.state;
     const { currentUser } = useSelector(state => state.user)
-    // const [score, setScore] = useState()
     const navigateTo = useNavigate()
+    const theme = useUserTheme()
+    const THEME = APPTHEME[theme]
     return (
         <div className='finishExercise'>
             <div className='finishExercise-backBtn' onClick={() => navigateTo(-1)}><LeftOutlined /></div>
@@ -27,35 +35,46 @@ export default function FinishExercise() {
                         <Avatar src={currentUser.avator} size={36} icon={<UserOutlined />} /> {currentUser.name}
                     </div>
                     <div className="finishExercisePage-mainStatistics-showContent">
-                        {tutorial.name !== "Run" && tutorial.name !== "Walk" && <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
+                        {(tutorial.name !== "Run" && tutorial.name !== "Walk") ? <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
                             <Progress type="dashboard" percent={100} format={() => calorieConsumption} strokeColor={'#ed7276'} strokeWidth={16} />
                             <div className='commentText'>预估消耗(千卡)</div>
-                        </div>}
+                        </div> :
+                            <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
+                                <div style={{ width: 260, margin: '10px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                    {step && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                        <StepTitle />
+                                        <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.primary }}>{step}</div>
+                                    </div>}
+                                    {distance && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                        <DistanceTitle />
+                                        <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.primary }}>{distance.toFixed(0)}m</div>
+                                    </div>}
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                        <DurationTitle />
+                                        <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.purple }}>{secToMin(exerciseDuration)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail">
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
                                 {tutorial.level && <div className="commentText">{tutorial.level} - {tutorial.duration}分钟</div>}
-                                {tutorial.name}
-                                <div className="commentText">{tutorial.brief}</div>
+                                <div style={{ color: COLORS.primary, fontSize: 22, fontWeight: 'bold' }}>
+                                    {userLocale === "zh" ? tutorial?.zh_name : tutorial.name}
+                                </div>
+                                {(tutorial?.zh_brief || tutorial?.brief) && <div className="commentText" style={{ fontStyle: 'italic', fontSize: 14 }}>「"{userLocale === "zh" ? tutorial?.zh_brief : tutorial.brief}"」</div>}
                             </div>
-                            {step && <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">步数</div>
-                                <div style={{ fontSize: 18, fontWeight: 'bold' }}>{step}</div>
+                            {(tutorial.name !== "Run" && tutorial.name !== "Walk") && <div style={{ display: 'flex', margin: '6px 0', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                <DurationTitle />
+                                <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.purple }}>{secToMin(exerciseDuration)}</div>
                             </div>}
-                            {distance && <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">距离(m)</div>
-                                <div style={{ fontSize: 18, fontWeight: 'bold' }}>{distance.toFixed(0)}</div>
-                            </div>}
-                            <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">训练时长</div>
-                                <div style={{ fontSize: 18, fontWeight: 'bold' }}>{secToMin(exerciseDuration)}</div>
-                            </div>
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
                                 <div className="commentText">训练开始时间</div>
-                                <div className="">{formatTimeForChartSoloItem(startTime)}</div>
+                                <div className="">{formatTimeToChineseDetail(startTime)}</div>
                             </div>
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
                                 <div className="commentText">训练结束时间</div>
-                                <div className="">{formatTimeForChartSoloItem(endTime)}</div>
+                                <div className="">{formatTimeToChineseDetail(endTime)}</div>
                             </div>
                         </div>
                     </div>
