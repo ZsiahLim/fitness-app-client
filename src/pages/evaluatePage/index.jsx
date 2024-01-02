@@ -10,8 +10,10 @@ import { loginSuccess } from "../../redux/userSlice";
 import { message } from "antd";
 import SIZE from "../../constants/SIZE";
 import COLORS from "../../constants/COLORS";
+import { useIntl } from 'react-intl';
 
 export default function EvaluatePage() {
+    const intl = useIntl()
     const dispatch = useDispatch()
     const { currentTheme } = useSelector((state) => state.user)
     const lightAppClassname = currentTheme === 'light' ? 'App-light' : ''
@@ -38,15 +40,15 @@ export default function EvaluatePage() {
                 if (user.status !== false) {
                     dispatch(loginSuccess(user))
                     navigateTo(-1)
-                    message.success('已经提交评估，将为您生成个性化推荐')
+                    message.success(intl.formatMessage({id: 'app.tut.msg.submitEva'}))
                 } else {
-                    message.error('出现异常, 请稍后再试')
+                    message.error(intl.formatMessage({id: 'error.errorMsg'}))
                 }
             }).catch(() => {
-                message.error('出现异常, 请稍后再试')
+                message.error(intl.formatMessage({id: 'error.errorMsg'}))
             })
         } else {
-            message.error('您未作出选择, 无法为您更新')
+            message.error(intl.formatMessage({id: 'error.tut.noEvaSele'}))
         }
     }
     return (
@@ -54,7 +56,7 @@ export default function EvaluatePage() {
             <div className={`myDashboard ${lightDashboardClassname}`}>
                 <div className="evaluatePage-mainContent">
                     <div className="evaluatePage-header">
-                        <div className="backHomeBtn" onClick={() => navigateTo(-1)} style={{ color: COLORS.black }}><LeftOutlined />&nbsp;Back</div>
+                        <div className="backHomeBtn" onClick={() => navigateTo(-1)} style={{ color: COLORS.black }}><LeftOutlined />&nbsp;{intl.formatMessage({id: 'btn.back'})}</div>
                         <div className="progress">
                             <div className="progressBar"><div className="progressBar-item" style={{ width: `${questionNo * (1 / EvaluationQuestions.length) * 100}%` }}></div></div>
                         </div>
@@ -73,7 +75,7 @@ export default function EvaluatePage() {
                                 handleNextQuestion()
                             }}
                         >
-                            <div style={{ color: COLORS.white, fontWeight: 'bold' }}>Next question</div>
+                            <div style={{ color: COLORS.white, fontWeight: 'bold' }}>{intl.formatMessage({id: 'btn.nextQ'})}</div>
                             <RightOutlined style={{ color: COLORS.white }} />
                         </div>
                             : <div
@@ -85,7 +87,7 @@ export default function EvaluatePage() {
                                     gap: 6
                                 }}
                                 onClick={() => handleSubmitEvaluation()}>
-                                <div style={{ color: COLORS.white, fontWeight: 'bold' }}>提交评估</div>
+                                <div style={{ color: COLORS.white, fontWeight: 'bold' }}>{intl.formatMessage({id: 'btn.submitQ'})}</div>
                             </div>}
                         <div></div>
                     </div>

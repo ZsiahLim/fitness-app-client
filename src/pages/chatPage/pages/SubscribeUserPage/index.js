@@ -14,8 +14,10 @@ import useUserTheme from '../../../../hooks/useUserTheme';
 import APPTHEME from '../../../../constants/COLORS/APPTHEME';
 import ContactHorizontalWithID from '../../../../components/contactHorizontalWithID';
 import ContactHorizontal from '../../../../components/contactHorizontal';
+import { useIntl } from 'react-intl';
 
 function SubscribeUserPage() {
+    const intl = useIntl()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
     const dispatch = useDispatch()
@@ -30,11 +32,11 @@ function SubscribeUserPage() {
                     // setSearchText('')
                     setSearchedUsers(res)
                 } else {
-                    message.error("出现异常请稍后再试")
+                    message.error(intl.formatMessage({id: 'error.errorMsg'}))
                 }
             })
         } else {
-            message.error("请输入您要搜索的内容")
+            message.error(intl.formatMessage({id: 'error.searchFailed'}))
         }
     }
     useEffect(() => {
@@ -48,7 +50,7 @@ function SubscribeUserPage() {
                 <div className="chat-contentBox-leftBar-header">
                     <div className="chat-contentBox-leftBar-header-title">
                         <div>
-                            Search
+                            {intl.formatMessage({id: 'app.cmty.title.search'})}
                         </div>
                         <div
                             style={{ display: 'flex', alignItems: 'center', padding: '10px 4px', gap: 10, backgroundColor: currentTheme.backgroundColor, borderRadius: 14 }}
@@ -56,7 +58,7 @@ function SubscribeUserPage() {
                             <Input
                                 onKeyDown={(event) => { event.key === 'Enter' && handleSearchUser() }}
                                 onChange={(e) => setSearchText(e.target.value)}
-                                placeholder='Search user by ID/Name/Email'
+                                placeholder={intl.formatMessage({id: 'app.cmty.field.search'})}
                                 bordered={false}
                             />
                             <div className='searchIcon' onClick={handleSearchUser} style={{ display: 'flex', alignItems: 'center' }}><SearchOutlined style={{ color: COLORS.primary, fontSize: 18 }} /></div>

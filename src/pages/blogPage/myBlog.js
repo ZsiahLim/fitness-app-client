@@ -8,7 +8,9 @@ import PostBlog from './components/postBlog';
 import WaterfallContainer from '../../components/waterfallContainer/BlogsWrapper';
 import useCheckUserStatus from '../../hooks/useCheckUserStatus';
 import { formatTimeToChinese } from '../../utils/formatTime';
+import { useIntl } from 'react-intl';
 export default function MyBlog() {
+    const intl = useIntl()
     const { currentTheme, currentUser } = useSelector(state => state.user)
     const [myBlogs, setMyBlogs] = useState(useLoaderData())
     const [pageTab, setPageTab] = useState('myblogs')
@@ -24,7 +26,7 @@ export default function MyBlog() {
                 if (favors.status !== false) {
                     setFavorBlogs(favors)
                 } else {
-                    message.error('出现异常请重试')
+                    message.error(intl.formatMessage({id: 'error.errorMsg'}))
                 }
             })
         }
@@ -50,25 +52,25 @@ export default function MyBlog() {
 
     const myblogHeaderClassname = currentTheme === 'light' ? 'myblog-header-light' : ''
     const [uploadBlogOpen, setUploadBlogOpen] = useState(false)
-    const tabItems = [{ key: 'myblogs', label: 'My Blogs' }, { key: 'likedBlogs', label: 'Liked Blogs' }, { key: 'favoriteBlogs', label: 'My Favorites Blogs', disabled: favorBlogs ? false : true }]
+    const tabItems = [{ key: 'myblogs', label: intl.formatMessage({id: 'app.blog.title.myBlogs'}) }, { key: 'likedBlogs', label: intl.formatMessage({id: 'app.blog.title.likedBlogs'}) }, { key: 'favoriteBlogs', label: intl.formatMessage({id: 'app.blog.title.favouriteBlogs'}), disabled: favorBlogs ? false : true }]
     return (
         <>
             <div className={`myblog-header ${myblogHeaderClassname}`}>
-                <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> Back</div>
+                <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> {intl.formatMessage({id: 'btn.back'})}</div>
                 <Button type={isMuted ? 'default' : 'primary'} onClick={() => {
                     if (!isMuted) {
                         setUploadBlogOpen(true)
                     } else {
-                        message.error("您因违反社区规定已被禁言, 禁言期间无法发博客, 禁言终止日期:" + muteDate, 5)
+                        message.error(intl.formatMessage({id: 'app.blog.msg.accStatus'}) + muteDate, 5)
                     }
-                }}><UploadOutlined style={{ marginRight: 10 }} />Post blog</Button>
+                }}><UploadOutlined style={{ marginRight: 10 }} />{intl.formatMessage({id: 'btn.postBlog'})}</Button>
             </div>
             <div className='blog-content-tabs' style={{ padding: '0 10px' }}>
                 <Tabs defaultActiveKey="1" items={tabItems} onChange={(tab) => { setPageTab(tab) }} />
             </div>
             <div className='blog-content'>
                 {(myBlogs.length === 0) &&
-                    <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>No blogs right now</span>}><Button type="primary" onClick={() => setUploadBlogOpen(true)}>Post your first blog</Button></Empty></div>}
+                    <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>{intl.formatMessage({id: 'app.blog.msg.noPostedBlog'})}</span>}><Button type="primary" onClick={() => setUploadBlogOpen(true)}>{intl.formatMessage({id: 'app.blog.msg.postFirstBlog'})}</Button></Empty></div>}
                 <div className='myblogpageview' style={{ width: '100%', height: 'calc(100% - 112px)' }}>
                     {pageTab === 'myblogs' && <WaterfallContainer blogs={myBlogs} />}
                     {pageTab === 'likedBlogs' && <WaterfallContainer blogs={likeBlogs} />}

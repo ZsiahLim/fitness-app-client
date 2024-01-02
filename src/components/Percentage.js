@@ -3,8 +3,10 @@ import COLORS from '../constants/COLORS'
 import SIZE from '../constants/SIZE'
 import useUserTheme from '../hooks/useUserTheme'
 import APPTHEME from '../constants/COLORS/APPTHEME'
+import { useIntl } from 'react-intl'
 
 export default function Percentage({ currentValue, targetValue }) {
+    const intl = useIntl()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
     const [lineBackcolor, setLineBackcolor] = useState(COLORS.gray)
@@ -19,10 +21,10 @@ export default function Percentage({ currentValue, targetValue }) {
     }, [currentValue, targetValue])
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: currentTheme.backgroundColor, padding: 10, borderRadius: 10, margin: " 10px 0" }}>
-            <div style={{ color: currentTheme.fontColor, }}>任务完成比例</div>
+            <div style={{ color: currentTheme.fontColor, }}>{intl.formatMessage({id: 'app.skd.completionPercentage'})}</div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ fontSize: 16, fontWeight: 'bold', color: currentTheme.fontColor }}>{percentage * 100}%</div>
-                <div style={{ fontSize: 12, color: currentTheme.fontColor }}>剩余({targetValue - currentValue}/{targetValue})</div>
+                <div style={{ fontSize: 12, color: currentTheme.fontColor }}>{intl.formatMessage({id: 'app.skd.left'})}({targetValue - currentValue}/{targetValue})</div>
             </div>
             <div style={{ height: '10px', width: '100%', backgroundColor: COLORS.white, borderRadius: '5px' }}>
                 <div style={{

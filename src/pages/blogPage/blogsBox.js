@@ -6,7 +6,9 @@ import BlogPageHeader from './components/header';
 import EmptyBlog from './components/empty';
 import { useLoaderData } from 'react-router-dom';
 import WaterfallContainer from '../../components/waterfallContainer/BlogsWrapper';
+import { useIntl } from 'react-intl';
 export default function BlogsBox() {
+    const intl = useIntl()
     const { currentTheme } = useSelector(state => state.user)
     const [blogs, setBlogs] = useState(useLoaderData())
     const [searchText, setSearchText] = useState()
@@ -23,7 +25,7 @@ export default function BlogsBox() {
                 setSearchedBlogs(blogs)
             }).catch(err => {
                 console.log(err);
-                message.error('error happens, can not get the blogs')
+                message.error(intl.formatMessage({id: 'error.blog.failedGet'}))
             })
         } else {
             setSearchedBlogs([])

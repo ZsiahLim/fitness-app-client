@@ -9,9 +9,11 @@ import { addcontact, createconversation, createreport, removecontact } from '../
 import { Outlet, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import ContactsList from '../../Components/ContactsList';
 import FootNavigationBar from '../../Components/footNavigationBar';
+import { useIntl } from 'react-intl';
 const { TextArea } = Input;
 
 export default function ContactPage() {
+    const intl = useIntl()
     const dispatch = useDispatch()
     const [isaddContactModalOpen, setIsaddContactOpen] = useState(false);
     const [addMethod, setAddMethod] = useState('email');
@@ -56,7 +58,7 @@ export default function ContactPage() {
         <>
             <div className="chat-contentBox-leftBar">
                 <div className="chat-contentBox-leftBar-header">
-                    <div className="chat-contentBox-leftBar-header-title">Contacts</div>
+                    <div className="chat-contentBox-leftBar-header-title">{intl.formatMessage({id: 'app.cmty.title.contacts'})}</div>
                     {/* <UserAddOutlined style={{ fontSize: 18 }} onClick={() => setIsaddContactOpen(true)} /> */}
                 </div>
                 <div className="chat-contentBox-leftBar-mainContent">

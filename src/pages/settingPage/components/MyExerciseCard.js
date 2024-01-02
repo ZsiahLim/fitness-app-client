@@ -7,8 +7,10 @@ import useUserTheme from '../../../hooks/useUserTheme'
 import APPTHEME from '../../../constants/COLORS/APPTHEME'
 import { Empty } from 'antd'
 import TutorialCardHorizontalWithID from '../../../components/tutorialCard/tutorialCardHorizontalWithID'
+import { useIntl } from 'react-intl'
 
 function MyExerciseCard() {
+    const intl = useIntl()
     const { currentUser } = useSelector(state => state.user)
     const [favoriteTutorials, setFavoriteTutorials] = useState([])
     const [practicedTutorials, setPracticedTutorials] = useState([])
@@ -27,11 +29,11 @@ function MyExerciseCard() {
     const [contentTitle, setContentTitle] = useState()
     const cardItem = {
         favor: {
-            label: '收藏课程',
+            label: intl.formatMessage({id: 'app.prf.label.favouriteTut'}),
             value: 'favor',
         },
         practise: {
-            label: '练过课程',
+            label: intl.formatMessage({id: 'app.prf.label.practicedTut'}),
             value: 'practise',
         }
     }
@@ -57,7 +59,7 @@ function MyExerciseCard() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: THEME.backgroundColor, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, marginBottom: SIZE.NormalMargin }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
                 <div style={{ width: 6, height: 24, borderRadius: 4, backgroundColor: COLORS.primary }}></div>
-                <div style={{ fontSize: 22, fontWeight: 'bold' }}>{"Exercise"}</div>
+                <div style={{ fontSize: 22, fontWeight: 'bold' }}>{intl.formatMessage({id: 'app.prf.title.exerciseTab'})}</div>
             </div>
             <div style={{ flex: 1, padding: '20px 0', display: 'flex', flexWrap: 'wrap', gap: SIZE.NormalMargin, backgroundColor: THEME.contentColor, borderRadius: SIZE.CardBorderRadius }}>
                 <div onClick={handleShowFavorContent} className='buttonHover' style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: SIZE.NormalMargin }}>
@@ -68,7 +70,7 @@ function MyExerciseCard() {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: SIZE.NormalMargin, alignItems: 'center', justifyContent: 'center' }}>
                         <div style={{ fontWeight: 'bold', }}>{cardItem.favor.label}</div>
-                        <div style={{ display: 'flex', alignItems: 'baseline', }}><div style={{ fontWeight: 'bold', fontSize: 20 }}>{favoriteTutorials.length}</div><div style={{ fontSize: 14, color: COLORS.commentText }}>{"节课程"}</div></div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', }}><div style={{ fontWeight: 'bold', fontSize: 20 }}>{favoriteTutorials.length}</div><div style={{ fontSize: 14, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.prf.tut'})}</div></div>
                     </div>
                 </div>
                 <div onClick={handleShowPractiseContent} className='buttonHover' style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: SIZE.NormalMargin }}>
@@ -79,12 +81,12 @@ function MyExerciseCard() {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: SIZE.NormalMargin, alignItems: 'center', justifyContent: 'center' }}>
                         <div style={{ fontWeight: 'bold', }}>{cardItem.practise.label}</div>
-                        <div style={{ display: 'flex', alignItems: 'baseline', }}><div style={{ fontWeight: 'bold', fontSize: 20 }}>{practicedTutorials.length}</div><div style={{ fontSize: 14, color: COLORS.commentText }}>{"节课程"}</div></div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', }}><div style={{ fontWeight: 'bold', fontSize: 20 }}>{practicedTutorials.length}</div><div style={{ fontSize: 14, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.prf.tut'})}</div></div>
                     </div>
                 </div>
             </div>
             {!collapsed && <div style={{ marginTop: SIZE.NormalMargin, backgroundColor: THEME.contentColor, borderRadius: SIZE.CardBorderRadius, padding: SIZE.NormalMargin }}>
-                {content.length === 0 && <Empty description={"没有课程"} />}
+                {content.length === 0 && <Empty description={intl.formatMessage({id: 'app.prf.noTut'})} />}
                 <div style={{ fontWeight: 'bold' }}>{contentTitle}</div>
                 {content.map((item, index) => <TutorialCardHorizontalWithID key={index} withCalendar={true} tutorialID={item} />)}
             </div>}

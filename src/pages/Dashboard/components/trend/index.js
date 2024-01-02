@@ -10,6 +10,7 @@ import COLORS from '../../../../constants/COLORS';
 import useUserTheme from '../../../../hooks/useUserTheme';
 import APPTHEME from '../../../../constants/COLORS/APPTHEME';
 import Trend from '../../../../Pic/trend.png'
+
 const DATE = {
     week: "week",
     month: "month",
@@ -17,6 +18,7 @@ const DATE = {
 }
 
 const ExerciseTrend = () => {
+    const intl = useIntl()
     const { currentTheme } = useSelector(state => state.user)
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
@@ -35,7 +37,7 @@ const ExerciseTrend = () => {
         const calorieArr = weeklyData.map((item) => item.calories)
         const stepArr = weeklyData.map((item) => item.steps)
         const distanceArr = weeklyData.map((item) => item.distance)
-        setWeekDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
+        setWeekDataChatsOption(BarchartsOptions(dateArr, durationArr, intl.formatMessage({ id: 'app.stats.trend.label.duration' }), calorieArr, intl.formatMessage({ id: 'app.stats.trend.label.cal' }), stepArr, intl.formatMessage({ id: 'app.stats.trend.label.step' }), distanceArr, intl.formatMessage({ id: 'app.stats.trend.label.dist' })))
     }, [weeklyData])
     useEffect(() => {
         const dateArr = monthlyData.map((item) => item.month)
@@ -43,7 +45,7 @@ const ExerciseTrend = () => {
         const calorieArr = monthlyData.map((item) => item.calories)
         const stepArr = monthlyData.map((item) => item.steps)
         const distanceArr = monthlyData.map((item) => item.distance)
-        setMonthDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
+        setMonthDataChatsOption(BarchartsOptions(dateArr, durationArr, intl.formatMessage({ id: 'app.stats.trend.label.duration' }), calorieArr, intl.formatMessage({ id: 'app.stats.trend.label.cal' }), stepArr, intl.formatMessage({ id: 'app.stats.trend.label.step' }), distanceArr, intl.formatMessage({ id: 'app.stats.trend.label.dist' })))
     }, [monthlyData])
     useEffect(() => {
         const dateArr = yearlyData.map((item) => item.year)
@@ -51,7 +53,7 @@ const ExerciseTrend = () => {
         const calorieArr = weeklyData.map((item) => item.calories)
         const stepArr = weeklyData.map((item) => item.steps)
         const distanceArr = weeklyData.map((item) => item.distance)
-        setYearDataChatsOption(BarchartsOptions(dateArr, durationArr, '时长', calorieArr, '卡路里', stepArr, '步数', distanceArr, '距离'))
+        setYearDataChatsOption(BarchartsOptions(dateArr, durationArr, intl.formatMessage({ id: 'app.stats.trend.label.duration' }), calorieArr, intl.formatMessage({ id: 'app.stats.trend.label.cal' }), stepArr, intl.formatMessage({ id: 'app.stats.trend.label.step' }), distanceArr, intl.formatMessage({ id: 'app.stats.trend.label.dist' })))
     }, [yearlyData])
     const typeOptions = {
         week: { value: 'week', label: formatMessage({ id: 'Weekly' }) },
@@ -80,7 +82,7 @@ const ExerciseTrend = () => {
                     justifyContent: 'center'
                 }}>
                 <Empty description={false} />
-                <div style={{ fontSize: 14, color: COLORS.commentText }}>使用iphone来记录你的步数日常训练吧</div>
+                <div style={{ fontSize: 14, color: COLORS.commentText }}>{intl.formatMessage({ id: 'app.stats.message.trendRecord' })}</div>
             </div>
                 : <div style={{ position: 'relative', margin: '20px auto' }}>
                     {(selectDateType == DATE.week && weekDataChatsOption) && <ReactEcharts option={weekDataChatsOption} theme={'light'} />}

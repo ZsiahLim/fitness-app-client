@@ -1,3 +1,5 @@
+import { useIntl } from "react-intl";
+
 //计算平均数
 export const calculateBMI = (weight, height) => {//weight kg 身高 cm
     const convertedHeight = parseFloat(height) / 100
@@ -7,13 +9,14 @@ export const calculateBMI = (weight, height) => {//weight kg 身高 cm
 }
 
 export const BMISort = (bmi) => {
+    const intl = useIntl()
     if (bmi < 18.5) {
-        return '体重过轻';
+        return intl.formatMessage({ id: 'app.stats.bmiSort.uw' });
     } else if (bmi >= 18.5 && bmi < 25) {
-        return '正常范围';
+        return intl.formatMessage({ id: 'app.stats.bmiSort.nw' });
     } else if (bmi >= 25 && bmi <= 29.9) {
-        return '超重';
+        return intl.formatMessage({ id: 'app.stats.bmiSort.ow' });
     } else {
-        return '肥胖';
+        return intl.formatMessage({ id: 'app.stats.bmiSort.fa' });
     }
 }

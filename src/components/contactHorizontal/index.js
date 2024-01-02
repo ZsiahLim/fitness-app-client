@@ -11,8 +11,10 @@ import COLORS from '../../constants/COLORS'
 import { useNavigate } from 'react-router-dom'
 import GENDER from '../../constants/GENDER'
 import { ManOutlined, WomanOutlined } from '@ant-design/icons'
+import { useIntl } from 'react-intl'
 
 export default function ContactHorizontal({ contact }) {
+    const intl = useIntl()
     const dispatch = useDispatch()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
@@ -32,7 +34,7 @@ export default function ContactHorizontal({ contact }) {
             if (res.status !== false) {
                 dispatch(loginSuccess(res))
             } else {
-                message.error('出现异常请稍后重试')
+                message.error(intl.formatMessage({id: 'error.errorMsg'}))
             }
         })
     }
@@ -44,7 +46,7 @@ export default function ContactHorizontal({ contact }) {
                 const conversation = res.conversation
             } else {
                 console.log(res);
-                message.error("出现异常请稍后重试")
+                message.error(intl.formatMessage({id: 'error.errorMsg'}))
             }
         })
     }
@@ -85,8 +87,8 @@ export default function ContactHorizontal({ contact }) {
                 </div>
             </div>
             {alreadySubscribed ? <div className='optionBtn' onClick={handleSendMessage}
-                style={{ color: COLORS.commentText, }}>发消息</div>
-                : <div className='optionBtn' onClick={handleSubscribe} style={{ color: COLORS.primary, }}>关注</div>
+                style={{ color: COLORS.commentText, }}>{intl.formatMessage({id: 'app.cmty.btn.sendText'})}</div>
+                : <div className='optionBtn' onClick={handleSubscribe} style={{ color: COLORS.primary, }}>{intl.formatMessage({id: 'app.cmty.btn.sub'})}</div>
             }
         </div >
     )

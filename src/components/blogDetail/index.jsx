@@ -10,9 +10,11 @@ import EditBlog from './editBlog';
 import VideoJS from '../../../components/VideoJS';
 import videojs from 'video.js';
 import { BlogModalOpenContext } from './blogBrief';
+import { useIntl } from 'react-intl';
 const { TextArea } = Input;
 
 export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
+    const intl = useIntl()
     const isBlogOpen = useContext(BlogModalOpenContext)
     const [blogInfo, setBlogInfo] = useState(blog)
     const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = blogInfo || {}
@@ -31,7 +33,7 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
             .then(user => {
                 setUser(user)
             }).catch(error => {
-                message.error('failed to get user data')
+                message.error(intl.formatMessage({id: 'error.blog.failToGetUserData'}))
             })
     }
     const getBlogComments = async () => {
@@ -44,7 +46,7 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                 getWholeBlogInfo(usersReqs, comments)
             }
         }).catch(err => {
-            message.error('failed to get user data')
+            message.error(intl.formatMessage({id: 'error.blog.failToGetUserData'}))
         })
     }
     const getWholeBlogInfo = async (userReq, comments) => {
@@ -58,17 +60,17 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     }, [])
     const handleLikeBlog = async (blogID) => {
         liked ? await cancellikeblog(blogID).then(() => {
-            message.success('cancer like blog successfully')
+            message.success(intl.formatMessage({id: 'app.blog.msg.cancelLike'}))
             setLikeNum(likedNum - 1)
             setLiked(false)
         }).catch((err) => {
-            message.error('error happens')
+            message.error(intl.formatMessage({id: 'error.errorHappens'}))
         }) : await likeblog(blogID).then(() => {
-            message.success('like blog successfully')
+            message.success(intl.formatMessage({id: 'app.blog.msg.cancelLike'})) 
             setLikeNum(likedNum + 1)
             setLiked(true)
         }).catch(() => {
-            message.error("error happens")
+            message.error(intl.formatMessage({id: 'error.errorHappens'}))
         })
     }
     const handleFavoriteBlog = async (blogID) => {
@@ -78,14 +80,14 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                 setFavoritedNum(favoritedNum - 1)
                 setFavorited(false)
             }).catch(() => {
-                message.error("error happens")
+                message.error(intl.formatMessage({id: 'error.errorHappens'}))
             }) : await favoriteblog(blogID)
                 .then(() => {
                     message.success('favorite blog successfully')
                     setFavoritedNum(favoritedNum + 1)
                     setFavorited(true)
                 }).catch(() => {
-                    message.error("error happens")
+                    message.error(intl.formatMessage({id: 'error.errorHappens'}))
                 })
     }
     const handleDeleteBlog = async (blogID) => {
@@ -95,14 +97,14 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                 getData()
                 handleCloseDetailModal()
             }).catch((err) => {
-                message.error('error happens')
+                message.error(intl.formatMessage({id: 'error.errorHappens'}))
                 console.log(err);
             })
     }
     const handleComment = async () => {
         mycomment && await addcomment({ blogID: blogInfo._id, content: mycomment })
             .then(() => {
-                message.success('comment successfully')
+                message.success(intl.formatMessage({id: 'app.blog.msg.comment'}))
                 getBlogComments()
                 setMycomment('')
             }).catch(error => {
@@ -113,7 +115,7 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     const handleLikeComment = async (commentId) => {
         await likecomment(commentId)
             .then(() => {
-                message.success('like comment successfully')
+                message.success(intl.formatMessage({id: 'app.blog.msg.likeComment'}))
                 getBlogComments()
             }).catch(error => {
                 message.error(error)
@@ -128,12 +130,12 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     const handleSubmitReport = async () => {
         reportReason ? await createreport({ type: 'blog', targetID: blogInfo._id, content: reportReason })
             .then(() => {
-                message.success('We received your report, we will inform you the results later')
+                message.success(intl.formatMessage({id: 'app.blog.msg.reportSuccess'}))
                 setIsReportModalOpen(false)
             }).catch(err => {
                 console.log(err);
-                message.error('error happens, failed to report')
-            }) : message.warning('please write the reason of the report')
+                message.error(intl.formatMessage({id: 'error.blog.failToReport'}))
+            }) : message.warning(intl.formatMessage({id: 'app.blog.msg.reportWarn'}))
     }
     const [reportCommentReason, setReportCommentReason] = useState();
     const [isCommentReportModalOpen, setIsCommentReportModalOpen] = useState(false)
@@ -144,14 +146,14 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
     const handleSubmitCommentReport = async () => {
         (reportCommentReason && reportCommentID) ? await createreport({ type: 'comment', targetID: reportCommentID, content: reportCommentReason })
             .then(() => {
-                message.success('We received your report, we will inform you the results later')
+                message.success(intl.formatMessage({id: 'app.blog.msg.reportSuccess'}))
                 setIsCommentReportModalOpen(false)
             }).catch(err => {
                 console.log(err);
-                message.error('error happens, failed to report')
-            }) : message.warning('please write the reason of the report')
+                message.error(intl.formatMessage({id: 'error.blog.failToReport'}))
+            }) : message.warning(intl.formatMessage({id: 'app.blog.msg.reportWarn'}))
     }
-    const reportCommmentContent = (<div style={{ display: 'flex', userSelect: 'none', cursor: 'pointer', justifyContent: "center", alignItems: 'center', width: 60, height: 36, borderRadius: 10, backgroundColor: currentTheme === 'light' ? "#f0f0f0" : '#383838' }} onClick={() => setIsCommentReportModalOpen(true)}>Report</div>)
+    const reportCommmentContent = (<div style={{ display: 'flex', userSelect: 'none', cursor: 'pointer', justifyContent: "center", alignItems: 'center', width: 60, height: 36, borderRadius: 10, backgroundColor: currentTheme === 'light' ? "#f0f0f0" : '#383838' }} onClick={() => setIsCommentReportModalOpen(true)}>{intl.formatMessage({id: 'btn.report'})}</div>)
     const lightBlogModalClassname = currentTheme === 'light' ? 'BlogModal-light' : ''
     const withoutImgBlogMainPart = imgUrl.length === 0 && !videoUrl ? 'blogMainPart-without' : ''
     const [EditModalOpen, setEditModalOpen] = useState(false)
@@ -224,18 +226,18 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                             </div>
                             <div className='Btn'>
                                 {owner ? <Popconfirm
-                                    title="Delete the blog"
-                                    description="Are you sure to delete this blog?"
-                                    okText="Yes"
-                                    cancelText="No"
+                                    title={intl.formatMessage({id: 'app.blog.msg.delBlog'})}
+                                    description={intl.formatMessage({id: 'app.blog.msg.confirmDel'})}
+                                    okText={intl.formatMessage({id: 'btn.yes'})}
+                                    cancelText={intl.formatMessage({id: 'btn.no'})}
                                     onConfirm={() => handleDeleteBlog(blogInfo._id)}
                                 >
                                     <DeleteFilled />
                                 </Popconfirm>
-                                    : <Tooltip placement="top" title={'report'}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
+                                    : <Tooltip placement="top" title={intl.formatMessage({id: 'btn.report'})}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
                             </div>
                             <div className='Btn'>
-                                <Tooltip placement="top" title={'share'}>
+                                <Tooltip placement="top" title={intl.formatMessage({id: 'app.blog.label.share'})}>
                                     <ShareAltOutlined />
                                 </Tooltip>
                             </div>
@@ -266,7 +268,7 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                 <div className='myComment'>
                     <Avatar size={52} icon={<UserOutlined />} src={currentUser?.avator ? currentUser.avator : ''} />
                     <div className='commentInput'>
-                        <Input value={mycomment} onChange={(e) => setMycomment(e.target.value)} onPressEnter={handleComment} maxLength={50} placeholder="Give your kindly comment here ~" bordered={false} />
+                        <Input value={mycomment} onChange={(e) => setMycomment(e.target.value)} onPressEnter={handleComment} maxLength={50} placeholder={intl.formatMessage({id: 'app.blog.msg.noComment'})} bordered={false} />
                     </div>
                 </div>
             </div>
@@ -282,14 +284,14 @@ export default function BlogDetail({ blog, getData, handleCloseDetailModal }) {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Modal title="Report" open={isCommentReportModalOpen} onOk={handleSubmitCommentReport} onCancel={handleSubmitCommentReportCancel}>
+            <Modal title={intl.formatMessage({id: 'app.blog.label.report'})} open={isCommentReportModalOpen} onOk={handleSubmitCommentReport} onCancel={handleSubmitCommentReportCancel}>
                 <Form
                     labelCol={{ span: 7 }}
                     wrapperCol={{ span: 14 }}
                     layout="horizontal"
                     style={{ maxWidth: 600 }}
                 >
-                    <Form.Item label="Report Reason">
+                    <Form.Item label={intl.formatMessage({id: 'app.blog.label.reportReason'})}>
                         <TextArea onChange={({ target: { value } }) => { setReportCommentReason(value) }} rows={4} />
                     </Form.Item>
                 </Form>

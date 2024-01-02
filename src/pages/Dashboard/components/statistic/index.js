@@ -11,7 +11,10 @@ import StepTitle from '../../../../components/ExerciseStatisItems/Step';
 import CalorieTitle from '../../../../components/ExerciseStatisItems/Calorie';
 import DistanceTitle from '../../../../components/ExerciseStatisItems/Distance';
 import DurationTitle from '../../../../components/ExerciseStatisItems/Duration';
+import { useIntl } from 'react-intl';
+
 const Statistics = () => {//need to update
+    const intl = useIntl()
     const currentTheme = useUserTheme()
     const THEME = APPTHEME[currentTheme]
     const { latestRecord, todayRecord } = useRecord()
@@ -44,28 +47,28 @@ const Statistics = () => {//need to update
         steps: {
             title: <StepTitle />,
             number: stepNum ? stepNum : '0',
-            unit: '步',
+            unit: intl.formatMessage({id: 'app.dsh.unit.step'}),
             percentage: (stepNum && stepTarget) ? ((stepNum / stepTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         colorie: {
             title: <CalorieTitle />,
             number: calorieNum ? calorieNum.toFixed(0) : '0',
-            unit: 'kcal',
+            unit: intl.formatMessage({id: 'app.dsh.unit.cal'}),
             percentage: calorieNum && calorieTarget ? ((calorieNum / calorieTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         distance: {
             title: <DistanceTitle />,
             number: distanceNum ? distanceNum : '0',
-            unit: 'm',
+            unit: intl.formatMessage({id: 'app.dsh.unit.dist'}),
             percentage: (distanceNum && distanceTarget) ? ((distanceNum / distanceTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },
         duration: {
             title: <DurationTitle />,
             number: durationNum ? secToSpecificMin(durationNum) : "0",
-            unit: 'min',
+            unit: intl.formatMessage({id: 'app.dsh.unit.duration'}),
             percentage: durationNum && durationTarget ? ((durationNum / durationTarget) * 100).toFixed(0) : '--',
             recordAt: recordDate ? recordDate : '--'
         },

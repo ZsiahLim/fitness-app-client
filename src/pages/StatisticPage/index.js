@@ -32,9 +32,10 @@ import CalorieTitle from '../../components/ExerciseStatisItems/Calorie'
 import DistanceTitle from '../../components/ExerciseStatisItems/Distance'
 import StepTitle from '../../components/ExerciseStatisItems/Step'
 import DurationTitle from '../../components/ExerciseStatisItems/Duration'
-
+import { useIntl } from 'react-intl'
 
 export default function StatisticsPage() {
+    const intl = useIntl();
     const { currentTheme } = useSelector((state) => state.user)
     const lightPageClassname = currentTheme === 'light' ? 'StatisticsPage-light' : ''
     const { latestRecord, todayRecord } = useRecord()
@@ -68,10 +69,10 @@ export default function StatisticsPage() {
             <div style={{ display: 'flex', flex: 1, gap: SIZE.NormalMargin }}>
                 <div className='StatisticsPage-container' style={{ width: '100%', height: '100%', overflow: 'auto', flex: 1 }}>
                     <TodayExercise />
-                    <SpecificTypeCard ExerciseStatisItems={<DistanceTitle />} type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={"跑步步行距离"} currentValue={distanceNum ? (distanceNum / 1000).toFixed(2) : "0"} targetValue={distanceTarget ? (distanceTarget / 1000).toFixed(2) : null} unit={"km"} />
-                    <SpecificTypeCard ExerciseStatisItems={<StepTitle />} type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={"步数"} currentValue={stepNum} targetValue={stepTarget ? stepTarget : null} unit={"步"} />
-                    <SpecificTypeCard ExerciseStatisItems={<CalorieTitle />} type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={"卡路里"} currentValue={calorieNum} targetValue={calorieTarget ? calorieTarget : null} unit={"千卡"} />
-                    <SpecificTypeCard ExerciseStatisItems={<DurationTitle />} type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={"健身"} currentValue={durationNum ? secToSpecificMin(durationNum) : "0"} targetValue={durationTarget ? secToSpecificMin(durationTarget) : null} unit={"分钟"} />
+                    <SpecificTypeCard ExerciseStatisItems={<DistanceTitle />} type={STATISTICITEMS.distance} valueArr={distanceArr} dateArr={dateArr} recordDate={recordDate} title={intl.formatMessage({ id: 'app.stats.title.dist' })} currentValue={distanceNum ? (distanceNum / 1000).toFixed(2) : "0"} targetValue={distanceTarget ? (distanceTarget / 1000).toFixed(2) : null} unit={intl.formatMessage({ id: 'app.stats.unit.dist' })} />
+                    <SpecificTypeCard ExerciseStatisItems={<StepTitle />} type={STATISTICITEMS.step} valueArr={stepArr} dateArr={dateArr} recordDate={recordDate} title={intl.formatMessage({ id: 'app.stats.title.step' })} currentValue={stepNum} targetValue={stepTarget ? stepTarget : null} unit={intl.formatMessage({ id: 'app.stats.unit.step' })} />
+                    <SpecificTypeCard ExerciseStatisItems={<CalorieTitle />} type={STATISTICITEMS.calorie} valueArr={calorieArr} dateArr={dateArr} recordDate={recordDate} title={intl.formatMessage({ id: 'app.stats.title.cal' })} currentValue={calorieNum} targetValue={calorieTarget ? calorieTarget : null} unit={intl.formatMessage({ id: 'app.stats.unit.cal' })} />
+                    <SpecificTypeCard ExerciseStatisItems={<DurationTitle />} type={STATISTICITEMS.duration} valueArr={durationArr} dateArr={dateArr} recordDate={recordDate} title={intl.formatMessage({ id: 'app.stats.title.duration' })} currentValue={durationNum ? secToSpecificMin(durationNum) : "0"} targetValue={durationTarget ? secToSpecificMin(durationTarget) : null} unit={intl.formatMessage({ id: 'app.stats.unit.duration' })} />
                     <ExerciseOverview />
                     <UserBestRecord records={records} />
                     <WholeTrend />
@@ -99,6 +100,7 @@ const WholeTrend = () => {
 }
 
 const MeasurementRecordsCard = () => {
+    const intl = useIntl();
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const dispatch = useDispatch()
@@ -112,7 +114,7 @@ const MeasurementRecordsCard = () => {
                 dispatch(setLatestMeasurement(res.measurement))
                 dispatch(setMeasurements(res.updatedMeasurements))
             } else {
-                message.error("出现异常请稍后重试")
+                message.error(intl.formatMessage({ id: 'error.errorMsg' }))
             }
         })
     }
@@ -130,11 +132,11 @@ const MeasurementRecordsCard = () => {
                 <div style={{ fontSize: 16, fontWeight: 'bold', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: SIZE.NormalMargin }}>
                         <div>
-                            数据记录: 共{allMeasurements.length}条
+                            {intl.formatMessage({ id: 'app.stats.dataRecordPt1' })}{allMeasurements.length}{intl.formatMessage({ id: 'app.stats.dataRecordPt2' })}
                         </div>
-                        <div style={{ color: COLORS.commentText, fontSize: 14 }}>{collapsed ? <div onClick={() => setCollapsed(false)}>展开 <RightOutlined /></div> : <div onClick={() => setCollapsed(true)}>折叠 <DownOutlined /></div>}</div>
+                        <div style={{ color: COLORS.commentText, fontSize: 14 }}>{collapsed ? <div onClick={() => setCollapsed(false)}>{intl.formatMessage({ id: 'app.stats.expand' })} <RightOutlined /></div> : <div onClick={() => setCollapsed(true)}>{intl.formatMessage({ id: 'app.stats.fold' })} <DownOutlined /></div>}</div>
                     </div>
-                    <div onClick={() => setUploadMeasurementModalVisible(true)} style={{ backgroundColor: COLORS.primary, padding: "4px 10px", borderRadius: 6, }}><div style={{ fontSize: 14, color: COLORS.white, gap: 6, display: 'flex', alignItems: 'center', }}><div>添加数据</div><FileAddOutlined /></div></div>
+                    <div onClick={() => setUploadMeasurementModalVisible(true)} style={{ backgroundColor: COLORS.primary, padding: "4px 10px", borderRadius: 6, }}><div style={{ fontSize: 14, color: COLORS.white, gap: 6, display: 'flex', alignItems: 'center', }}><div>{intl.formatMessage({ id: 'app.stats.btn.addData' })}</div><FileAddOutlined /></div></div>
                 </div>
             </div>
             {!collapsed && <div style={{ marginTop: SIZE.NormalMargin, }}>
@@ -143,17 +145,17 @@ const MeasurementRecordsCard = () => {
                     style={{ padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.backgroundColor, marginBottom: SIZE.NormalMargin }}
                 >
                     <div style={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ fontSize: 14, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 2 }}>{formatTimeForChartSoloItem(item.date)}<div style={{ fontWeight: 'normal' }}>数据</div></div>
+                        <div style={{ fontSize: 14, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 2 }}>{formatTimeForChartSoloItem(item.date)}<div style={{ fontWeight: 'normal' }}>{intl.formatMessage({ id: 'app.stats.title.record' })}</div></div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: SIZE.NormalMargin, color: COLORS.commentText }}>
                             <div onClick={() => handleEditMeasurement(item)}><EditOutlined /></div>
                             <div onClick={() => handleDeleteMeasurement(item._id)}><DeleteOutlined /></div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>体重:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.weight ? item.weight : "--"}</div><div style={{ fontSize: 12 }}>kg</div></div>
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>身高:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.height ? item.height : "--"}</div><div style={{ fontSize: 12 }}>cm</div></div>
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>{intl.formatMessage({ id: 'app.stats.title.wt' })}:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.weight ? item.weight : "--"}</div><div style={{ fontSize: 12 }}>{intl.formatMessage({ id: 'app.stats.unit.wt' })}</div></div>
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>{intl.formatMessage({ id: 'app.stats.title.ht' })}:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.height ? item.height : "--"}</div><div style={{ fontSize: 12 }}>{intl.formatMessage({ id: 'app.stats.unit.ht' })}</div></div>
                         <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>BMI:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.BMI ? item.BMI : "--"}</div><div style={{ fontSize: 12 }}></div></div>
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>BFR:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.bodyFatRate ? item.bodyFatRate : "--"}</div><div style={{ fontSize: 12 }}>%</div></div>
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 2 }}><div style={{ fontSize: 14 }}>{intl.formatMessage({ id: 'app.stats.title.bfr' })}:</div><div style={{ fontWeight: 'bold', fontSize: 18 }}>{item?.bodyFatRate ? item.bodyFatRate : "--"}</div><div style={{ fontSize: 12 }}>%</div></div>
                     </div>
                 </div>)}
             </div>}
@@ -165,6 +167,7 @@ const MeasurementRecordsCard = () => {
 
 
 const WeightBMICard = () => {
+    const intl = useIntl();
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { weightTarget } = useUserTarget()
@@ -172,7 +175,7 @@ const WeightBMICard = () => {
     const { weightArr, dateArr, BMIArr } = useMeasurements(allMeasurements)
     return <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
-            <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>体重<div style={{ fontSize: 12, fontWeight: 'normal' }}>(kg)</div></div>
+            <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>{intl.formatMessage({ id: 'app.stats.title.wt' })}<div style={{ fontSize: 12, fontWeight: 'normal' }}>({intl.formatMessage({ id: 'app.stats.unit.wt' })})</div></div>
             <ReactEcharts option={SimpleLineChartOption(dateArr, weightArr, 'Weight', null, weightTarget)} theme={'light'} />
         </div>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
@@ -183,23 +186,25 @@ const WeightBMICard = () => {
 }
 
 const HeightBFRCard = () => {
+    const intl = useIntl()
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { latestMeasurement, allMeasurements } = useMeasurement()
     const { bodyFatRateArr, dateArr, heightArr } = useMeasurements(allMeasurements)
     return <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
-            <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>体脂率</div>
+            <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>{intl.formatMessage({ id: 'app.stats.title.bfr' })}</div>
             <ReactEcharts option={SimpleLineChartOption(dateArr, bodyFatRateArr, 'BodyFatRate',)} theme={'light'} />
         </div>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
-            <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>身高</div>
+            <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>{intl.formatMessage({ id: 'app.stats.title.ht' })}</div>
             <ReactEcharts option={SimpleLineChartOption(dateArr, heightArr, 'Height',)} theme={'light'} />
         </div>
     </div>
 }
 
 const BodyMatricOverviewCard = () => {
+    const intl = useIntl();
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { latestMeasurement } = useMeasurement()
@@ -216,13 +221,13 @@ const BodyMatricOverviewCard = () => {
             await updateweighttarget(data).then(res => {
                 if (res.status !== false) {
                     dispatch(loginSuccess(res))
-                    message.success("设置目标体重成功！")
+                    message.success(intl.formatMessage({id: 'msg.wtSetSuccess'}))
                 } else {
-                    message.error("出现异常请稍后重试")
+                    message.error(intl.formatMessage({ id: 'error.errorMsg' }))
                 }
             })
         } else {
-            message.error("请输入完成信息")
+            message.error(intl.formatMessage({ id: 'error.incompleteInput' }))
         }
     }
     const handleInputWeight = (value) => {
@@ -232,13 +237,13 @@ const BodyMatricOverviewCard = () => {
         {/* icon */}
         <div style={{ display: "flex", alignItems: 'center', justifyContent: 'space-between' }}>
             {/* <DashboardOutlined /> */}
-            <div style={{ fontSize: 16, fontWeight: 'bold', color: COLORS.green }}>身高体重</div>
-            <div style={{ fontSize: 12, fontWeight: 'bold', color: COLORS.commentText }}>{latestMeasurement?.updatedAt && `最新一次记录于${formatTimeToChineseDetail(latestMeasurement.updatedAt)}`}</div>
+            <div style={{ fontSize: 16, fontWeight: 'bold', color: COLORS.green }}>{intl.formatMessage({ id: 'app.stats.title.wtAndHt' })}</div>
+            <div style={{ fontSize: 12, fontWeight: 'bold', color: COLORS.commentText }}>{latestMeasurement?.updatedAt && `${intl.formatMessage({ id: 'app.stats.lastTimeUpdate' })} ${formatTimeToChineseDetail(latestMeasurement.updatedAt)}`}</div>
         </div>
         <div style={{ marginTop: SIZE.NormalMargin }}>
             <div style={{ display: 'flex' }}>
                 <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, display: 'flex', gap: 2, }}><>体重/目标体重</><EditOutlined onClick={() => setEditWeightTargetShow(true)} style={{ fontSize: 10 }} /></div>
+                    <div style={{ fontSize: 14, display: 'flex', gap: 2, }}><>{intl.formatMessage({ id: 'app.stats.title.wtAndGoal' })}</><EditOutlined onClick={() => setEditWeightTargetShow(true)} style={{ fontSize: 10 }} /></div>
                     <div style={{ display: 'flex', alignItems: 'baseline' }}>
                         <div style={{ display: 'flex', alignItems: 'baseline' }}>
                             <div style={{ fontSize: 22, fontWeight: 'bold' }}>{latestMeasurement?.weight ? latestMeasurement.weight : "--"}</div>
@@ -246,12 +251,12 @@ const BodyMatricOverviewCard = () => {
                         <div>/</div>
                         <div style={{ display: 'flex', alignItems: 'baseline' }}>
                             <div style={{ fontSize: 16, fontWeight: 'bold' }}>{weightTarget ? weightTarget : "--"}</div>
-                            <div style={{ fontSize: 12, }}>&nbsp;kg</div>
+                            <div style={{ fontSize: 12, }}>&nbsp;{intl.formatMessage({ id: 'app.stats.unit.wt' })}</div>
                         </div>
                     </div>
                 </div>
                 <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}><>BMI水平</> <InfoCircleOutlined onClick={() => setBMIdetailShow(true)} style={{ fontSize: 10 }} /></div>
+                    <div style={{ fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}><>{intl.formatMessage({ id: 'app.stats.title.bmiLvl' })}</> <InfoCircleOutlined onClick={() => setBMIdetailShow(true)} style={{ fontSize: 10 }} /></div>
                     <div style={{ display: 'flex', alignItems: 'baseline' }}>
                         <div style={{ display: 'flex', alignItems: 'baseline' }}>
                             <div style={{ fontSize: 20, fontWeight: 'bold' }}>{latestMeasurement?.BMI ? BMISort(latestMeasurement?.BMI) : "--"}</div>
@@ -261,54 +266,54 @@ const BodyMatricOverviewCard = () => {
             </div>
             <div style={{ display: 'flex', marginTop: SIZE.NormalMargin }}>
                 <MetricItem title={"BMI"} value={latestMeasurement?.BMI} />
-                <MetricItem title={"体脂率"} value={latestMeasurement?.bodyFatRate} unit={"%"} />
-                <MetricItem title={"身高"} value={latestMeasurement?.height} unit={"cm"} />
+                <MetricItem title={intl.formatMessage({ id: 'app.stats.title.bfr' })} value={latestMeasurement?.bodyFatRate} unit={"%"} />
+                <MetricItem title={intl.formatMessage({ id: 'app.stats.title.ht' })} value={latestMeasurement?.height} unit={intl.formatMessage({ id: 'app.stats.unit.ht' })} />
             </div>
         </div>
-        <Modal open={BMIdetailShow} footer={null} title="BMI"
+        <Modal open={BMIdetailShow} footer={null} title={intl.formatMessage({ id: 'app.stats.intro' })}
             onOk={() => setBMIdetailShow(false)}
             onCancel={() => setBMIdetailShow(false)}>
             <div>
                 <div style={{ flex: 1 }}>
                     <div style={{ color: THEME.fontColor }}>
-                        BMI（Body Mass Index，身体质量指数）是通过体重（千克）除以身高（米）的平方来计算的。
+                        {intl.formatMessage({ id: 'app.stats.intro.contentPt1' })}
                     </div>
                     <div style={{ color: THEME.fontColor }}>
-                        根据世界卫生组织（WHO）的标准，BMI可以分为几个不同的等级，用以评估个体的体重状况：
+                        {intl.formatMessage({ id: 'app.stats.intro.contentPt2' })}
                     </div>
                     <div style={{ color: THEME.fontColor }}>
-                        低于18.5：体重过轻
+                        {intl.formatMessage({ id: 'app.stats.intro.contentPt3' })}
                     </div>
                     <div style={{ color: THEME.fontColor }}>
-                        18.5至24.9：正常范围
+                        {intl.formatMessage({ id: 'app.stats.intro.contentPt4' })}
                     </div>
                     <div style={{ color: THEME.fontColor }}>
-                        25至29.9：超重
+                        {intl.formatMessage({ id: 'app.stats.intro.contentPt5' })}
                     </div>
                     <div style={{ color: THEME.fontColor }}>
-                        30及以上：肥胖
+                        {intl.formatMessage({ id: 'app.stats.intro.contentPt6' })}
                     </div>
                 </div>
             </div>
         </Modal>
-        <Modal open={EditWeightTargetShow} footer={null} title="目标体重"
+        <Modal open={EditWeightTargetShow} footer={null} title={intl.formatMessage({ id: 'app.stats.title.goalWt' })}
             onOk={() => setEditWeightTargetShow(false)}
             onCancel={() => setEditWeightTargetShow(false)}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
-                    <div style={{ width: 100 }}>目标体重(kg)</div>
+                    <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.goalWtUnit' })}</div>
                     <div style={{}}><InputNumber style={{ width: 200 }} defaultValue={weightTarget} min={30} max={200} step={0.01} onChange={handleInputWeight} /></div>
                 </div>
                 {((weightTarget !== newWeightTarget) && newWeightTarget) ? <div
                     className='buttonHover'
                     onClick={handleUploadWeightTarget}
                     style={{ fontSize: 14, color: COLORS.white, userSelect: 'none', fontWeight: 'bold', borderRadius: 14, backgroundColor: COLORS.primary, padding: "6px 20px" }}>
-                    设置
+                    {intl.formatMessage({ id: 'app.stats.title.update' })}
                 </div> :
                     <div
                         className='buttonHover'
                         style={{ fontSize: 14, color: COLORS.white, userSelect: 'none', fontWeight: 'bold', borderRadius: 14, backgroundColor: COLORS.commentText, padding: "6px 20px" }}>
-                        设置
+                        {intl.formatMessage({ id: 'app.stats.title.update' })}
                     </div>}
             </div>
         </Modal>
@@ -326,6 +331,7 @@ const MetricItem = ({ title, value, unit }) => {
 }
 
 const TodayExercise = () => {
+    const intl = useIntl();
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { todayRecord } = useRecord()
@@ -348,58 +354,59 @@ const TodayExercise = () => {
     return <div style={{ borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center', color: COLORS.green, fontWeight: 'bold' }}>
             <CalendarTwoTone twoToneColor={COLORS.green} />
-            <div>今日运动记录</div>
-            <div style={{ fontSize: 14, color: COLORS.commentText, fontWeight: 'normal' }}>更新于{recordDate ? formatTimeToChinese(recordDate) : "--"}</div>
+            <div>{intl.formatMessage({ id: 'app.stats.todaySession' })}</div>
+            <div style={{ fontSize: 14, color: COLORS.commentText, fontWeight: 'normal' }}>{intl.formatMessage({ id: 'app.stats.updateSince' })}{recordDate ? formatTimeToChinese(recordDate) : "--"}</div>
         </div>
         <div style={{ display: 'flex', marginTop: SIZE.NormalMargin }}>
             <div style={{ flex: 1, }}>
                 <div style={{ color: COLORS.commentText, fontSize: 14, fontWeight: 'bold', }}>
-                    运动时长
+                    {intl.formatMessage({ id: 'app.stats.workoutDuration' })}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline' }}>
                     <div style={{ fontSize: 20, fontWeight: 'bold' }}>{durationNum ? secToSpecificMin(durationNum) : "0"}</div>
-                    <div style={{ fontSize: 12 }}>min</div>
+                    <div style={{ fontSize: 12 }}>{intl.formatMessage({ id: 'app.stats.unit.duration' })}</div>
                 </div>
             </div>
             <div style={{ flex: 1, }}>
                 <div style={{ color: COLORS.commentText, fontSize: 14, fontWeight: 'bold', }}>
-                    运动消耗
+                    {intl.formatMessage({ id: 'app.stats.todaySession' })}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline' }}>
                     <div style={{ fontSize: 20, fontWeight: 'bold' }}>{calorieNum ? calorieNum : '--'}</div>
                     <div style={{ fontSize: 14 }}>+</div>
                     <div style={{ fontSize: 20, fontWeight: 'bold' }}>{tutorialCalorieConsumption ? tutorialCalorieConsumption : "--"}</div>
-                    <div style={{ fontSize: 12 }}>unit</div>
+                    <div style={{ fontSize: 12 }}>{intl.formatMessage({ id: 'app.stats.unit.cal' })}</div>
                 </div>
             </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: SIZE.NormalMargin, marginTop: SIZE.NormalMargin }}>
             <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
-                <ExerciseItem title={'跑步步行'} titleColor={COLORS.primary} value={distanceNum ? (distanceNum / 1000).toFixed(2) : "--"} unit={'公里'} />
-                <ExerciseItem title={'步数'} titleColor={COLORS.primary} value={stepNum ? stepNum : "--"} unit={'步'} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.dist' })} titleColor={COLORS.primary} value={distanceNum ? (distanceNum / 1000).toFixed(2) : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.dist' })} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.step' })} titleColor={COLORS.primary} value={stepNum ? stepNum : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.step' })} />
             </div>
             <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
-                <ExerciseItem title={'卡路里'} titleColor={COLORS.colorieOrange} value={calorieNum ? calorieNum : "--"} unit={'千卡'} />
-                <ExerciseItem title={'健身'} titleColor={COLORS.purple} value={durationNum ? secToSpecificMin(durationNum) : "--"} unit={'分钟'} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.cal' })} titleColor={COLORS.colorieOrange} value={calorieNum ? calorieNum : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.cal' })} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.duration' })} titleColor={COLORS.purple} value={durationNum ? secToSpecificMin(durationNum) : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.duration' })} />
             </div>
         </div>
     </div>
 }
 
 const ExerciseOverview = () => {
+    const intl = useIntl();
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { durationSum, calorieSum, distanceSum, stepSum } = useRecords()
     return <div style={{ borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
-        <div style={{ fontWeight: 'bold', fontSize: 16, }}>各项运动数据汇总</div>
+        <div style={{ fontWeight: 'bold', fontSize: 16, }}>{intl.formatMessage({id: 'app.stats.title.summary'})}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: SIZE.NormalMargin, marginTop: SIZE.NormalMargin }}>
             <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
-                <ExerciseItem title={'跑步步行'} titleColor={COLORS.primary} value={distanceSum ? (distanceSum / 1000).toFixed(2) : "--"} unit={'公里'} />
-                <ExerciseItem title={'步数'} titleColor={COLORS.primary} value={stepSum ? stepSum : "--"} unit={'步'} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.dist' })} titleColor={COLORS.primary} value={distanceSum ? (distanceSum / 1000).toFixed(2) : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.dist' })} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.step' })} titleColor={COLORS.primary} value={stepSum ? stepSum : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.step' })} />
             </div>
             <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
-                <ExerciseItem title={'卡路里'} titleColor={COLORS.colorieOrange} value={calorieSum ? calorieSum.toFixed(1) : "--"} unit={'千卡'} />
-                <ExerciseItem title={'健身'} titleColor={COLORS.purple} value={durationSum ? secToSpecificMin(durationSum) : "--"} unit={'分钟'} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.cal' })} titleColor={COLORS.colorieOrange} value={calorieSum ? calorieSum.toFixed(1) : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.cal' })} />
+                <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.duration' })} titleColor={COLORS.purple} value={durationSum ? secToSpecificMin(durationSum) : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.duration' })} />
             </div>
         </div>
     </div>
