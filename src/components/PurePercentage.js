@@ -8,7 +8,7 @@ export default function PurePercentage({ currentValue, targetValue }) {
     console.log(currentValue, targetValue);
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
-    const [lineBackcolor, setLineBackcolor] = useState(COLORS.gray)
+    const [lineBackcolor, setLineBackcolor] = useState(COLORS.primary)
     const [percentage, setPercentage] = useState(0)
     useEffect(() => {
         let percen = (parseFloat(currentValue) / parseFloat(targetValue))
