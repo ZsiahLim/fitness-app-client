@@ -17,8 +17,30 @@ import { STATISTICITEMS } from './statisticItems'
 import { FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 
+// const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {
+//     const intl = useIntl()
+import { secToSpecificMin } from '../../utils/funcs'
+
 const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {
     const intl = useIntl()
+    let handledTargetValueForChart;
+    switch (type) {
+        case STATISTICITEMS.distance:
+            handledTargetValueForChart = targetValue * 1000
+            break;
+        default:
+            handledTargetValueForChart = targetValue
+            break;
+    }
+    let handledValueArrForChart;
+    switch (type) {
+        case STATISTICITEMS.duration:
+            handledValueArrForChart = valueArr.map(item => secToSpecificMin(item))
+            break;
+        default:
+            handledValueArrForChart = valueArr
+            break;
+    }
     const theme = useUserTheme()
     const dispatch = useDispatch()
     const THEME = APPTHEME[theme]
@@ -123,7 +145,7 @@ const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targ
             <PurePercentage currentValue={currentValue} targetValue={targetValue} />
             {!collapsed && <div style={{ padding: "0 auto" }}>
                 <div style={{ height: 20, }}></div>
-                <ReactEcharts option={SimpleBarChartOption(dateArr, valueArr, title, null, type === STATISTICITEMS.distance ? targetValue * 1000 : targetValue, THEME.contentColor)} theme={'light'} />
+                <ReactEcharts option={SimpleBarChartOption(dateArr, handledValueArrForChart, title, null, handledTargetValueForChart, THEME.contentColor)} theme={'light'} />
             </div>}
             <Modal open={goalModalVisible} footer={null} title={intl.formatMessage({ id: 'app.stats.title.target' }) + title}
                 onOk={() => setGoalModalVisible(false)}

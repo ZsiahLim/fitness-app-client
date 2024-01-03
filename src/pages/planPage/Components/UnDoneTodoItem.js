@@ -9,8 +9,10 @@ import useUserTheme from '../../../hooks/useUserTheme'
 import APPTHEME from '../../../constants/COLORS/APPTHEME'
 import { useNavigate } from 'react-router-dom'
 import { DeleteOutlined } from '@ant-design/icons'
+import useUserLocale from '../../../hooks/useUserLocale'
 
 const UnDoneTodoItem = ({ tutorial }) => {
+    const userLocale = useUserLocale()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
     const dispatch = useDispatch()
@@ -32,8 +34,8 @@ const UnDoneTodoItem = ({ tutorial }) => {
             <div style={{ flexBasis: 6, height: 36, width: 6, borderRadius: 3, backgroundColor: COLORS.primary }}></div>
             <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
-                    <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{tutorial.name}</div>
-                    <div style={{ fontSize: 12, color: COLORS.commentText }}>{tutorial.brief} </div>
+                    <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{userLocale === "zh" ? tutorial.zh_name : tutorial.name}</div>
+                    <div style={{ fontSize: 12, color: COLORS.commentText }}>{userLocale === "zh" ? tutorial.zh_brief : tutorial.brief} </div>
                 </div>
                 <div onClick={(e) => { e.stopPropagation(); handleDelete() }}><DeleteOutlined /></div>
             </div>

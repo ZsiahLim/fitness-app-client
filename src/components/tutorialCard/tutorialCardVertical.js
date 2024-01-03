@@ -4,8 +4,12 @@ import { useSelector } from 'react-redux'
 import { CalendarFilled } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+// export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
+//   const intl = useIntl()
+import useUserLocale from '../../hooks/useUserLocale';
 export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
   const intl = useIntl()
+  const userLocale = useUserLocale()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigateTo = useNavigate()
   const tutorialRef = useRef(null)
@@ -33,7 +37,7 @@ export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
     console.log("tutorialRef.current?.offsetHeight", tutorialRef.current?.offsetHeight);
     calcWaterfall(4, 10)
   }, [tutorialRef.current?.offsetHeight])
-  const { cover, level, colorie, brief, name, duration, _id } = tutorial
+  const { _id, name, zh_name, brief, zh_brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, zh_description, level, rate, users, video, type, equipments } = tutorial
   const { currentTheme } = useSelector(state => state.user)
   const lightTutorialCardVerticalClassname = currentTheme === 'light' ? 'tutorialCardVertical-light' : ''
   const imgRef = useRef(null)
@@ -48,8 +52,8 @@ export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
       </div>
       <div className='tutorialCardVertical-bottom'>
         <div className={`tutorialCardVertical-bottom-desc`}>
-          <div className='tutorialCardVertical-bottom-desc-title'>{name}</div>
-          <div className='tutorialCardVertical-bottom-desc-brief'>{brief}</div>
+          <div className='tutorialCardVertical-bottom-desc-title'>{userLocale === "zh" ? zh_name : name}</div>
+          <div className='tutorialCardVertical-bottom-desc-brief'>{userLocale === "zh" ? zh_brief : brief}</div>
         </div>
         <div className='TutorialCardHorizontal-bottom-extraBtn'>
           <CalendarFilled />

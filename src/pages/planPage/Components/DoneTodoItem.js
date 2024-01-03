@@ -8,8 +8,10 @@ import useUserTheme from '../../../hooks/useUserTheme'
 import APPTHEME from '../../../constants/COLORS/APPTHEME'
 import { useNavigate } from 'react-router-dom'
 import { DeleteOutlined, DownCircleFilled } from '@ant-design/icons'
+import useUserLocale from '../../../hooks/useUserLocale'
 
 const DoneTodoItem = ({ tutorial }) => {
+    const userLocale = useUserLocale()
     const dispatch = useDispatch()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
@@ -24,6 +26,7 @@ const DoneTodoItem = ({ tutorial }) => {
         })
     }
     const handleNav = () => navigateTo("/finish", { state: { tutorial, exerciseData: tutorial.session } })
+
     return (
         <div
             onClick={handleNav}
@@ -32,8 +35,8 @@ const DoneTodoItem = ({ tutorial }) => {
             <div style={{ flexBasis: 6, height: 36, width: 6, borderRadius: 3, backgroundColor: COLORS.primary }}></div>
             <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
-                    <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{tutorial.name}</div>
-                    <div style={{ fontSize: 12, color: COLORS.commentText }}>{tutorial.brief} </div>
+                    <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{userLocale === "zh" ? tutorial.zh_name : tutorial.name}</div>
+                    <div style={{ fontSize: 12, color: COLORS.commentText }}>{userLocale === "zh" ? tutorial.zh_brief : tutorial.brief} </div>
                 </div>
                 <div style={{ display: 'flex', gap: SIZE.NormalMargin, alignItems: 'center' }}>
                     <DownCircleFilled style={{ color: COLORS.green }} />
