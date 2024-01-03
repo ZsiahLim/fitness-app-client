@@ -6,11 +6,13 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
 import CardTitle from '../../../components/CardTitle'
 import { postblog } from '../../../api/user.api';
+import { useIntl } from 'react-intl';
 
 const { TextArea } = Input;
 const normFile = (e) => { return Array.isArray(e) ? e : e?.fileList }
-const options = [{ value: 'fit', label: 'fit' }, { value: 'eat', label: 'eat' }, { value: 'daily life', label: 'daily life' }];
+const options = (formatMessage) => [{ value: 'fit', label: formatMessage({id: 'app.blog.label.tag.fit'}) }, { value: 'eat', label: formatMessage({id: 'app.blog.label.tag.eat'}) }, { value: 'daily life', label: formatMessage({id: 'app.blog.label.tag.dailyLife'}) }];
 export default function PostBlog({ updateData, setUploadBlogOpen }) {
+    const intl = useIntl()
     const formRef = React.useRef(null)
     const { currentTheme } = useSelector((state) => state.user)
     const [uploading, setUploading] = useState(false)
@@ -31,7 +33,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             if (isImage) {
                 const isSupportedImageType = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type);
                 if (!isSupportedImageType) {
-                    message.error('You can only upload JPEG, PNG, GIF, or WEBP images.');
+                    message.error(intl.formatMessage({id: 'error.blog.wrongFormat'}));
                     return false; // 阻止上传
                 } else {
                     // 其他图片处理逻辑...
@@ -51,7 +53,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                                 resolve();
                             };
                             image.onerror = (error) => {
-                                message.error("不支持此类型图片")
+                                message.error(intl.formatMessage({id: 'error.blog.noSupportImg'}))
                                 console.log("error", error)
                                 reject(error);
                             };
@@ -60,7 +62,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                     });
                 }
             } else {
-                message.error('u only can upload picture here')
+                message.error(intl.formatMessage({id: 'error.blog.wrongFile'}))
                 return false
             }
         },
@@ -97,7 +99,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                     video.src = URL.createObjectURL(file);
                 })
             } else {
-                message.error('u only can upload video here')
+                message.error(intl.formatMessage({id: 'error.blog.wrongFile.video'}))
                 return false
             }
         },
@@ -129,7 +131,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 }
             },
                 (error) => {
-                    message.err('Some error happens')
+                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
                     blogImgs.map(item => {
                         if (item.uid === file.uid) {
                             return { ...item, status: 'error' }
@@ -156,7 +158,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 }
             );
         } else {
-            message.err('Some error happens')
+            message.err(intl.formatMessage({id: 'error.errorHappens'}))
             blogImgs.map(item => {
                 if (item.uid === file.uid) {
                     return item = { ...item, status: 'error' }
@@ -186,7 +188,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                     }
                 },
                 (error) => {
-                    message.err('Some error happens')
+                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
                     setBlogVideo([{ ...blogVideo[0], status: 'error' }])
                     setUploading(false)
                 },
@@ -199,7 +201,7 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
                 }
             );
         } else {
-            message.err('Some error happens')
+            message.err(intl.formatMessage({id: 'error.errorHappens'}))
             setBlogVideo([{ ...blogVideo[0], status: 'error' }])
             setUploading(false)
         }
@@ -219,23 +221,23 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
             } else if (blogType === 'text') {
                 handledItems = { ...items }
             } else {
-                message.error('system error')
+                message.error(intl.formatMessage({id: 'error.systemError'}))
                 return
             }
         }
         try {
             console.log("handledItems", handledItems);
             await postblog(handledItems)
-            message.success('post blog successfully')
+            message.success(intl.formatMessage({id: 'app.blog.msg.postBlog'}))
             clear()
             updateData()
             setUploadBlogOpen(false)
         } catch (error) {
             console.log(error);
-            message.error('error')
+            message.error(intl.formatMessage({id: 'error.default'}))
         }
     }
-    const onFinishFailed = (errorInfo) => { message.error('Failed:', errorInfo) }
+    const onFinishFailed = (errorInfo) => { message.error(intl.formatMessage({id: 'error.failedTo'}), errorInfo) }
     const clear = () => {
         formRef.current?.resetFields()
         setBlogType('text')
@@ -245,26 +247,26 @@ export default function PostBlog({ updateData, setUploadBlogOpen }) {
     const lightpostBox = currentTheme === 'light' ? 'postBox-light' : ''
     return (
         <div className='postBlog'>
-            <CardTitle title={'Post your blog'} />
+            <CardTitle title={intl.formatMessage({id: 'app.blog.title.post'})} />
             <div className={`postBox ${lightpostBox}`}>
                 <Form labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} layout="horizontal" style={{ width: '100%' }} onFinish={onFinish} ref={formRef} onFinishFailed={onFinishFailed}>
-                    <Form.Item name="title" label="Title" rules={[{ required: true }]}><Input /></Form.Item>
-                    <Form.Item name="content" label="Content" rules={[{ required: true }]}><TextArea rows={3} /></Form.Item>
-                    <Form.Item name="tags" label="Tags" rules={[{ required: true }]}><Select mode="tags" style={{ width: '100%' }} placeholder="Tags Mode" options={options} /></Form.Item>
-                    <Form.Item name="blogType" label="Type" rules={[{ required: true }]}>
-                        <Radio.Group optionType="button" defaultValue={'text'} onChange={({ target: { value } }) => setBlogType(value)}><Radio value="text"> Text </Radio><Radio value="picture"> Picture </Radio><Radio value="video"> Video </Radio></Radio.Group>
+                    <Form.Item name="title" label={intl.formatMessage({id: 'app.blog.label.title'})} rules={[{ required: true }]}><Input /></Form.Item>
+                    <Form.Item name="content" label={intl.formatMessage({id: 'app.blog.label.content'})} rules={[{ required: true }]}><TextArea rows={3} /></Form.Item>
+                    <Form.Item name="tags" label={intl.formatMessage({id: 'app.blog.label.tag'})} rules={[{ required: true }]}><Select mode="tags" style={{ width: '100%' }} placeholder={intl.formatMessage({id: 'app.blog.label.tag.tagMode'})} options={options(intl.formatMessage)} /></Form.Item>
+                    <Form.Item name="blogType" label={intl.formatMessage({id: 'app.blog.label.type'})} rules={[{ required: true }]}>
+                        <Radio.Group optionType="button" defaultValue={'text'} onChange={({ target: { value } }) => setBlogType(value)}><Radio value="text"> {intl.formatMessage({id: 'app.blog.label.type.text'})} </Radio><Radio value="picture"> {intl.formatMessage({id: 'app.blog.label.type.pic'})} </Radio><Radio value="video"> {intl.formatMessage({id: 'app.blog.label.type.video'})} </Radio></Radio.Group>
                     </Form.Item>
-                    {blogType === 'picture' && <Form.Item label="Picture" valuePropName="fileList" getValueFromEvent={normFile}>
+                    {blogType === 'picture' && <Form.Item label={intl.formatMessage({id: 'app.blog.label.pic'})} valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={9} {...propsImage}>
-                            <Button icon={<UploadOutlined />}>Click to upload(max: 9)</Button>
+                            <Button icon={<UploadOutlined />}>{intl.formatMessage({id: 'btn.clickToUploadPic'})}</Button>
                         </Upload>
                     </Form.Item>}
-                    {blogType === 'video' && <Form.Item label="Video" valuePropName="fileList" getValueFromEvent={normFile}>
+                    {blogType === 'video' && <Form.Item label={intl.formatMessage({id: 'app.blog.label.vid'})} valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload name="video" customRequest={submitVideoToFirebase} maxCount={1} {...propsVideo}>
-                            <Button icon={<UploadOutlined />}>Click to upload(max: 1)</Button>
+                            <Button icon={<UploadOutlined />}>{intl.formatMessage({id: 'btn.clickToUploadVid'})}</Button>
                         </Upload>
                     </Form.Item>}
-                    <Form.Item wrapperCol={{ offset: 6, span: 14 }}><Button type="primary" htmlType="submit" disabled={uploading ? true : false}>Submit</Button></Form.Item>
+                    <Form.Item wrapperCol={{ offset: 6, span: 14 }}><Button type="primary" htmlType="submit" disabled={uploading ? true : false}>{intl.formatMessage({id: 'btn.post'})}</Button></Form.Item>
                 </Form>
             </div>
         </div >

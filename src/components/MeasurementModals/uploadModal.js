@@ -9,8 +9,10 @@ import { loginSuccess } from '../../redux/userSlice';
 import { calculateBMI } from '../../utils/BMICalculate';
 import SIZE from '../../constants/SIZE';
 import COLORS from '../../constants/COLORS';
+import { useIntl } from 'react-intl';
 
 const UploadMeasurementModal = ({ visible, setVisible }) => {
+    const intl = useIntl()
     const { latestMeasurement } = useMeasurement()
     const [height, setHeight] = useState()
     const [weight, setWeight] = useState();
@@ -63,11 +65,11 @@ const UploadMeasurementModal = ({ visible, setVisible }) => {
                     dispatch(setMeasurements(res.updatedMeasurements))
                     dispatch(loginSuccess(res.user))
                 } else {
-                    message.error("出现异常请稍后重试")
+                    message.error(intl.formatMessage({ id: 'error.errorMsg' }))
                 }
             })
         } else {
-            message.error("请输入完成信息")
+            message.error(intl.formatMessage({ id: 'error.incompleteInput' }))
         }
     }
     useEffect(() => {
@@ -80,7 +82,7 @@ const UploadMeasurementModal = ({ visible, setVisible }) => {
     const dispatch = useDispatch()
     return (
         <Modal
-            title={"记录身体数据"}
+            title={intl.formatMessage({ id: 'app.stats.title.recordMetric' })}
             open={visible}
             onOk={() => setVisible(false)}
             onCancel={() => setVisible(false)}
@@ -88,15 +90,15 @@ const UploadMeasurementModal = ({ visible, setVisible }) => {
         >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
-                    <div style={{ width: 100 }}>体重(kg)</div>
+                    <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.wtUnit' })}</div>
                     <div style={{}}><InputNumber style={{ width: 200 }} defaultValue={weight} min={30} max={200} step={0.01} onChange={handleInputWeight} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
-                    <div style={{ width: 100 }}>身高(cm)</div>
+                    <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.htUnit' })}</div>
                     <div style={{}}><InputNumber style={{ width: 200 }} defaultValue={height} min={80} max={300} step={0.01} onChange={handleInputHeight} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
-                    <div style={{ width: 100 }}>体脂率(%)</div>
+                    <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.bfrUnit' })}</div>
                     <div style={{}}><InputNumber style={{ width: 200 }} defaultValue={fatRate} min={2} max={50} step={0.01} onChange={handleInputFatRate} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
@@ -105,10 +107,10 @@ const UploadMeasurementModal = ({ visible, setVisible }) => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
                     <div onClick={handleSaveMeasurement} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.white, backgroundColor: COLORS.primary }}>
-                        保存
+                        {intl.formatMessage({ id: 'btn.save' })}
                     </div>
                     <div onClick={() => setVisible(false)} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.commentText }}>
-                        取消
+                        {intl.formatMessage({ id: 'btn.cancel' })}
                     </div>
                 </div>
 

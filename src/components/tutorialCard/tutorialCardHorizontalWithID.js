@@ -9,8 +9,11 @@ import { loginSuccess } from '../../redux/userSlice'
 import { setSessions } from '../../redux/SessionSlice'
 import { createsession } from '../../api/session.api'
 import { getspecifictutorial } from '../../api/tutorial.api'
+import { useIntl } from 'react-intl'  
 import useUserLocale from '../../hooks/useUserLocale'
+
 export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar }) {
+  const intl = useIntl()
   const userLocale = useUserLocale()
   const [tutorial, setTutorial] = useState({})
   const getTutorial = async () => {
@@ -36,7 +39,7 @@ export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar 
   const dispatch = useDispatch()
   const handleAddToCalendar = async () => {
     if (isTodayHasAlr) {
-      message.error("今日已有这个训练了")
+      message.error(intl.formatMessage({id: 'error.tut.added'}))
     } else {
       const newSession = {
         date: new Date(userSelectDay),
@@ -44,7 +47,7 @@ export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar 
       }
       await createsession(newSession).then(res => {
         if (res.status === false) {
-          message.error("出现异常, 请稍后再试")
+          message.error(intl.formatMessage({id: 'error.errorMsg'}))
         } else {
           dispatch(loginSuccess(res.user))
           dispatch(setSessions(res.updatedSessions))
@@ -72,8 +75,10 @@ export default function TutorialCardHorizontalWithID({ tutorialID, withCalendar 
           <img style={{ maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'cover' }} src={cover} />
         </span>
         <div className='TutorialCardHorizontal-desc'>
+          {/* <div className='TutorialCardHorizontal-desc-title'>{name}</div> */}
+          <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}{intl.formatMessage({id: 'app.tut.timeUnit'})} - {lowerEstimateColorie}~{higherEstimateColorie}{intl.formatMessage({id: 'app.tut.calUnit'})}</div>
           <div className='TutorialCardHorizontal-desc-title'>{userLocale === "zh" ? zh_name : name}</div>
-          <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {lowerEstimateColorie}~{higherEstimateColorie}千卡</div>
+          {/* <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {lowerEstimateColorie}~{higherEstimateColorie}千卡</div> */}
         </div>
       </div>
       {

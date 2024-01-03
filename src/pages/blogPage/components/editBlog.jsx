@@ -6,6 +6,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from 'react-redux'
 import CardTitle from '../../../components/CardTitle'
 import { updateblog } from '../../../api/user.api';
+import { useIntl } from 'react-intl';
 const { TextArea } = Input;
 
 const normFile = (e) => {
@@ -14,9 +15,10 @@ const normFile = (e) => {
     }
     return e?.fileList;
 };
-const options = [{ value: 'fit', label: 'fit' }, { value: 'eat', label: 'eat' }, { value: 'daily life', label: 'daily life' }];
+const options = (formatMessage) => [{ value: 'fit', label: formatMessage({id: 'app.blog.label.tag.fit'}) }, { value: 'eat', label: formatMessage({id: 'app.blog.label.tag.eat'}) }, { value: 'daily life', label: formatMessage({id: 'app.blog.label.tag.dailyLife'}) }];
 
 export default function EditBlog({ selectedBlog, setModalOpen }) {
+    const intl = useIntl()
     const [BlogID, setBlogID] = useState(selectedBlog._id)
     const formRef = React.useRef(null);
     const { currentTheme } = useSelector((state) => state.user)
@@ -195,26 +197,26 @@ export default function EditBlog({ selectedBlog, setModalOpen }) {
     const lightpostBox = currentTheme === 'light' ? 'postBox-light' : ''
     return (
         <div className='postBlog'>
-            <CardTitle title={'Edit your blog'} />
+            <CardTitle title={intl.formatMessage({id: 'app.blog.title.edit'})} />
             <div className={`postBox ${lightpostBox}`}>
                 <Form initialValues={selectedBlog} labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} layout="horizontal" style={{ width: '100%' }} onFinish={onFinish} ref={formRef} onFinishFailed={onFinishFailed}>
-                    <Form.Item name="title" label="Title" rules={[{ required: true }]}><Input /></Form.Item>
-                    <Form.Item name="content" label="Content" rules={[{ required: true }]}><TextArea rows={3} /></Form.Item>
-                    <Form.Item name="tags" label="Tags" rules={[{ required: true }]}><Select mode="tags" style={{ width: '100%' }} placeholder="Tags Mode" options={options} /></Form.Item>
-                    <Form.Item name="blogType" label="Type" rules={[{ required: true }]}>
-                        <Radio.Group optionType="button" defaultValue={blogType} onChange={({ target: { value } }) => setBlogType(value)}><Radio value="text"> Text </Radio><Radio value="picture"> Picture </Radio><Radio value="video"> Video </Radio></Radio.Group>
+                    <Form.Item name="title" label={intl.formatMessage({id: 'app.blog.label.title'})} rules={[{ required: true }]}><Input /></Form.Item>
+                    <Form.Item name="content" label={intl.formatMessage({id: 'app.blog.label.content'})} rules={[{ required: true }]}><TextArea rows={3} /></Form.Item>
+                    <Form.Item name="tags" label={intl.formatMessage({id: 'app.blog.label.tag'})} rules={[{ required: true }]}><Select mode="tags" style={{ width: '100%' }} placeholder={intl.formatMessage({id: 'app.blog.label.tag.tagMode'})} options={options(intl.formatMessage)} /></Form.Item>
+                    <Form.Item name="blogType" label={intl.formatMessage({id: 'app.blog.label.type'})} rules={[{ required: true }]}>
+                        <Radio.Group optionType="button" defaultValue={blogType} onChange={({ target: { value } }) => setBlogType(value)}><Radio value="text"> {intl.formatMessage({id: 'app.blog.label.type.text'})} </Radio><Radio value="picture"> {intl.formatMessage({id: 'app.blog.label.type.pic'})} </Radio><Radio value="video"> {intl.formatMessage({id: 'app.blog.label.type.video'})} </Radio></Radio.Group>
                     </Form.Item>
-                    {blogType === 'picture' && <Form.Item label="Picture" valuePropName="fileList" getValueFromEvent={normFile}>
+                    {blogType === 'picture' && <Form.Item label={intl.formatMessage({id: 'app.blog.label.pic'})} valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={9} {...propsImage}>
-                            <Button icon={<UploadOutlined />}>Click to upload(max: 9)</Button>
+                            <Button icon={<UploadOutlined />}>{intl.formatMessage({id: 'btn.clickToUploadPic'})}</Button>
                         </Upload>
                     </Form.Item>}
-                    {blogType === 'video' && <Form.Item label="Video" valuePropName="fileList" getValueFromEvent={normFile}>
+                    {blogType === 'video' && <Form.Item label={intl.formatMessage({id: 'app.blog.label.vid'})} valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload name="video" customRequest={submitVideoToFirebase} maxCount={1} {...propsVideo}>
-                            <Button icon={<UploadOutlined />}>Click to upload(max: 1)</Button>
+                            <Button icon={<UploadOutlined />}>{intl.formatMessage({id: 'btn.clickToUploadVid'})}</Button>
                         </Upload>
                     </Form.Item>}
-                    <Form.Item wrapperCol={{ offset: 6, span: 14 }}><Button type="primary" htmlType="submit" disabled={uploading ? true : false}>Submit</Button></Form.Item>
+                    <Form.Item wrapperCol={{ offset: 6, span: 14 }}><Button type="primary" htmlType="submit" disabled={uploading ? true : false}>{intl.formatMessage({id: 'btn.save'})}</Button></Form.Item>
                 </Form>
             </div>
         </div >
