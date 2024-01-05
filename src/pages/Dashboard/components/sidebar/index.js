@@ -58,23 +58,20 @@ export default function Sidebar() {
             <Icon />
         </div>
     }
-    // const [userSelectTheme, setUserSelectTheme] = useState()
-    // const handleUpdate = async () => {
-    //     if (userSelectTheme) {
-    //         let handledItems = { preferedTheme: "dark" }
-    //         await updateuserinfo(currentUser._id, handledItems)
-    //             .then((res) => {
-    //                 if (res.status !== false) {
-    //                     dispatch(loginSuccess(res))
-    //                 } else {
-    //                     message.error("出现异常请稍后重试")
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 message.error("出现异常请稍后重试")
-    //             })
-    //     }
-    // }
+    const handleUpdate = async (theme) => {
+        let handledItems = { preferedTheme: theme }
+        await updateuserinfo(currentUser._id, handledItems)
+            .then((res) => {
+                if (res && res.status !== false) {
+                    dispatch(loginSuccess(res))
+                } else {
+                    message.error("出现异常请稍后重试")
+                }
+            })
+            .catch(error => {
+                message.error("出现异常请稍后重试")
+            })
+    }
     return (
         <div className={`sidebar`} style={{ backgroundColor: THEME.contentColor }}>
             <div className='content'>
@@ -92,12 +89,9 @@ export default function Sidebar() {
                         content={
                             <div>
                                 {formatMessage({ id: 'app.dashboard.lightmode' })} &nbsp;
-                                {currentTheme === 'light' ? <Switch defaultChecked onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>
-                                    : <Switch onChange={(checked) => dispatch(setTheme(checked ? 'light' : 'dark'))}></Switch>}
+                                {currentTheme === 'light' ? <Switch defaultChecked onChange={(checked) => handleUpdate(checked ? 'light' : 'dark')}></Switch>
+                                    : <Switch onChange={(checked) => handleUpdate(checked ? 'light' : 'dark')}></Switch>}
                                 <br />
-                                {/* <Segmented
-                                    options={['light', 'dark']}
-                                /> */}
                                 <Popconfirm
                                     title="Attention"
                                     description="Are you sure to logout?"

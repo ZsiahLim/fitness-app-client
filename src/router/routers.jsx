@@ -81,7 +81,6 @@ export default function MyRouter() {
                                 {
                                     path: "specific/:conversationID",
                                     element: <ConversationDetail />,
-                                    // loader: async ({ params }) => await getuser(params.conversationID)
                                 },
                             ]
                         },

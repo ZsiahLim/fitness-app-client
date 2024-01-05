@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux'
-import CardTitle from '../../components/CardTitle'
 import './index.less'
 import { Avatar, Progress } from 'antd'
 import { LeftOutlined, RightOutlined, UserOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { secToMin } from '../../utils/funcs'
-import { formatTimeForChartSoloItem, formatTimeToChineseDetail } from '../../utils/formatTime'
+import { formatTimeToChineseDetail } from '../../utils/formatTime'
 import PIC from '../../constants/PIC'
 import COLORS from '../../constants/COLORS'
 import EXERCISETYPE from '../../constants/EXERCISETYPE'
@@ -41,15 +40,15 @@ export default function FinishExercise() {
                         </div> :
                             <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
                                 <div style={{ width: 260, margin: '10px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                                    {step && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                    {step && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: COLORS.white }}>
                                         <StepTitle />
                                         <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.primary }}>{step}</div>
                                     </div>}
-                                    {distance && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                    {distance && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: COLORS.white }}>
                                         <DistanceTitle />
                                         <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.primary }}>{distance.toFixed(0)}m</div>
                                     </div>}
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: THEME.contentColor }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: 10, borderRadius: 10, backgroundColor: COLORS.white }}>
                                         <DurationTitle />
                                         <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.purple }}>{secToMin(exerciseDuration)}</div>
                                     </div>

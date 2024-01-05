@@ -41,6 +41,7 @@ export default function RightSidebar() {
             </div>
             <div className='rightSidebar-Schedule'>
                 <TodayTodo selectDay={selectDay} />
+                <Divider />
                 <MyExerciseCard />
                 <RecommandTutorials />
                 <NavigateToPlanPage />
