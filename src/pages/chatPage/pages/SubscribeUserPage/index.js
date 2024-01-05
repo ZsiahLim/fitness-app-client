@@ -32,11 +32,11 @@ function SubscribeUserPage() {
                     // setSearchText('')
                     setSearchedUsers(res)
                 } else {
-                    message.error(intl.formatMessage({id: 'error.errorMsg'}))
+                    message.error(intl.formatMessage({ id: 'error.errorMsg' }))
                 }
             })
         } else {
-            message.error(intl.formatMessage({id: 'error.searchFailed'}))
+            message.error(intl.formatMessage({ id: 'error.searchFailed' }))
         }
     }
     useEffect(() => {
@@ -50,7 +50,7 @@ function SubscribeUserPage() {
                 <div className="chat-contentBox-leftBar-header">
                     <div className="chat-contentBox-leftBar-header-title">
                         <div>
-                            {intl.formatMessage({id: 'app.cmty.title.search'})}
+                            {intl.formatMessage({ id: 'app.cmty.title.search' })}
                         </div>
                         <div
                             style={{ display: 'flex', alignItems: 'center', padding: '10px 4px', gap: 10, backgroundColor: currentTheme.backgroundColor, borderRadius: 14 }}
@@ -58,8 +58,9 @@ function SubscribeUserPage() {
                             <Input
                                 onKeyDown={(event) => { event.key === 'Enter' && handleSearchUser() }}
                                 onChange={(e) => setSearchText(e.target.value)}
-                                placeholder={intl.formatMessage({id: 'app.cmty.field.search'})}
+                                placeholder={intl.formatMessage({ id: 'app.cmty.field.search' })}
                                 bordered={false}
+                                autoFocus={true}
                             />
                             <div className='searchIcon' onClick={handleSearchUser} style={{ display: 'flex', alignItems: 'center' }}><SearchOutlined style={{ color: COLORS.primary, fontSize: 18 }} /></div>
                         </div>

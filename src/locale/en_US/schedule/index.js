@@ -11,7 +11,7 @@ export const enUS_schedule = {
 
     'app.skd.label.incomplete': 'Incompleted',
     'app.skd.label.complete': 'Completed',
-    'app.skd.completionPercentage': 'Completion Precentage',
+    'app.skd.completionPercentage': 'Completion Percentage',
     'app.skd.left': 'Remain',
     'app.skd.noSkdPt2': ' bellow recommanded tutorial for you',
     'app.skd.restDayWarn': 'Add some rest day in to your schedule and training progressively can gradually improve workout effectiveness.',

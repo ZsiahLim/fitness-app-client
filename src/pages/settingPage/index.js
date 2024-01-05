@@ -41,9 +41,9 @@ export default function SettingPage() {
                     <ProfileCard />
                     <ExerciseAndBodyMatric />
                     <MyExerciseCard />
-                    <Card type={cardType.blog} title={intl.formatMessage({id: 'app.prf.title.Blog'})} unitDescription={intl.formatMessage({id: 'app.prf.blogUnit'})}
-                        LeftIcon={() => <StarOutlined style={{ fontSize: 36, color: COLORS.white }} />} leftTitle={intl.formatMessage({id: 'app.prf.label.favouriteBlog'})} leftValue={favoriteBlogs.length}
-                        RightIcon={() => <LikeOutlined style={{ fontSize: 36, color: COLORS.white }} />} rightTitle={intl.formatMessage({id: 'app.prf.label.likedBlog'})} rightValue={likeBlogs.length}
+                    <Card type={cardType.blog} title={intl.formatMessage({ id: 'app.prf.title.Blog' })} unitDescription={intl.formatMessage({ id: 'app.prf.blogUnit' })}
+                        LeftIcon={() => <StarOutlined style={{ fontSize: 36, color: COLORS.white }} />} leftTitle={intl.formatMessage({ id: 'app.prf.label.favouriteBlog' })} leftValue={favoriteBlogs.length}
+                        RightIcon={() => <LikeOutlined style={{ fontSize: 36, color: COLORS.white }} />} rightTitle={intl.formatMessage({ id: 'app.prf.label.likedBlog' })} rightValue={likeBlogs.length}
                     />
                 </div>
             </div>
@@ -63,32 +63,32 @@ const ExerciseAndBodyMatric = () => {
     return <div style={{ flex: 1, gap: SIZE.NormalMargin, display: 'flex', flexDirection: 'row', backgroundColor: THEME.backgroundColor, borderRadius: SIZE.CardBorderRadius, padding: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
         <div style={{ flex: 1, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, }}>
             <div style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>{intl.formatMessage({id: 'app.prf.label.summary'})}</div>
+                <div>{intl.formatMessage({ id: 'app.prf.label.summary' })}</div>
                 <div className='buttonHover' onClick={() => navigateTo('/statistics')}>
                     <RightOutlined />
                 </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', }}>
                 <div style={{ fontWeight: 'bold', fontSize: 20 }}>{secToSpecificMin(durationSum)}</div>
-                <div style={{ fontSize: 14, }}>{intl.formatMessage({id: 'app.prf.label.summary.timeUnit'})}</div>
+                <div style={{ fontSize: 14, }}>{intl.formatMessage({ id: 'app.prf.label.summary.timeUnit' })}</div>
             </div>
             <div style={{ color: COLORS.commentText, fontSize: 14 }}>
-                {intl.formatMessage({id: 'app.prf.label.summary.consumption'})}{calorieSum ? calorieSum.toFixed(0) : 0}({tutorialCalorieSum ? tutorialCalorieSum : 0}){intl.formatMessage({id: 'app.prf.label.summary.calUnit'})}
+                {intl.formatMessage({ id: 'app.prf.label.summary.consumption' })}{calorieSum ? calorieSum.toFixed(0) : 0}({tutorialCalorieSum ? tutorialCalorieSum : 0}){intl.formatMessage({ id: 'app.prf.label.summary.calUnit' })}
             </div>
         </div>
         <div style={{ flex: 1, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, }}>
             <div style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>{intl.formatMessage({id: 'app.prf.label.wt'})}</div>
+                <div>{intl.formatMessage({ id: 'app.prf.label.wt' })}</div>
                 <div className='buttonHover' onClick={() => navigateTo('/statistics')}>
                     <RightOutlined />
                 </div>
             </div>
             {latestMeasurement?.weight && <div style={{ display: 'flex', alignItems: 'baseline', }}>
                 <div style={{ fontWeight: 'bold', fontSize: 20 }}>{latestMeasurement.weight}</div>
-                <div style={{ fontSize: 14, }}>{intl.formatMessage({id: 'app.prf.label.wt.wtUnit'})}</div>
+                <div style={{ fontSize: 14, }}>{intl.formatMessage({ id: 'app.prf.label.wt.wtUnit' })}</div>
             </div>}
             {latestMeasurement?.date && <div style={{ color: COLORS.commentText, fontSize: 14 }}>
-                {intl.formatMessage({id: 'app.prf.label.wt.recorder'})}{formatTimeForChartSoloItem(new Date(latestMeasurement.date))}
+                {intl.formatMessage({ id: 'app.prf.label.wt.recorder' })}{formatTimeForChartSoloItem(new Date(latestMeasurement.date))}
             </div>}
         </div>
     </div >
@@ -107,7 +107,7 @@ export const Card = ({ type, title, unitDescription, LeftIcon, leftTitle, leftVa
             <div style={{ flex: 1, display: 'flex', gap: SIZE.NormalMargin, backgroundColor: THEME.contentColor, borderRadius: SIZE.CardBorderRadius }}>
                 <div onClick={() => type === cardType.blog && navigateTo('/blog/my')} className='buttonHover' style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: SIZE.NormalMargin }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ padding: SIZE.LargerMargin, borderRadius: SIZE.CardBorderRadius, backgroundColor: COLORS.primary }}>
+                        <div style={{ padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, backgroundColor: COLORS.primary }}>
                             <LeftIcon />
                         </div>
                     </div>
@@ -118,7 +118,7 @@ export const Card = ({ type, title, unitDescription, LeftIcon, leftTitle, leftVa
                 </div>
                 <div onClick={() => type === cardType.blog && navigateTo('/blog/my')} className='buttonHover' style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: SIZE.NormalMargin }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ padding: SIZE.LargerMargin, borderRadius: SIZE.CardBorderRadius, backgroundColor: COLORS.commentText }}>
+                        <div style={{ padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, backgroundColor: COLORS.commentText }}>
                             <RightIcon />
                         </div>
                     </div>
