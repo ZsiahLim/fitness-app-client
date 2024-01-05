@@ -20,11 +20,11 @@ export default function Percentage({ currentValue, targetValue }) {
         }
     }, [currentValue, targetValue])
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: currentTheme.backgroundColor, padding: 10, borderRadius: 10, margin: " 10px 0" }}>
-            <div style={{ color: currentTheme.fontColor, }}>{intl.formatMessage({id: 'app.skd.completionPercentage'})}</div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(to right, rgb(134, 162, 242), rgb(100, 134, 240))', padding: 10, borderRadius: 10, margin: " 10px 0" }}>
+            <div style={{ color: COLORS.white, fontSize: 22, fontWeight: 'bold' }}>{intl.formatMessage({ id: 'app.skd.completionPercentage' })}</div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ fontSize: 16, fontWeight: 'bold', color: currentTheme.fontColor }}>{percentage * 100}%</div>
-                <div style={{ fontSize: 12, color: currentTheme.fontColor }}>{intl.formatMessage({id: 'app.skd.left'})}({targetValue - currentValue}/{targetValue})</div>
+                <div style={{ fontSize: 16, fontWeight: 'bold', color: COLORS.white }}>{percentage * 100}%</div>
+                <div style={{ fontSize: 12, color: COLORS.white }}>{intl.formatMessage({ id: 'app.skd.left' })}({targetValue - currentValue}/{targetValue})</div>
             </div>
             <div style={{ height: '10px', width: '100%', backgroundColor: COLORS.white, borderRadius: '5px' }}>
                 <div style={{

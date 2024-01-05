@@ -9,10 +9,6 @@ import PIC from '../../constants/PIC'
 import COLORS from '../../constants/COLORS'
 import EXERCISETYPE from '../../constants/EXERCISETYPE'
 import { useIntl } from 'react-intl'
-
-// const scoreArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-// export default function FinishExercise() {
-//     const intl = useIntl()
 import useUserLocale from '../../hooks/useUserLocale'
 import StepTitle from '../../components/ExerciseStatisItems/Step'
 import DistanceTitle from '../../components/ExerciseStatisItems/Distance'
@@ -20,7 +16,6 @@ import useUserTheme from '../../hooks/useUserTheme'
 import APPTHEME from '../../constants/COLORS/APPTHEME'
 import DurationTitle from '../../components/ExerciseStatisItems/Duration'
 
-// const scoreArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export default function FinishExercise() {
     const intl = useIntl()
     const userLocale = useUserLocale()
@@ -34,7 +29,7 @@ export default function FinishExercise() {
         <div className='finishExercise'>
             <div className='finishExercise-backBtn' onClick={() => navigateTo(-1)}><LeftOutlined /></div>
             <div className='finishExercisePage'>
-                <div className="finishExercisePage-title">{intl.formatMessage({id: 'app.ex.congrats'})}</div>
+                <div className="finishExercisePage-title">{intl.formatMessage({ id: 'app.ex.congrats' })}</div>
                 <div className="finishExercisePage-mainStatistics">
                     <div className="finishExercisePage-mainStatistics-avator">
                         <Avatar src={currentUser.avator} size={36} icon={<UserOutlined />} /> {currentUser.name}
@@ -42,7 +37,7 @@ export default function FinishExercise() {
                     <div className="finishExercisePage-mainStatistics-showContent">
                         {(tutorial.name !== "Run" && tutorial.name !== "Walk") ? <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
                             <Progress type="dashboard" percent={100} format={() => calorieConsumption} strokeColor={'#ed7276'} strokeWidth={16} />
-                            <div className='commentText'>{intl.formatMessage({id: 'app.ex.calEst'})}</div>
+                            <div className='commentText'>{intl.formatMessage({ id: 'app.ex.calEst' })}</div>
                         </div> :
                             <div className="finishExercisePage-mainStatistics-showContent-colorieChart">
                                 <div style={{ width: 260, margin: '10px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -63,7 +58,7 @@ export default function FinishExercise() {
                         }
                         <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail">
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                {tutorial.level && <div className="commentText">{tutorial.level} - {tutorial.duration}{intl.formatMessage({id: 'app.ex.timeUnit'})}</div>}
+                                {tutorial.level && <div className="commentText">{tutorial.level} - {tutorial.duration}{intl.formatMessage({ id: 'app.ex.timeUnit' })}</div>}
                                 <div style={{ color: COLORS.primary, fontSize: 22, fontWeight: 'bold' }}>
                                     {userLocale === "zh" ? tutorial?.zh_name : tutorial.name}
                                 </div>
@@ -74,11 +69,11 @@ export default function FinishExercise() {
                                 <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.purple }}>{secToMin(exerciseDuration)}</div>
                             </div>}
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">{intl.formatMessage({id: 'app.ex.startTime'})}</div>
+                                <div className="commentText">{intl.formatMessage({ id: 'app.ex.startTime' })}</div>
                                 <div className="">{formatTimeToChineseDetail(startTime)}</div>
                             </div>
                             <div className="finishExercisePage-mainStatistics-showContent-exerciseDetail-item">
-                                <div className="commentText">{intl.formatMessage({id: 'app.ex.endTime'})}</div>
+                                <div className="commentText">{intl.formatMessage({ id: 'app.ex.endTime' })}</div>
                                 <div className="">{formatTimeToChineseDetail(endTime)}</div>
                             </div>
                         </div>
@@ -116,7 +111,7 @@ export default function FinishExercise() {
                             <img style={{ maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'cover' }} src={PIC.cooldown} />
                         </span>
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <div style={{ fontWeight: 'bold', color: COLORS.commentText }}>{intl.formatMessage({id: 'app.ex.msg.coolDown'})}</div>
+                            <div style={{ fontWeight: 'bold', color: COLORS.commentText }}>{intl.formatMessage({ id: 'app.ex.msg.coolDown' })}</div>
                             <RightOutlined style={{ color: COLORS.commentText }} />
                         </div>
                     </div>
