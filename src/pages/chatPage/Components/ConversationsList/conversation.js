@@ -8,8 +8,10 @@ import './index.less'
 import { useLocation } from 'react-router-dom';
 import { getspecificconversationunreadnum, getuser } from '../../../../api/user.api';
 import COLORS from '../../../../constants/COLORS';
+import { useIntl } from 'react-intl';
 
 export default function Conversation(props) {
+    const intl = useIntl()
     const { conversation, currentUserId } = props
     const contactIndex = conversation.members.indexOf(currentUserId) === 1 ? 0 : 1
     const contactID = conversation.members[contactIndex]
@@ -67,7 +69,7 @@ export default function Conversation(props) {
                 <div className='topInfo'>
                     <div className='userName' style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <div>{contact && contact.name}</div>
-                        {!alreadySubscribed && <div style={{ fontSize: 10, color: COLORS.commentText }}>[未关注]</div>}
+                        {!alreadySubscribed && <div style={{ fontSize: 10, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.cmty.label.unsub'})}</div>}
                     </div>
                     <span className='date'>{formatDateTime(conversation.updatedAt)}</span>
                 </div>

@@ -18,7 +18,10 @@ import EXERCISETYPE from '../../constants/EXERCISETYPE'
 import useUserTheme from '../../hooks/useUserTheme'
 import APPTHEME from '../../constants/COLORS/APPTHEME'
 import SIZE from '../../constants/SIZE'
+import { useIntl } from 'react-intl'
+
 export default function TutorialPage() {
+    const intl = useIntl()
     const { type } = useParams()
     const theme = useUserTheme()
     const navigateTo = useNavigate()
@@ -35,53 +38,53 @@ export default function TutorialPage() {
         <div className={`tutorialPage ${lightTutorialPageClassname}`}>
             <div className='tutorialItems'>
                 <div onClick={() => {
-                    setSelectedPage("All")
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.all'}))
                     navigateTo('/tutorial')
                 }}>
                     <div className='tutorialItem'>
                         <div className='TutorialIcon'><FolderOpenOutlined style={{ fontSize: 30, color: COLORS.white }} /></div>
-                        <div className='TutorialTitle'>All</div>
+                        <div className='TutorialTitle'>{intl.formatMessage({id: 'app.tut.label.all'})}</div>
                     </div>
                 </div>
                 <div onClick={() => {
-                    setSelectedPage("Recommand")
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.recommand'}))
                     navigateTo(`/tutorial/recommand`)
                 }}>
                     <div className='tutorialItem'>
                         <div className='TutorialIcon'>
                             <StarOutlined style={{ fontSize: 30, color: COLORS.white }} />
                         </div>
-                        <div className='TutorialTitle'>Recommand</div>
+                        <div className='TutorialTitle'>{intl.formatMessage({id: 'app.tut.label.recommand'})}</div>
                     </div>
                 </div>
                 <div onClick={() => {
-                    setSelectedPage(EXERCISETYPE.yoga.label)
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.yoga'}))
                     navigateTo(`/tutorial/${EXERCISETYPE.yoga.value}`)
-                }}><TutorialItem tutorial={{ title: "Yoga", icon: yoga }} /></div>
+                }}><TutorialItem tutorial={{ title: intl.formatMessage({id: 'app.tut.label.yoga'}), icon: yoga }} /></div>
                 {/* <div onClick={() => {
                     setSelectedPage(EXERCISETYPE.rope.label)
                     navigateTo(`/tutorial/${EXERCISETYPE.rope.value}`)
                 }}><TutorialItem tutorial={{ title: "Jump rope", icon: rope }} /></div> */}
                 <div onClick={() => {
-                    setSelectedPage(EXERCISETYPE.burning.label)
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.fatBurn'}))
                     navigateTo(`/tutorial/${EXERCISETYPE.burning.value}`)
-                }}><TutorialItem tutorial={{ title: "Fat burning", icon: loseweight }} /></div>
+                }}><TutorialItem tutorial={{ title: intl.formatMessage({id: 'app.tut.label.fatBurn'}), icon: loseweight }} /></div>
                 <div onClick={() => {
-                    setSelectedPage(EXERCISETYPE.spinning.label)
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.cycling'}))
                     navigateTo(`/tutorial/${EXERCISETYPE.spinning.value}`)
-                }}><TutorialItem tutorial={{ title: "Cycling", icon: cycling }} /></div>
+                }}><TutorialItem tutorial={{ title: intl.formatMessage({id: 'app.tut.label.cycling'}), icon: cycling }} /></div>
                 <div onClick={() => {
-                    setSelectedPage(EXERCISETYPE.strength.label)
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.strength'}))
                     navigateTo(`/tutorial/${EXERCISETYPE.strength.value}`)
-                }}><TutorialItem tutorial={{ title: "Strength", icon: strength }} /></div>
+                }}><TutorialItem tutorial={{ title: intl.formatMessage({id: 'app.tut.label.strength'}), icon: strength }} /></div>
                 <div onClick={() => {
-                    setSelectedPage(EXERCISETYPE.warmup.label)
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.warmUp'}))
                     navigateTo(`/tutorial/${EXERCISETYPE.warmup.value}`)
-                }}><TutorialItem tutorial={{ title: EXERCISETYPE.warmup.label, icon: stretching }} /></div>
+                }}><TutorialItem tutorial={{ title: intl.formatMessage({id: 'app.tut.label.warmUp'}), icon: stretching }} /></div>
                 <div onClick={() => {
-                    setSelectedPage(EXERCISETYPE.cooldown.label)
+                    setSelectedPage(intl.formatMessage({id: 'app.tut.label.coolDown'}))
                     navigateTo(`/tutorial/${EXERCISETYPE.cooldown.value}`)
-                }}><TutorialItem tutorial={{ title: EXERCISETYPE.cooldown.label, icon: relax }} /></div>
+                }}><TutorialItem tutorial={{ title: intl.formatMessage({id: 'app.tut.label.coolDown'}), icon: relax }} /></div>
             </div>
             <div className='tutorialContent'>
                 <div className='tutorialRecommand'>
@@ -94,10 +97,10 @@ export default function TutorialPage() {
                             <div style={{ width: 500, height: 400, borderRadius: SIZE.CardBorderExtraRadius, padding: SIZE.LargerMargin, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: THEME.contentColor }}>
                                 <Empty description={false} />
                                 <div>
-                                    暂时无法根据您的需求生成推荐
+                                    {intl.formatMessage({id: 'app.tut.msg.noRecommand'})}
                                 </div>
                                 <div onClick={() => navigateTo('/evaluate')} className='buttonHover' style={{ backgroundColor: COLORS.primary, color: COLORS.white, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, marginTop: SIZE.NormalMargin }}>
-                                    评估你的健康水平来个性化内容<RightOutlined />
+                                    {intl.formatMessage({id: 'btn.assessment'})}<RightOutlined />
                                 </div>
                             </div>
                         </div>

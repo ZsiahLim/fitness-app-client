@@ -3,8 +3,12 @@ import './tutorialCardVertical.less'
 import { useSelector } from 'react-redux'
 import { CalendarFilled } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+// export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
+//   const intl = useIntl()
 import useUserLocale from '../../hooks/useUserLocale';
 export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
+  const intl = useIntl()
   const userLocale = useUserLocale()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigateTo = useNavigate()
@@ -43,7 +47,7 @@ export default function TutorialCardVertical({ tutorial, calcWaterfall }) {
         <img ref={imgRef} onLoad={() => calcWaterfall(4, 10)} src={cover} />
         <div className='tutorialCardVertical-cover-detail'>
           <div className='tutorialCardVertical-cover-detail-level'>{level}</div>
-          <div className='tutorialCardVertical-cover-detail-duration'>{duration}分钟</div>
+          <div className='tutorialCardVertical-cover-detail-duration'>{duration}{intl.formatMessage({id: 'app.tut.timeUnit'})}</div>
         </div>
       </div>
       <div className='tutorialCardVertical-bottom'>

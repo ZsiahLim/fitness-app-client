@@ -15,7 +15,9 @@ import SIZE from '../../constants/SIZE'
 import useUserTheme from '../../hooks/useUserTheme'
 import APPTHEME from '../../constants/COLORS/APPTHEME'
 import preference from '../../Pic/preference.png'
+
 export default function RecommandTutorials() {
+    const intl = useIntl()
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const [recommandTutorials, setRecommandTutorials] = useState([])
@@ -27,10 +29,10 @@ export default function RecommandTutorials() {
             if (res.status !== false) {
                 setRecommandTutorials(res)
             } else {
-                message.error("出现异常请稍后重试")
+                message.error(intl.formatMessage({id: 'error.errorMsg'}))
             }
         }).catch(err => {
-            message.error("出现异常请稍后重试")
+            message.error(intl.formatMessage({id: 'error.errorMsg'}))
         })
     }
     useEffect(() => {
@@ -61,13 +63,13 @@ export default function RecommandTutorials() {
                     {(recommandTutorials.length === 0 && currentUser?.personalPrefer && !isEmptyObj(currentUser?.personalPrefer)) && (
                         <div style={{ marginTop: SIZE.LargerMargin, flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 30, borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.backgroundColor }}>
                             <Empty description={false} />
-                            <div style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.commentText }}>抱歉我们无法找到满足适合您喜好的教程</div>
+                            <div style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.commentText }}>{intl.formatMessage({id: 'msg.noRecom'})}</div>
                         </div>
                     )}
                     {(recommandTutorials.length === 0 && (!currentUser?.personalPrefer || isEmptyObj(currentUser?.personalPrefer))) && (
                         <div style={{ marginTop: SIZE.LargerMargin, flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 30, borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.backgroundColor }}>
                             <Empty description={false} />
-                            <div style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.commentText }}>请做一下喜好问卷，来为您个性化推荐适合您喜好的教程</div>
+                            <div style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.commentText }}>{intl.formatMessage({id: 'msg.promoAssess'})}</div>
                         </div>
                     )}
                 </div>

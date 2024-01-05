@@ -6,7 +6,10 @@ import { UserOutlined, HeartTwoTone, HeartFilled, PlayCircleFilled } from '@ant-
 import { cancellikeblog, getuser, likeblog } from '../../../api/user.api'
 import BlogDetailModal from './blogDetailModal';
 import VideoJS from '../../../components/VideoJS'
+import { useIntl } from 'react-intl';
+
 export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calcWaterfall }) {
+    const intl = useIntl()
     const { userID, title, likesUsers, imgUrl, blogType, videoUrl, width, height } = blogInfo || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const blogRef = useRef(null)
@@ -52,7 +55,7 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
             .then(user => {
                 setUser(user)
             }).catch(error => {
-                message.error('failed to get user data')
+                message.error(intl.formatMessage({id: 'error.blog.failToGetUserData'}))
             })
     }
     useEffect(() => {
@@ -61,17 +64,17 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
     }, [])
     const handleLikeBlog = async (blogID) => {
         liked ? await cancellikeblog(blogID).then(() => {
-            message.success('cancer like blog successfully')
+            message.success(intl.formatMessage({id: 'app.blog.msg.cancelLike'}))
             setLikeNum(likedNum - 1)
             setLiked(false)
         }).catch((err) => {
             message.error('error happens')
         }) : await likeblog(blogID).then(() => {
-            message.success('like blog successfully')
+            message.success(intl.formatMessage({id: 'app.blog.msg.likeBlog'}))
             setLikeNum(likedNum + 1)
             setLiked(true)
         }).catch(() => {
-            message.error("error happens")
+            message.error(intl.formatMessage({id: 'error.errorHappens'}))
         })
     }
     const [isBlogOpen, setIsBlogOpen] = useState(false);

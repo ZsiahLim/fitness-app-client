@@ -11,6 +11,7 @@ import { updateuserinfo } from '../../../../api/user.api';
 import dayjs from 'dayjs';
 import COLORS from '../../../../constants/COLORS';
 import useCheckUserStatus from '../../../../hooks/useCheckUserStatus';
+import { useIntl } from 'react-intl';
 const { TextArea } = Input;
 
 const normFile = (e) => {
@@ -21,6 +22,7 @@ const normFile = (e) => {
 };
 
 export default function ProfileCard() {
+    const intl = useIntl()
     const { currentUser } = useSelector((state) => state.user)
     const { _id, name, personalStatus, age, preferedTheme, preferedLanguage, gender, avator, birthday, hpNum } = currentUser
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -29,7 +31,7 @@ export default function ProfileCard() {
     const handleEditOk = () => { setIsEditModalOpen(false); };
     const handleCancel = () => { setIsEditModalOpen(false); };
     const { isMuted, muteDate } = useCheckUserStatus()
-    const [updatedAvator, setUpdatedAvator] = useState([{ uid: 0, name: 'Avator', status: 'done', url: avator, thumbUrl: avator }])
+    const [updatedAvator, setUpdatedAvator] = useState([{ uid: 0, name: intl.formatMessage({id: 'app.prf.avatar'}), status: 'done', url: avator, thumbUrl: avator }])
     const propsImage = {
         onRemove: (file) => {
             const index = updatedAvator.indexOf(file);
@@ -43,7 +45,7 @@ export default function ProfileCard() {
                 updatedAvator.push({ ...file, name: file.name })
                 setUpdatedAvator(updatedAvator)
             } else {
-                message.error('u only can upload picture here')
+                message.error(intl.formatMessage({id: 'error.multiplePic'}))
                 return false
             }
         },
@@ -72,7 +74,7 @@ export default function ProfileCard() {
                 }
             },
                 (error) => {
-                    message.err('Some error happens')
+                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
                     updatedAvator.map(item => {
                         if (item.uid === file.uid) {
                             return { ...file, status: 'error' }
@@ -94,7 +96,7 @@ export default function ProfileCard() {
                 }
             );
         } else {
-            message.err('Some error happens')
+            message.err(intl.formatMessage({id: 'error.errorHappens'}))
             updatedAvator.map(item => {
                 if (item.uid === file.uid) {
                     return item = { ...file, status: 'error' }
@@ -114,14 +116,14 @@ export default function ProfileCard() {
                 .then((updatedUser) => {
                     dispatch(loginSuccess(updatedUser))
                     handleEditOk()
-                    message.success('updated successfully')
+                    message.success(intl.formatMessage({id: 'app.prf.updated'}))
                 })
         } catch (error) {
             console.log(error);
-            message.error('error')
+            message.error(intl.formatMessage({id: 'error.default'}))
         }
     }
-    const onFinishFailed = (errorInfo) => { message.error('Failed:', errorInfo) }
+    const onFinishFailed = (errorInfo) => { message.error(intl.formatMessage({id: 'error.failedTo'}), errorInfo) }
     return (
         <div className='profileCard'>
             <div style={{ display: 'flex' }}>
@@ -135,60 +137,60 @@ export default function ProfileCard() {
                         onClick={async () => {
                             try {
                                 await navigator.clipboard.writeText(_id)
-                                message.success('复制成功')
+                                message.success(intl.formatMessage({id: 'app.prf.IDCopied'}))
                             } catch (error) {
-                                console.error("复制失败")
+                                console.error(intl.formatMessage({id: 'app.prf.copyFailed'}))
                             }
                         }}
-                    >Copy</Button></div>
-                    {isMuted && <div>账号状态: 「禁言」禁言截止日期{muteDate}</div>}
+                    >{intl.formatMessage({id: 'btn.copy'})}</Button></div>
+                    {isMuted && <div>{intl.formatMessage({id: 'app.prf.accMuted'})}{muteDate}</div>}
                 </div>
             </div>
             <div className='Card-Edit'>
-                <Button onClick={showEditModal}><EditOutlined />&nbsp;&nbsp;Edit Profile</Button>
+                <Button onClick={showEditModal}><EditOutlined />&nbsp;&nbsp;{intl.formatMessage({id: 'btn.editProfile'})}</Button>
             </div>
-            <Modal title="Update your profile" open={isEditModalOpen} onOk={handleEditOk} onCancel={handleCancel} okText="Update" cancelText="Cancel" footer={null} width={600}>
+            <Modal title={intl.formatMessage({id: 'app.prf.title.updatePrf'})} open={isEditModalOpen} onOk={handleEditOk} onCancel={handleCancel} okText="Update" cancelText="Cancel" footer={null} width={600}>
                 <Form labelCol={{ span: 6, }} wrapperCol={{ span: 14, }} layout="horizontal" style={{ width: 600 }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-                    <Form.Item name="gender" label="Gender">
+                    <Form.Item name="gender" label={intl.formatMessage({id: 'app.prf.label.gender'})}>
                         <Radio.Group defaultValue={gender}>
-                            <Radio value="Male"> Male </Radio>
-                            <Radio value="Female"> Female </Radio>
+                            <Radio value="Male"> {intl.formatMessage({id: 'app.prf.edit.gender.Male'})} </Radio>
+                            <Radio value="Female"> {intl.formatMessage({id: 'app.prf.edit.gender.Female'})} </Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item name="name" label="User Name">
+                    <Form.Item name="name" label={intl.formatMessage({id: 'app.prf.label.userName'})}>
                         <Input defaultValue={name} />
                     </Form.Item>
-                    <Form.Item name="age" label="Age" >
+                    <Form.Item name="age" label={intl.formatMessage({id: 'app.prf.label.age'})} >
                         <InputNumber defaultValue={age} />
                     </Form.Item>
-                    <Form.Item name="personalStatus" label="Personal Status">
+                    <Form.Item name="personalStatus" label={intl.formatMessage({id: 'app.prf.label.bio'})}>
                         <TextArea defaultValue={personalStatus} rows={2} />
                     </Form.Item>
-                    <Form.Item name="preferedTheme" label="Pefered Theme">
+                    <Form.Item name="preferedTheme" label={intl.formatMessage({id: 'app.prf.label.theme'})}>
                         <Select defaultValue={preferedTheme}>
-                            <Select.Option value="dark">dark</Select.Option>
-                            <Select.Option value="light">light</Select.Option>
+                            <Select.Option value="dark">{intl.formatMessage({id: 'app.prf.edit.theme.dark'})}</Select.Option>
+                            <Select.Option value="light">{intl.formatMessage({id: 'app.prf.edit.theme.light'})}</Select.Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item name="preferedLanguage" label="Language">
+                    <Form.Item name="preferedLanguage" label={intl.formatMessage({id: 'app.prf.label.lang'})}>
                         <Select defaultValue={preferedLanguage}>
                             <Select.Option value="en_US">English</Select.Option>
                             <Select.Option value="zh_CN">中文</Select.Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item name="hpNum" label="Phone number">
+                    <Form.Item name="hpNum" label={intl.formatMessage({id: 'app.prf.label.hpNum'})}>
                         <Input defaultValue={hpNum} />
                     </Form.Item>
-                    <Form.Item name="birthday" label="Birthday">
+                    <Form.Item name="birthday" label={intl.formatMessage({id: 'app.prf.label.birthday'})}>
                         {birthday ? <DatePicker defaultValue={dayjs(birthday, 'YYYY-MM-DD')} /> : <DatePicker />}
                     </Form.Item>
-                    <Form.Item label="Avator" valuePropName="fileList" getValueFromEvent={normFile}>
+                    <Form.Item label={intl.formatMessage({id: 'app.prf.avatar'})} valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload name="image" listType="picture" customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>
-                            <Button icon={<UploadOutlined />}>upload your avator</Button>
+                            <Button icon={<UploadOutlined />}>{intl.formatMessage({id: 'btn.uploadAvatar'})}</Button>
                         </Upload>
                     </Form.Item>
                     <Button style={{ marginLeft: 400 }} type="primary" htmlType="submit">
-                        Update
+                        {intl.formatMessage({id: 'btn.update'})}
                     </Button>
                 </Form>
             </Modal>

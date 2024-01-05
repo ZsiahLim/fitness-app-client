@@ -1,0 +1,27 @@
+export const enUS_schedule = {
+    'app.ex.congrats': 'Workout Complete!🎉',
+    'app.ex.calEst': 'Estimated Burn(kcal)',
+    'app.ex.timeUnit': 'min',
+    'app.ex.step': 'Step',
+    'app.ex.dist': 'Distance(m)',
+    'app.ex.duration': 'Duration',
+    'app.ex.startTime': 'Start Time',
+    'app.ex.endTime': 'End Time',
+    'app.ex.msg.coolDown': 'Do cooldown exercise to relieve fatigue.',
+
+    'app.skd.label.incomplete': 'Incompleted',
+    'app.skd.label.complete': 'Completed',
+    'app.skd.completionPercentage': 'Completion Precentage',
+    'app.skd.left': 'Remain',
+    'app.skd.noSkdPt2': ' bellow recommanded tutorial for you',
+    'app.skd.restDayWarn': 'Add some rest day in to your schedule and training progressively can gradually improve workout effectiveness.',
+
+    'app.skd.planTemplate.day1': 'Day 1',
+    'app.skd.planTemplate.day1.workout': 'Warm-up',
+    'app.skd.planTemplate.day2': 'Day 2',
+    'app.skd.planTemplate.day2.workout': 'Energize',
+    'app.skd.planTemplate.day3': 'Day 3',
+    'app.skd.planTemplate.day3.workout': 'Functional Fitness',
+    'app.skd.planTemplate.day4': 'Day 4',
+    'app.skd.planTemplate.day4.workout': 'Rest',
+};

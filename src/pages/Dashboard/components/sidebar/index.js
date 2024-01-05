@@ -14,6 +14,7 @@ import ICON from '../../../../Pic/targetIcon.png'
 import { updateuserinfo } from '../../../../api/user.api';
 
 export default function Sidebar() {
+    const intl = useIntl()
     const currentTheme = useUserTheme()
     const THEME = APPTHEME[currentTheme]
     const { currentUser } = useSelector((state) => state.user)
@@ -93,11 +94,11 @@ export default function Sidebar() {
                                     : <Switch onChange={(checked) => handleUpdate(checked ? 'light' : 'dark')}></Switch>}
                                 <br />
                                 <Popconfirm
-                                    title="Attention"
-                                    description="Are you sure to logout?"
+                                    title={intl.formatMessage({id: 'app.dsh.sidebar.logoutTitle'})}
+                                    description={intl.formatMessage({id: 'app.dsh.sidebar.logoutWarn'})}
                                     onConfirm={Logout}
-                                    okText="Yes"
-                                    cancelText="No"
+                                    okText={intl.formatMessage({id: 'btn.yes'})}
+                                    cancelText={intl.formatMessage({id: 'btn.no'})}
                                 >
                                     <Button style={{ marginTop: 5 }} size='small' type="primary" danger>
                                         {formatMessage({ id: 'app.dashboard.logout' })}

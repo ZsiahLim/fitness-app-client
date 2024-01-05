@@ -23,4 +23,33 @@ export const zhCN_dashboard = {
     'evaluateLevel': '评估你的健康水平来个性化运动内容',
     'goplanpage': '去计划日历页',
     'recommandForU': '为你推荐',
+
+    'app.dsh.unit.step': '步',
+    'app.dsh.unit.cal': '千卡',
+    'app.dsh.unit.dist': '米',
+    'app.dsh.unit.duration': '分钟',
+
+    'app.dsh.sidebar.logoutTitle': '注意',
+    'app.dsh.sidebar.logoutWarn': '确认退出吗?',
+
+    'app.dsh.notification.noTodo': '还没有待办日程',
+
+    'app.dsh.title.systemDetails': '系统消息详情',
+    'app.dsh.title.blog': '博客',
+    'app.dsh.title.blogDetails': '博客详情',
+    'app.dsh.title.commentDetails': '评论详情',
+
+    'app.dsh.title.contact': '联系人',
+    'app.dsh.msg.noContacts': '还没有联系人',
+    
+    'app.dsh.title.measurements': '身体数据',
+    'app.dsh.msg.noMesurements': '还没有记录，添加记录跟踪你的体重身材变化吧',
+    'app.dsh.title.wt': '体重',
+    'app.dsh.unit.wt': '千克',
+    'app.dsh.title.bfr': '体脂率',
+    'app.dsh.title.ht': '身高',
+    'app.dsh.unit.ht': '厘米',
+    'app.dsh.recordSince': '记录于:',
+
+
 };

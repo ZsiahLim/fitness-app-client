@@ -68,13 +68,14 @@ export default function Index() {
         backgroundColor: ''
     };
     const [UploadMeasurementModalVisible, setUploadMeasurementModalVisible] = useState()
+    const intl = useIntl()
     return (
         <div className={"competition"}>
             <div className={`myCards`} style={{ backgroundColor: THEME.contentColor, padding: "10px 0" }}>
                 <div style={{ fontSize: 16, padding: "4px 10px", fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <img src={matric} style={{ height: 24, width: 24 }}></img>
-                        <div>Measurement</div>
+                        <div>{intl.formatMessage({id: 'app.dsh.title.measurements'})}</div>
                     </div>
                     <div onClick={() => setUploadMeasurementModalVisible(true)}>
                         <PlusOutlined />
@@ -85,14 +86,14 @@ export default function Index() {
                         style={{ marginTop: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', color: COLORS.commentText, padding: 10, borderRadius: 16, backgroundColor: THEME.backgroundColor }}
                     >
                         <Empty description={false} />
-                        还没有记录，添加记录跟踪你的体重身材变化吧
+                        {intl.formatMessage({id: 'app.dsh.msg.noMeasurements'})}
                     </div>}
                     {!isEmptyObj(latestMeasurement) && <div>
                         <div>
-                            <div style={{ fontSize: 12, color: COLORS.commentText }}>体重</div>
+                            <div style={{ fontSize: 12, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.dsh.title.wt'})}</div>
                             <div style={{ display: 'flex', alignItems: 'baseline' }}>
                                 <div style={{ fontWeight: 'bold', fontSize: 18 }}>{latestMeasurement.weight}</div>
-                                <div style={{ fontSize: 10 }}>Kg</div>
+                                <div style={{ fontSize: 10 }}>{intl.formatMessage({id: 'app.dsh.unit.wt'})}</div>
                             </div>
                         </div>
                         <div style={{ display: 'flex' }}>
@@ -101,16 +102,16 @@ export default function Index() {
                                 <div><div style={{ fontWeight: 'bold' }}>{latestMeasurement.BMI}</div></div>
                             </div>
                             <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: 12, color: COLORS.commentText }}>体脂率</div>
+                                <div style={{ fontSize: 12, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.dsh.title.bfr'})}</div>
                                 <div style={{ display: 'flex', alignItems: 'baseline' }}><div style={{ fontWeight: 'bold' }}>{latestMeasurement.bodyFatRate}</div><div style={{ fontSize: 10 }}>%</div></div>
                             </div>
                             <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: 12, color: COLORS.commentText }}>身高</div>
-                                <div style={{ display: 'flex', alignItems: 'baseline' }}><div style={{ fontWeight: 'bold' }}>{latestMeasurement.height}</div><div style={{ fontSize: 10 }}>cm</div></div>
+                                <div style={{ fontSize: 12, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.dsh.title.ht'})}</div>
+                                <div style={{ display: 'flex', alignItems: 'baseline' }}><div style={{ fontWeight: 'bold' }}>{latestMeasurement.height}</div><div style={{ fontSize: 10 }}>{intl.formatMessage({id: 'app.dsh.unit.ht'})}</div></div>
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: 2 }}>
-                            <div style={{ fontSize: 10, color: COLORS.commentText }}>记录于: </div>
+                            <div style={{ fontSize: 10, color: COLORS.commentText }}>{intl.formatMessage({id: 'app.dsh.recordSince'})} </div>
                             <div style={{ fontSize: 10, color: COLORS.commentText }}>{latestMeasurement?.updatedAt && formatTimeToChineseDetail(latestMeasurement.updatedAt)}</div>
                         </div>
                     </div>}

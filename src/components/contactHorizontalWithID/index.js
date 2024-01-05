@@ -9,8 +9,10 @@ import { loginSuccess } from '../../redux/userSlice'
 import COLORS from '../../constants/COLORS'
 import { MessageFilled } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import { useIntl } from 'react-intl'
 
 export default function ContactHorizontalWithID({ contactID }) {
+    const intl = useIntl()
     const dispatch = useDispatch()
     const theme = useUserTheme()
     const navigateTo = useNavigate()
@@ -22,7 +24,7 @@ export default function ContactHorizontalWithID({ contactID }) {
             if (res.status !== false) {
                 setContact(res)
             } else {
-                message.error("出现异常请稍后重试")
+                message.error(intl.formatMessage({id: 'error.errorMsg'}))
             }
         })
     }
@@ -33,7 +35,7 @@ export default function ContactHorizontalWithID({ contactID }) {
                 navigateTo(`/chat/conversations/specific/${conversation._id}`)
             } else {
                 console.log(res);
-                message.error("出现异常请稍后重试")
+                message.error(intl.formatMessage({id: 'error.errorMsg'}))
             }
         })
     }

@@ -5,7 +5,9 @@ import Conversation from '../../Components/ConversationsList/conversation';
 import { getconversation } from '../../../../api/user.api';
 import FootNavigationBar from '../../Components/footNavigationBar';
 import { ContactsTwoTone, TeamOutlined } from '@ant-design/icons';
+import { useIntl } from 'react-intl';
 export default function ConversationPage() {
+    const intl = useIntl()
     const { currentUser } = useSelector((state) => state.user)
     const location = useLocation()
     const navigateTo = useNavigate()
@@ -21,7 +23,7 @@ export default function ConversationPage() {
         <>
             <div className="chat-contentBox-leftBar">
                 <div className="chat-contentBox-leftBar-header">
-                    <div className="chat-contentBox-leftBar-header-title">Chat</div>
+                    <div className="chat-contentBox-leftBar-header-title">{intl.formatMessage({id: 'app.cmty.title.chat'})}</div>
                 </div>
                 <div className="chat-contentBox-leftBar-mainContent">
                     <div className='conversations'>

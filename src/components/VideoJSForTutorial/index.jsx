@@ -12,7 +12,10 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../redux/userSlice';
 import { setSessions } from '../../redux/SessionSlice';
 import { finishsession } from '../../api/session.api';
+import { useIntl } from 'react-intl';
+
 export const VideoJSForTutorial = (props) => {
+    const intl = useIntl()
     const videoRef = useRef(null);
     const playerRef = useRef(null);
     const dispatch = useDispatch()
@@ -99,7 +102,7 @@ export const VideoJSForTutorial = (props) => {
     const endExerciseCheck = async () => {
         if (currentTimeInSeconds < 60) {
             console.log(currentTimeInSeconds);
-            message.info('训练时间太短，无法记录，确认离开么');
+            message.info(intl.formatMessage({id: 'app.tut.msg.shortToRecord'}));
         } else {
             const finish = await handleFinishExercise(); // 等待 handleFinishExercise 的结果
             console.log("finish", finish);
@@ -130,7 +133,7 @@ export const VideoJSForTutorial = (props) => {
                         dispatch(setSessions(res.updatedSessions))
                         resolve({ status: true, exerciseData: data }); // 解析 Promise
                     } else {
-                        message.error("出现异常，请稍后重试")
+                        message.error(intl.formatMessage({id: 'error.errorMsg'}))
                         resolve({ status: false });
                     }
                 }).catch(err => {
@@ -139,7 +142,7 @@ export const VideoJSForTutorial = (props) => {
                 })
             } else {
                 console.log("videoDuration", videoDuration);
-                message.error('出现异常，请稍后重试');
+                message.error(intl.formatMessage({id: 'error.errorMsg'}));
                 resolve({ status: false });
             }
         })
@@ -151,15 +154,15 @@ export const VideoJSForTutorial = (props) => {
             ref={videoRef}
             data-vjs-player >
             {played && <div className='VideoJSForTutorial-time' style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 10, backgroundColor: COLORS.white, opacity: 0.8, padding: "0 10px", borderRadius: 10 }}>
-                <div style={{ fontSize: 18, fontWeight: 800, color: COLORS.primary }}>已训练</div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: COLORS.primary }}>{intl.formatMessage({id: 'app.tut.msg.duration'})}</div>
                 <div style={{ fontSize: 36, fontWeight: 800, color: COLORS.primary }}>{secToMin(watchTime)}</div>
             </div>}
             {<div className='VideoJSForTutorial-operate'>
                 {playing && <div className='VideoJSForTutorial-operate-pause' style={{ fontSize: 18, fontWeight: 800, color: '#e7e7e7', backgroundColor: COLORS.gray }} onClick={() => playerRef.current?.pause()}>
                     <PauseOutlined style={{ fontWeight: 800 }} />
                 </div>}
-                {!playing && <div className='VideoJSForTutorial-operate-start' style={{ fontSize: 18, marginRight: SIZE.NormalMargin, fontWeight: 800, color: '#e7e7e7' }} onClick={() => playerRef.current?.play()}>{!played ? '开始跟练' : '继续跟练'}</div>}
-                {(played && !playing) && <div className='VideoJSForTutorial-operate-start' style={{ fontSize: 18, fontWeight: 800, backgroundColor: '#FF6B6B', color: '#e7e7e7' }} onClick={() => endExerciseCheck()}>结束锻炼</div>}
+                {!playing && <div className='VideoJSForTutorial-operate-start' style={{ fontSize: 18, marginRight: SIZE.NormalMargin, fontWeight: 800, color: '#e7e7e7' }} onClick={() => playerRef.current?.play()}>{!played ? intl.formatMessage({id: 'btn.startExercise'}) : intl.formatMessage({id: 'btn.continue'})}</div>}
+                {(played && !playing) && <div className='VideoJSForTutorial-operate-start' style={{ fontSize: 18, fontWeight: 800, backgroundColor: '#FF6B6B', color: '#e7e7e7' }} onClick={() => endExerciseCheck()}>{intl.formatMessage({id: 'btn.end'})}</div>}
             </div>}
         </div>
     );

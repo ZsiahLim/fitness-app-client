@@ -12,12 +12,14 @@ import { formatTimeForChartSoloItem } from '../../utils/formatTime';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import MyExerciseCard from './components/MyExerciseCard';
 export const cardType = {
     exercise: 'exercise',
     blog: 'blog',
 }
 export default function SettingPage() {
+    const intl = useIntl()
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { currentUser } = useSelector(state => state.user)
@@ -39,9 +41,9 @@ export default function SettingPage() {
                     <ProfileCard />
                     <ExerciseAndBodyMatric />
                     <MyExerciseCard />
-                    <Card type={cardType.blog} title={"Blogs"} unitDescription={"个blog"}
-                        LeftIcon={() => <StarOutlined style={{ fontSize: 36, color: COLORS.white }} />} leftTitle={"收藏博客"} leftValue={favoriteBlogs.length}
-                        RightIcon={() => <LikeOutlined style={{ fontSize: 36, color: COLORS.white }} />} rightTitle={"点赞博客"} rightValue={likeBlogs.length}
+                    <Card type={cardType.blog} title={intl.formatMessage({id: 'app.prf.title.Blog'})} unitDescription={intl.formatMessage({id: 'app.prf.blogUnit'})}
+                        LeftIcon={() => <StarOutlined style={{ fontSize: 36, color: COLORS.white }} />} leftTitle={intl.formatMessage({id: 'app.prf.label.favouriteBlog'})} leftValue={favoriteBlogs.length}
+                        RightIcon={() => <LikeOutlined style={{ fontSize: 36, color: COLORS.white }} />} rightTitle={intl.formatMessage({id: 'app.prf.label.likedBlog'})} rightValue={likeBlogs.length}
                     />
                 </div>
             </div>
@@ -52,6 +54,7 @@ export default function SettingPage() {
 
 
 const ExerciseAndBodyMatric = () => {
+    const intl = useIntl()
     const navigateTo = useNavigate()
     const theme = useUserTheme()
     const { latestMeasurement } = useMeasurement()
@@ -60,32 +63,32 @@ const ExerciseAndBodyMatric = () => {
     return <div style={{ flex: 1, gap: SIZE.NormalMargin, display: 'flex', flexDirection: 'row', backgroundColor: THEME.backgroundColor, borderRadius: SIZE.CardBorderRadius, padding: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
         <div style={{ flex: 1, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, }}>
             <div style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>总运动</div>
+                <div>{intl.formatMessage({id: 'app.prf.label.summary'})}</div>
                 <div className='buttonHover' onClick={() => navigateTo('/statistics')}>
                     <RightOutlined />
                 </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', }}>
                 <div style={{ fontWeight: 'bold', fontSize: 20 }}>{secToSpecificMin(durationSum)}</div>
-                <div style={{ fontSize: 14, }}>min</div>
+                <div style={{ fontSize: 14, }}>{intl.formatMessage({id: 'app.prf.label.summary.timeUnit'})}</div>
             </div>
             <div style={{ color: COLORS.commentText, fontSize: 14 }}>
-                总消耗{calorieSum ? calorieSum.toFixed(0) : 0}({tutorialCalorieSum ? tutorialCalorieSum : 0})千卡
+                {intl.formatMessage({id: 'app.prf.label.summary.consumption'})}{calorieSum ? calorieSum.toFixed(0) : 0}({tutorialCalorieSum ? tutorialCalorieSum : 0}){intl.formatMessage({id: 'app.prf.label.summary.calUnit'})}
             </div>
         </div>
         <div style={{ flex: 1, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderRadius, }}>
             <div style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>体重</div>
+                <div>{intl.formatMessage({id: 'app.prf.label.wt'})}</div>
                 <div className='buttonHover' onClick={() => navigateTo('/statistics')}>
                     <RightOutlined />
                 </div>
             </div>
             {latestMeasurement?.weight && <div style={{ display: 'flex', alignItems: 'baseline', }}>
                 <div style={{ fontWeight: 'bold', fontSize: 20 }}>{latestMeasurement.weight}</div>
-                <div style={{ fontSize: 14, }}>Kg</div>
+                <div style={{ fontSize: 14, }}>{intl.formatMessage({id: 'app.prf.label.wt.wtUnit'})}</div>
             </div>}
             {latestMeasurement?.date && <div style={{ color: COLORS.commentText, fontSize: 14 }}>
-                记录于{formatTimeForChartSoloItem(new Date(latestMeasurement.date))}
+                {intl.formatMessage({id: 'app.prf.label.wt.recorder'})}{formatTimeForChartSoloItem(new Date(latestMeasurement.date))}
             </div>}
         </div>
     </div >

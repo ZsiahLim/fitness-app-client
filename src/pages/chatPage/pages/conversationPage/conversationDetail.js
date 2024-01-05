@@ -8,10 +8,12 @@ import { deleteconversation, getcurrentconversationmessages, getspecificconversa
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../firebase";
+import { useIntl } from "react-intl";
 const { TextArea } = Input;
 const { confirm } = Modal;
 
 export default function ConversationDetail() {
+    const intl = useIntl()
     const { conversationID } = useParams()
     const navigateTo = useNavigate()
     const location = useLocation()
@@ -50,7 +52,7 @@ export default function ConversationDetail() {
         await deleteconversation(conversationID).then(res => {
             navigateTo('/chat/conversations')
         }).catch(() => {
-            message.error('error')
+            message.error(intl.formatMessage({id: 'error.default'}))
         })
     }
     const sendMessage = async (type, value, width, height) => {
@@ -58,14 +60,14 @@ export default function ConversationDetail() {
             if (value) {
                 socket.current.emit('sendMessage', { msgType: type, senderId: currentUser._id, receiverId: contact._id, msgValue: value, msgHeight: height ? height : null, msgWidth: width ? width : null })
                 await sendmessage({ msgType: type, conversationId: conversationID, receiver: contact._id, msgValue: value, msgHeight: height ? height : null, msgWidth: width ? width : null })
-                message.success('send successfully')
+                message.success(intl.formatMessage({id: 'app.cmty.msg.sent'}))
                 destroyAll()
                 setTextSend('')
             } else {
-                message.error('cannot send empty message')
+                message.error(intl.formatMessage({id: 'error.cmty.emptyMsg'}))
             }
         } catch (error) {
-            message.error('Failed to send your messages')
+            message.error(intl.formatMessage({id: 'error.cmty.failSend'}))
         }
     }
     const handleEnter = (event) => {
@@ -87,7 +89,7 @@ export default function ConversationDetail() {
                 const res = await getcurrentconversationmessages(conversationID)
                 setCurrentConversationMessages(res)
             } catch (error) {
-                message.error('Failed to get your messages')
+                message.error(intl.formatMessage({id: 'error.cmty.failSend'}))
             }
         }
         getMessages()
@@ -151,7 +153,7 @@ export default function ConversationDetail() {
                     reader.readAsDataURL(file);
                 });
             } else {
-                message.error('u only can upload picture here')
+                message.error(intl.formatMessage({id: 'error.blog.wrongFile'}))
                 return false
             }
         },
@@ -184,7 +186,7 @@ export default function ConversationDetail() {
                 }
             },
                 (error) => {
-                    message.err('Some error happens')
+                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
                     setMsgImg([])
                     setUploading(false)
                     destroyAll()
@@ -206,7 +208,7 @@ export default function ConversationDetail() {
                 }
             );
         } else {
-            message.err('Some error happens')
+            message.err(intl.formatMessage({id: 'error.errorHappens'}))
             setMsgImg([])
             setUploading(false)
             destroyAll()
@@ -245,7 +247,7 @@ export default function ConversationDetail() {
                     video.src = URL.createObjectURL(file);
                 })
             } else {
-                message.error('u only can upload video here')
+                message.error(intl.formatMessage({id: 'error.blog.wrongFile.video'}))
                 return false
             }
         },
@@ -274,7 +276,7 @@ export default function ConversationDetail() {
                     }
                 },
                 (error) => {
-                    message.err('Some error happens')
+                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
                     setMsgVideo([{ ...msgVideo[0], status: 'error' }])
                     setUploading(false)
                 },
@@ -288,7 +290,7 @@ export default function ConversationDetail() {
                 }
             );
         } else {
-            message.err('Some error happens')
+            message.err(intl.formatMessage({id: 'error.errorHappens'}))
             setMsgVideo([{ ...msgVideo[0], status: 'error' }])
             setUploading(false)
         }
@@ -311,12 +313,12 @@ export default function ConversationDetail() {
     const moreBtn = [
         {
             key: 'helos',
-            label: <Upload customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>Picture</Upload>,
+            label: <Upload customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>{intl.formatMessage({id: 'app.cmty.label.pic'})}</Upload>,
             icon: <FileImageOutlined />,
         },
         {
             key: 'video',
-            label: <Upload customRequest={submitVideoToFirebase} maxCount={1} {...propsVideo}>Video</Upload>,
+            label: <Upload customRequest={submitVideoToFirebase} maxCount={1} {...propsVideo}>{intl.formatMessage({id: 'app.cmty.label.vid'})}</Upload>,
             icon: <FileImageOutlined />
         }
     ];
@@ -326,7 +328,7 @@ export default function ConversationDetail() {
             const res = await getcurrentconversationmessages(conversationID)
             setCurrentConversationMessages(res)
         } catch (error) {
-            message.error('Failed to get your messages')
+            message.error(intl.formatMessage({id: 'error.cmty.failGetMsg'}))
         }
     }
     useEffect(() => {
@@ -361,9 +363,9 @@ export default function ConversationDetail() {
                             <PlusCircleOutlined />
                         </Dropdown>
                     </div>
-                    <TextArea value={textSend} bordered={false} ref={searchInput} autoSize={{ minRows: 1, maxRows: 6, }} allowClear placeholder='Type something...' onKeyDown={(e) => handleEnter(e)} onChange={({ target: { value } }) => setTextSend(value)} />
+                    <TextArea value={textSend} bordered={false} ref={searchInput} autoSize={{ minRows: 1, maxRows: 6, }} allowClear placeholder={intl.formatMessage({id: 'app.cmty.field.type'})} onKeyDown={(e) => handleEnter(e)} onChange={({ target: { value } }) => setTextSend(value)} />
                     <div className='chat-sendPart'>
-                        <Button onClick={() => sendMessage('text', textSend)}>Send</Button>
+                        <Button onClick={() => sendMessage('text', textSend)}>{intl.formatMessage({id: 'send'})}</Button>
                     </div>
                 </>
             </div>

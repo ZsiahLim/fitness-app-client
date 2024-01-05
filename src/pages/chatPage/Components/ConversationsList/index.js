@@ -5,8 +5,10 @@ import { message } from 'antd'
 import { useSelector } from 'react-redux'
 import './index.less'
 import { useNavigate } from 'react-router-dom'
+import { useIntl } from 'react-intl'
 
 export default function Conversations() {
+    const intl = useIntl()
     const { currentUser } = useSelector(state => state.user)
     const [conversation, setConversation] = useState([])
     const navigateTo = useNavigate()
@@ -15,7 +17,7 @@ export default function Conversations() {
             const conversations = await getconversation()
             setConversation(conversations)
         } catch (error) {
-            message.error('Failed to get your conversation')
+            message.error(intl.formatMessage({id: 'error.cmty.failLoad'}))
         }
     }
     useEffect(() => {

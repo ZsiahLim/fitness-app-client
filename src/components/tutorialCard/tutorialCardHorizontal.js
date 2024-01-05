@@ -8,8 +8,13 @@ import { message } from 'antd'
 import { loginSuccess } from '../../redux/userSlice'
 import { setSessions } from '../../redux/SessionSlice'
 import { createsession } from '../../api/session.api'
+import { useIntl } from 'react-intl'
+// export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
+//   const intl = useIntl()
+//   const { cover, level, lowerEstimateColorie, higherEstimateColorie, name, duration, _id } = tutorial
 import useUserLocale from '../../hooks/useUserLocale'
 export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
+  const intl = useIntl()
   const userLocale = useUserLocale()
   const { _id, name, zh_name, brief, zh_brief, cover, lowerEstimateColorie, higherEstimateColorie, duration, description, zh_description, level, rate, users, video, type, equipments } = tutorial
   const navigateTo = useNavigate()
@@ -20,7 +25,7 @@ export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
   const dispatch = useDispatch()
   const handleAddToCalendar = async () => {
     if (isTodayHasAlr) {
-      message.error("今日已有这个训练了")
+      message.error(intl.formatMessage({id: 'error.tut.added'}))
     } else {
       const newSession = {
         date: new Date(userSelectDay),
@@ -28,7 +33,7 @@ export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
       }
       await createsession(newSession).then(res => {
         if (res.status === false) {
-          message.error("出现异常, 请稍后再试")
+          message.error(intl.formatMessage({id: 'error.errorMsg'}))
         } else {
           dispatch(loginSuccess(res.user))
           dispatch(setSessions(res.updatedSessions))
@@ -56,8 +61,10 @@ export default function TutorialCardHorizontal({ tutorial, withCalendar }) {
           <img style={{ maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'cover' }} src={cover} />
         </span>
         <div>
+          {/* <div className='TutorialCardHorizontal-desc-title'>{name}</div> */}
+          <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}{intl.formatMessage({id: 'app.tut.timeUnit'})} - {lowerEstimateColorie}~{higherEstimateColorie}{intl.formatMessage({id: 'app.tut.calUnit'})}</div>
           <div className='TutorialCardHorizontal-desc-title'>{userLocale === "zh" ? zh_name : name}</div>
-          <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {lowerEstimateColorie}~{higherEstimateColorie}千卡</div>
+          {/* <div className='TutorialCardHorizontal-desc-content'>{level} - {duration}分钟 - {lowerEstimateColorie}~{higherEstimateColorie}千卡</div> */}
         </div>
       </div>
       {

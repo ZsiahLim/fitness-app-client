@@ -10,27 +10,27 @@ export default function NoSchedule() {
         <>
             <div className='NoSchedueBox' >
                 <div className='NoSchedule'>
-                    <div className='programName'>{formatMessage({ id: 'noSchedule' })} bellow recommanded tutorial for you</div>
+                    <div className='programName'>{formatMessage({ id: 'noSchedule' })}{formatMessage({ id: 'app.skd.noSkdPt2' })}</div>
                 </div>
                 <div className='schedule-promotion'>
-                    Add some rest day in to your schedule and training progressively can gradually improve workout effectiveness.
+                    {formatMessage({id: 'app.skd.restDayWarn'})}
                 </div>
                 <div className='promotionPlan'>
                     <div className={`promotionDay ${lightPromotionPlanClassname}`}>
-                        <div className='promotionDay-Title'>Day 1</div>
-                        <div className='promotionDay-content'>Warm-up</div>
+                        <div className='promotionDay-Title'>{formatMessage({id: 'app.skd.planTemplate.day1'})}</div>
+                        <div className='promotionDay-content'>{formatMessage({id: 'app.skd.planTemplate.day1.workout'})}</div>
                     </div>
                     <div className={`promotionDay ${lightPromotionPlanClassname}`}>
-                        <div className='promotionDay-Title'>Day 2</div>
-                        <div className='promotionDay-content'>Energize</div>
+                        <div className='promotionDay-Title'>{formatMessage({id: 'app.skd.planTemplate.day2'})}</div>
+                        <div className='promotionDay-content'>{formatMessage({id: 'app.skd.planTemplate.day2.workout'})}</div>
                     </div>
                     <div className={`promotionDay ${lightPromotionPlanClassname}`}>
-                        <div className='promotionDay-Title'>Day 3</div>
-                        <div className='promotionDay-content'>Functional Fitness</div>
+                        <div className='promotionDay-Title'>{formatMessage({id: 'app.skd.planTemplate.day3'})}</div>
+                        <div className='promotionDay-content'>{formatMessage({id: 'app.skd.planTemplate.day3.workout'})}</div>
                     </div>
                     <div className={`promotionDay ${lightPromotionPlanClassname}`}>
-                        <div className='promotionDay-Title'>Day 4</div>
-                        <div className='promotionDay-content'>Rest</div>
+                        <div className='promotionDay-Title'>{formatMessage({id: 'app.skd.planTemplate.day4'})}</div>
+                        <div className='promotionDay-content'>{formatMessage({id: 'app.skd.planTemplate.day4.workout'})}</div>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import SIZE from '../../constants/SIZE'
 import { CalendarFilled, RightOutlined } from '@ant-design/icons'
 import COLORS from '../../constants/COLORS'
 import { secToSpecificMin } from '../../utils/funcs'
+import { useIntl } from 'react-intl'
 
 const CALORIE_TYPE = {
     tutorial: "Tutorial Calorie Consumption",
@@ -15,6 +16,7 @@ const CALORIE_TYPE = {
 }
 
 function UserRecordSum({ records }) {
+    const intl = useIntl()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
     const navigateTo = useNavigate()
@@ -28,7 +30,7 @@ function UserRecordSum({ records }) {
             <div style={{ display: 'flex', marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                     <CalendarFilled style={{ color: COLORS.green }} />
-                    <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.green }}>运动记录</div>
+                    <div style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.green }}>{intl.formatMessage({id: 'app.stats.workoutRecord'})}</div>
                 </div>
                 <div onClick={() => {
                     // navigate('TodaysExercises')s
@@ -39,16 +41,16 @@ function UserRecordSum({ records }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ flex: 1 }}>
-                    <div style={{ color: COLORS.commentText, fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>总运动时长</div>
+                    <div style={{ color: COLORS.commentText, fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>{intl.formatMessage({id: 'app.stats.totalTime'})}</div>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
                         {durationSum ? <div style={{ color: currentTheme.fontColor, fontSize: 26, fontWeight: 'bold' }}>{secToSpecificMin(durationSum)}</div> :
                             <div style={{ color: currentTheme.fontColor, fontSize: 26, fontWeight: 'bold' }}>0</div>}
-                        <div style={{ color: currentTheme.fontColor, fontSize: 14, fontWeight: 'bold' }}>分钟</div>
+                        <div style={{ color: currentTheme.fontColor, fontSize: 14, fontWeight: 'bold' }}>{intl.formatMessage({id: 'app.stats.totalTime.unit'})}</div>
                     </div>
                 </div>
                 <div style={{ width: 10 }}></div>
                 <div style={{ flex: 1 }}>
-                    <div style={{ color: COLORS.commentText, fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>总运动消耗</div>
+                    <div style={{ color: COLORS.commentText, fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>{intl.formatMessage({id: 'app.stats.totalConsume'})}</div>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
                         <div
                             onClick={() => { handleShowDetail(CALORIE_TYPE.total, calorieSum ? calorieSum : 0) }}
@@ -61,7 +63,7 @@ function UserRecordSum({ records }) {
                             {tutorialCalorieSum ? <div style={{ color: currentTheme.fontColor, fontSize: 26, fontWeight: 'bold' }}>{tutorialCalorieSum}</div> :
                                 <div style={{ color: currentTheme.fontColor, fontSize: 26, fontWeight: 'bold' }}>0</div>}
                         </div>
-                        <div style={{ color: currentTheme.fontColor, fontSize: 14, fontWeight: 'bold' }}>千卡</div>
+                        <div style={{ color: currentTheme.fontColor, fontSize: 14, fontWeight: 'bold' }}>{intl.formatMessage({id: 'app.stats.totalConsume.unit'})}</div>
                     </div>
                 </div>
             </div>

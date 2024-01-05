@@ -14,9 +14,11 @@ import SIZE from '../../constants/SIZE';
 import useUserTheme from '../../hooks/useUserTheme';
 import APPTHEME from '../../constants/COLORS/APPTHEME';
 import { useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function PlanPage() {
+    const intl = useIntl()
     const dispatch = useDispatch()
     const navigateTo = useNavigate()
     const currentTheme = useUserTheme()
@@ -72,7 +74,7 @@ export default function PlanPage() {
                     <MyExerciseCard />
                     <RecommandTutorials />
                     <div onClick={() => navigateTo('/tutorial')} className='buttonHover' style={{ padding: SIZE.NormalMargin, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: THEME.backgroundColor, borderRadius: SIZE.CardBorderRadius, fontWeight: 'bold' }}>
-                        <div>Go to Tutorial Library to find more</div>
+                        <div>{intl.formatMessage({id: 'app.tut.msg.tutLibPortal'})}</div>
                         <RightOutlined />
                     </div>
                 </div>
