@@ -44,4 +44,9 @@ export const enUS_blog = {
     'app.blog.title.myBlogs': 'My Blogs',
     'app.blog.title.likedBlogs': 'Liked Blogs',
     'app.blog.title.favouriteBlogs': 'Favourite Blogs',
+    "app.blog.Community": "Community",
+    "app.blog.Subscribed": "Subscribed",
+    "app.blog.Latest": "Latest",
+    "app.blog.MostLiked": "Most Liked",
+    "app.blog.Search": "Search",
 };

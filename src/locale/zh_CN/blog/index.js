@@ -44,4 +44,9 @@ export const zhCN_blog = {
     'app.blog.title.myBlogs': '我的博客',
     'app.blog.title.likedBlogs': '赞过的博客',
     'app.blog.title.favouriteBlogs': '收藏的博客',
+    "app.blog.Community": "发现",
+    "app.blog.Subscribed": "已关注",
+    "app.blog.Latest": "最新",
+    "app.blog.MostLiked": "最多点赞",
+    "app.blog.Search": "搜索",
 };

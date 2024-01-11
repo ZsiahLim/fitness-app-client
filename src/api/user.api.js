@@ -52,6 +52,9 @@ export const getmyfavorblogs = () => request('get', `/blogs/getfavoriteblogs`);
 export const postblog = (data) => request('post', '/blogs', data)
 export const updateblog = (blogID, data) => request('put', `/blogs/${blogID}`, data)
 export const getspecificblog = (blogID) => request('get', `/blogs/find/${blogID}`)
+export const getsubsribedusersblogs = () => request('get', `/blogs/getsubscribedusersblogs`)
+export const getmostlikeblogs = () => request('get', `/blogs/mostlike`)
+export const getlatestBlogs = () => request('get', `/blogs/latest`)
 
 // comments
 export const getblogcomments = (blogID) => request('get', `/comments/${blogID}`);

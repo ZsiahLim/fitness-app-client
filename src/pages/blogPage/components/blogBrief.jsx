@@ -1,6 +1,6 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './blogBrief.less'
-import { Avatar, message, Modal, Skeleton } from 'antd'
+import { Avatar, message, Skeleton } from 'antd'
 import { useSelector } from 'react-redux'
 import { UserOutlined, HeartTwoTone, HeartFilled, PlayCircleFilled } from '@ant-design/icons';
 import { cancellikeblog, getuser, likeblog } from '../../../api/user.api'
@@ -55,7 +55,7 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
             .then(user => {
                 setUser(user)
             }).catch(error => {
-                message.error(intl.formatMessage({id: 'error.blog.failToGetUserData'}))
+                message.error(intl.formatMessage({ id: 'error.blog.failToGetUserData' }))
             })
     }
     useEffect(() => {
@@ -64,17 +64,17 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
     }, [])
     const handleLikeBlog = async (blogID) => {
         liked ? await cancellikeblog(blogID).then(() => {
-            message.success(intl.formatMessage({id: 'app.blog.msg.cancelLike'}))
+            message.success(intl.formatMessage({ id: 'app.blog.msg.cancelLike' }))
             setLikeNum(likedNum - 1)
             setLiked(false)
         }).catch((err) => {
             message.error('error happens')
         }) : await likeblog(blogID).then(() => {
-            message.success(intl.formatMessage({id: 'app.blog.msg.likeBlog'}))
+            message.success(intl.formatMessage({ id: 'app.blog.msg.likeBlog' }))
             setLikeNum(likedNum + 1)
             setLiked(true)
         }).catch(() => {
-            message.error(intl.formatMessage({id: 'error.errorHappens'}))
+            message.error(intl.formatMessage({ id: 'error.errorHappens' }))
         })
     }
     const [isBlogOpen, setIsBlogOpen] = useState(false);
