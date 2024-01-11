@@ -60,4 +60,5 @@ export const zhCN_commonText = {
 
     'msg.noRecom': '抱歉我们无法找到满足适合您喜好的教程',
     'msg.promoAssess': '请做一下喜好问卷，来为您个性化推荐适合您喜好的教程',
+    'app.news.systemMsg': '系统消息',
 };

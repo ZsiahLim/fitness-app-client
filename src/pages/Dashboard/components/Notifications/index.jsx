@@ -89,7 +89,7 @@ export default function Notifications() {
                                 <List.Item key={index} onClick={() => handleSystemDetailOpen(notification)}>
                                     <List.Item.Meta
                                         avatar={<Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'} />}
-                                        title={<>{'系统消息'}</>}
+                                        title={<>{formatMessage({ id: 'app.news.systemMsg' })}</>}
                                         description={notification.title}
                                     />
                                 </List.Item>
@@ -140,11 +140,9 @@ export default function Notifications() {
                     <BellFilled style={{ fontSize: 26 }} />
                 </Badge>
             </Popover>
-            <Modal title={formatMessage({id: 'app.dsh.title.systemDetails'})} open={systemDetailOpen} zIndex={10000} footer={null} onCancel={() => setSystemDetailOpen(false)}>
+            <Modal title={formatMessage({ id: 'app.dsh.title.systemDetails' })} open={systemDetailOpen} zIndex={10000} footer={null} onCancel={() => setSystemDetailOpen(false)}>
                 {currentNotification && <div>
-                    {/* {currentNotification.title} <a onClick={() => navigateTo(`/specificblog/${currentNotification.targetID}`)}>{currentNotification.targetType === 'blog' ? '博客详情' : '评论详情'}</a> */}
-                    {currentNotification.title} <a>{currentNotification.targetType === formatMessage({id: 'app.dsh.title.blog'}) ? formatMessage({id: 'app.dsh.title.blogDetails'}) : formatMessage({id: 'app.dsh.title.commentDetail'})}</a>
-                    {/* {currentNotification.title} <a>{currentNotification.targetType === 'blog' ? '博客详情' : '评论详情'}</a> */}
+                    {currentNotification.title}
                 </div>}
             </Modal>
         </>
@@ -156,13 +154,12 @@ function TodoPane() {
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const yetDoneTutorial = useUncompletedTutorials()
-    console.log("yetDoneTutorial", yetDoneTutorial);
     return (
         <div>
             {yetDoneTutorial.length === 0 ? <div style={{ width: "100%", height: '96%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: 16, backgroundColor: THEME.backgroundColor, }}>
                 <Empty description={false} />
                 <div style={{ fontSize: 14, color: COLORS.commentText }}>
-                    {intl.formatMessage({id: 'app.dsh.notification.noTodo'})}
+                    {intl.formatMessage({ id: 'app.dsh.notification.noTodo' })}
                 </div>
             </div> : yetDoneTutorial.map((item, index) => <UnDoneTodoItem key={index} tutorial={item} />)}
         </div>

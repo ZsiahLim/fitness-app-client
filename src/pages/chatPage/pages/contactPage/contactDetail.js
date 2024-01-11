@@ -1,15 +1,14 @@
-import { EllipsisOutlined, LeftOutlined, MessageFilled, MessageOutlined, UserOutlined } from '@ant-design/icons'
-import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { EllipsisOutlined, LeftOutlined, UserOutlined } from '@ant-design/icons'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { addcontactbyid, createconversation, createreport, getuser, removecontact } from '../../../../api/user.api'
 import { Avatar, Dropdown, Form, Modal, Tabs, message } from 'antd'
 import './contactDetail.less'
 import { useDispatch, useSelector } from 'react-redux'
 import TextArea from 'antd/es/input/TextArea'
-import { loginStart, loginSuccess } from '../../../../redux/userSlice'
+import { loginSuccess } from '../../../../redux/userSlice'
 import SIZE from '../../../../constants/SIZE'
 import useUserTheme from '../../../../hooks/useUserTheme'
-import APPTHEME from '../../../../constants/COLORS/APPTHEME'
 import COLORS from '../../../../constants/COLORS'
 import { formatTimeToChinese } from '../../../../utils/formatTime'
 import WaterfallContainer from '../../../../components/waterfallContainer/BlogsWrapper'
@@ -23,14 +22,12 @@ export default function ContactDetail() {
     const { userID: ContactID } = useParams()
     const navigateTo = useNavigate()
     const theme = useUserTheme()
-    const THEME = APPTHEME[theme]
     const dispatch = useDispatch()
-    const { currentTheme, currentUser } = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user)
     const [contact, setContact] = useState()
-
     const [records, setRecords] = useState([])
-    const [alreadySubscribed, setAlreadySubscribed] = useState(currentUser.contactsUsers.includes(ContactID))
-
+    const alreadySubscribed = useMemo(() => currentUser.contactsUsers.includes(ContactID), [currentUser.contactsUsers, ContactID])
+    const isOwn = useMemo(() => ContactID === currentUser._id, [ContactID])
     const getData = async () => {
         await getuser(ContactID).then(res => {
             if (res.status !== false) {
@@ -41,66 +38,9 @@ export default function ContactDetail() {
             }
         })
     }
-
     useEffect(() => {
         getData()
     }, [ContactID])
-
-    useEffect(() => {
-        setAlreadySubscribed(currentUser.contactsUsers.includes(ContactID))
-    }, [currentUser])
-
-    const confirmDelete = async () => {
-        navigateTo('/chat/contacts')
-        dispatch(loginStart())
-        await removecontact(ContactID).then(res => {
-            if (res.status !== false) {
-                console.log("currentUser contact", res.contactsUsers);
-                message.success(intl.formatMessage({ id: 'app.cmty.delContact' }))
-                dispatch(loginSuccess(res))
-            } else {
-                message.error(intl.formatMessage({ id: 'error.errorMsg' }))
-            }
-        })
-    };
-    const items = [
-        {
-            key: '3',
-            label: (<div onClick={() => setIsReportModalOpen(true)}>Report</div>),
-        },
-    ];
-
-    const [reportReason, setReportReason] = useState();
-    const [isReportModalOpen, setIsReportModalOpen] = useState(false)
-    const handleSubmitReportCancel = () => {
-        setIsReportModalOpen(false)
-    }
-    const handleSubmitReport = async () => {
-        reportReason ? await createreport({ type: 'user', targetID: contact._id, content: reportReason }).then(() => {
-            message.success(intl.formatMessage({ id: 'app.blog.msg.reportSuccess' }))
-            setIsReportModalOpen(false)
-        }).catch(err => {
-            console.log(err);
-            message.error(intl.formatMessage({ id: 'error.blog.failToReport' }))
-        }) : message.warning(intl.formatMessage({ id: 'app.blog.msg.reportWarn' }))
-    }
-
-    const lightContactDetailClassName = currentTheme === 'light' ? 'chat-contentBox-rightBar-contactDetail-light' : ''
-    const doConversation = async () => {
-        try {
-            await createconversation({ receiverId: ContactID }).then((res) => {
-                if (res.status !== false) {
-                    const conversation = res.conversation
-                    navigateTo(`/chat/conversations/specific/${conversation._id}`)
-                } else {
-                    message.error(intl.formatMessage({ id: 'error.failCreate' }))
-                }
-            })
-        } catch (error) {
-            message.error(intl.formatMessage({ id: 'error.failCreate' }))
-        }
-    }
-
     const handleSendMessage = async () => {
         await createconversation({ receiverId: ContactID }).then(res => {
             if (res.status !== false) {
@@ -133,6 +73,34 @@ export default function ContactDetail() {
             }
         })
     }
+    const handleSubmitReport = async () => {
+        reportReason ? await createreport({ type: 'user', targetID: contact._id, content: reportReason }).then(() => {
+            message.success(intl.formatMessage({ id: 'app.blog.msg.reportSuccess' }))
+            setIsReportModalOpen(false)
+        }).catch(err => {
+            console.log(err);
+            message.error(intl.formatMessage({ id: 'error.blog.failToReport' }))
+        }) : message.warning(intl.formatMessage({ id: 'app.blog.msg.reportWarn' }))
+    }
+
+    const items = [
+        {
+            key: '3',
+            label: (<div onClick={() => setIsReportModalOpen(true)}>Report</div>),
+        },
+        alreadySubscribed && {
+            key: '5',
+            label: (<div onClick={handleUnSubscribe}>{intl.formatMessage({ id: 'app.cmty.btn.unsub' })}</div>),
+        },
+    ];
+
+    const [reportReason, setReportReason] = useState();
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false)
+
+    const handleSubmitReportCancel = () => {
+        setIsReportModalOpen(false)
+    }
+    const lightContactDetailClassName = theme === 'light' ? 'chat-contentBox-rightBar-contactDetail-light' : ''
 
     return (
         <>
@@ -166,32 +134,25 @@ export default function ContactDetail() {
                     <div className='chat-contentBox-rightBar-contactDetail-remarks-item'>{contact?.personalStatus}</div>
                 </div>}
                 <div style={{ margin: "10px 0", display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: SIZE.NormalMargin, paddingRight: SIZE.NormalMargin }}>
-                    {alreadySubscribed ?
-                        <div
-                            className='buttonHover'
-                            style={{ padding: '0 10px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderStyle: "solid", borderRadius: SIZE.CardBorderRadiusForBtn, borderWidth: 2, borderColor: COLORS.gray }}
-                            onClick={handleUnSubscribe}
-                        >
-                            <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.gray }}>{intl.formatMessage({ id: 'app.cmty.btn.unsub' })}</div>
-                        </div> : <div
-                            className='buttonHover'
-                            style={{ padding: '0 10px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderStyle: "solid", borderRadius: SIZE.CardBorderRadiusForBtn, borderWidth: 2, borderColor: COLORS.primary }}
-                            onClick={handleSubscribe}
-                        >
-                            <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.primary }}>{intl.formatMessage({ id: 'app.cmty.btn.sub' })}</div>
-                        </div>}
+                    {(!alreadySubscribed && !isOwn) && <div
+                        className='buttonHover'
+                        style={{ padding: '0 10px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderStyle: "solid", borderRadius: SIZE.CardBorderRadiusForBtn, borderWidth: 2, borderColor: COLORS.primary }}
+                        onClick={handleSubscribe}
+                    >
+                        <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.primary }}>{intl.formatMessage({ id: 'app.cmty.btn.sub' })}</div>
+                    </div>}
                     <div
                         className='buttonHover'
                         style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: SIZE.NormalMargin, paddingHorizontal: SIZE.LargerMargin, borderRadius: SIZE.CardBorderRadiusForBtn, borderWidth: 2, borderColor: COLORS.primary }}
                         onClick={handleSendMessage}
                     >
                         <div style={{ fontSize: SIZE.NormalTitle, fontWeight: 'bold', color: COLORS.primary, display: 'flex', alignItems: 'center' }}>
-                            <img src={ChatIcon} style={{ width: 30, }} />
+                            {theme === "light" && <img src={ChatIcon} style={{ width: 30, }} />}
                             <span>{intl.formatMessage({ id: 'app.cmty.btn.sendText' })}</span>
                         </div>
                     </div>
                 </div>
-                <div style={{ height: 0.4, width: '100%', backgroundColor: COLORS.backgroundGray }}></div>
+                <div style={{ height: 0.4, width: '100%', }}></div>
                 <div>
                     <Tabs
                         defaultActiveKey='blog'

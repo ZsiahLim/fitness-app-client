@@ -21,7 +21,7 @@ export default function BlogsBox() {
         search: { value: 'search', label: intl.formatMessage({ id: 'app.blog.Search' }) },
     }
 
-    const onClick = ({key}) => {
+    const onClick = ({ key }) => {
         console.log("key", key);
         setSelectedTabs(key)
     };
@@ -148,7 +148,7 @@ export default function BlogsBox() {
                         menu={{ items, onClick }}
                         placement="bottom"
                     >
-                        <div className='buttonHover' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: SIZE.LittleMargin, padding: SIZE.NormalMargin, borderRadius: SIZE.CardBorderExtraRadius, backgroundColor: COLORS.primary, color: COLORS.white, fontWeight: 'bold' }}>
+                        <div className='buttonHover' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: SIZE.LittleMargin, padding: "8px 20px", borderRadius: SIZE.CardBorderExtraRadius, backgroundColor: COLORS.primary, color: COLORS.white, fontWeight: 'bold' }}>
                             <div>
                                 {tabs[selectedTabs].label}
                             </div>
