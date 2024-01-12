@@ -72,9 +72,6 @@ export default function Notifications() {
                 break;
         }
     }
-    useEffect(() => {
-        console.log("done");
-    }, [yetDoneTutorial])
     const tabs = (
         <div>
             <Tabs

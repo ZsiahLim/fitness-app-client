@@ -37,7 +37,7 @@ const UnDoneTodoItem = ({ tutorial }) => {
                     <div style={{ maxWidth: 240, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, fontSize: 16, marginBottom: SIZE.LittleMargin, color: currentTheme.fontColor }}>{userLocale === "zh" ? tutorial.zh_name : tutorial.name}</div>
                     <div style={{ fontSize: 12, color: COLORS.commentText }}>{userLocale === "zh" ? tutorial.zh_brief : tutorial.brief} </div>
                 </div>
-                <div onClick={(e) => { e.stopPropagation(); handleDelete() }}><DeleteOutlined /></div>
+                <div className='buttonHover' onClick={(e) => { e.stopPropagation(); handleDelete() }}><DeleteOutlined /></div>
             </div>
         </div>
     )

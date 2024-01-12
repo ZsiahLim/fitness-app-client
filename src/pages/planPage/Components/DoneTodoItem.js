@@ -40,7 +40,7 @@ const DoneTodoItem = ({ tutorial }) => {
                 </div>
                 <div style={{ display: 'flex', gap: SIZE.NormalMargin, alignItems: 'center' }}>
                     <DownCircleFilled style={{ color: COLORS.green }} />
-                    <div onClick={(e) => {
+                    <div className='buttonHover' onClick={(e) => {
                         e.stopPropagation()
                         handleDelete()
                     }}>

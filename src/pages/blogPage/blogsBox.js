@@ -20,7 +20,6 @@ export default function BlogsBox() {
         mostLiked: { value: 'mostLiked', label: intl.formatMessage({ id: 'app.blog.MostLiked' }) },
         search: { value: 'search', label: intl.formatMessage({ id: 'app.blog.Search' }) },
     }
-
     const onClick = ({ key }) => {
         console.log("key", key);
         setSelectedTabs(key)
@@ -126,7 +125,7 @@ export default function BlogsBox() {
     }, [])
 
     const handleSearchBlog = async () => {
-        setSelectedTabs(tabs.search)
+        setSelectedTabs(tabs.search.value)
         if (searchText) {
             const query = { params: searchText }
             await searchblog(query).then((blogs) => {
