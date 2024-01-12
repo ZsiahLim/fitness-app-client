@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import ReactEcharts from "echarts-for-react";
 import './index.less'
 import { Empty, Segmented } from 'antd';
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import useRecords from '../../../../hooks/useRecords';
 import { BarchartsOptions } from '../../../../utils/BarchartsOptions';
@@ -16,14 +15,12 @@ const DATE = {
     month: "month",
     year: "year",
 }
-
 const ExerciseTrend = () => {
     const intl = useIntl()
-    const { currentTheme } = useSelector(state => state.user)
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
-    const trendDashboardClassname = currentTheme === 'light' ? 'trend-light' : ''
-    const trendTitleClassname = currentTheme === 'light' ? 'cardTitle-light' : ''
+    const trendDashboardClassname = theme === 'light' ? 'trend-light' : ''
+    const trendTitleClassname = theme === 'light' ? 'cardTitle-light' : ''
     const { formatMessage } = useIntl()
 
     const { weeklyData, monthlyData, yearlyData } = useRecords()

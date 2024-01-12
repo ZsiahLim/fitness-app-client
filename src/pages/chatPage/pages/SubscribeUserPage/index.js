@@ -1,18 +1,12 @@
-import { Avatar, Button, List, Skeleton, message, Modal, Select, Input, Popconfirm, Drawer, Segmented, Divider, Form, Badge } from 'antd';
-import { UserOutlined, MessageFilled, MessageTwoTone, ContactsTwoTone, StarTwoTone, LeftOutlined, EllipsisOutlined, AudioOutlined, SearchOutlined } from '@ant-design/icons';
+import { message, Input, Empty } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
-import { UserAddOutlined } from '@ant-design/icons'
-import { loginStart, loginSuccess } from '../../../../redux/userSlice'
-import { useDispatch } from 'react-redux'
-import { addcontact, createconversation, createreport, fuzzysearchuser, removecontact } from '../../../../api/user.api';
-import { Outlet, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
-import ContactsList from '../../Components/ContactsList';
+import { fuzzysearchuser } from '../../../../api/user.api';
+import { Outlet } from 'react-router-dom';
 import FootNavigationBar from '../../Components/footNavigationBar';
 import COLORS from '../../../../constants/COLORS';
 import useUserTheme from '../../../../hooks/useUserTheme';
 import APPTHEME from '../../../../constants/COLORS/APPTHEME';
-import ContactHorizontalWithID from '../../../../components/contactHorizontalWithID';
 import ContactHorizontal from '../../../../components/contactHorizontal';
 import { useIntl } from 'react-intl';
 
@@ -20,15 +14,12 @@ function SubscribeUserPage() {
     const intl = useIntl()
     const theme = useUserTheme()
     const currentTheme = APPTHEME[theme]
-    const dispatch = useDispatch()
     const [searchedUsers, setSearchedUsers] = useState([])
     const [searchText, setSearchText] = useState('')
     const handleSearchUser = async () => {
-        console.log(searchText);
         if (searchText) {
             await fuzzysearchuser({ searchText }).then(res => {
-                console.log(res);
-                if (res.status !== false) {
+                if (res && res.status !== false) {
                     // setSearchText('')
                     setSearchedUsers(res)
                 } else {
@@ -36,7 +27,7 @@ function SubscribeUserPage() {
                 }
             })
         } else {
-            message.error(intl.formatMessage({ id: 'error.searchFailed' }))
+            message.error(intl.formatMessage({ id: 'error.cmty.searchFailed' }))
         }
     }
     useEffect(() => {
@@ -68,6 +59,10 @@ function SubscribeUserPage() {
                 </div>
                 <div className="chat-contentBox-leftBar-mainContent" style={{ margin: '10px 10px 0 10px' }}>
                     {(searchText && searchedUsers.length !== 0) && searchedUsers.map((user, index) => <ContactHorizontal key={index} contact={user} />)}
+                    {(searchText && searchedUsers.length === 0) && <div style={{ marginTop: 100 }}>
+                        <Empty description={false} />
+                    </div>
+                    }
                 </div>
                 <div className="chat-contentBox-leftBar-footNavigationBar">
                     <FootNavigationBar />

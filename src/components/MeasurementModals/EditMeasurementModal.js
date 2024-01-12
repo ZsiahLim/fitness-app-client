@@ -96,10 +96,10 @@ const EditMeasurementModal = ({ measurement, visible, setVisible }) => {
                     <div style={{}}><InputNumber disabled style={{ width: 200 }} value={BMI} step={0.01} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
-                    <div onClick={handleUpdateMeasurement} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.white, backgroundColor: COLORS.primary }}>
+                    <div className='buttonHover' onClick={handleUpdateMeasurement} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.white, backgroundColor: COLORS.primary }}>
                         {intl.formatMessage({ id: 'btn.save' })}
                     </div>
-                    <div onClick={() => setVisible(false)} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.commentText }}>
+                    <div className='buttonHover' onClick={() => setVisible(false)} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.commentText }}>
                         {intl.formatMessage({ id: 'btn.cancel' })}
                     </div>
                 </div>

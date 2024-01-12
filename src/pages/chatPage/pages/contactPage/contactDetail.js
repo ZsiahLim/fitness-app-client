@@ -163,7 +163,6 @@ export default function ContactDetail() {
                             children: <div>
                                 {contact?.blogs && <div style={{ marginBottom: SIZE.LittleMargin }}><div style={{ fontSize: 12, color: COLORS.commentText }}>{intl.formatMessage({ id: 'app.cmty.label.total' })}{contact.blogs.length}{intl.formatMessage({ id: 'app.cmty.label.totalBlogs' })}</div></div>}
                                 {contact?.blogs && <WaterfallContainer blogs={contact.blogs} />}
-                                {/* {user?.blogs && user.blogs.map((item, index) => <BlogCard blog={item} key={index} />)} */}
                             </div>,
                         }, {
                             label: intl.formatMessage({ id: 'app.cmty.label.record' }),

@@ -106,7 +106,6 @@ const MeasurementRecordsCard = () => {
     const dispatch = useDispatch()
     const [collapsed, setCollapsed] = useState(true)
     const { latestMeasurement, allMeasurements } = useMeasurement()
-    const { weightArr, dateArr, BMIArr } = useMeasurements(allMeasurements)
     const handleDeleteMeasurement = async (measurementID) => {
         await deletemeasurement(measurementID).then(res => {
             if (res.status !== false) {
@@ -134,9 +133,9 @@ const MeasurementRecordsCard = () => {
                         <div>
                             {intl.formatMessage({ id: 'app.stats.dataRecordPt1' })}{allMeasurements.length}{intl.formatMessage({ id: 'app.stats.dataRecordPt2' })}
                         </div>
-                        <div style={{ color: COLORS.commentText, fontSize: 14 }}>{collapsed ? <div onClick={() => setCollapsed(false)}>{intl.formatMessage({ id: 'app.stats.expand' })} <RightOutlined /></div> : <div onClick={() => setCollapsed(true)}>{intl.formatMessage({ id: 'app.stats.fold' })} <DownOutlined /></div>}</div>
+                        <div className='buttonHover' style={{ color: COLORS.commentText, fontSize: 14 }}>{collapsed ? <div onClick={() => setCollapsed(false)}>{intl.formatMessage({ id: 'app.stats.expand' })} <RightOutlined /></div> : <div onClick={() => setCollapsed(true)}>{intl.formatMessage({ id: 'app.stats.fold' })} <DownOutlined /></div>}</div>
                     </div>
-                    <div onClick={() => setUploadMeasurementModalVisible(true)} style={{ backgroundColor: COLORS.primary, padding: "4px 10px", borderRadius: 6, }}><div style={{ fontSize: 14, color: COLORS.white, gap: 6, display: 'flex', alignItems: 'center', }}><div>{intl.formatMessage({ id: 'app.stats.btn.addData' })}</div><FileAddOutlined /></div></div>
+                    <div className='buttonHover' onClick={() => setUploadMeasurementModalVisible(true)} style={{ backgroundColor: COLORS.primary, padding: "4px 10px", borderRadius: 6, }}><div style={{ fontSize: 14, color: COLORS.white, gap: 6, display: 'flex', alignItems: 'center', }}><div>{intl.formatMessage({ id: 'app.stats.btn.addData' })}</div><FileAddOutlined /></div></div>
                 </div>
             </div>
             {!collapsed && <div style={{ marginTop: SIZE.NormalMargin, }}>
@@ -147,8 +146,8 @@ const MeasurementRecordsCard = () => {
                     <div style={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ fontSize: 14, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 2 }}>{formatTimeForChartSoloItem(item.date)}<div style={{ fontWeight: 'normal' }}>{intl.formatMessage({ id: 'app.stats.title.record' })}</div></div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: SIZE.NormalMargin, color: COLORS.commentText }}>
-                            <div onClick={() => handleEditMeasurement(item)}><EditOutlined /></div>
-                            <div onClick={() => handleDeleteMeasurement(item._id)}><DeleteOutlined /></div>
+                            <div className='buttonHover' onClick={() => handleEditMeasurement(item)}><EditOutlined /></div>
+                            <div className='buttonHover' onClick={() => handleDeleteMeasurement(item._id)}><DeleteOutlined /></div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -221,7 +220,7 @@ const BodyMatricOverviewCard = () => {
             await updateweighttarget(data).then(res => {
                 if (res.status !== false) {
                     dispatch(loginSuccess(res))
-                    message.success(intl.formatMessage({id: 'msg.wtSetSuccess'}))
+                    message.success(intl.formatMessage({ id: 'msg.wtSetSuccess' }))
                 } else {
                     message.error(intl.formatMessage({ id: 'error.errorMsg' }))
                 }
@@ -398,7 +397,7 @@ const ExerciseOverview = () => {
     const THEME = APPTHEME[theme]
     const { durationSum, calorieSum, distanceSum, stepSum } = useRecords()
     return <div style={{ borderRadius: SIZE.CardBorderRadius, backgroundColor: THEME.contentColor, padding: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
-        <div style={{ fontWeight: 'bold', fontSize: 16, }}>{intl.formatMessage({id: 'app.stats.title.summary'})}</div>
+        <div style={{ fontWeight: 'bold', fontSize: 16, }}>{intl.formatMessage({ id: 'app.stats.title.summary' })}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: SIZE.NormalMargin, marginTop: SIZE.NormalMargin }}>
             <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
                 <ExerciseItem title={intl.formatMessage({ id: 'app.stats.title.dist' })} titleColor={COLORS.primary} value={distanceSum ? (distanceSum / 1000).toFixed(2) : "--"} unit={intl.formatMessage({ id: 'app.stats.unit.dist' })} />
