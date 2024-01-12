@@ -41,7 +41,7 @@ export const zhCN_dashboard = {
 
     'app.dsh.title.contact': '联系人',
     'app.dsh.msg.noContacts': '还没有联系人',
-    
+
     'app.dsh.title.measurements': '身体数据',
     'app.dsh.msg.noMesurements': '还没有记录，添加记录跟踪你的体重身材变化吧',
     'app.dsh.title.wt': '体重',
@@ -50,6 +50,6 @@ export const zhCN_dashboard = {
     'app.dsh.title.ht': '身高',
     'app.dsh.unit.ht': '厘米',
     'app.dsh.recordSince': '记录于:',
-
+    "app.dsh.msg.noMeasurements": '还没有你的身体记录',
 
 };

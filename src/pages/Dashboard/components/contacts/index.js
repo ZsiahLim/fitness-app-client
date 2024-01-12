@@ -1,5 +1,5 @@
 import './index.less'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import ContactHorizontalWithID from '../../../../components/contactHorizontalWithID';
 import { Empty } from 'antd';
 import useUserTheme from '../../../../hooks/useUserTheme';

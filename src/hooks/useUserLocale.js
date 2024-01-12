@@ -6,7 +6,6 @@ function useUserLocale() {
     const Language = useMemo(() => {
         let language;
         if (userLocale) {
-            console.log("userLocale", userLocale);
             language = userLocale.substring(0, 2)
         } else {
             language = 'en'

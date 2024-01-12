@@ -50,4 +50,5 @@ export const enUS_dashboard = {
     'app.dsh.title.ht': 'Height',
     'app.dsh.unit.ht': 'cm',
     'app.dsh.recordSince': 'Record on:',
+    "app.dsh.msg.noMeasurements": 'Dont have any measurements yet',
 };
