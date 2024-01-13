@@ -31,10 +31,10 @@ export const zhCN_profile = {
     'app.prf.label.wt': '体重',
     'app.prf.label.wt.wtUnit': '千克',
     'app.prf.label.wt.recorder': '记录于',
-        
+
     'app.prf.edit.gender.Male': '男',
     'app.prf.edit.gender.Female': '女',
     'app.prf.edit.theme.dark': '深色',
     'app.prf.edit.theme.light': '浅色',
-    
+    'app.prf.noRecord': '当前没有记录',
 };

@@ -52,7 +52,7 @@ export default function ConversationDetail() {
         await deleteconversation(conversationID).then(res => {
             navigateTo('/chat/conversations')
         }).catch(() => {
-            message.error(intl.formatMessage({id: 'error.default'}))
+            message.error(intl.formatMessage({ id: 'error.default' }))
         })
     }
     const sendMessage = async (type, value, width, height) => {
@@ -60,14 +60,14 @@ export default function ConversationDetail() {
             if (value) {
                 socket.current.emit('sendMessage', { msgType: type, senderId: currentUser._id, receiverId: contact._id, msgValue: value, msgHeight: height ? height : null, msgWidth: width ? width : null })
                 await sendmessage({ msgType: type, conversationId: conversationID, receiver: contact._id, msgValue: value, msgHeight: height ? height : null, msgWidth: width ? width : null })
-                message.success(intl.formatMessage({id: 'app.cmty.msg.sent'}))
+                message.success(intl.formatMessage({ id: 'app.cmty.msg.sent' }))
                 destroyAll()
                 setTextSend('')
             } else {
-                message.error(intl.formatMessage({id: 'error.cmty.emptyMsg'}))
+                message.error(intl.formatMessage({ id: 'error.cmty.emptyMsg' }))
             }
         } catch (error) {
-            message.error(intl.formatMessage({id: 'error.cmty.failSend'}))
+            message.error(intl.formatMessage({ id: 'error.cmty.failSend' }))
         }
     }
     const handleEnter = (event) => {
@@ -89,7 +89,7 @@ export default function ConversationDetail() {
                 const res = await getcurrentconversationmessages(conversationID)
                 setCurrentConversationMessages(res)
             } catch (error) {
-                message.error(intl.formatMessage({id: 'error.cmty.failSend'}))
+                message.error(intl.formatMessage({ id: 'error.cmty.failSend' }))
             }
         }
         getMessages()
@@ -153,14 +153,14 @@ export default function ConversationDetail() {
                     reader.readAsDataURL(file);
                 });
             } else {
-                message.error(intl.formatMessage({id: 'error.blog.wrongFile'}))
+                message.error(intl.formatMessage({ id: 'error.blog.wrongFile' }))
                 return false
             }
         },
         fileList: msgImg,
     };
     const submitImageToFirebase = ({ file }) => {
-        showConfirm()
+        showConfirm(progress)
         setUploading(true)
         if (file) {
             const storageRef = ref(storage, `Message-${parseInt((new Date().getTime() / 1000).toString())}`);
@@ -186,13 +186,12 @@ export default function ConversationDetail() {
                 }
             },
                 (error) => {
-                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
+                    message.err(intl.formatMessage({ id: 'error.errorHappens' }))
                     setMsgImg([])
                     setUploading(false)
                     destroyAll()
                 },
                 () => {
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         const handledBlogImgs = msgImg.map(item => {
                             if (item.uid === file.uid) {
@@ -203,12 +202,14 @@ export default function ConversationDetail() {
                         console.log('handledBlogImgs', handledBlogImgs);
                         setMsgImg([])
                         sendMessage('image', downloadURL, handledBlogImgs[0].imgWidth, handledBlogImgs[0].imgHeight)
+                        const sentPicMsg = { sender: currentUser._id, msgType: 'image', conversationId: conversationID, receiver: contact._id, msgValue: downloadURL, msgHeight: handledBlogImgs[0].imgHeight, msgWidth: handledBlogImgs[0].imgWidth }
+                        setCurrentConversationMessages((prev) => [...prev, sentPicMsg])
                     });
                     setUploading(false)
                 }
             );
         } else {
-            message.err(intl.formatMessage({id: 'error.errorHappens'}))
+            message.err(intl.formatMessage({ id: 'error.errorHappens' }))
             setMsgImg([])
             setUploading(false)
             destroyAll()
@@ -247,7 +248,7 @@ export default function ConversationDetail() {
                     video.src = URL.createObjectURL(file);
                 })
             } else {
-                message.error(intl.formatMessage({id: 'error.blog.wrongFile.video'}))
+                message.error(intl.formatMessage({ id: 'error.blog.wrongFile.video' }))
                 return false
             }
         },
@@ -257,6 +258,7 @@ export default function ConversationDetail() {
     const [progress, setProgress] = useState(0)
 
     const submitVideoToFirebase = ({ file }) => {
+        showConfirm(progress)
         setUploading(true)
         if (file) {
             const storageRef = ref(storage, `Message-${parseInt((new Date().getTime() / 1000).toString())}`);
@@ -265,6 +267,7 @@ export default function ConversationDetail() {
                 (snapshot) => {
                     console.log("msgVideo", msgVideo);
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setProgress(progress)
                     setMsgVideo([{ ...msgVideo[0], status: 'uploading', percent: progress }])
                     switch (snapshot.state) {
                         case 'paused':
@@ -276,29 +279,33 @@ export default function ConversationDetail() {
                     }
                 },
                 (error) => {
-                    message.err(intl.formatMessage({id: 'error.errorHappens'}))
+                    message.err(intl.formatMessage({ id: 'error.errorHappens' }))
                     setMsgVideo([{ ...msgVideo[0], status: 'error' }])
                     setUploading(false)
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         console.log('over:', msgVideo);
-                        setMsgVideo([{ ...msgVideo[0], status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }])
+                        // setMsgVideo([{ ...msgVideo[0], status: 'done', url: downloadURL, thumbUrl: downloadURL, name: file.name }])
                         sendMessage('video', downloadURL, msgVideo[0].videoWidth, msgVideo[0].videoHeight)
+                        setMsgVideo([])
+                        const sentVideoMsg = { sender: currentUser._id, msgType: 'video', conversationId: conversationID, receiver: contact._id, msgValue: downloadURL, msgHeight: msgVideo[0].videoHeight, msgWidth: msgVideo[0].videoWidth }
+                        setCurrentConversationMessages((prev) => [...prev, sentVideoMsg])
                     });
                     setUploading(false)
                 }
             );
         } else {
-            message.err(intl.formatMessage({id: 'error.errorHappens'}))
-            setMsgVideo([{ ...msgVideo[0], status: 'error' }])
+            message.err(intl.formatMessage({ id: 'error.errorHappens' }))
+            // setMsgVideo([{ ...msgVideo[0], status: 'error' }])
+            setMsgVideo([])
             setUploading(false)
         }
     }
-    const showConfirm = () => {
+    const showConfirm = (percentage) => {
         confirm({
             title: 'Sending',
-            content: <Progress percent={progress} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />,
+            content: <Progress percent={percentage / 100} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />,
             onOk() {
                 console.log('OK');
             },
@@ -313,27 +320,25 @@ export default function ConversationDetail() {
     const moreBtn = [
         {
             key: 'helos',
-            label: <Upload customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>{intl.formatMessage({id: 'app.cmty.label.pic'})}</Upload>,
+            label: <Upload customRequest={submitImageToFirebase} maxCount={1} {...propsImage}>{intl.formatMessage({ id: 'app.cmty.label.pic' })}</Upload>,
             icon: <FileImageOutlined />,
         },
         {
             key: 'video',
-            label: <Upload customRequest={submitVideoToFirebase} maxCount={1} {...propsVideo}>{intl.formatMessage({id: 'app.cmty.label.vid'})}</Upload>,
+            label: <Upload customRequest={submitVideoToFirebase} maxCount={1} {...propsVideo}>{intl.formatMessage({ id: 'app.cmty.label.vid' })}</Upload>,
             icon: <FileImageOutlined />
         }
     ];
     const getMessages = async () => {
         try {
-            const conversationID = location.pathname.split('/')[4]
             const res = await getcurrentconversationmessages(conversationID)
             setCurrentConversationMessages(res)
         } catch (error) {
-            message.error(intl.formatMessage({id: 'error.cmty.failGetMsg'}))
+            message.error(intl.formatMessage({ id: 'error.cmty.failSend' }))
         }
     }
     useEffect(() => {
         getMessages()
-        console.log('zhelime');
     }, [textSend])
 
     return (
@@ -363,9 +368,9 @@ export default function ConversationDetail() {
                             <PlusCircleOutlined />
                         </Dropdown>
                     </div>
-                    <TextArea value={textSend} bordered={false} ref={searchInput} autoSize={{ minRows: 1, maxRows: 6, }} allowClear placeholder={intl.formatMessage({id: 'app.cmty.field.type'})} onKeyDown={(e) => handleEnter(e)} onChange={({ target: { value } }) => setTextSend(value)} />
+                    <TextArea value={textSend} bordered={false} ref={searchInput} autoSize={{ minRows: 1, maxRows: 6, }} allowClear placeholder={intl.formatMessage({ id: 'app.cmty.field.type' })} onKeyDown={(e) => handleEnter(e)} onChange={({ target: { value } }) => setTextSend(value)} />
                     <div className='chat-sendPart'>
-                        <Button onClick={() => sendMessage('text', textSend)}>{intl.formatMessage({id: 'send'})}</Button>
+                        <Button onClick={() => sendMessage('text', textSend)}>{intl.formatMessage({ id: 'send' })}</Button>
                     </div>
                 </>
             </div>

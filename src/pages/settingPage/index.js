@@ -83,9 +83,11 @@ const ExerciseAndBodyMatric = () => {
                     <RightOutlined />
                 </div>
             </div>
-            {latestMeasurement?.weight && <div style={{ display: 'flex', alignItems: 'baseline', }}>
+            {latestMeasurement?.weight ? <div style={{ display: 'flex', alignItems: 'baseline', }}>
                 <div style={{ fontWeight: 'bold', fontSize: 20 }}>{latestMeasurement.weight}</div>
                 <div style={{ fontSize: 14, }}>{intl.formatMessage({ id: 'app.prf.label.wt.wtUnit' })}</div>
+            </div> : <div style={{ padding: '8px 0', }}>
+                {intl.formatMessage({ id: 'app.prf.noRecord' })}
             </div>}
             {latestMeasurement?.date && <div style={{ color: COLORS.commentText, fontSize: 14 }}>
                 {intl.formatMessage({ id: 'app.prf.label.wt.recorder' })}{formatTimeForChartSoloItem(new Date(latestMeasurement.date))}

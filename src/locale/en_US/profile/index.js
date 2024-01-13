@@ -31,9 +31,10 @@ export const enUS_profile = {
     'app.prf.label.wt': 'Weight',
     'app.prf.label.wt.wtUnit': 'kg',
     'app.prf.label.wt.recorder': 'Recorded',
-    
+
     'app.prf.edit.gender.Male': 'Male',
     'app.prf.edit.gender.Female': 'Female',
     'app.prf.edit.theme.dark': 'Dark',
     'app.prf.edit.theme.light': 'Light',
+    'app.prf.noRecord': 'No record now',
 };

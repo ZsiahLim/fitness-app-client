@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
 import { CalendarFilled } from '@ant-design/icons';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Calendar, Divider, Modal } from 'antd';
 import dayjs from 'dayjs';
 import './index.less'
-import { useSelector } from 'react-redux';
-import NoSchedule from '../../../../components/noSchedule';
+import { useDispatch, useSelector } from 'react-redux';
 import TodayTodo from '../../../planPage/Components/TodayTodo';
 import { formatTimeToChinese } from '../../../../utils/formatTime';
 import RecommandTutorials from '../../../../components/RecommandTutorials';
 import MyExerciseCard from '../../../settingPage/components/MyExerciseCard';
 import NavigateToPlanPage from './components/NavigateToPlanPage';
+import { setUserSelectDay } from '../../../../redux/CalendarSlice';
+import { isAfterToday } from '../../../../utils/funcs';
 
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function RightSidebar() {
+    const dispatch = useDispatch()
+    const { userSelectDay } = useSelector(state => state.calendar)
     const { currentUser: { preferedLanguage } } = useSelector(state => state.user)
-    const [selectDay, setSelectDay] = useState(new Date());
+    const [selectDay, setSelectDay] = useState(isAfterToday(userSelectDay) ? new Date(userSelectDay) : new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
@@ -29,6 +31,7 @@ export default function RightSidebar() {
     };
     const onSelect = (newValue) => {
         const date = new Date(newValue);
+        dispatch(setUserSelectDay(date.toISOString()))
         setSelectDay(date)
     };
     return (

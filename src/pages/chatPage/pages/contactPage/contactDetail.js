@@ -24,7 +24,7 @@ import APPTHEME from '../../../../constants/COLORS/APPTHEME'
 export default function ContactDetail() {
     const intl = useIntl()
     const { userID: ContactID } = useParams()
-    const { durationSum, calorieSum, distanceSum, stepSum, weeklyData, monthlyData, yearlyData } = useRecordsByUserId(ContactID)
+    const { durationSum, calorieSum, distanceSum, stepSum, weeklyData, monthlyData, yearlyData, } = useRecordsByUserId(ContactID)
     const navigateTo = useNavigate()
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]

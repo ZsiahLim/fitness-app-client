@@ -14,11 +14,7 @@ import { useDispatch } from 'react-redux'
 import { updatecalorietarget, updatedistancetarget, updatedurationtarget, updatesteptarget } from '../../api/user.api'
 import { loginSuccess } from '../../redux/userSlice'
 import { STATISTICITEMS } from './statisticItems'
-import { FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
-
-// const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {
-//     const intl = useIntl()
 import { secToSpecificMin } from '../../utils/funcs'
 
 const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targetValue, unit, recordDate, valueArr, dateArr }) => {

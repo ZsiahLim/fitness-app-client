@@ -23,11 +23,11 @@ export const enUS_community = {
     'app.cmty.title.chat': 'Chat',
     'app.cmty.title.search': 'Search',
 
-    'app.cmty.msg.sent': 'Sent',
+    'app.cmty.msg.sent': 'Sent Successfully',
 
     'app.cmty.label.pic': 'Picture',
     'app.cmty.label.vid': 'Video',
     'app.cmty.field.type': 'Type something...',
     'app.cmty.field.search': 'Search user by ID/Name/Email',
-    
+
 };

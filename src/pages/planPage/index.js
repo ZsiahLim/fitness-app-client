@@ -15,6 +15,7 @@ import useUserTheme from '../../hooks/useUserTheme';
 import APPTHEME from '../../constants/COLORS/APPTHEME';
 import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import { isAfterToday } from '../../utils/funcs';
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
 export default function PlanPage() {
@@ -24,12 +25,10 @@ export default function PlanPage() {
     const currentTheme = useUserTheme()
     const THEME = APPTHEME[currentTheme]
     const { currentUser: { preferedLanguage } } = useSelector(state => state.user)
+    const { userSelectDay } = useSelector(state => state.calendar)
     const lightPlanPageClassname = currentTheme === 'light' ? 'planPage-light' : ''
-    const [selectDay, setSelectday] = useState(new Date());
+    const [selectDay, setSelectDay] = useState(isAfterToday(userSelectDay) ? new Date(userSelectDay) : new Date());
     const [isModalOpen, setIsModalOpen] = useState(false)
-    useEffect(() => {
-        setSelectday(new Date())
-    }, [])
 
     useEffect(() => {
         if (selectDay) {
@@ -49,7 +48,7 @@ export default function PlanPage() {
     };
     const onSelect = (newValue) => {
         const date = new Date(newValue);
-        setSelectday(date)
+        setSelectDay(date)
     };
     return (
         <div className={`planPage ${lightPlanPageClassname}`}>
@@ -74,7 +73,7 @@ export default function PlanPage() {
                     <MyExerciseCard />
                     <RecommandTutorials />
                     <div onClick={() => navigateTo('/tutorial')} className='buttonHover' style={{ padding: SIZE.NormalMargin, display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: THEME.backgroundColor, borderRadius: SIZE.CardBorderRadius, fontWeight: 'bold' }}>
-                        <div>{intl.formatMessage({id: 'app.tut.msg.tutLibPortal'})}</div>
+                        <div>{intl.formatMessage({ id: 'app.tut.msg.tutLibPortal' })}</div>
                         <RightOutlined />
                     </div>
                 </div>
