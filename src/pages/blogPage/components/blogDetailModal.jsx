@@ -233,7 +233,7 @@ export default function BlogDetail({ blog, getData, isBlogOpen, setIsBlogOpen })
                                         : <Tooltip placement="top" title={intl.formatMessage({ id: 'btn.report' })}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
                                 </div>
                                 <div className='Btn'
-                                    onClick={() => shareBlog(blogInfo._id)}
+                                    onClick={() => shareBlog(blogInfo._id, intl.formatMessage({ id: "app.share.shareSuccess" }), intl.formatMessage({ id: 'error.errorHappens' }))}
                                 >
                                     <Tooltip placement="top" title={intl.formatMessage({ id: 'app.blog.label.share' })}>
                                         <ShareAltOutlined />

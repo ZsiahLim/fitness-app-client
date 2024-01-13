@@ -66,11 +66,12 @@ export default function Sidebar() {
                 if (res && res.status !== false) {
                     dispatch(loginSuccess(res))
                 } else {
-                    message.error("出现异常请稍后重试")
+                    message.error(formatMessage({ id: 'error.errorHappens' }))
                 }
             })
             .catch(error => {
-                message.error("出现异常请稍后重试")
+                console.log(error, "zhelene");
+                message.error(formatMessage({ id: 'error.errorHappens' }))
             })
     }
     return (
@@ -94,11 +95,11 @@ export default function Sidebar() {
                                     : <Switch onChange={(checked) => handleUpdate(checked ? 'light' : 'dark')}></Switch>}
                                 <br />
                                 <Popconfirm
-                                    title={intl.formatMessage({id: 'app.dsh.sidebar.logoutTitle'})}
-                                    description={intl.formatMessage({id: 'app.dsh.sidebar.logoutWarn'})}
+                                    title={intl.formatMessage({ id: 'app.dsh.sidebar.logoutTitle' })}
+                                    description={intl.formatMessage({ id: 'app.dsh.sidebar.logoutWarn' })}
                                     onConfirm={Logout}
-                                    okText={intl.formatMessage({id: 'btn.yes'})}
-                                    cancelText={intl.formatMessage({id: 'btn.no'})}
+                                    okText={intl.formatMessage({ id: 'btn.yes' })}
+                                    cancelText={intl.formatMessage({ id: 'btn.no' })}
                                 >
                                     <Button style={{ marginTop: 5 }} size='small' type="primary" danger>
                                         {formatMessage({ id: 'app.dashboard.logout' })}

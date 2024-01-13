@@ -1,22 +1,22 @@
 import { message } from "antd";
 
-const shareBlog = async (id) => {
+const shareBlog = async (id, successMsg, errMsg) => {
     const originUrl = window.location.origin;
     const wholeUrl = originUrl + '/specificblog/' + id;
     await navigator.clipboard.writeText(wholeUrl).then(res => {
-        message.success('已经复制到您的剪切板,发送给好友分享吧～')
+        message.success(successMsg)
     }).catch(err => {
-        message.error('Failed to copy')
+        message.error(errMsg)
     })
 }
 
-const shareTutorial = async (id) => {
+const shareTutorial = async (id, successMsg, errMsg) => {
     const originUrl = window.location.origin;
     const wholeUrl = originUrl + '/specifictutorial/' + id;
     await navigator.clipboard.writeText(wholeUrl).then(res => {
-        message.success('已经复制到您的剪切板,发送给好友分享吧～')
+        message.success(successMsg)
     }).catch(err => {
-        message.error('Failed to copy')
+        message.error(errMsg)
     })
 }
 

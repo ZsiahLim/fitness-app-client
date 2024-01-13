@@ -26,6 +26,7 @@ import SubscribeUserPage from '../pages/chatPage/pages/SubscribeUserPage'
 import { getrecommandtutorials, getspecifictypetutorials } from '../api/tutorial.api'
 import useCheckUserStatus from '../hooks/useCheckUserStatus'
 import { message } from 'antd'
+import RightSideIcon from '../pages/chatPage/Components/RightSideIcon'
 
 
 export default function MyRouter() {
@@ -79,6 +80,10 @@ export default function MyRouter() {
                             loader: async () => await getconversation(),
                             children: [
                                 {
+                                    path: "",
+                                    element: <RightSideIcon />
+                                },
+                                {
                                     path: "specific/:conversationID",
                                     element: <ConversationDetail />,
                                 },
@@ -95,6 +100,10 @@ export default function MyRouter() {
                             },
                             children: [
                                 {
+                                    path: "",
+                                    element: <RightSideIcon />
+                                },
+                                {
                                     path: "detail/:userID",
                                     element: <ContactDetail />,
                                     loader: async ({ params }) => await getuser(params.contactID)
@@ -106,6 +115,10 @@ export default function MyRouter() {
                             element: <SubscribeUserPage />,
                             // loader: async () => await getconversation()
                             children: [
+                                {
+                                    path: "",
+                                    element: <RightSideIcon />
+                                },
                                 {
                                     path: "user/:userID",
                                     element: <ContactDetail />,

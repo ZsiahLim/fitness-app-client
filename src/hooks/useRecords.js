@@ -187,21 +187,22 @@ import { startOfWeek, startOfMonth, startOfYear, format } from 'date-fns';
 import { getrecords } from '../api/record.api';
 import { setRecords } from '../redux/RecordSlice';
 import { message } from 'antd';
+import { useIntl } from 'react-intl';
 
 function useRecords() {
     const dispatch = useDispatch();
     const records = useSelector(state => state.record.records);
-
+    const { formatMessage } = useIntl()
     const fetchRecords = async () => {
         try {
             const res = await getrecords();
             if (res && res.status !== false) {
                 dispatch(setRecords(res));
             } else {
-                throw new Error('Failed to fetch records');
+                message.error(formatMessage({ id: 'error.errorHappens' }))
             }
         } catch (err) {
-            message.error("出现异常请重试");
+            message.error(formatMessage({ id: 'error.errorHappens' }))
         }
     };
 

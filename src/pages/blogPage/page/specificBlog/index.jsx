@@ -36,7 +36,7 @@ export default function SpecificBlog() {
             .then(user => {
                 setUser(user)
             }).catch(error => {
-                message.error(intl.formatMessage({id: 'error.blog.failToGetUserData'}))
+                message.error(intl.formatMessage({ id: 'error.blog.failToGetUserData' }))
             })
     }
     const getBlogComments = async () => {
@@ -50,7 +50,7 @@ export default function SpecificBlog() {
             }
         }).catch(err => {
             console.log(err);
-            message.error(intl.formatMessage({id: 'error.blog.failToGetUserData'}))
+            message.error(intl.formatMessage({ id: 'error.blog.failToGetUserData' }))
         })
     }
     const getWholeBlogInfo = async (userReq, comments) => {
@@ -63,18 +63,18 @@ export default function SpecificBlog() {
         getBlogComments()
     }, [])
     const handleLikeBlog = async (blogID) => {
-        liked ? await cancellikeblog(blogID).then(() => { 
-            message.success(intl.formatMessage({id: 'app.blog.msg.cancelLike'}))
+        liked ? await cancellikeblog(blogID).then(() => {
+            message.success(intl.formatMessage({ id: 'app.blog.msg.cancelLike' }))
             setLikeNum(likedNum - 1)
             setLiked(false)
         }).catch((err) => {
-            message.error(intl.formatMessage({id: 'error.errorHappens'}))
+            message.error(intl.formatMessage({ id: 'error.errorHappens' }))
         }) : await likeblog(blogID).then(() => {
-            message.success(intl.formatMessage({id: 'app.blog.msg.likeBlog'}))
+            message.success(intl.formatMessage({ id: 'app.blog.msg.likeBlog' }))
             setLikeNum(likedNum + 1)
             setLiked(true)
         }).catch(() => {
-            message.error(intl.formatMessage({id: 'error.errorHappens'}))
+            message.error(intl.formatMessage({ id: 'error.errorHappens' }))
         })
     }
     const handleFavoriteBlog = async (blogID) => {
@@ -84,22 +84,22 @@ export default function SpecificBlog() {
                 setFavoritedNum(favoritedNum - 1)
                 setFavorited(false)
             }).catch(() => {
-                message.error(intl.formatMessage({id: 'error.errorHappens'}))
+                message.error(intl.formatMessage({ id: 'error.errorHappens' }))
             }) : await favoriteblog(blogID)
                 .then(() => {
-                    message.success(intl.formatMessage({id: 'app.blog.msg.favorBlog'}))
+                    message.success(intl.formatMessage({ id: 'app.blog.msg.favorBlog' }))
                     setFavoritedNum(favoritedNum + 1)
                     setFavorited(true)
                 }).catch(() => {
-                    message.error(intl.formatMessage({id: 'error.errorHappens'}))
+                    message.error(intl.formatMessage({ id: 'error.errorHappens' }))
                 })
     }
     const handleDeleteBlog = async (blogID) => {
         await deleteblog(blogID)
             .then(() => {
-                message.success(intl.formatMessage({id: 'app.blog.msg.delBlog'}))
+                message.success(intl.formatMessage({ id: 'app.blog.msg.delBlog' }))
             }).catch((err) => {
-                message.error(intl.formatMessage({id: 'error.errorHappens'}))
+                message.error(intl.formatMessage({ id: 'error.errorHappens' }))
                 console.log(err);
             })
     }
@@ -108,7 +108,7 @@ export default function SpecificBlog() {
         if (!isMuted) {
             mycomment && await addcomment({ blogID: specificBlog._id, content: mycomment })
                 .then(() => {
-                    message.success(intl.formatMessage({id: 'app.blog.msg.comment'}))
+                    message.success(intl.formatMessage({ id: 'app.blog.msg.comment' }))
                     getBlogComments()
                     setMycomment('')
                 }).catch(error => {
@@ -116,13 +116,13 @@ export default function SpecificBlog() {
                     console.log(error);
                 })
         } else {
-            message.error(intl.formatMessage({id: 'app.blog.msg.accStatus'}) + muteDate, 5)
+            message.error(intl.formatMessage({ id: 'app.blog.msg.accStatus' }) + muteDate, 5)
         }
     }
     const handleLikeComment = async (commentId) => {
         await likecomment(commentId)
             .then(() => {
-                message.success(intl.formatMessage({id: 'app.blog.msg.likeComment'}))
+                message.success(intl.formatMessage({ id: 'app.blog.msg.likeComment' }))
                 getBlogComments()
             }).catch(error => {
                 message.error(error)
@@ -137,12 +137,12 @@ export default function SpecificBlog() {
     const handleSubmitReport = async () => {
         reportReason ? await createreport({ type: 'blog', targetID: specificBlog._id, content: reportReason })
             .then(() => {
-                message.success(intl.formatMessage({id: 'app.blog.msg.reportSuccess'}))
+                message.success(intl.formatMessage({ id: 'app.blog.msg.reportSuccess' }))
                 setIsReportModalOpen(false)
             }).catch(err => {
                 console.log(err);
-                message.error(intl.formatMessage({id: 'error.blog.failToReport'}))
-            }) : message.warning(intl.formatMessage({id: 'app.blog.msg.reportWarn'}))
+                message.error(intl.formatMessage({ id: 'error.blog.failToReport' }))
+            }) : message.warning(intl.formatMessage({ id: 'app.blog.msg.reportWarn' }))
     }
     const [reportCommentReason, setReportCommentReason] = useState();
     const [isCommentReportModalOpen, setIsCommentReportModalOpen] = useState(false)
@@ -153,14 +153,14 @@ export default function SpecificBlog() {
     const handleSubmitCommentReport = async () => {
         (reportCommentReason && reportCommentID) ? await createreport({ type: 'comment', targetID: reportCommentID, content: reportCommentReason })
             .then(() => {
-                message.success(intl.formatMessage({id: 'app.blog.msg.reportSuccess'}))
+                message.success(intl.formatMessage({ id: 'app.blog.msg.reportSuccess' }))
                 setIsCommentReportModalOpen(false)
             }).catch(err => {
                 console.log(err);
-                message.error(intl.formatMessage({id: 'error.blog.failToReport'}))
-            }) : message.warning(intl.formatMessage({id: 'app.blog.msg.reportWarn'}))
+                message.error(intl.formatMessage({ id: 'error.blog.failToReport' }))
+            }) : message.warning(intl.formatMessage({ id: 'app.blog.msg.reportWarn' }))
     }
-    const reportCommmentContent = (<div style={{ display: 'flex', userSelect: 'none', cursor: 'pointer', justifyContent: "center", alignItems: 'center', width: 60, height: 36, borderRadius: 10, backgroundColor: currentTheme === 'light' ? "#f0f0f0" : '#383838' }} onClick={() => setIsCommentReportModalOpen(true)}>{intl.formatMessage({id: 'btn.report'})}</div>)
+    const reportCommmentContent = (<div style={{ display: 'flex', userSelect: 'none', cursor: 'pointer', justifyContent: "center", alignItems: 'center', width: 60, height: 36, borderRadius: 10, backgroundColor: currentTheme === 'light' ? "#f0f0f0" : '#383838' }} onClick={() => setIsCommentReportModalOpen(true)}>{intl.formatMessage({ id: 'btn.report' })}</div>)
     const withoutImgBlogMainPart = imgUrl.length === 0 && !videoUrl ? 'blogMainPart-without' : ''
     const [EditModalOpen, setEditModalOpen] = useState(false)
     const videoJsOptions = {
@@ -184,7 +184,7 @@ export default function SpecificBlog() {
     return (
         <div className={`specificiBlogPage ${lightSpecificBlogClassname}`}>
             <div className='specificiBlogPage-backBtn' onClick={() => navigateTo(-1)}>
-                <LeftOutlined /> {intl.formatMessage({id: 'btn.back'})}
+                <LeftOutlined /> {intl.formatMessage({ id: 'btn.back' })}
             </div>
             <div className='specificiBlogPage-main'>
                 <div className={`BlogModal ${lightBlogModalClassname}`} >
@@ -222,18 +222,18 @@ export default function SpecificBlog() {
                                     </div>}
                                     <div className='Btn'>
                                         {owner ? <Popconfirm
-                                            title={intl.formatMessage({id: 'app.blog.msg.delBlog'})}
-                                            description={intl.formatMessage({id: 'app.blog.msg.confirmDel'})}
-                                            okText={intl.formatMessage({id: 'btn.yes'})}
-                                            cancelText={intl.formatMessage({id: 'btn.no'})}
+                                            title={intl.formatMessage({ id: 'app.blog.msg.delBlog' })}
+                                            description={intl.formatMessage({ id: 'app.blog.msg.confirmDel' })}
+                                            okText={intl.formatMessage({ id: 'btn.yes' })}
+                                            cancelText={intl.formatMessage({ id: 'btn.no' })}
                                             onConfirm={() => handleDeleteBlog(specificBlog._id)}
                                         >
                                             <DeleteFilled />
                                         </Popconfirm>
-                                            : <Tooltip placement="top" title={intl.formatMessage({id: 'btn.report'})}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
+                                            : <Tooltip placement="top" title={intl.formatMessage({ id: 'btn.report' })}><WarningFilled onClick={() => setIsReportModalOpen(true)} /></Tooltip>}
                                     </div>
-                                    <div className='Btn' onClick={() => shareBlog(specificBlog._id)}>
-                                        <Tooltip placement="top" title={intl.formatMessage({id: 'app.blog.label.share'})}>
+                                    <div className='Btn' onClick={() => shareBlog(specificBlog._id, intl.formatMessage({ id: "app.share.shareSuccess" }), intl.formatMessage({ id: 'error.errorHappens' }))}>
+                                        <Tooltip placement="top" title={intl.formatMessage({ id: 'app.blog.label.share' })}>
                                             <ShareAltOutlined />
                                         </Tooltip>
                                     </div>
@@ -264,30 +264,30 @@ export default function SpecificBlog() {
                         <div className='myComment'>
                             <Avatar size={52} icon={<UserOutlined />} src={currentUser?.avator ? currentUser.avator : ''} />
                             <div className='commentInput'>
-                                <Input value={mycomment} onChange={(e) => setMycomment(e.target.value)} onPressEnter={handleComment} maxLength={50} placeholder={intl.formatMessage({id: 'app.blog.msg.noComment'})} bordered={false} />
+                                <Input value={mycomment} onChange={(e) => setMycomment(e.target.value)} onPressEnter={handleComment} maxLength={50} placeholder={intl.formatMessage({ id: 'app.blog.msg.noComment' })} bordered={false} />
                             </div>
                         </div>
                     </div>
-                    <Modal title={intl.formatMessage({id: 'app.blog.label.report'})} open={isReportModalOpen} onOk={handleSubmitReport} onCancel={handleSubmitReportCancel}>
+                    <Modal title={intl.formatMessage({ id: 'app.blog.label.report' })} open={isReportModalOpen} onOk={handleSubmitReport} onCancel={handleSubmitReportCancel}>
                         <Form
                             labelCol={{ span: 7 }}
                             wrapperCol={{ span: 14 }}
                             layout="horizontal"
                             style={{ maxWidth: 600 }}
                         >
-                            <Form.Item label={intl.formatMessage({id: 'app.blog.label.reportReason'})}>
+                            <Form.Item label={intl.formatMessage({ id: 'app.blog.label.reportReason' })}>
                                 <TextArea onChange={({ target: { value } }) => { console.log(value); setReportReason(value) }} rows={4} />
                             </Form.Item>
                         </Form>
                     </Modal>
-                    <Modal title={intl.formatMessage({id: 'app.blog.label.report'})} open={isCommentReportModalOpen} onOk={handleSubmitCommentReport} onCancel={handleSubmitCommentReportCancel}>
+                    <Modal title={intl.formatMessage({ id: 'app.blog.label.report' })} open={isCommentReportModalOpen} onOk={handleSubmitCommentReport} onCancel={handleSubmitCommentReportCancel}>
                         <Form
                             labelCol={{ span: 7 }}
                             wrapperCol={{ span: 14 }}
                             layout="horizontal"
                             style={{ maxWidth: 600 }}
                         >
-                            <Form.Item label={intl.formatMessage({id: 'app.blog.label.reportReason'})}>
+                            <Form.Item label={intl.formatMessage({ id: 'app.blog.label.reportReason' })}>
                                 <TextArea onChange={({ target: { value } }) => { setReportCommentReason(value) }} rows={4} />
                             </Form.Item>
                         </Form>

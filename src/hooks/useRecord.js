@@ -4,9 +4,11 @@ import { checkTwoDaysIsEqual } from '../utils/checkIsToday';
 import { getlatestrecord, getrecords } from '../api/record.api';
 import { setRecords } from '../redux/RecordSlice';
 import { message } from 'antd';
+import { useIntl } from 'react-intl';
 
 // 这是一个自定义Hook
 function useRecord(selectDay) {
+    const { formatMessage } = useIntl()
     const [latestRecord, setLatestRecord] = useState({})
     const dispatch = useDispatch()
     const [allRecords, setAllRecords] = useState([])
@@ -19,7 +21,7 @@ function useRecord(selectDay) {
             }
         }).catch(err => {
             console.log(err, 'err');
-            message.error("出现异常请重试")
+            message.error(formatMessage({ id: 'error.errorHappens' }))
         })
     }
     const getLatestRecord = async () => {
@@ -28,7 +30,7 @@ function useRecord(selectDay) {
                 setLatestRecord(res)
             }
         }).catch(err => {
-            message.error("出现异常请重试")
+            message.error(formatMessage({ id: 'error.errorHappens' }))
         })
     }
     useEffect(() => {

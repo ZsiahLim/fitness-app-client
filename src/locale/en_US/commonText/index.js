@@ -61,4 +61,5 @@ export const enUS_commonText = {
     'msg.noRecom': "We're sorry we couldn't find a tutorial to suit your preferences.",
     'msg.promoAssess': 'Please take our assessment to get recommendations suits your preferences!',
     'app.news.systemMsg': 'System Message',
+    "app.share.shareSuccess": 'Copied to your Clipboard, share to your friends~',
 };

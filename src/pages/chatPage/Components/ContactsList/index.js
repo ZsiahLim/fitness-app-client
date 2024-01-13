@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { getuser } from '../../../../api/user.api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Contact from '../contact';
+import { Empty } from 'antd';
 
 export default function ContactsList() {
     const { currentUser, currentTheme } = useSelector((state) => state.user)
@@ -26,6 +27,9 @@ export default function ContactsList() {
     return (
         <div className={`contactsPage ${lightcontactsPageClassname}`}>
             <div className='contactPage-contactList'>
+                {contacts?.length === 0 && <div style={{ padding: '50px 0' }}>
+                    <Empty description={false} />
+                </div>}
                 {contacts?.map(contact => <div key={contact._id} onClick={() => navigateTo(`detail/${contact._id}`)}><Contact contact={contact} selected={location.pathname.split('/')[4] === contact._id} /></div>)}
             </div>
         </div>

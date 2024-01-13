@@ -7,7 +7,6 @@ import { LeftOutlined, UploadOutlined } from '@ant-design/icons';
 import PostBlog from './components/postBlog';
 import WaterfallContainer from '../../components/waterfallContainer/BlogsWrapper';
 import useCheckUserStatus from '../../hooks/useCheckUserStatus';
-import { formatTimeToChinese } from '../../utils/formatTime';
 import { useIntl } from 'react-intl';
 export default function MyBlog() {
     const intl = useIntl()
@@ -26,7 +25,7 @@ export default function MyBlog() {
                 if (favors.status !== false) {
                     setFavorBlogs(favors)
                 } else {
-                    message.error(intl.formatMessage({id: 'error.errorMsg'}))
+                    message.error(intl.formatMessage({ id: 'error.errorMsg' }))
                 }
             })
         }
@@ -52,25 +51,25 @@ export default function MyBlog() {
 
     const myblogHeaderClassname = currentTheme === 'light' ? 'myblog-header-light' : ''
     const [uploadBlogOpen, setUploadBlogOpen] = useState(false)
-    const tabItems = [{ key: 'myblogs', label: intl.formatMessage({id: 'app.blog.title.myBlogs'}) }, { key: 'likedBlogs', label: intl.formatMessage({id: 'app.blog.title.likedBlogs'}) }, { key: 'favoriteBlogs', label: intl.formatMessage({id: 'app.blog.title.favouriteBlogs'}), disabled: favorBlogs ? false : true }]
+    const tabItems = [{ key: 'myblogs', label: intl.formatMessage({ id: 'app.blog.title.myBlogs' }) }, { key: 'likedBlogs', label: intl.formatMessage({ id: 'app.blog.title.likedBlogs' }) }, { key: 'favoriteBlogs', label: intl.formatMessage({ id: 'app.blog.title.favouriteBlogs' }), disabled: favorBlogs ? false : true }]
     return (
         <>
             <div className={`myblog-header ${myblogHeaderClassname}`}>
-                <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> {intl.formatMessage({id: 'btn.back'})}</div>
+                <div className='goBackBtn' onClick={() => window.history.back()}><LeftOutlined style={{ fontSize: 16 }} /> {intl.formatMessage({ id: 'btn.back' })}</div>
                 <Button type={isMuted ? 'default' : 'primary'} onClick={() => {
                     if (!isMuted) {
                         setUploadBlogOpen(true)
                     } else {
-                        message.error(intl.formatMessage({id: 'app.blog.msg.accStatus'}) + muteDate, 5)
+                        message.error(intl.formatMessage({ id: 'app.blog.msg.accStatus' }) + muteDate, 5)
                     }
-                }}><UploadOutlined style={{ marginRight: 10 }} />{intl.formatMessage({id: 'btn.postBlog'})}</Button>
+                }}><UploadOutlined style={{ marginRight: 10 }} />{intl.formatMessage({ id: 'btn.postBlog' })}</Button>
             </div>
             <div className='blog-content-tabs' style={{ padding: '0 10px' }}>
                 <Tabs defaultActiveKey="1" items={tabItems} onChange={(tab) => { setPageTab(tab) }} />
             </div>
             <div className='blog-content'>
                 {(myBlogs.length === 0) &&
-                    <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>{intl.formatMessage({id: 'app.blog.msg.noPostedBlog'})}</span>}><Button type="primary" onClick={() => setUploadBlogOpen(true)}>{intl.formatMessage({id: 'app.blog.msg.postFirstBlog'})}</Button></Empty></div>}
+                    <div className='empty'><Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" imageStyle={{ height: 120 }} description={<span>{intl.formatMessage({ id: 'app.blog.msg.noPostedBlog' })}</span>}><Button type="primary" onClick={() => setUploadBlogOpen(true)}>{intl.formatMessage({ id: 'app.blog.msg.postFirstBlog' })}</Button></Empty></div>}
                 <div className='myblogpageview' style={{ width: '100%', height: 'calc(100% - 112px)' }}>
                     {pageTab === 'myblogs' && <WaterfallContainer blogs={myBlogs} />}
                     {pageTab === 'likedBlogs' && <WaterfallContainer blogs={likeBlogs} />}
