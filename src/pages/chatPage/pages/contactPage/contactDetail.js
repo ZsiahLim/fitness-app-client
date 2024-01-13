@@ -16,12 +16,18 @@ import UserRecordSum from '../../../../components/UserRecordSum'
 import UserBestRecord from '../../../../components/UserBestRecord'
 import { useIntl } from 'react-intl'
 import ChatIcon from '../../../../Pic/chatIcon.gif'
+import useRecordsByUserId from '../../../../hooks/useRecordsByUserID'
+import ExerciseOverview from '../../../StatisticPage/ExerciseOverview'
+import UserPageExerciseTrend from '../../../../components/UserPageExerciseTrend'
+import APPTHEME from '../../../../constants/COLORS/APPTHEME'
 
 export default function ContactDetail() {
     const intl = useIntl()
     const { userID: ContactID } = useParams()
+    const { durationSum, calorieSum, distanceSum, stepSum, weeklyData, monthlyData, yearlyData } = useRecordsByUserId(ContactID)
     const navigateTo = useNavigate()
     const theme = useUserTheme()
+    const THEME = APPTHEME[theme]
     const dispatch = useDispatch()
     const { currentUser } = useSelector(state => state.user)
     const [contact, setContact] = useState()
@@ -133,8 +139,8 @@ export default function ContactDetail() {
                     <div className='chat-contentBox-rightBar-contactDetail-remarks-title'>{intl.formatMessage({ id: 'app.cmty.label.bio' })}</div>
                     <div className='chat-contentBox-rightBar-contactDetail-remarks-item'>{contact?.personalStatus}</div>
                 </div>}
-                <div style={{ margin: "10px 0", display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: SIZE.NormalMargin, paddingRight: SIZE.NormalMargin }}>
-                    {(!alreadySubscribed && !isOwn) && <div
+                {!isOwn && <div style={{ margin: "10px 0", display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: SIZE.NormalMargin, paddingRight: SIZE.NormalMargin }}>
+                    {(!alreadySubscribed) && <div
                         className='buttonHover'
                         style={{ padding: '0 10px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderStyle: "solid", borderRadius: SIZE.CardBorderRadiusForBtn, borderWidth: 2, borderColor: COLORS.primary }}
                         onClick={handleSubscribe}
@@ -151,7 +157,7 @@ export default function ContactDetail() {
                             <span>{intl.formatMessage({ id: 'app.cmty.btn.sendText' })}</span>
                         </div>
                     </div>
-                </div>
+                </div>}
                 <div style={{ height: 0.4, width: '100%', }}></div>
                 <div>
                     <Tabs
@@ -169,8 +175,12 @@ export default function ContactDetail() {
                             key: "record",
                             children: <div>
                                 {records.length !== 0 && <UserRecordSum records={records} />}
-                                {records.length !== 0 && <UserBestRecord records={records} />}
                                 <div style={{ fontSize: SIZE.SmallTitle, color: COLORS.commentText }}>{intl.formatMessage({ id: 'app.cmty.label.total' })}{records.length}{intl.formatMessage({ id: 'app.cmty.label.totalRecord' })}</div>
+                                <ExerciseOverview durationSum={durationSum} calorieSum={calorieSum} distanceSum={distanceSum} stepSum={stepSum} />
+                                {records.length !== 0 && <UserBestRecord records={records} />}
+                                <div style={{ marginBottom: 10, backgroundColor: THEME.backgroundColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
+                                    <UserPageExerciseTrend weeklyData={weeklyData} monthlyData={monthlyData} yearlyData={yearlyData} />
+                                </div>
                             </div>,
                         }]}
                     />
