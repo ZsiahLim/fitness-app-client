@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { isEmptyObj } from '../../utils/funcs';
-import { updatemeasurement, uploadmeasurement } from '../../api/measurement';
-import { setMeasurements, setLatestMeasurement } from '../../redux/MeasurementSlice';
-import { Modal, message, Button, Form, Input, InputNumber } from 'antd';
-import { loginSuccess } from '../../redux/userSlice';
+import { updatemeasurement } from '../../api/measurement';
+import { setMeasurements } from '../../redux/MeasurementSlice';
+import { Modal, message, InputNumber } from 'antd';
 import { calculateBMI } from '../../utils/BMICalculate';
 import SIZE from '../../constants/SIZE';
 import COLORS from '../../constants/COLORS';
@@ -81,19 +79,19 @@ const EditMeasurementModal = ({ measurement, visible, setVisible }) => {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
                     <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.wtUnit' })}</div>
-                    <div style={{}}><InputNumber style={{ width: 200 }} value={weight} min={30} max={200} step={0.01} onChange={handleInputWeight} /></div>
+                    <div><InputNumber style={{ width: 200 }} value={weight} min={30} max={200} step={0.01} onChange={handleInputWeight} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
                     <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.htUnit' })}</div>
-                    <div style={{}}><InputNumber style={{ width: 200 }} value={height} min={80} max={300} step={0.01} onChange={handleInputHeight} /></div>
+                    <div><InputNumber style={{ width: 200 }} value={height} min={80} max={300} step={0.01} onChange={handleInputHeight} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
                     <div style={{ width: 100 }}>{intl.formatMessage({ id: 'app.stats.title.bfrUnit' })}</div>
-                    <div style={{}}><InputNumber style={{ width: 200 }} value={fatRate} min={2} max={50} step={0.01} onChange={handleInputFatRate} /></div>
+                    <div><InputNumber style={{ width: 200 }} value={fatRate} min={2} max={50} step={0.01} onChange={handleInputFatRate} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: SIZE.NormalMargin }}>
                     <div style={{ width: 100 }}>BMI</div>
-                    <div style={{}}><InputNumber disabled style={{ width: 200 }} value={BMI} step={0.01} /></div>
+                    <div><InputNumber disabled style={{ width: 200 }} value={BMI} step={0.01} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: SIZE.NormalMargin, marginBottom: SIZE.NormalMargin }}>
                     <div className='buttonHover' onClick={handleUpdateMeasurement} style={{ padding: "8px 22px", borderRadius: 18, fontSize: 18, fontWeight: 'bold', color: COLORS.white, backgroundColor: COLORS.primary }}>

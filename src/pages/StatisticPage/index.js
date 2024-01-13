@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { formatTimeForChartSoloItem, formatTimeToChinese, formatTimeToChineseDetail } from '../../utils/formatTime'
 import useUserTarget from '../../hooks/useUserTarget'
 import { BMISort } from '../../utils/BMICalculate'
-import { InputNumber, Modal, message } from 'antd'
+import { Empty, InputNumber, Modal, message } from 'antd'
 import ReactEcharts from "echarts-for-react";
 import SimpleLineChartOption from '../../utils/SimpleLineChartOption'
 import useMeasurements from '../../hooks/useMeasurements'
@@ -170,16 +170,22 @@ const WeightBMICard = () => {
     const theme = useUserTheme()
     const THEME = APPTHEME[theme]
     const { weightTarget } = useUserTarget()
-    const { latestMeasurement, allMeasurements } = useMeasurement()
+    const { allMeasurements } = useMeasurement()
     const { weightArr, dateArr, BMIArr } = useMeasurements(allMeasurements)
     return <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
             <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>{intl.formatMessage({ id: 'app.stats.title.wt' })}<div style={{ fontSize: 12, fontWeight: 'normal' }}>({intl.formatMessage({ id: 'app.stats.unit.wt' })})</div></div>
-            <ReactEcharts option={SimpleLineChartOption(dateArr, weightArr, 'Weight', null, weightTarget)} theme={'light'} />
+            {(weightArr?.length !== 0 && dateArr?.length !== 0) && <ReactEcharts option={SimpleLineChartOption(dateArr, weightArr, 'Weight', null, weightTarget, THEME.contentColor)} theme={'light'} />}
+            {(weightArr?.length === 0 && dateArr?.length === 0) && <div style={{ padding: "30px 0" }}>
+                <Empty description={false} />
+            </div>}
         </div>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
             <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>BMI</div>
-            <ReactEcharts option={SimpleLineChartOption(dateArr, BMIArr, 'BMI',)} theme={'light'} />
+            {(BMIArr?.length !== 0 || dateArr?.length !== 0) && <ReactEcharts option={SimpleLineChartOption(dateArr, BMIArr, 'BMI', null, null, THEME.contentColor)} theme={'light'} />}
+            {(BMIArr?.length === 0 && dateArr?.length === 0) && <div style={{ padding: "30px 0" }}>
+                <Empty description={false} />
+            </div>}
         </div>
     </div>
 }
@@ -193,11 +199,17 @@ const HeightBFRCard = () => {
     return <div style={{ display: 'flex', gap: SIZE.NormalMargin }}>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
             <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>{intl.formatMessage({ id: 'app.stats.title.bfr' })}</div>
-            <ReactEcharts option={SimpleLineChartOption(dateArr, bodyFatRateArr, 'BodyFatRate',)} theme={'light'} />
+            {(bodyFatRateArr?.length !== 0 || dateArr?.length !== 0) && <ReactEcharts option={SimpleLineChartOption(dateArr, bodyFatRateArr, 'BodyFatRate', null, null, THEME.contentColor)} theme={'light'} />}
+            {(bodyFatRateArr?.length === 0 && dateArr?.length === 0) && <div style={{ padding: "30px 0" }}>
+                <Empty description={false} />
+            </div>}
         </div>
         <div style={{ flex: 1, marginBottom: 10, backgroundColor: THEME.contentColor, borderRadius: 12, padding: SIZE.NormalMargin }}>
             <div style={{ fontSize: 18, fontWeight: 'bold', display: 'flex', alignItems: 'baseline', gap: 4, }}>{intl.formatMessage({ id: 'app.stats.title.ht' })}</div>
-            <ReactEcharts option={SimpleLineChartOption(dateArr, heightArr, 'Height',)} theme={'light'} />
+            {(heightArr?.length !== 0 && dateArr?.length !== 0) && <ReactEcharts option={SimpleLineChartOption(dateArr, heightArr, 'Height', null, null, THEME.contentColor)} theme={'light'} />}
+            {(heightArr?.length === 0 && dateArr?.length === 0) && <div style={{ padding: "30px 0" }}>
+                <Empty description={false} />
+            </div>}
         </div>
     </div>
 }

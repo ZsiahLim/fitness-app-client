@@ -1,11 +1,7 @@
 import * as echarts from 'echarts'
 import COLORS from '../constants/COLORS';
-import useUserTheme from '../hooks/useUserTheme';
-import APPTHEME from '../constants/COLORS/APPTHEME';
 
-const SimpleLineChartOption = (xArr, yArr, title, color, targetValue) => {
-    const theme = useUserTheme()
-    const THEME = APPTHEME[theme]
+const SimpleLineChartOption = (xArr, yArr, title, color, targetValue, boundaryColor) => {
     const targetArr = new Array(xArr.length).fill(targetValue)
     let yarr = yArr.filter(element => element);
     let min = targetValue ? Math.min(...yarr, targetValue) - 1 : Math.min(...yarr) - 1
@@ -22,7 +18,7 @@ const SimpleLineChartOption = (xArr, yArr, title, color, targetValue) => {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 0.7, [{
                         offset: 0, color: color ? color : '#6C96E1' // 0% 处的颜色
                     }, {
-                        offset: 1, color: THEME.contentColor// 100% 处的颜色
+                        offset: 1, color: boundaryColor// 100% 处的颜色
                     }]
                     ),  //背景渐变色 
                 },
@@ -52,7 +48,7 @@ const SimpleLineChartOption = (xArr, yArr, title, color, targetValue) => {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 0.7, [{
                         offset: 0, color: color ? color : '#6C96E1' // 0% 处的颜色
                     }, {
-                        offset: 1, color: THEME.contentColor// 100% 处的颜色
+                        offset: 1, color: boundaryColor// 100% 处的颜色
                     }]
                     ),  //背景渐变色 
                 },

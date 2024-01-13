@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { formatTimeToChinese } from '../../utils/formatTime'
 import ReactEcharts from "echarts-for-react";
 import SimpleBarChartOption from '../../utils/SimpleBarChartOption'
-import { InputNumber, Modal, Tooltip, message } from 'antd'
+import { Empty, InputNumber, Modal, Tooltip, message } from 'antd'
 import { useDispatch } from 'react-redux'
 import { updatecalorietarget, updatedistancetarget, updatedurationtarget, updatesteptarget } from '../../api/user.api'
 import { loginSuccess } from '../../redux/userSlice'
@@ -143,9 +143,12 @@ const SpecificTypeCard = ({ type, title, ExerciseStatisItems, currentValue, targ
                 </Tooltip>
             </div>
             <PurePercentage currentValue={currentValue} targetValue={targetValue} />
-            {!collapsed && <div style={{ padding: "0 auto" }}>
+            {(!collapsed && dateArr?.length !== 0) && <div style={{ padding: "0 auto" }}>
                 <div style={{ height: 20, }}></div>
                 <ReactEcharts option={SimpleBarChartOption(dateArr, handledValueArrForChart, title, null, handledTargetValueForChart, THEME.contentColor)} theme={'light'} />
+            </div>}
+            {(!collapsed && dateArr?.length === 0) && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '30px 0' }}>
+                <Empty description={false} />
             </div>}
             <Modal open={goalModalVisible} footer={null} title={intl.formatMessage({ id: 'app.stats.title.target' }) + title}
                 onOk={() => setGoalModalVisible(false)}

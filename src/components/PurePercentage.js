@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import COLORS from '../constants/COLORS'
 import SIZE from '../constants/SIZE'
-import useUserTheme from '../hooks/useUserTheme'
-import APPTHEME from '../constants/COLORS/APPTHEME'
 
 export default function PurePercentage({ currentValue, targetValue }) {
     console.log(currentValue, targetValue);
-    const theme = useUserTheme()
-    const currentTheme = APPTHEME[theme]
     const [lineBackcolor, setLineBackcolor] = useState(COLORS.primary)
     const [percentage, setPercentage] = useState(0)
     useEffect(() => {
@@ -39,7 +35,7 @@ export default function PurePercentage({ currentValue, targetValue }) {
                         {(percentage * 100).toFixed(0)}
                     </div>
                     <div style={{ fontSize: 12 }}>%</div>
-                </> : <></>}
+                </> : <div>--%</div>}
             </div>
         </div >
     )
