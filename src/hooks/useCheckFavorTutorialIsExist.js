@@ -4,11 +4,10 @@ import { useSelector } from 'react-redux';
 // 这是一个自定义Hook
 function useCheckFavorTutorialIsExist(tutorialID) {
     const { currentUser } = useSelector(state => state.user)
-    const [favorTutorials, setFavorTutorials] = useState(currentUser?.favoriteTutorials)
+    const [favorTutorials, setFavorTutorials] = useState(currentUser?.favoriteTutorials ? currentUser?.favoriteTutorials : [])
     const [isExist, setIsExist] = useState(false)
     useEffect(() => {
-        if (favorTutorials.length === 0 || !favorTutorials) {
-            // console.log(favorTutorials);
+        if (favorTutorials?.length === 0 || !favorTutorials) {
             setIsExist(false)
         } else {
             const isexist = favorTutorials.some(tutorialId => tutorialId === tutorialID)
