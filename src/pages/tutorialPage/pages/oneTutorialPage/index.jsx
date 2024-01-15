@@ -150,7 +150,7 @@ export default function SpecificTutorialPage() {
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 10 }} className='commentText'>{intl.formatMessage({ id: 'app.tut.msg.equipReq' })}</div>
                     <div className="specificTutorialPage-detail-equipments">
-                        {equipments.map(item => <div className="specificTutorialPage-detail-equipments-item">{item}</div>)}
+                        {equipments.map((item, key) => <div className="specificTutorialPage-detail-equipments-item" key={key}>{item}</div>)}
                     </div>
                 </div>
             </>}
