@@ -191,13 +191,7 @@ export default function MyRouter() {
             element: <SpecificTutorialPage />,
             loader: async ({ params }) => {
                 try {
-                    await getonetutorial(params.id).then(res => {
-                        if (res && res.status !== false) {
-                            return res
-                        } else {
-                            return new Error()
-                        }
-                    })
+                    return await getonetutorial(params.id)
                 } catch (error) {
                     return new Error("Error")
                 }
