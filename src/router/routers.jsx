@@ -55,6 +55,10 @@ export default function MyRouter() {
             element: <Login />
         },
         {
+            path: '/error',
+            element: <ErrorPage />
+        },
+        {
             path: '/',
             element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
             errorElement: <ErrorPage />,
@@ -205,13 +209,7 @@ export default function MyRouter() {
             element: <ProtectedRoute><SpecificBlog /></ProtectedRoute>,
             loader: async ({ params }) => {
                 try {
-                    await getspecificblog(params.id).then(res => {
-                        if (res && res.status !== false) {
-                            return res
-                        } else {
-                            return new Error()
-                        }
-                    })
+                    return await getspecificblog(params.id)
                 } catch (error) {
                     return new Error("Error")
                 }
@@ -228,14 +226,9 @@ export default function MyRouter() {
             errorElement: <ErrorPage errorMsg={"Cannot Find This User"} />,
             loader: async ({ params }) => {
                 try {
-                    await getuser(params.contactID).then(res => {
-                        if (res && res.status !== false) {
-                            return res
-                        } else {
-                            return new Error()
-                        }
-                    })
+                    return await getuser(params.userID)
                 } catch (error) {
+                    console.log(error);
                     return new Error("Error")
                 }
             }

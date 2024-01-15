@@ -13,6 +13,7 @@ import './index.less'
 import { shareBlog } from '../../../../utils/shareFuncs';
 import useCheckUserStatus from '../../../../hooks/useCheckUserStatus';
 import { useIntl } from 'react-intl';
+import ErrorPage from '../../../ErrorPage';
 const { TextArea } = Input;
 
 
@@ -20,6 +21,10 @@ export default function SpecificBlog() {
     const intl = useIntl()
     const { isMuted, muteDate } = useCheckUserStatus()
     const [specificBlog, setSpecificBlog] = useState(useLoaderData())
+    const navigateTo = useNavigate()
+    useEffect(() => {
+    }, [specificBlog])
+
     const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = specificBlog || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const { _id } = currentUser
@@ -178,9 +183,11 @@ export default function SpecificBlog() {
     const handlePlayerReady = (player) => {
         playerRef.current = player
     }
-    const navigateTo = useNavigate()
     const lightBlogModalClassname = currentTheme === 'light' ? 'BlogModal-light' : ''
     const lightSpecificBlogClassname = currentTheme === 'light' ? 'specificiBlogPage-light' : ''
+    if (!specificBlog?.status) {
+        return <ErrorPage errorMsg={"Cannot Find This Blog"} />
+    }
     return (
         <div className={`specificiBlogPage ${lightSpecificBlogClassname}`}>
             <div className='specificiBlogPage-backBtn' onClick={() => navigateTo(-1)}>
@@ -195,7 +202,7 @@ export default function SpecificBlog() {
                             <div className='blogTitle' ><div className='border'></div><h1>{title}</h1></div>
                             <div className='blogDescri'>{content}</div>
                             <div className='tags'>
-                                {tags.map((tag, index) => <Tag key={index} bordered={false} color="processing">
+                                {tags?.map((tag, index) => <Tag key={index} bordered={false} color="processing">
                                     <span>#{tag}</span>
                                 </Tag>)}
                             </div>

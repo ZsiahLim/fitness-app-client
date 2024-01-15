@@ -7,23 +7,8 @@ export default function ErrorPage({ errorMsg }) {
     const intl = useIntl()
     const error = useRouteError()
     const navigateTo = useNavigate()
-    if (errorMsg) {
-        return (
-            <Result
-                // status={`${error?.status}`}
-                title={errorMsg ? errorMsg : 'Error'}
-                // subTitle={error?.data}
-                extra={<Button type='primary' onClick={() => navigateTo('/')}>{intl.formatMessage({ id: 'error.btn.backHome' })} <CaretRightOutlined /></Button>}
-            />
-        )
-    } else {
-        return (
-            <Result
-                status={`${error?.status}`}
-                title={`${error?.status}: ${error?.statusText}`}
-                subTitle={error?.data}
-                extra={<Button type='primary' onClick={() => navigateTo('/')}>{intl.formatMessage({ id: 'error.btn.backHome' })} <CaretRightOutlined /></Button>}
-            />
-        )
-    }
+    return <Result
+        title={errorMsg ? errorMsg : 'Error'}
+        extra={<Button type='primary' onClick={() => navigateTo('/')}>{intl.formatMessage({ id: 'error.btn.backHome' })} <CaretRightOutlined /></Button>}
+    />
 }
