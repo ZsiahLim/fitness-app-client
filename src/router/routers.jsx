@@ -183,26 +183,44 @@ export default function MyRouter() {
         },
         {
             path: '/specifictutorial/:id',
-            errorElement: <ErrorPage />,
+            errorElement: <ErrorPage errorMsg={"Cannot Find This Tutorial"} />,
             element: <SpecificTutorialPage />,
-            loader: async ({ params }) => await getonetutorial(params.id)
+            loader: async ({ params }) => {
+                try {
+                    return await getonetutorial(params.id)
+                } catch (error) {
+                    return new Error("Error")
+                }
+            }
         },
         {
             path: '/specificblog/:id',
-            errorElement: <ErrorPage />,
+            errorElement: <ErrorPage errorMsg={"Cannot Find This Blog"} />,
             element: <ProtectedRoute><SpecificBlog /></ProtectedRoute>,
-            loader: async ({ params }) => await getspecificblog(params.id)
+            loader: async ({ params }) => {
+                try {
+                    return await getspecificblog(params.id)
+                } catch (error) {
+                    return new Error("Error")
+                }
+            }
         },
         {
             path: '/finish',
-            errorElement: <ErrorPage />,
+            errorElement: <ErrorPage errorMsg={"Error"} />,
             element: <FinishExercise />,
         },
         {
             path: "/specificuser/:userID",
             element: <SpecificUserPage />,
-            errorElement: <ErrorPage />,
-            loader: async ({ params }) => await getuser(params.contactID)
+            errorElement: <ErrorPage errorMsg={"Cannot Find This User"} />,
+            loader: async ({ params }) => {
+                try {
+                    return await getuser(params.contactID)
+                } catch (error) {
+                    return new Error("Error")
+                }
+            }
         },
     ])
     return (

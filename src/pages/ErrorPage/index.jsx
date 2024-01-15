@@ -3,16 +3,27 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { Button, Result } from 'antd';
 import { useIntl } from 'react-intl';
 
-export default function ErrorPage() {
+export default function ErrorPage({ errorMsg }) {
     const intl = useIntl()
     const error = useRouteError()
     const navigateTo = useNavigate()
-    return (
-        <Result
-            status={`${error.status}`}
-            title={`${error.status}: ${error.statusText}`}
-            subTitle={error.data}
-            extra={<Button type='primary' onClick={() => navigateTo('/')}>{intl.formatMessage({id: 'error.btn.backHome'})} <CaretRightOutlined /></Button>}
-        />
-    )
+    if (errorMsg) {
+        return (
+            <Result
+                // status={`${error?.status}`}
+                title={errorMsg ? errorMsg : 'Error'}
+                // subTitle={error?.data}
+                extra={<Button type='primary' onClick={() => navigateTo('/')}>{intl.formatMessage({ id: 'error.btn.backHome' })} <CaretRightOutlined /></Button>}
+            />
+        )
+    } else {
+        return (
+            <Result
+                status={`${error?.status}`}
+                title={`${error?.status}: ${error?.statusText}`}
+                subTitle={error?.data}
+                extra={<Button type='primary' onClick={() => navigateTo('/')}>{intl.formatMessage({ id: 'error.btn.backHome' })} <CaretRightOutlined /></Button>}
+            />
+        )
+    }
 }
