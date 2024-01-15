@@ -27,6 +27,7 @@ import { getrecommandtutorials, getspecifictypetutorials } from '../api/tutorial
 import useCheckUserStatus from '../hooks/useCheckUserStatus'
 import { message } from 'antd'
 import RightSideIcon from '../pages/chatPage/Components/RightSideIcon'
+import SpecificUserPage from '../pages/specificUserPage'
 
 
 export default function MyRouter() {
@@ -188,12 +189,20 @@ export default function MyRouter() {
         },
         {
             path: '/specificblog/:id',
+            errorElement: <ErrorPage />,
             element: <ProtectedRoute><SpecificBlog /></ProtectedRoute>,
             loader: async ({ params }) => await getspecificblog(params.id)
         },
         {
             path: '/finish',
+            errorElement: <ErrorPage />,
             element: <FinishExercise />,
+        },
+        {
+            path: "/specificuser/:userID",
+            element: <SpecificUserPage />,
+            errorElement: <ErrorPage />,
+            loader: async ({ params }) => await getuser(params.contactID)
         },
     ])
     return (

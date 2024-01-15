@@ -168,7 +168,10 @@ export default function ContactDetail() {
                             key: 'blog',
                             children: <div>
                                 {contact?.blogs && <div style={{ marginBottom: SIZE.LittleMargin }}><div style={{ fontSize: 12, color: COLORS.commentText }}>{intl.formatMessage({ id: 'app.cmty.label.total' })}{contact.blogs.length}{intl.formatMessage({ id: 'app.cmty.label.totalBlogs' })}</div></div>}
-                                {contact?.blogs && <WaterfallContainer blogs={contact.blogs} />}
+                                {contact?.blogs && <div>
+                                    <WaterfallContainer blogs={contact.blogs} />
+                                </div>
+                                }
                             </div>,
                         }, {
                             label: intl.formatMessage({ id: 'app.cmty.label.record' }),
