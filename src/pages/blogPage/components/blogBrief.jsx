@@ -124,7 +124,7 @@ export default function BlogBrief({ blogInfo, getData, waterfallItemsWidth, calc
                         <img onLoad={() => { console.log("new width", waterfallItemsWidth); }} ref={imgRef} data-src={imgUrl[0]} style={{ width: "100%" }} />
                     </div>
                 }
-                <Skeleton active loading={!user?.avator} >
+                <Skeleton active loading={!user?.name} >
                     <div className={`blogMainPart`}>
                         <div className='blogTitle' onClick={showModal}>{title}</div>
                         <div className='blogOperation'>

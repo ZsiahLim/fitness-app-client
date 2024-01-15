@@ -182,6 +182,7 @@ export default function MyRouter() {
         },
         {
             path: '/specifictutorial/:id',
+            errorElement: <ErrorPage />,
             element: <SpecificTutorialPage />,
             loader: async ({ params }) => await getonetutorial(params.id)
         },
