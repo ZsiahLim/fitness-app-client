@@ -23,10 +23,10 @@ export default function SpecificBlog() {
     const { userID, title, content, likesUsers, favoriteUsers, imgUrl, tags, blogType, videoUrl } = specificBlog || {}
     const { currentUser, currentTheme } = useSelector((state) => state.user)
     const { _id } = currentUser
-    const [liked, setLiked] = useState(likesUsers.includes(_id))
-    const [favorited, setFavorited] = useState(favoriteUsers.includes(_id))
-    const [likedNum, setLikeNum] = useState(likesUsers.length)
-    const [favoritedNum, setFavoritedNum] = useState(favoriteUsers.length)
+    const [liked, setLiked] = useState(likesUsers?.includes(_id))
+    const [favorited, setFavorited] = useState(favoriteUsers?.includes(_id))
+    const [likedNum, setLikeNum] = useState(likesUsers?.length ? likesUsers?.length : 0)
+    const [favoritedNum, setFavoritedNum] = useState(favoriteUsers?.length ? favoriteUsers?.length : 0)
     const [owner, setOwner] = useState(userID === _id)
     const [user, setUser] = useState()
     const [comments, setComments] = useState([])
@@ -161,7 +161,7 @@ export default function SpecificBlog() {
             }) : message.warning(intl.formatMessage({ id: 'app.blog.msg.reportWarn' }))
     }
     const reportCommmentContent = (<div style={{ display: 'flex', userSelect: 'none', cursor: 'pointer', justifyContent: "center", alignItems: 'center', width: 60, height: 36, borderRadius: 10, backgroundColor: currentTheme === 'light' ? "#f0f0f0" : '#383838' }} onClick={() => setIsCommentReportModalOpen(true)}>{intl.formatMessage({ id: 'btn.report' })}</div>)
-    const withoutImgBlogMainPart = imgUrl.length === 0 && !videoUrl ? 'blogMainPart-without' : ''
+    const withoutImgBlogMainPart = imgUrl?.length === 0 && !videoUrl ? 'blogMainPart-without' : ''
     const [EditModalOpen, setEditModalOpen] = useState(false)
     const videoJsOptions = {
         autoplay: false,
@@ -189,7 +189,7 @@ export default function SpecificBlog() {
             <div className='specificiBlogPage-main'>
                 <div className={`BlogModal ${lightBlogModalClassname}`} >
                     {blogType === "video" && <div className='blogImg'><div style={{ width: "100%", height: "100%" }}><VideoJS options={videoJsOptions} onReady={handlePlayerReady} /></div></div>}
-                    {imgUrl.length !== 0 && <div className='blogImg'><MyCarousel imgArr={imgUrl} /></div>}
+                    {imgUrl?.length !== 0 && <div className='blogImg'><MyCarousel imgArr={imgUrl} /></div>}
                     <div className={`blogMainPart ${withoutImgBlogMainPart}`} >
                         <div className='blogInfo'>
                             <div className='blogTitle' ><div className='border'></div><h1>{title}</h1></div>

@@ -187,7 +187,13 @@ export default function MyRouter() {
             element: <SpecificTutorialPage />,
             loader: async ({ params }) => {
                 try {
-                    return await getonetutorial(params.id)
+                    await getonetutorial(params.id).then(res => {
+                        if (res && res.status !== false) {
+                            return res
+                        } else {
+                            return new Error()
+                        }
+                    })
                 } catch (error) {
                     return new Error("Error")
                 }
@@ -199,7 +205,13 @@ export default function MyRouter() {
             element: <ProtectedRoute><SpecificBlog /></ProtectedRoute>,
             loader: async ({ params }) => {
                 try {
-                    return await getspecificblog(params.id)
+                    await getspecificblog(params.id).then(res => {
+                        if (res && res.status !== false) {
+                            return res
+                        } else {
+                            return new Error()
+                        }
+                    })
                 } catch (error) {
                     return new Error("Error")
                 }
@@ -216,7 +228,13 @@ export default function MyRouter() {
             errorElement: <ErrorPage errorMsg={"Cannot Find This User"} />,
             loader: async ({ params }) => {
                 try {
-                    return await getuser(params.contactID)
+                    await getuser(params.contactID).then(res => {
+                        if (res && res.status !== false) {
+                            return res
+                        } else {
+                            return new Error()
+                        }
+                    })
                 } catch (error) {
                     return new Error("Error")
                 }
