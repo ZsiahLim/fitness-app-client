@@ -45,15 +45,19 @@ function useRecord(selectDay) {
     // }, [selectDay, allRecords]);
     const todayRecord = useMemo(() => {
         if (allRecords.length !== 0) {
-            const foundRecord = allRecords.find(record => checkTwoDaysIsEqual(new Date(record.date), selectDay ? selectDay : new Date()))
+            console.log("allRecords", allRecords);
+            const comparedDay = selectDay ? selectDay : new Date()
+            console.log("comparedDay", comparedDay);
+
+            const foundRecord = allRecords.find(record => {
+                console.log("record", checkTwoDaysIsEqual(new Date(record.date), comparedDay));
+                return checkTwoDaysIsEqual(new Date(record.date), comparedDay)
+            })
             console.log("foundRecord", foundRecord);
             return foundRecord ? foundRecord : {}
         } else {
             return {}
         }
-        // return selectDay && allRecords.find(record =>
-        //     checkTwoDaysIsEqual(new Date(record.date), selectDay)
-        // );
     }, [selectDay, allRecords]);
 
     // 返回状态和设置方法

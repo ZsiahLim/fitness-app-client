@@ -40,7 +40,7 @@ export default function Notifications() {
     //get allNotification number
     useEffect(() => {
         const prevNum = allNotifications
-        const allNotificationsNum = notifications.length + unreadedMsgs.length + yetDoneTutorial.length
+        const allNotificationsNum = notifications.length + unreadedMsgs?.length + yetDoneTutorial?.length
         prevNum !== allNotificationsNum && setAllNotifications(allNotificationsNum)
     }, [notifications, unreadedMsgs, yetDoneTutorial]);
     const [currentNotification, setCurrenNotification] = useState({})
@@ -49,11 +49,11 @@ export default function Notifications() {
         setSystemDetailOpen(true)
     }
     const getUnreadedMessageSender = async () => {
-        return Promise.all(unreadedMsgs.map(async (unreadedMsg) => await getuser(unreadedMsg.sender)))
+        return Promise.all(unreadedMsgs?.map(async (unreadedMsg) => await getuser(unreadedMsg.sender)))
     }
     useEffect(() => {
         unreadedMsgs?.length !== 0 && getUnreadedMessageSender().then((sendersDetail) => {
-            const res = unreadedMsgs.map(msg => {
+            const res = unreadedMsgs?.map(msg => {
                 const senderDetail = sendersDetail.find(sender => sender._id === msg.sender)
                 return { ...msg, senderDetail }
             })
@@ -153,12 +153,12 @@ function TodoPane() {
     const yetDoneTutorial = useUncompletedTutorials()
     return (
         <div>
-            {yetDoneTutorial.length === 0 ? <div style={{ width: "100%", height: '96%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: 16, backgroundColor: THEME.backgroundColor, }}>
+            {yetDoneTutorial?.length === 0 ? <div style={{ width: "100%", height: '96%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: 16, backgroundColor: THEME.backgroundColor, }}>
                 <Empty description={false} />
                 <div style={{ fontSize: 14, color: COLORS.commentText }}>
                     {intl.formatMessage({ id: 'app.dsh.notification.noTodo' })}
                 </div>
-            </div> : yetDoneTutorial.map((item, index) => <UnDoneTodoItem key={index} tutorial={item} />)}
+            </div> : yetDoneTutorial?.map((item, index) => <UnDoneTodoItem key={index} tutorial={item} />)}
         </div>
     )
 }
